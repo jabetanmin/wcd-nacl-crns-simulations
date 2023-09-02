@@ -3,12 +3,16 @@
 
 #include <string>
 
+// path to DetectorProperties.xml is set from a global variable from CMakeLists.txt
+// this path will be overwritten after compilation
+#define DETECTORPROPERTIES ""
 
 struct DefaultProperties 
 {
 	
-	// Sets default detector porperties from configuration file
-	void SetDefaultProperties(const std::string &filename = "");
+	// Sets default detector porperties from configuration
+	
+	void SetDefaultProperties();
 
 	double gBarWidth;
 	double gBarLength;
