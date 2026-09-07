@@ -42,12 +42,38 @@ OptDevice::SetProperties(OptDevice::DeviceType type)
 			SetName("Multi-Channel_PMT");
 		break;
 
+               //case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        //SetSemiAxisX(40);
+                        //SetSemiAxisY(40);
+                        //SetSemiAxisZ(26);
+                        //SetName("PMT");
+
+
 		case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        SetSemiAxisX(10.1);
+                        SetSemiAxisY(10.1);
+                        SetSemiAxisZ(6.5);
+                        SetName("PMT");
+
+               //case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        //SetinnerRadius(0.0);
+			//SetouterRadius(10.0);
+                        //SetstartPhi(0.0);
+                        //SetdeltaPhi(360.0);
+			//SetstartTheta(0.0);
+                        //SetdeltaTheta(180.0);
+                        //SetName("PMT");
+
+				
+		//case ePMT:
 			// represented in G4Models as a G4Ellipsoid
-			SetSemiAxisX(10.1);
-			SetSemiAxisY(10.1);
-			SetSemiAxisZ(6.5);
-			SetName("PMT");
+		//	SetSemiAxisX(10.1);
+		//	SetSemiAxisY(10.1);
+		//	SetSemiAxisZ(6.5);
+		//	SetName("PMT");
 		break;
 
 		case eUnknown:
@@ -114,8 +140,22 @@ OptDevice::IsPhotonDetected(double energy)
 	double qeff = GetQuantumEfficiency(waveLength, t);
 	double rand = CLHEP::RandFlat::shoot();
 
+    std::ofstream outputFileqe2("Datos-simulacion/eficiencia-limpia-2.txt", std::ios_base::app);
+    outputFileqe2 << energy <<"\t" << waveLength <<"\t" << qeff <<"\t"<< rand <<"\n";
+    outputFileqe2.close();
+
+
+
+	//return (rand >= qeff); Forma incorrecta
+	
 	return (rand < qeff);
 	
+    //std::ofstream outputFileqe3("Datos-simulacion/eficiencia-limpia-3.txt", std::ios_base::app);
+    //outputFileqe3 << energy <<"\t" << waveLength <<"\t" << qeff <<"\t"<< rand <<"\n";
+    //outputFileqe3.close();
+
+
+
 }
 
 
@@ -185,7 +225,7 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 			else if(waveLength >= 600. && waveLength < 650.)
 				qeff = 0.03;
 			else if(waveLength >= 650. && waveLength < 700.)
-				qeff = 0.01;
+				qeff = 0.06;
 
 #if 0
 				// photonis-XP1805
@@ -255,6 +295,12 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 				qeff *= fQEScaleParameter * fPMTCollectionEfficiency;
 #endif
 
+
+   std::ofstream outputFileqe("Datos-simulacion/eficiencia-limpia.txt", std::ios_base::app);
+    outputFileqe << waveLength <<"\t" << qeff <<"\n";
+    outputFileqe.close();
+
+
 				qeff *= fPMTCollectionEfficiency;
 			}
 			break;
@@ -264,6 +310,11 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 			break;
 
 	} // end switch
+    std::ofstream outputFileqe1("Datos-simulacion/eficiencia-limpia-1.txt", std::ios_base::app);
+    outputFileqe1 << waveLength <<"\t" << qeff <<"\n";
+    outputFileqe1.close();
+
+
 
 	return qeff;
 

@@ -46,12 +46,35 @@ class OptDevice
 		double GetSemiAxisX() { return fPMTSemiX; }
 		void SetSemiAxisX(double semiX) { fPMTSemiX = semiX; }
 		
-		double GetSemiAxisY() { return fPMTSemiY; }
+                double GetSemiAxisY() { return fPMTSemiY; }
 		void SetSemiAxisY(double semiY) { fPMTSemiY = semiY; }
 		
 		double GetSemiAxisZ() { return fPMTSemiZ; }
-		void SetSemiAxisZ(double semiZ) { fPMTSemiZ = semiZ; }
+	        void SetSemiAxisZ(double semiZ) { fPMTSemiZ = semiZ; }
 
+	
+                // for semi-spherical optical devices (large PMTs)
+               // double GetinnerRadius() { return fPMTinnerRad; }
+               // void SetinnerRadius(double innerRad) { fPMTinnerRad = innerRad; }
+
+                //double GetouterRadius() { return fPMTouterRad; }
+                //void SetouterRadius(double outerRad) { fPMTouterRad = outerRad; }
+
+                //double GetstartPhi() { return fPMTstartP; }
+                //void SetstartPhi(double startP) { fPMTstartP = startP; }
+
+		//double GetdeltaPhi() { return fPMTdeltaP; }
+                //void SetdeltaPhi(double deltaP) { fPMTdeltaP = deltaP; }
+
+                //double GetstartTheta() { return fPMTstartTh; }
+                //void SetstartTheta(double startTh) { fPMTstartTh = startTh; }
+
+                //double GetdeltaTheta() { return fPMTdeltaTh; }
+                //void SetdeltaTheta(double deltaTh) { fPMTdeltaTh = deltaTh; }
+
+
+	
+		
 		// response stuff
 		bool IsPhotonDetected(double energy);
 		double GetQuantumEfficiency(double wl, OptDevice::DeviceType t);
@@ -92,6 +115,17 @@ class OptDevice
 		double fPMTSemiX; // 10.1 cm
 		double fPMTSemiY; // 10.1 cm
 		double fPMTSemiZ; // 6.5 cm
+				  
+				  
+		// large PMT
+                //double fPMTinnerRad; // 0.0 cm
+                //double fPMTouterRad; // 10.0 cm
+                //double fPMTstartP; // 0.0 deg
+                //double fPMTdeltaP; // 360.0 deg
+                //double fPMTstartTh; // 0.0 deg
+                //double fPMTdeltaTh; // 180.0 deg
+
+
 
 		std::vector<double> fOpticalRange;
 		// add quantum efficiency

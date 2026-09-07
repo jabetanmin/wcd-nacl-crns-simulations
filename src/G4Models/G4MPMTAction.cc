@@ -51,6 +51,28 @@ G4MPMTAction::EndOfEvent(G4HCofThisEvent* const /*hce*/)
 	OptDeviceSimData& odSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
 	int charge = fPETime.size();
 	
+
+        std::ofstream outputFilenum("Datos-simulacion/Carga-total.txt", std::ios_base::app);
+        outputFilenum <<"Carga:" <<"\t"<< fPETime.size() <<"\n";
+
+	std::ofstream outputFile("Datos-simulacion/Carga-total-cada-N.txt", std::ios_base::app);
+        //outputFile << charge  <<"\t" << fPETime[0] <<"\n";
+
+	for (size_t i = 0; i < fPETime.size() || i == 0; ++i) 
+	{
+           if(fPETime.size()==0){
+	      outputFile << fPETime.size()  <<"\t" << i <<"\t" << 0 <<"\n";
+	   }
+
+	   else if (fPETime.size()!= 0){
+		// Realiza alguna operación con fPETime[i]
+            //std::ofstream outputFile("Carga-total-cada-N.txt", std::ios_base::app);
+            outputFile << fPETime.size()  <<"\t" << i <<"\t" << fPETime[i] <<"\n";
+	   }
+	}
+
+
+
 	// add total PE time distribution
 	odSimData.AddPETimeDistribution(fPETime);
 	// add components PE time distribution
