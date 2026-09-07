@@ -63,6 +63,9 @@ G4MOptDeviceAction::ProcessHits(G4Step* const step, G4TouchableHistory* const /*
 
 	// check if photon is detected according to its energy and quantum efficiency
 	if (optDevice.IsPhotonDetected(photonEnergy)) {
+           std::ofstream outputFilethis("Datos-simulacion/foton-detectado.txt", std::ios_base::app);
+           outputFilethis << optDevice.IsPhotonDetected(photonEnergy) <<"\n";
+           outputFilethis.close();
 
 		DetectorSimData& detSimData = simData.GetDetectorSimData(fDetectorId);
 		OptDeviceSimData& odSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
