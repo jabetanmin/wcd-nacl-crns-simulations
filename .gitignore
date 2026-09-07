@@ -10,3 +10,25 @@ install
 src/.vscode/
 CMakeCache.txt
 __pycache__
+
+# Python y Jupyter
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Resultados locales o masivos
+*.root
+*.hepmc
+*.lhe
+*.log
+output/
+outputs/
+runs/
+data/raw/
+data/private/
+
+# Copias y archivos temporales detectados en la carpeta de trabajo
+src.zip
+src (1)/
