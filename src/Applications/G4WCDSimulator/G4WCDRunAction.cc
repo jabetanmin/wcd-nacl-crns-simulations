@@ -24,12 +24,13 @@ G4WCDRunAction::~G4WCDRunAction()
 void 
 G4WCDRunAction::BeginOfRunAction(const G4Run* )
 {
-  
+//std::ofstream outputFileneutron("Datos-simulacion/rastreo-neutron-completo.txt", std::ios_base::app);
+
 }
 
 
 void 
 G4WCDRunAction::EndOfRunAction(const G4Run* )
 {
-  
+//outputFileneutron.close();  
 }

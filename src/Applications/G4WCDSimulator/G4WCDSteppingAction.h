@@ -28,11 +28,17 @@ class G4WCDSteppingAction : public G4UserSteppingAction
         G4WCDEventAction* fEventAction;
         std::ofstream* fOutputFile;
         Event& fEvent;
+        
+        G4int eventCounter; // Contador de eventos
+        G4int previousEventID; // Almacena el ID del evento anterior
+
 
         G4double fSiPMTime;
         G4double fScinTime;
         G4String stepVolume;
         G4String trackVolume;
+
+	std::map<G4String, G4int> fReactionsPerEvent; // Mapa para registrar las reacciones
 };
 
 #endif
