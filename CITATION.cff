@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "Si utiliza este software o sus resultados, cite este repositorio y la tesis doctoral asociada."
+title: "WCD-NaCl CRNS Simulations"
+type: software
+authors:
+  - family-names: "Betancourt"
+    given-names: "Jaime A."
+    affiliation: "Universidad Industrial de Santander"
+version: 0.2.0
+date-released: 2026-09-07
+abstract: >-
+  Monte Carlo simulations and analysis tools for evaluating a NaCl-doped
+  water Cherenkov detector for cosmic-ray neutron detection and soil-moisture
+  monitoring applications.
+keywords:
+  - Geant4
+  - water Cherenkov detector
+  - neutron detection
+  - sodium chloride
+  - cosmic-ray neutron sensing
+  - soil moisture
+license: MIT

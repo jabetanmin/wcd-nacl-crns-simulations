@@ -1,0 +1,12 @@
+name: wcd-nacl-crns-analysis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - jupyterlab
+  - pyyaml
+  - pip
