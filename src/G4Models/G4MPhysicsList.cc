@@ -1,12 +1,19 @@
 // implementation of the G4MPhysicsList class
 #include "G4MPhysicsList.h"
 
+#include "G4NeutronHPManager.hh"
+#include <cstdlib>
+#include <iostream>
+
+
+//#include "G4NeutronCapture.hh"
 #include "G4LossTableManager.hh"
 #include "G4ProcessManager.hh"
 #include "G4ParticleTypes.hh"
 #include "G4ParticleTable.hh"
 #include "FTFP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
+#include "G4ThermalNeutrons.hh"
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
@@ -19,7 +26,7 @@
 #include "G4RadioactiveDecayPhysics.hh"
 #include "G4SystemOfUnits.hh"
 //#include "PhysicsListMessenger.hh"
-
+//#include "G4HadronPhysicsFTFP-BERT-HP.hh"
 #include "StepMax.hh"
 #include "ExtraPhysics.hh"
 #include "OpticalPhysics.hh"
@@ -35,13 +42,36 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 	fCutForElectron  = defaultCutValue;
 	fCutForPositron  = defaultCutValue;
 
+	const char* neutronHPDataPath = std::getenv("G4NEUTRONHPDATA");
+	if (!neutronHPDataPath) 
+	   {
+    		G4cerr << "Error: La variable de entorno G4NEUTRONHPDATA no está configurada." << G4endl;
+    		G4cerr << "Por favor, configurela apuntando a los datos de neutrones HP." << G4endl;
+    		exit(1); // Salida del programa con error.
+	  } else {
+    		G4cout << "G4NEUTRONHPDATA está configurada en: " << neutronHPDataPath << G4endl;
+	  }
+
+
+
+
+
+
 	// G4PhysListFactory factory;
-	G4VModularPhysicsList* phys = NULL;
-	if (physName == "QGSP_BERT_HP") {
-		phys = new QGSP_BERT_HP;
-	} else {
-		phys = new FTFP_BERT;
-	}
+	//G4VModularPhysicsList* phys = NULL;
+	//if (physName == "QGSP_BERT_HP") {
+	//	phys = new QGSP_BERT_HP;
+	//} else {
+	//	phys = new FTFP_BERT;
+	//}
+
+        G4VModularPhysicsList* phys = NULL;
+        if (physName == "QGSP_BERT_HP") {
+                phys = new QGSP_BERT_HP;
+        } else {
+                phys = new FTFP_BERT;
+        }
+
 	
 	/*
 	if (factory.IsReferencePhysList(physName)) {
