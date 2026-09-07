@@ -1,4 +1,5 @@
 #include "Materials.h"
+#include "G4NistManager.hh"
 // material properties (scintillation, Cherenkov, optics)
 
 // array of photon energies in the red-UV range for scintillation processes
@@ -159,6 +160,16 @@ static G4double water2PhotonEnergy[] = {
 		3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV, 3.760 * eV, 3.877 * eV,
 		4.002 * eV, 4.136 * eV
 	};
+	
+//Vector estandar como en la literatura	
+//static const G4double photonEnergy[] = {
+//    2.034 * eV, 2.068 * eV, 2.103 * eV, 2.139 * eV, 2.177 * eV, 2.216 * eV, 
+//    2.256 * eV, 2.298 * eV, 2.341 * eV, 2.386 * eV, 2.433 * eV, 2.481 * eV,
+//    2.532 * eV, 2.585 * eV, 2.640 * eV, 2.697 * eV, 2.757 * eV, 2.820 * eV, 
+//    2.885 * eV, 2.954 * eV, 3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV,
+//    3.353 * eV, 3.446 * eV, 3.545 * eV, 3.649 * eV, 3.760 * eV, 3.877 * eV, 
+//    4.002 * eV, 4.136 * eV
+//};
 
 static G4double water2RefIndex[] = {
 		1.3435, 1.344,  1.3445, 1.345,  1.3455, 1.346,  1.3465, 1.347,
@@ -166,6 +177,8 @@ static G4double water2RefIndex[] = {
 		1.3522, 1.3530, 1.3535, 1.354,  1.3545, 1.355,  1.3555, 1.356,
 		1.3568, 1.3572, 1.358,  1.3585, 1.359,  1.3595, 1.36,   1.3608
 	};
+
+
 
 G4double scaleAbsLen2 = 1.0*m;
 static G4double water2AbsLen[] = {
@@ -359,8 +372,8 @@ Materials::CreateElements()
 	elFe = new G4Element("Iron", "Fe", 26, 55.850 * g/mole);
 	elAl = new G4Element("Aluminium", "Al", 13, 26.98 * g/mole);
 	elPb = new G4Element("Lead", "Pb", 82, 207.2 * g/mole);
-	elCl = new G4Element("Clhorine", "Cl", 17, 70.906 * g/mole);
-
+	//elCl = new G4Element("Chlorine", "Cl", 17, 70.906 * g/mole);
+        elCl = new G4Element("Chlorine", "Cl", 17, 35.453 * g/mole);                     
 }
 
 void
@@ -423,11 +436,19 @@ Materials::CreateCompounds()
 	Salt->AddElement(elCl, 1);
 	Salt->AddElement(elNa, 1);
 
+	//G4NistManager* nist = G4NistManager::Instance();
+        //Salt = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_CHLORIDE");
+	//G4Material* Salt = nist->FindOrBuildMaterial("G4_SODIUM_CHLORIDE");
+
+
+
 }
 
 void
 Materials::CreateMaterials()
 {
+        //Salt = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_CHLORIDE");
+
 
 	// --------------------------------------------------------------------
 	// Air
@@ -438,9 +459,12 @@ Materials::CreateMaterials()
 	// --------------------------------------------------------------------
 	// Water
 	// --------------------------------------------------------------------
-	Water = new G4Material("Water", 1 * g/cm3, 2);
-	Water->AddElement(elH, 2);
-	Water->AddElement(elO, 1);
+	//Water = new G4Material("Water", 1 * g/cm3, 2);
+	//Water->AddElement(elH, 2);
+	//Water->AddElement(elO, 1);
+
+	Water = G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");
+
 
 	// Define different PropertiesTable for different water "types"
 	waterPT1 = new G4MaterialPropertiesTable();

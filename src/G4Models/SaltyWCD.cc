@@ -28,6 +28,8 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 
 	// pmt solids
 	G4Ellipsoid* solidPMT = nullptr;
+	//G4Sphere* solidPMT = nullptr;
+	//G4Sphere* solidSphere = nullptr;
 
 	// logical volumes
 	G4LogicalVolume* logCasingTop = nullptr;
@@ -40,6 +42,7 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	G4LogicalVolume* logSide = nullptr;
 
 	G4LogicalVolume* logPMT = nullptr;
+	
 
 	// physical volumes
 	G4PVPlacement* physCasingBot = nullptr;
@@ -70,7 +73,20 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	
 	// PMT properties photonis-XP1805
 	OptDevice pmt = detector.GetOptDevice(OptDevice::ePMT);
-	G4double fPMTSemiX = pmt.GetSemiAxisX() * CLHEP::cm;
+	//G4double fPMTinnerRadius = 0.0 * cm;    // Radio interno (0 para esfera sólida)
+        //G4double fPMTouterRadius = 10.0 * cm;   // Radio externo (10 cm)
+        //G4double fPMTstartPhi = 0.0 * deg;      // Ángulo Phi inicial
+        //G4double fPMTdeltaPhi = 360.0 * deg;    // Ángulo Phi final (completa)
+        //G4double fPMTstartTheta = 0.0 * deg;    // Ángulo Theta inicial
+        //G4double fPMTdeltaTheta = 180.0 * deg;  // Ángulo Theta final (completa)
+						
+	//G4double fPMTinnerRad = pmt.GetinnerRadius() * CLHEP::cm;
+        //G4double fPMTouterRad = pmt.GetouterRadius() * CLHEP::cm;
+        //G4double fPMTstartP = pmt.GetstartPhi() * CLHEP::deg;
+        //G4double fPMTdeltaP = pmt.GetdeltaPhi() * CLHEP::deg;    
+        //G4double fPMTstartTh = pmt.GetstartTheta() * CLHEP::deg;
+        //G4double fPMTdeltaTh = pmt.GetdeltaTheta() * CLHEP::deg;
+        G4double fPMTSemiX = pmt.GetSemiAxisX() * CLHEP::cm;
 	G4double fPMTSemiY = pmt.GetSemiAxisY() * CLHEP::cm;
 	G4double fPMTSemiZ = pmt.GetSemiAxisZ() * CLHEP::cm;
 
@@ -80,7 +96,8 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	G4double fTankPosZ = detectorPos.getZ();
 	
 	// define PMT position as the center of the tank
-	G4ThreeVector fTankCenter = detectorPos + G4ThreeVector(0, 0, fTankHalfHeight + fTankThickness);
+	//G4ThreeVector fTankCenter = detectorPos + G4ThreeVector(0, 50*cm, fTankHalfHeight + fTankThickness);
+	G4ThreeVector fTankCenter = detectorPos + G4ThreeVector(0,0, fTankHalfHeight + fTankThickness);
 	int detectorId = detector.GetId();
 	int pmtId = 0;
 	ostringstream namedetector;
@@ -92,7 +109,7 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	cout << "[INFO] G4Models::SaltyWCD: Detector Dimensions:" << endl;
 	cout << "Tank Radius = " << fTankRadius / CLHEP::cm << " cm " << endl;
 	cout << "Tank Height = " << fTankHeight / CLHEP::cm << " cm " << endl;
-	cout << "Fraction of Water Impurities = " << fNaClFracMass << endl;
+	cout << "Fraccion de impurezas en el agua = " << fNaClFracMass << endl;
 	/****************************************************************
 		
 		Geant4 Volume construction
@@ -118,6 +135,7 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 
 	// pmt solids 
 	solidPMT = new G4Ellipsoid("PMT", fPMTSemiX, fPMTSemiY, fPMTSemiZ, -fPMTSemiZ, 0);
+	//solidPMT = new G4Sphere("PMT",fPMTinnerRad, fPMTouterRad, fPMTstartP, fPMTdeltaP, fPMTstartTh, fPMTdeltaTh);
 
 	// assemble SaltyWCD 
 	G4SDManager* const sdMan = G4SDManager::GetSDMpointer();
@@ -125,12 +143,15 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	// tank casing are made of Stainless-steel
 	logCasingTop = new G4LogicalVolume(solidCasingTop, StainlessSteel, "logCasingTop", 0, 0, 0);
 	physCasingTop = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + 2*fTankHalfHeight + 1.5*fTankThickness), logCasingTop, "physCasingTop", logMother, false, 0, fCheckOVerlaps);
+	//physCasingTop = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, -100*cm, fTankPosZ + 2*fTankHalfHeight + 1.5*fTankThickness), logCasingTop, "physCasingTop", logMother, false, 0, fCheckOVerlaps);
 	
 	logCasingBot = new G4LogicalVolume(solidCasingTop, StainlessSteel, "logCasingBot", 0, 0, 0);
-	physCasingBot = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + 0.5*fTankThickness), logCasingBot, "physCasingBot", logMother, false, 0);
+      	physCasingBot = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + 0.5*fTankThickness), logCasingBot, "physCasingBot", logMother, false, 0);
+      	//physCasingBot = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, -100*cm, fTankPosZ + 0.5*fTankThickness), logCasingBot, "physCasingBot", logMother, false, 0);
 
 	logCasingSide = new G4LogicalVolume(solidCasingSide, StainlessSteel, "logCasingSide", 0, 0, 0);
 	physCasingSide = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + fTankHalfHeight + fTankThickness), logCasingSide, "physCasingSide", logMother, false, 0, fCheckOVerlaps);
+	//physCasingSide = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, -100*cm, fTankPosZ + fTankHalfHeight + fTankThickness), logCasingSide, "physCasingSide", logMother, false, 0, fCheckOVerlaps);
 
 
 	// water part
@@ -143,22 +164,35 @@ SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& t
 	// top, bottom and side walls of the tank
 	logTop  = new G4LogicalVolume(solidTop, Materials().HDPE, "logTop", 0, 0, 0);
 	physTop = new G4PVPlacement(nullptr, G4ThreeVector(), logTop, "physTop", logCasingTop, false, 0, fCheckOVerlaps);
+	//physTop = new G4PVPlacement(nullptr, G4ThreeVector(0,0,50*cm), logTop, "physTop", logCasingTop, false, 0, fCheckOVerlaps);
+	//physTop = new G4PVPlacement(nullptr, fTankCenter, logTop, "physTop", logCasingTop, false, 0, fCheckOVerlaps);
 	
 	logBot = new G4LogicalVolume(solidTop, Materials().HDPE, "logBot", 0, 0, 0);
 	physBot = new G4PVPlacement(nullptr, G4ThreeVector(), logBot, "physBot", logCasingBot, false, 0, fCheckOVerlaps);
+	//physBot = new G4PVPlacement(nullptr, G4ThreeVector(0,0,-50*cm), logBot, "physBot", logCasingBot, false, 0, fCheckOVerlaps);
+	//physBot = new G4PVPlacement(nullptr, fTankCenter, logBot, "physBot", logCasingBot, false, 0, fCheckOVerlaps);
 	
 	logSide  = new G4LogicalVolume(solidSide, Materials().HDPE, "logSide", 0, 0, 0);
 	physSide = new G4PVPlacement(nullptr, G4ThreeVector(), logSide, "physSide", logCasingSide, false, 0, fCheckOVerlaps);
+	//physSide = new G4PVPlacement(nullptr, G4ThreeVector(0,50*cm,0), logSide, "physSide", logCasingSide, false, 0, fCheckOVerlaps);
 
 	// tank liner surface
 	new G4LogicalBorderSurface("TopSurface", physTank, physTop, Materials().LinerOptSurf);
 	new G4LogicalBorderSurface("BotSurface", physTank, physBot, Materials().LinerOptSurf);
 	new G4LogicalBorderSurface("SideSurface", physTank, physSide, Materials().LinerOptSurf);
 
-	// PMT
+	// PMT inicial sin cambios
+	//string logName = "logPMT_"+to_string(pmtId);
+	//logPMT = new G4LogicalVolume(solidPMT, Materials().Pyrex, logName, 0, 0, 0);
+	//new G4PVPlacement(nullptr, G4ThreeVector(0, 0, fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+        
+        // PMT
 	string logName = "logPMT_"+to_string(pmtId);
 	logPMT = new G4LogicalVolume(solidPMT, Materials().Pyrex, logName, 0, 0, 0);
-	new G4PVPlacement(nullptr, G4ThreeVector(0, 0, fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+	//new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0.8*fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+	//new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0.4*fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+	new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 0.8*fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+
 
 	// register PMT in the Detector
 	if (!detector.HasOptDevice(pmtId)) {
