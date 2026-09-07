@@ -24,6 +24,9 @@ WCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEve
 
 	// pmt solids
 	G4Ellipsoid* solidPMT = nullptr;
+        //G4Sphere* solidPMT = nullptr;
+        //G4Sphere* solidSphere = nullptr;
+
 
 	// logical volumes
 	G4LogicalVolume* logTank = nullptr;
@@ -49,6 +52,15 @@ WCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEve
 	G4double fPMTSemiX = pmt.GetSemiAxisX() * CLHEP::cm;
 	G4double fPMTSemiY = pmt.GetSemiAxisY() * CLHEP::cm;
 	G4double fPMTSemiZ = pmt.GetSemiAxisZ() * CLHEP::cm;
+
+        //G4double fPMTinnerRad = pmt.GetinnerRadius() * CLHEP::cm;
+        //G4double fPMTouterRad = pmt.GetouterRadius() * CLHEP::cm;
+        //G4double fPMTstartP = pmt.GetstartPhi() * CLHEP::deg;
+        //G4double fPMTdeltaP = pmt.GetdeltaPhi() * CLHEP::deg;
+        //G4double fPMTstartTh = pmt.GetstartTheta() * CLHEP::deg;
+        //G4double fPMTdeltaTh = pmt.GetdeltaTheta() * CLHEP::deg;
+
+
 
 	G4ThreeVector detectorPos = Geometry::ToG4Vector(detector.GetDetectorPosition(), 1.);
 	G4double fTankPosX = detectorPos.getX();
@@ -91,6 +103,9 @@ WCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEve
 
 	// pmt solids 
 	solidPMT = new G4Ellipsoid("PMT", fPMTSemiX, fPMTSemiY, fPMTSemiZ, -fPMTSemiZ, 0);
+        //solidPMT = new G4Ellipsoid("PMT", fPMTSemiX, fPMTSemiY, fPMTSemiZ, -fPMTSemiZ, 0);
+        //solidPMT = new G4Sphere("PMT",fPMTinnerRad, fPMTouterRad, fPMTstartP, fPMTdeltaP, fPMTstartTh, fPMTdeltaTh);
+
 
 	// assemble WCD 
 	G4SDManager* const sdMan = G4SDManager::GetSDMpointer();
