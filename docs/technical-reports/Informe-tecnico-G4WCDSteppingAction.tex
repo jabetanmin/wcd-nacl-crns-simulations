@@ -1,0 +1,639 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{azulClaro}{RGB}{232,241,249}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Informe técnico de G4WCDSteppingAction},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{cppstyle}{
+  language=C++,
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{azulWCD}\bfseries,
+  commentstyle=\color{verdeCodigo}\itshape,
+  stringstyle=\color{rojoCodigo},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=cppstyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\path{#1}}
+
+\title{\textbf{Informe técnico}\\[0.4em]
+\Large Mejoras de la clase \codigo{G4WCDSteppingAction}\\[0.35em]
+\large Registro de la respuesta neutrónica y electromagnética del detector
+Cherenkov de agua}
+\author{Jaime A. Betancourt\\
+Doctorado en Física, Universidad Industrial de Santander}
+\date{10 de septiembre de 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este informe documenta la adaptación y reorganización de la clase \codigo{G4WCDSteppingAction}, integrada en la aplicación \codigo{G4WCDSimulator} del framework MEIGA. La clase registra, a nivel de paso, el transporte de neutrones y la respuesta secundaria producida en el detector Cherenkov de agua (WCD), incluyendo capturas de neutrones, interacciones inelásticas, fotones gamma, electrones, positrones y fotones ópticos Cherenkov. La versión mejorada normaliza las unidades de salida, incorpora identificadores
+de corrida y evento, corrige la identificación del núcleo capturador, diferencia los datos de partículas primarias y secundarias, protege la escritura en ejecuciones multihilo y reemplaza archivos de texto ambiguos por tablas TSV con encabezados explícitos. El documento distingue la infraestructura preexistente de MEIGA de las contribuciones desarrolladas para el estudio del WCD con agua y soluciones de NaCl.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Objeto y alcance del informe}
+
+\codigo{G4WCDSteppingAction} deriva de \codigo{G4UserSteppingAction}. Geant4 invoca automáticamente su método \codigo{UserSteppingAction(const G4Step* step)} después de cada paso de cada trayectoria transportada. Por esta razón, la clase constituye un punto apropiado para extraer información microscópica sobre posiciones, energías, procesos y
+partículas secundarias.
+
+El propósito de la adaptación no es modificar los modelos físicos internos de Geant4. Su función es \textbf{seleccionar, organizar y conservar la información
+producida por dichos modelos} para estudiar la cadena de respuesta
+
+\begin{equation}
+ n \longrightarrow
+ \text{interacción o captura} \longrightarrow
+ \gamma \longrightarrow e^\pm \longrightarrow
+ \gamma_{\mathrm{Ch}}.
+\end{equation}
+
+Esta trazabilidad permite relacionar el transporte de neutrones con la producción electromagnética y óptica que finalmente puede contribuir a la señal del WCD. El código analizado corresponde a los archivos \archivo{G4WCDSteppingAction-mejorado.cc} y \archivo{G4WCDSteppingAction-mejorado.h}.
+
+\section{Diferenciación entre MEIGA y la contribución de la tesis}
+
+MEIGA es un framework desarrollado previamente para construir y ejecutar
+simulaciones de detectores mediante Geant4. Por tanto, no constituyen aportes
+originales de esta investigación:
+
+\begin{itemize}
+  \item la arquitectura general del framework;
+  \item las clases base y el ciclo de ejecución de Geant4;
+  \item la interfaz \codigo{G4UserSteppingAction};
+  \item los mecanismos generales de transporte de partículas;
+  \item los modelos físicos suministrados por Geant4.
+\end{itemize}
+
+Sobre esa infraestructura, el trabajo de tesis aporta la especialización de la
+acción de paso para el estudio del WCD y, en particular:
+
+\begin{enumerate}
+  \item la selección diferenciada de neutrones incidentes, pasos de neutrones e   interacciones hadrónicas relevantes;
+  \item el registro específico de capturas de neutrones y de sus productos secundarios;
+  \item la consulta del núcleo objetivo de la interacción mediante sus números  atómico y másico, $Z$ y $A$;
+  \item el seguimiento de la respuesta electromagnética secundaria mediante fotones gamma, electrones y positrones;
+  \item la identificación de fotones ópticos creados por el proceso \codigo{Cerenkov};
+  \item la definición de archivos tabulados con columnas, unidades e identificadores inequívocos;
+  \item la incorporación de escritura protegida para ejecuciones multihilo;
+  \item una estructura de datos adecuada para calcular eficiencias, espectros y distribuciones espaciales fuera de Geant4.
+\end{enumerate}
+
+En consecuencia, la contribución no corresponde a la creación de MEIGA ni de los procesos físicos de Geant4, sino a la \textbf{adaptación funcional del framework y al desarrollo del sistema de adquisición de datos simulados} requerido para caracterizar el WCD con agua pura y agua dopada con NaCl.
+
+\section{Interfaz de la clase}
+
+La cabecera conserva la firma del constructor empleada por \codigo{G4WCDSimulator}:
+
+\begin{lstlisting}
+G4WCDSteppingAction(const G4WCDConstruction* detector,
+                    G4WCDEventAction* eventAction,
+                    Event& event);
+
+~G4WCDSteppingAction() override = default;
+
+void UserSteppingAction(const G4Step* step) override;
+\end{lstlisting}
+
+Las referencias a la construcción del detector, a la acción de evento y al
+objeto \codigo{Event} se mantienen para preservar la interfaz de MEIGA y permitir
+extensiones posteriores. Se eliminan miembros que no contribuían al registro
+activo, entre ellos el mapa \codigo{fReactionsPerEvent} y variables auxiliares
+sin uso en esta implementación. El destructor se declara
+\codigo{= default}, lo que expresa que la clase no administra manualmente
+recursos cuya liberación requiera lógica adicional.
+
+\section{Arquitectura de la implementación}
+
+La implementación se divide en dos niveles:
+
+\begin{enumerate}
+  \item un espacio de nombres anónimo que contiene constantes y funciones
+  auxiliares de uso interno;
+  \item el método \codigo{UserSteppingAction}, que clasifica cada paso según la
+  partícula y el proceso físico.
+\end{enumerate}
+
+Esta separación evita repetir bloques de apertura, escritura y formateo de
+archivos. Las funciones auxiliares principales son:
+
+\begin{description}
+  \item[\codigo{ProcessName}] devuelve el nombre de un proceso y responde
+  \codigo{none} cuando el puntero es nulo.
+  \item[\codigo{MaterialName}] devuelve el nombre del material del punto de
+  paso y maneja de forma segura la ausencia de material.
+  \item[\codigo{CurrentRunId} y \codigo{CurrentEventId}] recuperan los
+  identificadores de la corrida y del evento activos.
+  \item[\codigo{AppendTsv}] añade una fila a un archivo TSV, crea el encabezado
+  cuando el archivo está vacío y protege la operación con un mutex.
+  \item[\codigo{StepRow}] construye una fila normalizada para una trayectoria.
+  \item[\codigo{WriteSecondaries}] registra las partículas creadas en el paso.
+  \item[\codigo{WriteCapture}] registra la captura y el núcleo objetivo.
+  \item[\codigo{IsGammaInteraction} e \codigo{IsNeutronInteraction}]
+  centralizan los procesos aceptados por los filtros.
+  \item[\codigo{WriteCerenkovPhotons}] selecciona los fotones ópticos cuyo
+  proceso creador es \codigo{Cerenkov}.
+\end{description}
+
+\section{Modelo común de los datos de salida}
+
+\subsection{Unidades explícitas}
+
+Geant4 trabaja internamente con un sistema coherente de unidades. La versión
+anterior mezclaba valores sin conversión con valores divididos por
+\codigo{MeV}, lo que hacía ambiguas algunas columnas. La nueva versión efectúa
+la conversión en el punto de escritura:
+
+\begin{lstlisting}
+prePosition.x() / cm
+pre->GetKineticEnergy() / MeV
+track->GetGlobalTime() / ns
+\end{lstlisting}
+
+Por tanto, todas las posiciones se expresan en \textbf{cm}, las energías
+cinéticas en \textbf{MeV} y los tiempos en \textbf{ns}.
+
+\subsection{Identificación de corrida, evento y trayectoria}
+
+Cada fila incorpora \codigo{run_id} y \codigo{event_id}. Además se registran
+\codigo{track_id}, \codigo{parent_id} y \codigo{step_number}. Esta combinación
+permite reconstruir la pertenencia de cada interacción a una historia concreta
+y evita utilizar el número de fila como identificador físico.
+
+Para una partícula primaria, \codigo{parent_id} es cero y
+\codigo{creator_process} se registra como \codigo{none}. Para una secundaria,
+el proceso creador permite establecer su procedencia física.
+
+\subsection{Encabezados y formato TSV}
+
+Los archivos utilizan valores separados por tabuladores y extensión
+\codigo{.tsv}. \codigo{AppendTsv} escribe el encabezado solamente si el archivo
+no existe o está vacío:
+
+\begin{lstlisting}
+if (needsHeader) {
+  output << header << '\n';
+}
+output << row << '\n';
+\end{lstlisting}
+
+El encabezado comienza con el carácter \codigo{\#}; de esta forma puede ser
+tratado como comentario por herramientas de análisis. Se definen tres esquemas:
+pasos, capturas y partículas secundarias.
+
+\subsection{Esquema de pasos}
+
+\small
+\begin{longtable}{>{\ttfamily}p{0.27\textwidth}p{0.64\textwidth}}
+\toprule
+\normalfont\textbf{Columna} & \textbf{Significado}\\
+\midrule
+\endfirsthead
+\toprule
+\normalfont\textbf{Columna} & \textbf{Significado}\\
+\midrule
+\endhead
+run\_id & Identificador de la corrida actual.\\
+event\_id & Identificador del evento actual.\\
+particle & Nombre de la partícula transportada.\\
+track\_id & Identificador de su trayectoria.\\
+parent\_id & Identificador de la trayectoria progenitora.\\
+step\_number & Número de paso dentro de la trayectoria.\\
+creator\_process & Proceso que creó la trayectoria; \codigo{none} para primarias.\\
+step\_process & Proceso que definió el final del paso.\\
+material & Material en el punto anterior al paso.\\
+pre\_x\_cm,\newline pre\_y\_cm,\newline pre\_z\_cm & Posición inicial del paso, en cm.\\
+post\_x\_cm,\newline post\_y\_cm,\newline post\_z\_cm & Posición final del paso, en cm.\\
+pre\_energy\_MeV & Energía cinética anterior al paso, en MeV.\\
+post\_energy\_MeV & Energía cinética posterior al paso, en MeV.\\
+global\_time\_ns & Tiempo global de la trayectoria, en ns.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\subsection{Esquemas de capturas y secundarias}
+
+El esquema de capturas añade \codigo{target_Z} y \codigo{target_A}. El esquema
+de secundarias incluye la categoría de la interacción, la identidad de la
+partícula padre, el número de paso del padre y
+\codigo{secondary_index}. Este último corresponde a la posición de la
+secundaria dentro del vector generado en el paso.
+
+El identificador definitivo de trayectoria de una secundaria puede no estar
+asignado todavía cuando se consulta \codigo{GetSecondaryInCurrentStep()}. Por
+ello, \codigo{track_id} puede ser cero en esta etapa. Para identificar el
+registro deben conservarse conjuntamente corrida, evento, trayectoria del
+padre, paso del padre e índice de secundaria.
+
+\section{Escritura segura de resultados}
+
+\codigo{AppendTsv} usa un mutex global al módulo y un bloqueo RAII:
+
+\begin{lstlisting}
+G4Mutex outputMutex = G4MUTEX_INITIALIZER;
+
+void AppendTsv(const G4String& fileName,
+               const char* header,
+               const G4String& row)
+{
+  G4AutoLock lock(&outputMutex);
+  // Apertura, encabezado y escritura de la fila.
+}
+\end{lstlisting}
+
+El bloqueo impide que dos hilos mezclen parcialmente sus filas en un mismo
+archivo. También protege la verificación y creación del encabezado. Si el
+archivo no puede abrirse, la clase genera una excepción fatal con un mensaje
+que solicita comprobar la existencia y los permisos de
+\archivo{Datos-simulacion/}.
+
+Esta estrategia prioriza la integridad y simplicidad de los datos. La apertura
+y cierre por fila, junto con la serialización de las escrituras, puede tener un
+costo apreciable en corridas extensas. Si el rendimiento de entrada/salida se
+convierte en una limitación, podrá evaluarse el uso de archivos por hilo o del
+sistema de análisis de Geant4.
+
+\section{Lógica de \texorpdfstring{\codigo{UserSteppingAction}}{UserSteppingAction}}
+
+\subsection{Validación inicial}
+
+Antes de acceder a los objetos del paso se comprueba que existan:
+
+\begin{lstlisting}
+if (!step || !step->GetTrack() || !step->GetPreStepPoint() ||
+    !step->GetPostStepPoint()) {
+  return;
+}
+\end{lstlisting}
+
+El nombre del proceso se obtiene mediante \codigo{ProcessName}, evitando
+desreferenciar directamente un posible puntero nulo retornado por
+\codigo{GetProcessDefinedStep()}.
+
+\subsection{Historia completa}
+
+Cada paso se escribe inicialmente en \archivo{pasos-particulas.tsv}. Este
+archivo proporciona la historia más detallada, pero también puede crecer con
+rapidez. La propia implementación indica que su llamada puede comentarse cuando
+solo se requieran productos filtrados.
+
+\subsection{Selección de neutrones incidentes}
+
+Un neutrón se registra como incidente únicamente cuando es primario y se
+encuentra en su primer paso:
+
+\begin{lstlisting}
+if (track->GetParentID() == 0 &&
+    track->GetCurrentStepNumber() == 1) {
+  AppendTsv("neutrones-incidentes.tsv", stepHeader, row);
+}
+\end{lstlisting}
+
+Esta condición corrige el criterio anterior, que seleccionaba cualquier
+neutrón en su primer paso y podía incluir neutrones secundarios como si fueran
+partículas inyectadas.
+
+\subsection{Interacciones de neutrones}
+
+\codigo{IsNeutronInteraction} conserva los procesos relevantes para este
+análisis:
+
+\begin{itemize}
+  \item \codigo{hadElastic}: dispersión elástica y moderación;
+  \item \codigo{nCapture}: captura neutrónica;
+  \item \codigo{neutronInelastic}: interacción inelástica.
+\end{itemize}
+
+Todos sus pasos se escriben en
+\archivo{interacciones-neutrones.tsv}. La historia completa de cada neutrón,
+incluidos los pasos de transporte, se conserva por separado en
+\archivo{pasos-neutrones.tsv}.
+
+\section{Captura de neutrones y núcleo objetivo}
+
+La versión anterior intentaba inferir el capturador tomando \codigo{material->GetElement(0)}. Ese método devuelve el primer elemento de la definición del material, no necesariamente el núcleo seleccionado por la interacción.
+%Además, una condición correspondiente a oxígeno ($Z=8$) escribía en un archivo cuyo nombre hacía referencia a cloro-35.
+
+La versión mejorada consulta el proceso hadrónico que definió el paso:
+
+\begin{lstlisting}
+const auto* process = post->GetProcessDefinedStep();
+const auto* hadronicProcess =
+  dynamic_cast<const G4HadronicProcess*>(process);
+
+if (hadronicProcess && hadronicProcess->GetTargetNucleus()) {
+  targetZ = hadronicProcess->GetTargetNucleus()->GetZ_asInt();
+  targetA = hadronicProcess->GetTargetNucleus()->GetA_asInt();
+}
+\end{lstlisting}
+
+Así, una captura en $^{1}\mathrm{H}$ puede representarse mediante
+$(Z,A)=(1,1)$; una captura en $^{35}\mathrm{Cl}$, mediante $(17,35)$; y una
+captura en $^{37}\mathrm{Cl}$, mediante $(17,37)$. Si el proceso no proporciona
+un núcleo objetivo, ambos campos conservan el valor centinela $-1$.
+
+Para cada \codigo{nCapture} se escribe una fila en
+\archivo{capturas-neutrones.tsv}. Sus productos se recorren mediante
+\codigo{GetSecondaryInCurrentStep()} y se almacenan en
+\archivo{secundarias-captura-neutron.tsv}. Esta separación permite construir
+distribuciones por isótopo capturador y espectros de los fotones gamma de
+desexcitación.
+
+\section{Interacciones gamma y partículas cargadas}
+
+Todos los pasos de fotones gamma se escriben en
+\archivo{pasos-gamma.tsv}. Se consideran de interés específico los procesos:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Nombre de Geant4} & \textbf{Proceso físico}\\
+\midrule
+\codigo{phot} & efecto fotoeléctrico\\
+\codigo{compt} & dispersión Compton\\
+\codigo{conv} & producción de pares\\
+\codigo{Rayl} & dispersión Rayleigh\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La información se distribuye en tres productos complementarios:
+\begin{itemize}
+  \item \archivo{interacciones-gamma.tsv}, para los pasos seleccionados;
+  \item \archivo{secundarias-interaccion-gamma.tsv}, para sus productos;
+  \item \archivo{pasos-electrones.tsv}, para los pasos de electrones y
+  positrones.
+\end{itemize}
+En conjunto, estos archivos permiten seguir la transferencia de energía desde
+los gamma de captura hacia las partículas cargadas que pueden producir luz
+Cherenkov.
+
+\section{Identificación de fotones Cherenkov}
+
+La versión anterior verificaba si el proceso que limitó el paso del electrón
+era \codigo{Cerenkov}. Esta condición puede omitir producción óptica, porque
+Cherenkov genera fotones secundarios a lo largo de un paso sin ser
+necesariamente el proceso que determina su longitud.
+
+La versión mejorada recorre las secundarias de cada paso y exige simultáneamente
+que la partícula sea un fotón óptico y que su proceso creador sea
+\codigo{Cerenkov}:
+
+\begin{lstlisting}
+if (secondary->GetParticleDefinition() !=
+      G4OpticalPhoton::Definition() ||
+    ProcessName(creator) != "Cerenkov") {
+  continue;
+}
+\end{lstlisting}
+
+El filtro se aplica a cualquier partícula padre, no solo a electrones y
+positrones. Por tanto, también permite registrar luz producida por otras
+partículas cargadas presentes en el fondo cósmico. Los resultados se guardan
+en \archivo{fotones-cherenkov.tsv}.
+
+Este archivo cuantifica \textbf{fotones Cherenkov producidos}; no representa
+por sí mismo los fotones que alcanzan el fotocátodo ni los fotoelectrones
+generados por el PMT. La eficiencia instrumental requiere aplicar además el
+transporte óptico, la geometría del fotocátodo, la eficiencia cuántica y el
+criterio de disparo.
+
+\section{Archivos generados}
+
+Todos los archivos se escriben dentro de
+\archivo{Datos-simulacion/}. La carpeta debe existir y disponer de permisos de
+escritura antes de iniciar el programa.
+
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.32\textwidth}
+                  >{\raggedright\arraybackslash}p{0.23\textwidth}
+                  >{\raggedright\arraybackslash}p{0.36\textwidth}}
+\toprule
+\textbf{Archivo} & \textbf{Condición} & \textbf{Uso principal}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Archivo} & \textbf{Condición} & \textbf{Uso principal}\\
+\midrule
+\endhead
+\archivo{pasos-particulas.tsv} & Todo paso & Diagnóstico completo de la simulación.\\
+\archivo{pasos-neutrones.tsv} & Partícula neutrón & Transporte y moderación de neutrones.\\
+\archivo{neutrones-incidentes.tsv} & Neutrón primario, paso 1 & Número y condiciones iniciales de los neutrones inyectados.\\
+\archivo{interacciones-neutrones.tsv} & \codigo{hadElastic}, \codigo{nCapture} o \codigo{neutronInelastic} & Conteo, energía y posición de interacciones neutrónicas.\\
+\archivo{capturas-neutrones.tsv} & \codigo{nCapture} & Capturas con material y núcleo objetivo.\\
+\archivo{secundarias-captura-neutron.tsv} & Secundarias de \codigo{nCapture} & Productos de captura y espectros gamma.\\
+\texttt{secundarias-}\newline\texttt{inelastica-neutron.tsv} & Secundarias de \codigo{neutronInelastic} & Productos de interacciones inelásticas.\\
+\archivo{pasos-gamma.tsv} & Partícula gamma & Transporte de fotones gamma.\\
+\archivo{interacciones-gamma.tsv} & \codigo{phot}, \codigo{compt}, \codigo{conv} o \codigo{Rayl} & Procesos electromagnéticos seleccionados.\\
+\texttt{secundarias-}\newline\texttt{interaccion-gamma.tsv} & Secundarias de interacción gamma & Electrones, positrones y otros productos.\\
+\archivo{pasos-electrones.tsv} & Partícula $e^-$ o $e^+$ & Transporte de partículas cargadas.\\
+\archivo{fotones-cherenkov.tsv} & Fotón óptico creado por \codigo{Cerenkov} & Producción de luz Cherenkov.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+Los archivos se abren en modo \emph{append}. Por ello, una ejecución posterior
+añade filas a los resultados existentes. Aunque \codigo{run_id} y
+\codigo{event_id} separan registros durante una ejecución, esos identificadores
+pueden reiniciarse al lanzar nuevamente el programa. Para evitar mezclar
+campañas independientes se recomienda vaciar, renombrar o archivar la carpeta
+de salida antes de cada conjunto de simulaciones.
+
+\section{Interpretación de resultados}
+
+\subsection{Eficiencia de captura}
+
+Si cada fila de \archivo{neutrones-incidentes.tsv} corresponde a un neutrón
+primario y cada fila de \archivo{capturas-neutrones.tsv} a una captura, puede
+calcularse
+
+\begin{equation}
+\eta_{\mathrm{cap}}=
+\frac{N_{\mathrm{cap}}}{N_{\mathrm{inc}}}.
+\end{equation}
+
+El conteo puede desagregarse por energía incidente, material y núcleo objetivo.
+Para comparar agua pura con soluciones de NaCl debe mantenerse el mismo número
+de neutrones incidentes, la misma geometría, la misma fuente y la misma lista de
+física.
+
+\subsection{Espectros y distribuciones espaciales}
+
+Los espectros de secundarios se construyen a partir de
+\codigo{kinetic_energy_MeV}. Las distribuciones espaciales de interacciones y
+capturas se obtienen con las coordenadas en cm. Los análisis por evento deben
+agrupar primero por \codigo{run_id} y \codigo{event_id} para impedir que varios
+pasos de la misma cascada se interpreten como eventos independientes.
+
+\subsection{De la captura a la eficiencia del detector}
+
+La eficiencia de captura no equivale a la eficiencia de detección. Una
+definición instrumental debe incluir un criterio observable, por ejemplo,
+
+\begin{equation}
+\eta_{\mathrm{det}}(E_n)=
+\frac{N_{\text{eventos que superan el umbral de señal}}(E_n)}
+     {N_{\text{neutrones incidentes}}(E_n)}.
+\end{equation}
+
+El numerador puede depender del número de fotoelectrones, de la ventana
+temporal, del umbral electrónico y de la respuesta del PMT. Las tablas
+producidas por esta clase describen etapas físicas de la cadena, pero deben
+combinarse con el registro del fotocátodo y de la electrónica simulada para
+obtener la eficiencia final del WCD.
+
+\section{Síntesis comparativa de las mejoras}
+
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.27\textwidth}
+                  >{\raggedright\arraybackslash}p{0.30\textwidth}
+                  >{\raggedright\arraybackslash}p{0.34\textwidth}}
+\toprule
+\textbf{Aspecto} & \textbf{Situación anterior} & \textbf{Versión mejorada}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Aspecto} & \textbf{Situación anterior} & \textbf{Versión mejorada}\\
+\midrule
+\endhead
+Unidades & Mezcla de unidades internas y valores convertidos. & Conversión explícita a cm, MeV y ns.\\
+Encabezados & Archivos sin nombres de columnas. & Encabezados comentados y esquemas coherentes.\\
+Identidad del evento & No se escribían corrida ni evento. & Inclusión de \codigo{run_id} y \codigo{event_id}.\\
+Neutrón incidente & Todo neutrón en su primer paso. & Solo neutrón primario con \codigo{parent_id=0} y paso 1.\\
+Núcleo capturador & Primer elemento del material; archivo de cloro asociado a una condición de oxígeno. & Núcleo objetivo del proceso hadrónico mediante $Z$ y $A$.\\
+Secundarias & Identificadores del padre reutilizados de forma ambigua. & Datos separados del padre y la secundaria.\\
+Cherenkov & Comparación con el proceso que limitó el paso del electrón. & Verificación del tipo de partícula y del proceso creador del fotón óptico.\\
+Punteros a procesos & Acceso directo sin comprobación. & Manejo seguro con respuesta \codigo{none}.\\
+Multihilo & Escrituras potencialmente concurrentes. & Protección de cada fila con \codigo{G4AutoLock}.\\
+Duplicación & Bloques repetidos y archivos parcialmente redundantes. & Funciones auxiliares y archivos con propósitos diferenciados.\\
+Mapa de reacciones & Estructura inactiva y limpiada por paso. & Eliminación del estado que no acumulaba información útil.\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Condiciones de uso y limitaciones}
+
+\begin{enumerate}
+  \item \textbf{Directorio de salida.} Debe existir
+  \archivo{Datos-simulacion/}; de lo contrario, la ejecución termina mediante
+  la excepción \codigo{WCD-OUTPUT-001}.
+  \item \textbf{Volumen de datos.} Registrar todos los pasos puede producir
+  archivos grandes. Para corridas de producción puede deshabilitarse
+  \archivo{pasos-particulas.tsv} si no se requiere diagnóstico completo.
+  \item \textbf{Orden multihilo.} El bloqueo garantiza filas íntegras, pero el
+  orden global de las filas no tiene por qué coincidir con el orden numérico de
+  los eventos. El análisis debe usar los identificadores escritos.
+  \item \textbf{Identidad de secundarias.} El \codigo{track_id} puede no estar
+  asignado todavía al consultar las secundarias del paso.
+  \item \textbf{Alcance óptico.} El conteo de
+  \archivo{fotones-cherenkov.tsv} no sustituye el conteo de fotones detectados o
+  fotoelectrones.
+  \item \textbf{Validación.} El código y este informe fueron contrastados
+  estáticamente. La compilación y la prueba de ejecución deben realizarse con
+  el repositorio completo, Geant4 10.07.p04, la lista de física y los conjuntos
+  de datos nucleares empleados en la investigación.
+\end{enumerate}
+
+\section{Integración y verificación recomendadas}
+
+Los archivos deben instalarse con los nombres esperados por el proyecto:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Archivo de trabajo} & \textbf{Nombre dentro del repositorio}\\
+\midrule
+\archivo{G4WCDSteppingAction-mejorado.cc} & \archivo{G4WCDSteppingAction.cc}\\
+\archivo{G4WCDSteppingAction-mejorado.h} & \archivo{G4WCDSteppingAction.h}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La ubicación de destino es
+\archivo{src/Applications/G4WCDSimulator/}. Después de reemplazarlos se
+recomienda:
+
+\begin{enumerate}
+  \item comprobar los cambios con \codigo{git diff --check};
+  \item configurar y compilar el proyecto con Geant4 10.07.p04;
+  \item ejecutar una corrida corta;
+  \item verificar encabezados, unidades, materiales y nombres de procesos;
+  \item comprobar manualmente casos conocidos de captura en hidrógeno y cloro;
+  \item comparar los conteos con los obtenidos por la versión anterior;
+  \item ejecutar finalmente las campañas de producción.
+\end{enumerate}
+
+\section{Conclusiones}
+
+La versión mejorada de \codigo{G4WCDSteppingAction} transforma un registro
+heterogéneo y parcialmente redundante en un sistema tabulado, trazable y más
+seguro. Las correcciones más relevantes son la normalización de unidades, la
+identificación del núcleo capturador a partir del proceso hadrónico, la
+separación correcta entre primarias y secundarias y el reconocimiento de la luz
+Cherenkov mediante el proceso creador del fotón óptico.
+
+Desde la perspectiva de la tesis, el aporte consiste en adaptar MEIGA para
+extraer observables específicamente relacionados con la respuesta de un WCD a
+neutrones en agua pura y soluciones de NaCl. Esta capacidad conecta la física
+de interacción neutrónica con la generación de partículas secundarias y luz
+Cherenkov, y proporciona una base reproducible para los análisis de captura,
+respuesta espectral y eficiencia del detector.
+
+La integración definitiva queda condicionada a la compilación y validación con
+Geant4 10.07.p04. Esta condición debe conservarse explícitamente en el
+repositorio hasta completar las pruebas correspondientes.
+
+\end{document}
