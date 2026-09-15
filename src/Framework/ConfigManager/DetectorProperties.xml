@@ -3,10 +3,10 @@
 <detectorProperties>
 	
 	
-	<tankRadius unit="cm"> 105 </tankRadius>
-	<tankHeight unit="cm"> 90 </tankHeight>
-	<tankThickness unit="mm"> 12 </tankThickness> 
-	<impuritiesFraction> 0.0 </impuritiesFraction>
+	<tankRadius unit="cm"> 48 </tankRadius>
+	<tankHeight unit="cm"> 1.33 </tankHeight>
+	<tankThickness unit="mm"> 0.05 </tankThickness> 
+	<impuritiesFraction> 0.005 </impuritiesFraction>
 	<numberOfBars> 12 </numberOfBars>
 	<numberOfPanels> 1 </numberOfPanels>
 	<barLength unit="mm"> 500 </barLength>

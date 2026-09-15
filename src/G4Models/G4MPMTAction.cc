@@ -31,8 +31,12 @@ G4MPMTAction::G4MPMTAction(const G4String& name, const G4int dId, const G4int oI
 void
 G4MPMTAction::Initialize(G4HCofThisEvent* const /*hce*/)
 {
-	
-
+	NumCerenkovPhotons = 0;
+	NumPE = 0;
+	NumPEMuDecay = 0;
+	fPETime.clear();
+	fPETimeComp.clear();
+	fPETimeMuDecay.clear();
 }
 
 void
@@ -51,6 +55,28 @@ G4MPMTAction::EndOfEvent(G4HCofThisEvent* const /*hce*/)
 	OptDeviceSimData& odSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
 	int charge = fPETime.size();
 	
+
+        std::ofstream outputFilenum("Datos-simulacion/Carga-total.txt", std::ios_base::app);
+        outputFilenum <<"Carga:" <<"\t"<< fPETime.size() <<"\n";
+
+	std::ofstream outputFile("Datos-simulacion/Carga-total-cada-N.txt", std::ios_base::app);
+        //outputFile << charge  <<"\t" << fPETime[0] <<"\n";
+
+	for (size_t i = 0; i < fPETime.size() || i == 0; ++i) 
+	{
+           if(fPETime.size()==0){
+	      outputFile << fPETime.size()  <<"\t" << i <<"\t" << 0 <<"\n";
+	   }
+
+	   else if (fPETime.size()!= 0){
+		// Realiza alguna operación con fPETime[i]
+            //std::ofstream outputFile("Carga-total-cada-N.txt", std::ios_base::app);
+            outputFile << fPETime.size()  <<"\t" << i <<"\t" << fPETime[i] <<"\n";
+	   }
+	}
+
+
+
 	// add total PE time distribution
 	odSimData.AddPETimeDistribution(fPETime);
 	// add components PE time distribution
@@ -67,53 +93,52 @@ G4MPMTAction::EndOfEvent(G4HCofThisEvent* const /*hce*/)
 G4bool
 G4MPMTAction::ProcessHits(G4Step* const step, G4TouchableHistory* const /*rOHist*/)
 {
-	
-	// reject particle in case it is not a photon
-	if (step->GetTrack()->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition())
-		return true;
+	G4Track* const track = step->GetTrack();
 
-	// for RICH paper: get ParentID of photons
-	int parentId = step->GetTrack()->GetParentID();
+	// The PMT solid is an effective absorbing photocathode.  Its response must
+	// be sampled exactly once, when an optical photon enters the volume.
+	if (track->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition())
+		return false;
+	if (step->GetPreStepPoint()->GetStepStatus() != fGeomBoundary)
+		return false;
 
-	// get time and energy of photons
+	const int parentId = track->GetParentID();
 	const double time = step->GetPreStepPoint()->GetGlobalTime() / CLHEP::second;
-	if (time >= 1*CLHEP::second)
-		return true;
+	if (time >= 1*CLHEP::second) {
+		track->SetTrackStatus(fStopAndKill);
+		return false;
+	}
 
 	auto& pmt = fEvent.GetDetector(fDetectorId).GetOptDevice(fOptDeviceId);
-	double energy = step->GetPreStepPoint()->GetKineticEnergy() / CLHEP::eV;
-	// kill if photon energy is out of PMT range
-	if (energy < pmt.GetOpticalRange()[0]  || energy > pmt.GetOpticalRange()[1]) 
-		return true; 
+	const double energy = step->GetPreStepPoint()->GetKineticEnergy() / CLHEP::eV;
+	const std::vector<double> opticalRange = pmt.GetOpticalRange();
+	if (energy < opticalRange[0] || energy > opticalRange[1]) {
+		track->SetTrackStatus(fStopAndKill);
+		return false;
+	}
 
 	SimData& simData = fEvent.GetSimData();
-	if (simData.GetSimulationMode() == SimData::SimulationMode::eFull) {
-		
-		// kill according to PMT quantum efficiency
-		if (!pmt.IsPhotonDetected(energy)) 
-			return true;
+	if (simData.GetSimulationMode() == SimData::SimulationMode::eFull &&
+	    !pmt.IsPhotonDetected(energy)) {
+		track->SetTrackStatus(fStopAndKill);
+		return false;
 	}
-	
-	
-	DetectorSimData& detSimData = simData.GetDetectorSimData();
+
+	DetectorSimData& detSimData = simData.GetDetectorSimData(fDetectorId);
 	const auto& muDecayIDs = detSimData.GetMuonDecayID();
-
 	if (muDecayIDs.find(parentId) != muDecayIDs.end()) {
-		//cout << "[DEBUG] G4Models::G4MPMTAction: Photon from MUON DECAY was detected! " << endl;
 		fPETimeMuDecay.push_back(time);
-		NumPEMuDecay += 1;
+		++NumPEMuDecay;
 	}
 
-	string procName = step->GetTrack()->GetCreatorProcess()->GetProcessName();
-	
-
-	// add photon time to SimData
 	fPETime.push_back(time);
 	fPETimeComp.push_back(time);
-	
+	++NumPE;
+
+	// Detection is terminal in this effective model.  This prevents the same
+	// photon from generating multiple photoelectrons in later Pyrex steps.
+	track->SetTrackStatus(fStopAndKill);
 	return true;
 
 }
 	
-
-
