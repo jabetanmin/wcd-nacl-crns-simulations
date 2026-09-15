@@ -1,0 +1,431 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Implementación del RINDEX de la superficie Tyvek},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{cppstyle}{
+  language=C++,
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{azulWCD}\bfseries,
+  commentstyle=\color{verdeCodigo}\itshape,
+  stringstyle=\color{rojoCodigo},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=cppstyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.18}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\path{#1}}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Implementación del índice\\[0.2cm]
+de refracción en la superficie\\[0.2cm] óptica del Tyvek}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Detector Cherenkov de agua con medios agua--NaCl''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+11 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Este informe documenta la corrección introducida en la representación óptica
+del recubrimiento interno de Tyvek del detector Cherenkov de agua. La versión
+revisada incorpora la propiedad \codigo{RINDEX} en la tabla
+\codigo{linerOpticalPT}, asociada a una superficie
+\codigo{dielectric_dielectric} con acabado \codigo{groundbackpainted}. También
+se incorporan verificaciones en \codigo{SaltyWCD} para comprobar que tanto el
+medio activo como la superficie reflectora contienen las propiedades mínimas
+requeridas antes de construir la geometría. La corrección mantiene una única
+descripción intrínseca del Tyvek para agua pura y las soluciones con 2.5, 5.0 y
+10.0\,\% de NaCl; la dependencia con la concentración entra mediante las
+propiedades ópticas del medio activo.
+\end{abstract}
+
+\tableofcontents
+
+\section{Objeto de la modificación}
+
+El WCD utiliza una lámina de Tyvek como recubrimiento interno difusamente
+reflector. En la implementación analizada, el Tyvek estaba representado en dos
+niveles:
+
+\begin{enumerate}
+  \item como un material volumétrico de HDPE, denominado
+  \codigo{Tyvek_HDPE};
+  \item como una superficie óptica, denominada
+  \codigo{TyvekOpticalSurface}, aplicada a las fronteras entre el medio activo
+  y las láminas superior, inferior y lateral.
+\end{enumerate}
+
+El material volumétrico ya disponía de índice de refracción y longitud de
+absorción. Sin embargo, la tabla propia de la superficie
+\codigo{linerOpticalPT} no contenía \codigo{RINDEX}. Esta omisión es relevante
+porque la superficie se configuró con acabado \codigo{groundbackpainted}; en
+este modelo, el proceso de frontera óptica necesita el índice de refracción de
+la capa superficial.
+
+\section{Representación volumétrica del Tyvek}
+
+El material se conserva como una aproximación de polietileno de alta densidad:
+
+\begin{lstlisting}
+HDPE = new G4Material("Tyvek_HDPE", 0.94 * g/cm3, 2);
+HDPE->AddElement(elC, 2);
+HDPE->AddElement(elH, 4);
+\end{lstlisting}
+
+Su tabla volumétrica \codigo{linerPT1} contiene:
+
+\begin{lstlisting}
+linerPT1->AddProperty("RINDEX",
+                      water1PhotonEnergy,
+                      linerRefIndex,
+                      water1ArrEntries);
+
+linerPT1->AddProperty("ABSLENGTH",
+                      water1PhotonEnergy,
+                      linerAbsLen,
+                      water1ArrEntries);
+
+HDPE->SetMaterialPropertiesTable(linerPT1);
+\end{lstlisting}
+
+El índice utilizado es $n=1.49$ y la longitud de absorción es
+$0.1\,\mathrm{mm}$ en los puntos de la malla. Estas propiedades describen el
+transporte de un fotón que ingresa físicamente al volumen de HDPE.
+
+\section{Representación superficial}
+
+La interacción de un fotón en la frontera medio activo--Tyvek se representa
+mediante \codigo{LinerOptSurf}. Antes de la corrección,
+\codigo{linerOpticalPT} contenía reflectividad y parámetros del modelo
+\textit{UNIFIED}, pero carecía del índice de refracción de la capa pintada.
+
+\subsection{Corrección implementada}
+
+Se añadió:
+
+\begin{lstlisting}
+linerOpticalPT->AddProperty("RINDEX",
+                            water1PhotonEnergy,
+                            linerRefIndex,
+                            water1ArrEntries);
+\end{lstlisting}
+
+El bloque superficial queda conceptualmente compuesto por:
+
+\begin{lstlisting}
+linerOpticalPT = new G4MaterialPropertiesTable();
+
+linerOpticalPT->AddProperty(
+    "RINDEX",
+    water1PhotonEnergy,
+    linerRefIndex,
+    water1ArrEntries);
+
+linerOpticalPT->AddProperty(
+    "REFLECTIVITY",
+    water1PhotonEnergy,
+    linerReflectivity,
+    water1ArrEntries);
+
+linerOpticalPT->AddProperty(
+    "BACKSCATTERCONSTANT",
+    water1PhotonEnergy,
+    linerBackScatter,
+    water1ArrEntries);
+\end{lstlisting}
+
+También se conservan \codigo{SPECULARLOBECONSTANT} y
+\codigo{SPECULARSPIKECONSTANT}. Finalmente, la tabla se asigna mediante:
+
+\begin{lstlisting}
+LinerOptSurf->SetModel(unified);
+LinerOptSurf->SetType(dielectric_dielectric);
+LinerOptSurf->SetFinish(groundbackpainted);
+LinerOptSurf->SetSigmaAlpha(fSigmaAlpha);
+LinerOptSurf->SetMaterialPropertiesTable(linerOpticalPT);
+\end{lstlisting}
+
+\subsection{Parámetros del modelo UNIFIED}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\ttfamily}l X}
+\toprule
+\normalfont\textbf{Propiedad} & \textbf{Interpretación}\\
+\midrule
+RINDEX & Índice de refracción de la capa óptica superficial.\\
+REFLECTIVITY & Probabilidad espectral asociada a la reflexión del recubrimiento.\\
+BACKSCATTERCONSTANT & Fracción correspondiente a retrodispersión.\\
+SPECULARLOBECONSTANT & Reflexión especular respecto a la normal de una microfaceta.\\
+SPECULARSPIKECONSTANT & Reflexión respecto a la normal macroscópica.\\
+sigmaAlpha & Anchura angular de la distribución de normales de microfacetas.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Con los valores utilizados, las componentes explícitas son 0.02 para el lóbulo
+especular, 0 para el pico especular y 0.02 para retrodispersión. La componente
+difusa restante es calculada por el modelo:
+
+\begin{equation}
+P_{\text{difusa}}
+=1-P_{\text{lóbulo}}-P_{\text{pico}}-P_{\text{retro}}
+=0.96.
+\end{equation}
+
+\section{Dependencia con el medio detector}
+
+No se crean cuatro superficies Tyvek diferentes. El recubrimiento mantiene una
+única curva intrínseca de índice, reflectividad y rugosidad. La dependencia con
+la concentración de NaCl se introduce mediante el índice espectral del medio
+activo seleccionado:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Medio activo & $n(589.3\,\mathrm{nm})$\\
+\midrule
+Agua pura & 1.3330\\
+Agua + 2.5\,\% NaCl & 1.3397\\
+Agua + 5.0\,\% NaCl & 1.3436\\
+Agua + 10.0\,\% NaCl & 1.3594\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Geant4 combina el índice del medio incidente con la descripción de la
+superficie. Por ello pueden cambiar las probabilidades asociadas a reflexión de
+Fresnel, refracción y reflexión interna total, aunque la curva propia del Tyvek
+sea la misma.
+
+Esta aproximación es apropiada mientras no se disponga de mediciones de
+reflectividad del sistema Tyvek--solución salina para cada concentración.
+
+\section{Invocación desde SaltyWCD}
+
+\codigo{SaltyWCD} construye tres volúmenes de Tyvek:
+
+\begin{itemize}
+  \item \codigo{logTyvekTop};
+  \item \codigo{logTyvekBot};
+  \item \codigo{logTyvekSide}.
+\end{itemize}
+
+Todos utilizan \codigo{mat.HDPE}. Después de posicionarlos, se crean tres
+superficies de frontera ordenadas desde el volumen activo hacia el Tyvek:
+
+\begin{lstlisting}
+new G4LogicalBorderSurface("WaterTyvekTopSurface",
+                           physTank,
+                           physTyvekTop,
+                           mat.LinerOptSurf);
+
+new G4LogicalBorderSurface("WaterTyvekBottomSurface",
+                           physTank,
+                           physTyvekBot,
+                           mat.LinerOptSurf);
+
+new G4LogicalBorderSurface("WaterTyvekSideSurface",
+                           physTank,
+                           physTyvekSide,
+                           mat.LinerOptSurf);
+\end{lstlisting}
+
+La geometría no necesita redefinir \codigo{RINDEX}: recibe
+\codigo{LinerOptSurf} ya configurada en \codigo{Materials}.
+
+\section{Verificaciones añadidas}
+
+Se reforzó \codigo{SaltyWCD::BuildDetector} para verificar la tabla del medio:
+
+\begin{lstlisting}
+if (!opticalTable ||
+    !opticalTable->GetProperty("RINDEX") ||
+    !opticalTable->GetProperty("ABSLENGTH")) {
+    G4Exception("SaltyWCD::BuildDetector",
+                "WCD-OPT-001",
+                FatalException,
+                "The selected WCD medium requires "
+                "RINDEX and ABSLENGTH.");
+}
+\end{lstlisting}
+
+También se comprueba la tabla superficial:
+
+\begin{lstlisting}
+if (!tyvekSurfaceTable ||
+    !tyvekSurfaceTable->GetProperty("RINDEX") ||
+    !tyvekSurfaceTable->GetProperty("REFLECTIVITY")) {
+    G4Exception("SaltyWCD::BuildDetector",
+                "WCD-OPT-002",
+                FatalException,
+                "The Tyvek groundbackpainted surface "
+                "requires RINDEX and REFLECTIVITY.");
+}
+\end{lstlisting}
+
+Estas excepciones impiden iniciar una campaña con una configuración óptica
+incompleta.
+
+\section{Alcance y limitaciones}
+
+La corrección:
+
+\begin{itemize}
+  \item no modifica la composición ni la densidad del HDPE;
+  \item no altera las matrices ópticas del agua o de las soluciones salinas;
+  \item no modifica la reflectividad espectral disponible;
+  \item no crea una dependencia empírica de la reflectividad con la salinidad;
+  \item no cambia el Pyrex, el PMT ni el acero;
+  \item no modifica los procesos ópticos de la lista de física.
+\end{itemize}
+
+Las superficies \codigo{G4LogicalBorderSurface} son direccionales. La
+implementación cubre explícitamente los fotones que viajan desde
+\codigo{physTank} hacia las láminas de Tyvek. Si una validación demuestra que
+los fotones entran al volumen de HDPE y regresan, deberá evaluarse la creación
+de las superficies inversas.
+
+\section{Validación recomendada}
+
+La revisión estática confirmó que:
+
+\begin{itemize}
+  \item las cinco matrices espectrales consideradas contienen 30 valores:
+  \codigo{water1PhotonEnergy}, \codigo{linerRefIndex},
+  \codigo{linerReflectivity}, \codigo{linerBackScatter} y
+  \codigo{linerAbsLen};
+  \item \codigo{RINDEX} y \codigo{REFLECTIVITY} comparten la misma malla;
+  \item las tablas volumétrica y superficial permanecen separadas;
+  \item las tres fronteras del tanque emplean \codigo{LinerOptSurf}.
+\end{itemize}
+
+Permanecen pendientes:
+
+\begin{enumerate}
+  \item compilar el proyecto con MEIGA y Geant4 10.07.p04;
+  \item ejecutar fotones ópticos monoenergéticos hacia las paredes;
+  \item contar reflexión, absorción y transmisión;
+  \item verificar el cierre
+  \begin{equation}
+  \eta_{\mathrm{Refle}}+
+  \eta_{\mathrm{Abs}}+
+  \eta_{\mathrm{Trans}}+
+  \eta_{\mathrm{Otros}}\simeq 1;
+  \end{equation}
+  \item repetir la prueba para agua pura y 2.5, 5.0 y 10.0\,\% de NaCl.
+\end{enumerate}
+
+\section{Archivos corregidos}
+
+\begin{itemize}
+  \item \archivo{Materials-mejorado-optica-Tyvek-RINDEX.cc};
+  \item \archivo{SaltyWCD-mejorado-optica-Tyvek-RINDEX.cc}.
+\end{itemize}
+
+Para integrarlos en el repositorio deberán compararse con la rama activa y
+renombrarse como \archivo{Materials.cc} y \archivo{SaltyWCD.cc}. La revisión
+realizada no modifica ni publica el repositorio externo.
+
+\section{Conclusiones}
+
+La incorporación de \codigo{RINDEX} en \codigo{linerOpticalPT} completa la
+información mínima esperada para la superficie
+\codigo{dielectric_dielectric/groundbackpainted}. La distinción entre la tabla
+volumétrica del HDPE y la tabla de la superficie evita mezclar transporte en el
+material con interacción en la frontera. Las verificaciones añadidas en
+\codigo{SaltyWCD} convierten una posible pérdida silenciosa de fotones en un
+error explícito y trazable.
+
+\end{document}

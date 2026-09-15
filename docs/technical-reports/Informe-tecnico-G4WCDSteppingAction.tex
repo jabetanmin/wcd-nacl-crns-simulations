@@ -23,6 +23,8 @@
 \definecolor{grisCodigo}{RGB}{247,247,247}
 \definecolor{verdeCodigo}{RGB}{25,110,55}
 \definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
 
 \hypersetup{
   colorlinks=true,
@@ -67,17 +69,56 @@
 \newcommand{\codigo}[1]{\nolinkurl{#1}}
 \newcommand{\archivo}[1]{\path{#1}}
 
-\title{\textbf{Informe técnico}\\[0.4em]
-\Large Mejoras de la clase \codigo{G4WCDSteppingAction}\\[0.35em]
-\large Registro de la respuesta neutrónica y electromagnética del detector
-Cherenkov de agua}
-\author{Jaime A. Betancourt\\
-Doctorado en Física, Universidad Industrial de Santander}
-\date{10 de septiembre de 2026}
-
 \begin{document}
+\pagestyle{empty}
 
-\maketitle
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Mejoras de la clase\\[0.2cm]
+\texttt{G4WCDSteppingAction}}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Registro de la respuesta neutrónica y electromagnética del detector Cherenkov de agua''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+10 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
 
 \begin{abstract}
 Este informe documenta la adaptación y reorganización de la clase \codigo{G4WCDSteppingAction}, integrada en la aplicación \codigo{G4WCDSimulator} del framework MEIGA. La clase registra, a nivel de paso, el transporte de neutrones y la respuesta secundaria producida en el detector Cherenkov de agua (WCD), incluyendo capturas de neutrones, interacciones inelásticas, fotones gamma, electrones, positrones y fotones ópticos Cherenkov. La versión mejorada normaliza las unidades de salida, incorpora identificadores
@@ -85,7 +126,6 @@ de corrida y evento, corrige la identificación del núcleo capturador, diferenc
 \end{abstract}
 
 \tableofcontents
-\newpage
 
 \section{Objeto y alcance del informe}
 

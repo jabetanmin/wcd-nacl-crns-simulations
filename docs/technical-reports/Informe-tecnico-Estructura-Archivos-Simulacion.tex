@@ -1,0 +1,380 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{float}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{azulClaro}{RGB}{232,241,249}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Estructura de los archivos de simulacion para el analisis de moderacion y captura de neutrones},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{tsvstyle}{
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\scriptsize,
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=tsvstyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\texttt{#1}} % \texttt en vez de \path: \path es frágil dentro de \caption{}
+\newcommand{\var}[1]{\texttt{#1}}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Estructura de los archivos\\[0.2cm]
+de simulación del WCD}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.85\linewidth}
+\centering
+\textit{``Diccionario de datos para el análisis de moderación, captura, reflexión
+y transmisión de neutrones''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+15 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Este informe documenta, columna por columna, la estructura de los cuatro archivos TSV que
+produce la simulación Geant4/MEIGA del detector Cherenkov de agua (WCD) y que alimentan el
+análisis de moderación y captura de neutrones descrito en
+\textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}: \archivo{neutrones-incidentes.tsv},
+\archivo{pasos-neutrones.tsv}, \archivo{interacciones-neutrones.tsv} y
+\archivo{capturas-neutrones.tsv}. Es un documento de referencia --un diccionario de datos-- para
+cualquier persona que necesite leer, depurar o extender ese análisis sin tener que releer el
+código o volver a inspeccionar los archivos desde cero. Se describen las convenciones comunes a
+los cuatro archivos, el significado físico y las unidades de cada columna, ejemplos reales de
+filas, los valores categóricos que puede tomar cada campo, y cómo se relacionan entre sí mediante
+el identificador \var{run\_id}.
+\end{abstract}
+
+\tableofcontents
+
+\section{Objeto y alcance del informe}
+
+Cada corrida de simulación (agua pura o agua con una concentración dada de NaCl) produce, entre
+otros, cuatro archivos de texto separados por tabuladores (TSV) que registran, paso a paso, el
+transporte de cada neutrón primario a través del detector. Estos cuatro archivos son la
+\emph{única} fuente de datos del análisis de moderación y captura documentado en el informe
+técnico complementario; este documento describe su estructura interna --nombres de columna, tipos
+de dato, unidades y significado físico-- para que puedan leerse, verificarse o reutilizarse sin
+depender de un notebook o una conversación previa. El análisis exploratorio que originó este
+informe vive en el \textit{notebook} \codigo{Estructura-archivos-simulacion.ipynb}, que inspecciona
+cada archivo con \codigo{pandas} (dimensiones, tipos, valores únicos, estadística descriptiva).
+
+\section{Convenciones comunes a los cuatro archivos}
+\label{sec:convenciones}
+
+\begin{itemize}
+  \item \textbf{Formato}: texto plano, columnas separadas por tabulador (\texttt{\textbackslash t}).
+  La primera línea es una cabecera que empieza con \texttt{\#} seguido de los nombres de columna
+  (también separados por tabulador). Al leer con \texttt{pandas.read\_csv(..., sep="\textbackslash t")}
+  sin más argumentos, el símbolo \texttt{\#} queda pegado al nombre de la primera columna
+  (\texttt{"\#run\_id"}) y debe limpiarse explícitamente (\codigo{columns.str.lstrip("\#")}) o, de
+  forma más robusta, leerse con \codigo{skiprows=1} y una lista de nombres de columna ya definida.
+  \item \textbf{Identificador de trazabilidad, \var{run\_id}}: entero de 0 a 99\,999 en una corrida
+  de 100\,000 neutrones primarios. A pesar de su nombre, \textbf{no} corresponde al concepto de
+  ``run'' de Geant4: es, en la práctica, un identificador único por neutrón primario inyectado, y es
+  la columna que permite encadenar la trayectoria de un mismo neutrón entre los cuatro archivos.
+  \item \textbf{Columnas degeneradas en estos archivos}: \var{event\_id} es constante (0) en las
+  cuatro tablas; \var{track\_id} es constante (1, el neutrón primario) y \var{parent\_id} es
+  constante (0, no tiene partícula padre) en los cuatro archivos, porque todos ellos ya vienen
+  filtrados a la partícula \var{"neutron"} primaria. Estas columnas se conservan por compatibilidad
+  con el formato genérico de salida de MEIGA, pero no aportan información variable en este contexto.
+  \item \textbf{Unidades}: posiciones en centímetros (\var{\_cm}), energías cinéticas en MeV
+  (\var{\_MeV}), tiempo global acumulado desde el inicio del evento en nanosegundos
+  (\var{global\_time\_ns}).
+  \item \textbf{Tamaño y volumen de datos} (corrida de referencia, agua pura, 100\,000 neutrones a
+  25\,meV): ver la tabla~\ref{tab:tamanos}. Los dos archivos de historial completo
+  (\archivo{pasos-neutrones.tsv} e \archivo{interacciones-neutrones.tsv}) superan los 500\,MB cada
+  uno; se recomienda especificar \codigo{dtype} (p.\,ej. \codigo{category} para las columnas de
+  texto) al cargarlos con \codigo{pandas} para reducir el uso de memoria.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{X r r}
+\toprule
+\textbf{Archivo} & \textbf{Filas (sin cabecera)} & \textbf{Tamaño en disco} \\
+\midrule
+\archivo{neutrones-incidentes.tsv} & 100\,000 & $\sim$15\,MB \\
+\archivo{pasos-neutrones.tsv} & 3\,843\,486 & $\sim$668\,MB \\
+\archivo{interacciones-neutrones.tsv} & 3\,243\,996 & $\sim$570\,MB \\
+\archivo{capturas-neutrones.tsv} & 22\,748 & $\sim$3.6\,MB \\
+\bottomrule
+\end{tabularx}
+\caption{Dimensiones de los cuatro archivos para la corrida de referencia (agua pura, 100\,000
+neutrones, 25\,meV). El número de filas de \archivo{capturas-neutrones.tsv} varía con el medio
+(23\,270 para agua con 2.5\,\% de NaCl, por ejemplo), porque depende de cuántos neutrones se
+capturan en total.}
+\label{tab:tamanos}
+\end{table}
+
+\section{\archivo{neutrones-incidentes.tsv}: registro de inyección}
+
+Contiene exactamente \textbf{una fila por cada neutrón primario inyectado} (100\,000 filas): su
+primer paso de transporte, siempre en material \var{Air}, con \var{step\_process =
+Transportation}. Es el universo de referencia contra el que se calculan todos los porcentajes del
+análisis (coeficiente de captura, reflexión, transmisión).
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+\textbf{Columna} & \textbf{Tipo} & \textbf{Significado} \\
+\midrule
+\var{run\_id} & entero & Identificador único del neutrón primario (0--99\,999). \\
+\var{event\_id} & entero & Constante (0) en este archivo. \\
+\var{particle} & texto & Constante (\var{"neutron"}). \\
+\var{track\_id} & entero & Constante (1, partícula primaria). \\
+\var{parent\_id} & entero & Constante (0, sin partícula padre). \\
+\var{step\_number} & entero & Constante (1): es siempre el primer paso de la trayectoria. \\
+\var{creator\_process} & texto & Constante (\var{"none"}: la partícula primaria no fue creada por
+ningún proceso, fue inyectada directamente). \\
+\var{step\_process} & texto & Constante (\var{"Transportation"}). \\
+\var{material} & texto & Constante (\var{"Air"}): el neutrón se inyecta 2\,m por encima del tanque. \\
+\var{pre\_x\_cm}, \var{pre\_y\_cm}, \var{pre\_z\_cm} & flotante & Posición inicial del neutrón (cm).
+\var{pre\_z\_cm} = 200 para todos (altura de inyección). \\
+\var{post\_x\_cm}, \var{post\_y\_cm}, \var{post\_z\_cm} & flotante & Posición al final de este
+primer paso (cm); \var{post\_z\_cm} = 133.124 (superficie superior del tanque) para todos, ya que
+el primer paso de transporte llega hasta la tapa. \\
+\var{pre\_energy\_MeV}, \var{post\_energy\_MeV} & flotante & Energía cinética antes/después del
+paso (MeV); ambas iguales entre sí (2.5$\times10^{-8}$\,MeV = 25\,meV) porque un paso de puro
+transporte no cambia la energía. \\
+\var{global\_time\_ns} & flotante & Tiempo global transcurrido desde el inicio del evento (ns). \\
+\bottomrule
+\end{tabularx}
+\caption{Columnas de \archivo{neutrones-incidentes.tsv}.}
+\end{table}
+
+\noindent Ejemplo real (una fila, columnas seleccionadas):
+\begin{lstlisting}
+run_id=0  particle=neutron  pre_z_cm=200  post_z_cm=133.124  pre_energy_MeV=2.499996299e-08  global_time_ns=305793.6085
+\end{lstlisting}
+
+\section{\archivo{pasos-neutrones.tsv}: historial completo}
+
+Contiene \textbf{todos} los pasos de transporte de \textbf{todos} los neutrones primarios (no solo
+los capturados), incluyendo los pasos de puro cruce de frontera entre materiales
+(\var{step\_process = Transportation}). Es el archivo más grande de los cuatro porque registra
+cada paso, no solo las interacciones físicas. Comparte exactamente el mismo esquema de columnas que
+\archivo{neutrones-incidentes.tsv} (tabla~\ref{tab:esquema-pasos}), salvo que aquí
+\var{step\_number} crece (1, 2, 3, \ldots) a lo largo de la trayectoria de cada neutrón y
+\var{step\_process}/\var{material} varían de un paso a otro.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+\textbf{Columna} & \textbf{Tipo} & \textbf{Significado} \\
+\midrule
+\var{run\_id} & entero & Identificador del neutrón (igual convención que en
+\archivo{neutrones-incidentes.tsv}). \\
+\var{event\_id}, \var{track\_id}, \var{parent\_id} & entero & Constantes (0, 1, 0) --ver
+sección~\ref{sec:convenciones}. \\
+\var{step\_number} & entero & Índice secuencial del paso dentro de la trayectoria del neutrón,
+empezando en 1. \\
+\var{creator\_process} & texto & Constante (\var{"none"}: partícula primaria). \\
+\var{step\_process} & texto & Proceso físico de Geant4 ocurrido en ese paso. Valores observados:
+\var{Transportation} (cruce de frontera, sin interacción física), \var{hadElastic} (dispersión
+elástica), \var{nCapture} (captura radiativa), \var{neutronInelastic} (dispersión inelástica,
+infrecuente a estas energías). \\
+\var{material} & texto & Material de Geant4 donde ocurrió el paso (\var{Air},
+\var{G4\_STAINLESS-STEEL}, \var{Tyvek\_HDPE}, o el material del medio activo --p.\,ej.
+\var{Water\_TS\_H\_of\_Water} para agua pura, \var{SaltyWater\_NaCl\_2.5pct} para 2.5\,\% de NaCl). \\
+\var{pre\_x/y/z\_cm}, \var{post\_x/y/z\_cm} & flotante & Posición antes/después del paso (cm). \\
+\var{pre\_energy\_MeV}, \var{post\_energy\_MeV} & flotante & Energía cinética antes/después del
+paso (MeV). En un paso \var{Transportation} son iguales; en \var{hadElastic} difieren (la
+diferencia es la base del cálculo de la letargía $\xi$); en \var{nCapture},
+\var{post\_energy\_MeV} = 0 (el neutrón desaparece). \\
+\var{global\_time\_ns} & flotante & Tiempo global acumulado (ns); crece monótonamente a lo largo de
+la trayectoria de cada neutrón. \\
+\bottomrule
+\end{tabularx}
+\caption{Columnas de \archivo{pasos-neutrones.tsv} (idéntico esquema en
+\archivo{interacciones-neutrones.tsv}).}
+\label{tab:esquema-pasos}
+\end{table}
+
+\noindent Ejemplo real: los tres primeros pasos del neutrón \var{run\_id=0} (entra en aire, se
+dispersa elásticamente en el acero, y vuelve a transportarse):
+\begin{lstlisting}
+run_id=0  step_number=1  step_process=Transportation  material=Air              pre_energy_MeV=2.4999963e-08  post_energy_MeV=2.4999963e-08
+run_id=0  step_number=2  step_process=hadElastic       material=G4_STAINLESS-STEEL  pre_energy_MeV=2.4999963e-08  post_energy_MeV=1.5518026e-08
+run_id=0  step_number=3  step_process=Transportation  material=G4_STAINLESS-STEEL  pre_energy_MeV=1.5518026e-08  post_energy_MeV=1.5518026e-08
+\end{lstlisting}
+
+\section{\archivo{interacciones-neutrones.tsv}: solo interacciones físicas}
+
+Mismo esquema de columnas que \archivo{pasos-neutrones.tsv} (tabla~\ref{tab:esquema-pasos}), pero
+\textbf{excluye} las filas con \var{step\_process = Transportation}: solo quedan las filas donde
+ocurrió una interacción física real (\var{hadElastic}, \var{nCapture} o \var{neutronInelastic}).
+Es, en la práctica, un filtro de \archivo{pasos-neutrones.tsv} --se puede reconstruir a partir de
+él-- pero se entrega como archivo aparte porque es la fuente más directa para contar colisiones,
+calcular $\xi$ y $N$, y localizar el evento de captura de cada neutrón sin tener que descartar
+primero los pasos de puro transporte. Para la corrida de referencia (agua pura), la distribución de
+\var{step\_process} es: \var{hadElastic} 3\,219\,440 filas, \var{nCapture} 22\,748 filas,
+\var{neutronInelastic} 1\,808 filas --el número de filas \var{nCapture} coincide exactamente con el
+número de filas de \archivo{capturas-neutrones.tsv}, lo cual sirve como verificación cruzada de
+consistencia entre ambos archivos.
+
+\section{\archivo{capturas-neutrones.tsv}: solo eventos de captura}
+
+Subconjunto de \archivo{interacciones-neutrones.tsv} filtrado a \var{step\_process = nCapture}
+únicamente, en \textbf{cualquier} material (no solo el medio activo: incluye capturas en acero,
+Tyvek y aire). Cada fila es el evento final de la trayectoria de un neutrón: por eso
+\var{post\_energy\_MeV} vale siempre 0. A diferencia de los otros tres archivos, incorpora dos
+columnas adicionales que identifican el núcleo capturador.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+\textbf{Columna} & \textbf{Tipo} & \textbf{Significado} \\
+\midrule
+\multicolumn{3}{l}{\textit{(mismas columnas que la tabla~\ref{tab:esquema-pasos}, sin \var{creator\_process}, más:)}} \\
+\var{target\_Z} & entero & Número atómico del núcleo que capturó al neutrón (p.\,ej. 1 = H, 8 = O,
+11 = Na, 17 = Cl, 24/26/28 = Cr/Fe/Ni del acero, 7 = N del aire). \\
+\var{target\_A} & entero & Número másico del isótopo capturador. \\
+\bottomrule
+\end{tabularx}
+\caption{Columnas adicionales de \archivo{capturas-neutrones.tsv} respecto al esquema común.}
+\end{table}
+
+\noindent Ejemplo real (captura de un neutrón sobre hidrógeno del agua):
+\begin{lstlisting}
+run_id=1  step_process=nCapture  material=Water_TS_H_of_Water  target_Z=1  target_A=1  post_energy_MeV=0  global_time_ns=591226.533
+\end{lstlisting}
+
+\noindent Filtrar \var{material} que contiene la palabra \var{"Water"} \textbf{y} \var{target\_Z}
+dentro del conjunto de núcleos esperado para el medio activo de esa corrida (H/O para agua pura;
+H/O/Na/Cl si hay NaCl) es, precisamente, el primer paso del análisis de moderación y captura --ver
+el informe técnico complementario.
+
+\section{Cómo se relacionan los cuatro archivos}
+
+La figura conceptual del flujo de datos es la siguiente:
+
+\begin{enumerate}
+  \item \archivo{neutrones-incidentes.tsv} fija el universo de 100\,000 \var{run\_id} y su estado
+  de inyección (posición, energía y tiempo iniciales).
+  \item \archivo{pasos-neutrones.tsv} contiene, para cada uno de esos \var{run\_id}, la trayectoria
+  completa (todas las filas de un mismo \var{run\_id}, ordenadas por \var{step\_number}, describen
+  un único neutrón desde que se inyecta hasta que se captura o abandona el mundo simulado).
+  \item \archivo{interacciones-neutrones.tsv} es el mismo conjunto de filas que
+  \archivo{pasos-neutrones.tsv}, filtrado a las que representan una interacción física real.
+  \item \archivo{capturas-neutrones.tsv} es, a su vez, el subconjunto de
+  \archivo{interacciones-neutrones.tsv} con \var{step\_process = nCapture} --la última fila de la
+  trayectoria de cada neutrón que efectivamente se captura (no todos lo hacen: algunos se
+  transmiten o se reflejan, ver el informe complementario).
+\end{enumerate}
+
+La clave \var{run\_id} es la única forma de unir estos cuatro archivos de forma correcta; nunca debe
+asumirse que el orden de las filas por sí solo basta para relacionar un archivo con otro (aunque en
+la práctica las filas de un mismo \var{run\_id} suelen aparecer contiguas y en el mismo orden
+relativo entre archivos, esto no está garantizado y no debe usarse como criterio de unión).
+
+\section{Reproducibilidad}
+
+La exploración que documenta este informe --dimensiones, tipos de dato, valores únicos, filas de
+ejemplo-- se realizó con el \textit{notebook} \codigo{Estructura-archivos-simulacion.ipynb}, ubicado
+junto a los archivos TSV de cada corrida. El análisis derivado que consume estos cuatro archivos
+--coeficiente de captura, reflexión, transmisión, $N$, $\xi$, $\Delta t$ y $\tau$-- está documentado
+en el \textit{notebook} \codigo{analisis\_moderacion\_captura\_neutrones.ipynb} y en el informe
+técnico \textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}, disponibles ambos en este
+mismo repositorio (\archivo{analysis/notebooks/} y \archivo{docs/technical-reports/},
+respectivamente).
+
+\section{Conclusiones}
+
+Los cuatro archivos TSV de cada corrida de simulación forman una jerarquía de subconjuntos
+encadenados por \var{run\_id}: inyección $\supseteq$ historial completo $\supseteq$ interacciones
+físicas $\supseteq$ eventos de captura. Conocer esta relación --y el significado exacto de cada
+columna, resumido en las tablas de este informe-- es el prerrequisito para poder leer, verificar o
+extender con confianza el análisis de moderación y captura de neutrones del WCD.
+
+\end{document}

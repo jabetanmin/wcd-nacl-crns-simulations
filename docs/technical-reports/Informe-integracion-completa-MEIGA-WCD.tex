@@ -1,0 +1,621 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{seqsplit}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{azulClaro}{RGB}{232,241,249}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{verdeDiff}{RGB}{20,110,50}
+\definecolor{rojoDiff}{RGB}{155,25,25}
+\definecolor{azulDiff}{RGB}{40,80,150}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Integracion completa de las mejoras WCD/NaCl en MEIGA},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{cppstyle}{
+  language=C++,
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{azulWCD}\bfseries,
+  commentstyle=\color{verdeCodigo}\itshape,
+  stringstyle=\color{rojoCodigo},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\lstdefinestyle{diffstyle}{
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\scriptsize,
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  columns=fullflexible,
+  keepspaces=true,
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
+    {Ú}{{\'U}}1 {Ñ}{{\~N}}1 {®}{{\textregistered}}1
+}
+\lstset{style=cppstyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\path{#1}}
+\newcommand{\archnom}[1]{\ttfamily\seqsplit{#1}}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Integración completa de las\\[0.2cm]
+mejoras del WCD con soluciones\\[0.2cm] de NaCl en MEIGA}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Variante \texttt{MEIGA-WCD-SalphaBeta-2026}''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+13 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+\noindent
+Este informe documenta la integración, en una única base de código
+consistente, de las cinco familias de mejoras desarrolladas de forma
+incremental para el detector Cherenkov de agua (WCD) del framework MEIGA:
+(1) el registro paso a paso de \codigo{G4WCDSteppingAction}; (2) las
+densidades y la composición de las soluciones de NaCl al 2.5, 5.0 y 10.0\,\%;
+(3) la corrección óptica del recubrimiento de Tyvek (propiedad
+\codigo{RINDEX} en \codigo{linerOpticalPT}) junto con las tablas ópticas
+diferenciadas por concentración; (4) una propuesta alternativa de
+propiedades ópticas basada en interpolación y dispersión de Rayleigh; y
+(5) las correcciones de la respuesta del PMT (\codigo{G4MPMTAction},
+\codigo{OptDevice}, material efectivo del fotocátodo). El resultado es un
+único árbol de código fuente, derivado de la variante
+\codigo{MEIGA-WCD-SalphaBeta-2026}, que conserva el tratamiento térmico
+S($\alpha,\beta$) del hidrógeno del agua y añade, de forma consistente,
+todas las correcciones ópticas y de respuesta del PMT revisadas en los
+informes técnicos previos. Se documentan también las inconsistencias
+encontradas en los archivos de entrada (una rama óptica alternativa
+incompatible con la finalmente adoptada, un archivo con nombre incorrecto,
+y un archivo huérfano con nombre corrupto) y la manera en que se
+resolvieron.
+\end{abstract}
+
+\tableofcontents
+
+\section{Objeto y alcance del informe}
+
+El propósito de este documento es dejar constancia completa, reproducible
+y auditable de los cambios de código fuente realizados sobre la variante
+\codigo{MEIGA-WCD-SalphaBeta-2026} del framework MEIGA para incorporar las
+cinco familias de mejoras desarrolladas para el estudio del WCD con agua y
+soluciones de NaCl. El informe:
+
+\begin{itemize}
+  \item identifica el archivo base (\emph{Meiga anterior}) sobre el cual se
+    aplicaron los cambios;
+  \item describe la metodología usada para reconstruir, a partir de once
+    archivos \codigo{*-mejorado}/\codigo{*-corregido} parcialmente
+    superpuestos, una única versión consistente de cada archivo fuente;
+  \item documenta cada cambio, archivo por archivo, con su motivación
+    física o de ingeniería;
+  \item reporta explícitamente los hallazgos que requirieron una decisión
+    de integración (rama óptica alternativa no incorporada, archivo mal
+    etiquetado, archivo huérfano); y
+  \item incluye, en el Apéndice~\ref{ap:diffs}, el \emph{diff} unificado
+    completo (archivo original de MEIGA contra archivo final integrado)
+    de cada uno de los ocho archivos modificados.
+\end{itemize}
+
+No se recompiló el simulador dentro de este entorno de trabajo porque no
+hay una instalación de Geant4 disponible; la validación realizada aquí es
+estática (revisión de consistencia de símbolos, balance de llaves y
+paréntesis, y verificación cruzada de todo el árbol \codigo{src/} en busca
+de referencias rotas). La Sección~\ref{sec:validacion} detalla el alcance
+exacto de esta verificación y lo que queda pendiente en la máquina de
+simulación.
+
+\section{Archivo base y archivos de entrada}
+
+\subsection{Base: \emph{Meiga anterior}}
+
+El punto de partida es el árbol de código fuente contenido en
+\codigo{MEIGA-WCD-SalphaBeta-2026.zip}, una variante independiente de MEIGA
+que ya incorpora el tratamiento térmico S($\alpha,\beta$) del hidrógeno
+ligado del agua (elemento \codigo{TS\_H\_of\_Water}, registro de
+\codigo{G4ThermalNeutrons} sobre \codigo{QGSP\_BERT\_HP} en
+\codigo{G4MPhysicsList.cc}, y las cuatro densidades de referencia a
+20\,\textdegree C: 0.99820, 1.01604, 1.03401 y 1.07051\,g/cm\textsuperscript{3}
+para 0, 2.5, 5 y 10\,\% de NaCl). Este es el árbol referido como
+\emph{Meiga anterior} en el resto del informe.
+
+\subsection{Archivos de mejora aportados}
+
+Se recibieron once archivos fuente \codigo{*-mejorado}/\codigo{*-corregido}
+distribuidos en cuatro carpetas de trabajo, además de sus informes
+técnicos en \LaTeX. La Tabla~\ref{tab:insumos} resume su procedencia y su
+relación de dependencia, reconstruida a partir de las marcas de tiempo del
+sistema de archivos y de un análisis diferencial exhaustivo entre cada par
+de versiones sucesivas.
+
+\begin{longtable}{@{}p{4.0cm}p{1.9cm}p{7.9cm}@{}}
+\toprule
+\textbf{Archivo} & \textbf{Grupo} & \textbf{Contenido / relación} \\
+\midrule
+\endhead
+{\small\archnom{G4WCDSteppingAction-mejorado.h/.cc}} & 1 & Reescritura completa e independiente. \\
+{\small\archnom{Materials-mejorado.cc}, \archnom{SaltyWCD-mejorado.cc}} & 2 & Primera revisión: densidades a 20\,\textdegree C y las tres soluciones discretas de NaCl. Base de las revisiones 3 y 4. \\
+{\small\archnom{Materials-mejorado-optica-Tyveck.cc}, \archnom{SaltyWCD-mejorado-optica-Tyveck.cc}} & 3a & Deriva de la revisión 2: tabla óptica \codigo{RINDEX/ABSLENGTH/MIEHG} propia por concentración. \\
+{\small\archnom{Materials-mejorado-optica-Tyvek-RINDEX.cc}, \archnom{SaltyWCD-mejorado-optica-Tyvek-RINDEX.cc}} & 3b & Deriva de 3a: añade \codigo{RINDEX} a \codigo{linerOpticalPT} y cambia la superficie del Tyvek a \codigo{dielectric\_dielectric}/\codigo{groundbackpainted}. \\
+{\small\archnom{Materials-mejorado-optica.cc}, \archnom{SaltyWCD-mejorado-optica.cc}} & 4 & Deriva de la revisión 2, en una rama \textbf{independiente} de 3a/3b: modelo de interpolación normalizado al índice en la línea D del sodio, con dispersión de Rayleigh. Cronológicamente anterior a 3a y \textbf{no continuada}. \\
+{\small\archnom{Materials-corregido.cc}, \archnom{SaltyWCD-corregido.cc}} & 5 & Deriva de 3b: añade las correcciones de material efectivo del PMT (\codigo{Pyrex}) y la geometría por capas explícitas del WCD. \textbf{Versión final} de \codigo{Materials.cc}/\codigo{SaltyWCD.cc}. \\
+{\small\archnom{G4MPMTAction-mejorado.h/.cc}} & 5 & Activación en \codigo{fGeomBoundary}, terminación del fotón, deduplicación de fotoelectrones. \\
+{\small\archnom{OptDevice-mejorado.cc}} & 5 & Interpolación de la eficiencia cuántica R5912 (300--650\,nm), remoción de archivos de depuración por fotón. \\
+{\small\archnom{Materials.h} (en \archnom{Correcciones-PMT/})} & --- & \textbf{Hallazgo}: el contenido de este archivo es en realidad una copia intermedia de \codigo{SaltyWCD::BuildDetector}, no un encabezado. Ver Sección~\ref{sec:hallazgos}. \\
+{\small\archnom{Detector.h/.cc}, \archnom{OptDevice.h}, \archnom{OpticalPhysics.cc/.hh}, \archnom{G4MPMTAction.h/.cc} (sin sufijo, en \archnom{Correcciones-PMT/})} & --- & Copias de referencia, \textbf{idénticas byte a byte} al Meiga anterior. No requieren ninguna acción. \\
+\bottomrule
+\caption{Procedencia y relación de dependencia de los archivos de mejora recibidos.}
+\label{tab:insumos}
+\end{longtable}
+
+\section{Metodología de integración}
+\label{sec:metodologia}
+
+La integración se realizó en cuatro pasos:
+
+\begin{enumerate}
+  \item \textbf{Reconstrucción del árbol de dependencias.} Se calculó el
+    \emph{hash} MD5 de cada archivo para detectar duplicados exactos entre
+    carpetas (por ejemplo, \codigo{G4WCDSteppingAction-mejorado.cc} aparece
+    igual en la carpeta raíz y en \codigo{Correcciones-PMT/}), y se generó
+    el \emph{diff} unificado entre cada par de versiones sucesivas de
+    \codigo{Materials.cc} y \codigo{SaltyWCD.cc} para determinar qué
+    archivo es una extensión directa de cuál otro (Tabla~\ref{tab:insumos}).
+  \item \textbf{Selección de la rama a integrar.} Cuando dos archivos
+    resultaron ser implementaciones alternativas e incompatibles de la
+    misma funcionalidad (grupo 3 frente a grupo 4, ambos sobre
+    propiedades ópticas diferenciadas por concentración de NaCl), se
+    adoptó la rama que efectivamente continuó hacia la versión corregida
+    final (grupo 3 $\to$ grupo 5), y se documentó la rama no adoptada
+    (Sección~\ref{sec:grupo4}).
+  \item \textbf{Reintegración del tratamiento S($\alpha,\beta$).} Se
+    verificó, comparando contra el Meiga anterior, que la cadena de
+    archivos de mejora fue desarrollada a partir de una copia de
+    \codigo{Materials.cc} \emph{sin} el elemento
+    \codigo{TS\_H\_of\_Water}. Se restituyó este elemento y su uso en
+    \codigo{Water} y en las tres soluciones salinas, de modo que el
+    simulador final conserve el modelo térmico ya validado en el Meiga
+    anterior (Sección~\ref{sec:salphabeta}).
+  \item \textbf{Verificación de consistencia cruzada.} Se recorrió todo
+    \codigo{src/} en busca de referencias a los símbolos modificados
+    (\codigo{Materials::SaltyWater}, \codigo{Materials::HDPE},
+    \codigo{Materials::Pyrex}, \codigo{Materials::LinerOptSurf2}, nombres
+    de materiales usados en búsquedas por cadena, etc.) para confirmar que
+    ningún otro modelo de detector (\codigo{WCD.cc}, \codigo{Hodoscope.cc},
+    \codigo{Mudulus.cc}, \codigo{Musaic.cc}, \codigo{Scintillator.cc}) ni
+    ninguna aplicación quedara con una referencia rota.
+\end{enumerate}
+
+\subsection{Hallazgos durante la integración}
+\label{sec:hallazgos}
+
+\begin{itemize}
+  \item \textbf{Archivo \codigo{Correcciones-PMT/Materials.h} mal
+    etiquetado.} Su contenido (424 líneas) no corresponde a un encabezado
+    de clase: es, byte a byte salvo una única diferencia menor, una
+    versión intermedia de \codigo{SaltyWCD::BuildDetector} (idéntica en
+    un 99\,\% a \codigo{SaltyWCD-corregido.cc}). No se usó como fuente de
+    cambios para \codigo{Materials.h}; en su lugar, las declaraciones
+    necesarias para el nuevo encabezado (\codigo{SaltyWater\_2p5},
+    \codigo{SaltyWater\_5}, \codigo{SaltyWater\_10}) se derivaron
+    directamente de los símbolos nuevos que \codigo{Materials-corregido.cc}
+    efectivamente define y usa.
+  \item \textbf{Archivo huérfano con nombre corrupto.} El paquete
+    \codigo{MEIGA-WCD-SalphaBeta-2026.zip} contenía, en
+    \codigo{src/G4Models/}, un archivo cuyo nombre es el carácter suelto
+    «ç» (sin extensión). Su contenido es un borrador antiguo de
+    \codigo{SaltyWCD::BuildDetector} anterior incluso a la introducción del
+    modelo S($\alpha,\beta$) (usa \codigo{new G4Material("SaltyWater",
+    1.1*g/cm3, 2)}, sin relación con las densidades a 20\,\textdegree C
+    documentadas en el CHANGELOG). Al no tener extensión \codigo{.cc}, el
+    sistema de compilación (\codigo{file(GLOB sources *.cc)} en
+    \codigo{CMakeLists.txt}) nunca lo incluyó en la compilación, por lo
+    que es inerte pero confuso. Se eliminó del árbol final.
+  \item \textbf{Rama óptica alternativa (grupo 4) no continuada.} Ver
+    Sección~\ref{sec:grupo4}.
+\end{itemize}
+
+\section{Resumen de archivos modificados}
+
+\begin{longtable}{@{}p{6.6cm}p{1.5cm}p{1.5cm}p{3.6cm}@{}}
+\toprule
+\textbf{Archivo (ruta relativa a \codigo{src/})} & \textbf{Líneas orig.} & \textbf{Líneas final} & \textbf{Grupo(s)} \\
+\midrule
+\endhead
+{\small\archnom{Applications/G4WCDSimulator/G4WCDSteppingAction.h}} & 44 & 33 & 1 \\
+{\small\archnom{Applications/G4WCDSimulator/G4WCDSteppingAction.cc}} & 398 & 338 & 1 \\
+{\small\archnom{G4Models/Materials.h}} & 115 & 120 & 2, 3, 5 \\
+{\small\archnom{G4Models/Materials.cc}} & 654 & 875 & 2, 3, 5 (+ S($\alpha,\beta$)) \\
+{\small\archnom{G4Models/SaltyWCD.h}} & 34 & 34 & sin cambios \\
+{\small\archnom{G4Models/SaltyWCD.cc}} & 258 & 466 & 2, 3, 5 \\
+{\small\archnom{G4Models/G4MPMTAction.h}} & 37 & 38 & 5 \\
+{\small\archnom{G4Models/G4MPMTAction.cc}} & 141 & 144 & 5 \\
+{\small\archnom{Framework/Detector/OptDevice.h}} & 155 & 155 & sin cambios \\
+{\small\archnom{Framework/Detector/OptDevice.cc}} & 363 & 341 & 5 \\
+\bottomrule
+\caption{Archivos de código fuente afectados por la integración.}
+\label{tab:resumen}
+\end{longtable}
+
+\section{Descripción detallada de los cambios por grupo}
+
+\subsection{\texorpdfstring{Grupo 1 --- Registro paso a paso: \codigo{G4WCDSteppingAction}}{Grupo 1 --- Registro paso a paso: G4WCDSteppingAction}}
+
+La clase se reescribió por completo manteniendo su interfaz pública
+(constructor y \codigo{UserSteppingAction}). Los cambios principales son:
+
+\begin{itemize}
+  \item \textbf{Unidades explícitas y normalizadas}: todas las longitudes
+    se expresan en cm y las energías en MeV o eV según corresponda,
+    eliminando la mezcla de unidades del Meiga anterior.
+  \item \textbf{Identificadores de corrida y evento}: cada fila TSV incluye
+    \codigo{run\_id} y \codigo{event\_id}, obtenidos de
+    \codigo{G4RunManager::GetCurrentRun()/GetCurrentEvent()}.
+  \item \textbf{Identificación correcta del núcleo capturador}: en vez de
+    leer \codigo{material->GetElement(0)->GetName()} (que en una mezcla
+    reporta arbitrariamente el primer elemento declarado, no el que
+    realmente participó en la reacción), se usa
+    \codigo{G4HadronicProcess::GetTargetNucleus()} para obtener el
+    (Z, A) real del núcleo capturador.
+  \item \textbf{Separación primarias/secundarias}: las tablas
+    \codigo{neutrones-incidentes.tsv}, \codigo{secundarias-captura-\allowbreak
+    neutron.tsv}, \codigo{secundarias-inelastica-neutron.tsv},
+    \codigo{secundarias-interaccion-gamma.tsv} y
+    \codigo{fotones-cherenkov.tsv} separan explícitamente el registro de
+    la partícula primaria (paso 1, \codigo{parentID == 0}) del de las
+    partículas secundarias generadas en cada interacción.
+  \item \textbf{Escritura seguridad en multihilo}: \codigo{AppendTsv} usa
+    un \codigo{G4Mutex} (\codigo{G4AutoLock}) para serializar la escritura
+    concurrente de varios hilos de Geant4 sobre el mismo archivo TSV, y
+    escribe el encabezado una única vez.
+  \item \textbf{Formato}: los antiguos archivos \codigo{.txt} de columnas
+    separadas por tabulador sin encabezado se reemplazan por tablas
+    \codigo{.tsv} con una línea de encabezado explícita
+    (\codigo{stepHeader}, \codigo{secondaryHeader}, \codigo{captureHeader}).
+\end{itemize}
+
+\subsection{Grupo 2 --- Densidades y composición de las soluciones de NaCl}
+
+Se añaden a \codigo{Materials} tres materiales discretos,
+\codigo{SaltyWater\_2p5}, \codigo{SaltyWater\_5} y \codigo{SaltyWater\_10},
+construidos por \codigo{CreateSaltyWaterByFinalMassFraction} a partir de la
+fracción másica final $w_{\text{NaCl}} = m_{\text{NaCl}} / (m_{\text{H}_2\text{O}} + m_{\text{NaCl}})$,
+con las densidades a 20\,\textdegree C ya validadas en el Meiga anterior
+(0.99820, 1.01604, 1.03401 y 1.07051\,g/cm\textsuperscript{3}). El
+material anterior \codigo{Materials::SaltyWater} (una única mezcla
+continua construida dinámicamente en \codigo{SaltyWCD::BuildDetector} para
+cualquier fracción de NaCl) se conserva como alias de compatibilidad hacia
+\codigo{SaltyWater\_10}, pero \codigo{SaltyWCD::BuildDetector} ahora
+selecciona explícitamente uno de los cuatro medios predefinidos
+(\codigo{Water}, \codigo{SaltyWater\_2p5/5/10}) mediante la función
+\codigo{SelectWCDMedium}, que aborta la ejecución con
+\codigo{G4Exception} si se solicita una concentración no tabulada, en
+lugar de aproximarla silenciosamente. También se corrigen, en esta misma
+revisión, tres propiedades ópticas del Tyvek que estaban físicamente mal
+definidas en el Meiga anterior: la longitud de absorción de vol\'umen
+pasa de 10\,m (transparente) a 0.1\,mm (opaco, consistente con un
+reflector difuso real), el índice de refracción de vol\'umen pasa de 0 a
+1.49, y el \codigo{BACKSCATTERCONSTANT} pasa de 0 a 0.02.
+
+\subsection{Grupo 3 --- Corrección óptica del Tyvek y tablas por concentración}
+
+Esta revisión reemplaza la única tabla óptica compartida
+\codigo{waterPT1}/\codigo{waterPT2} (originalmente un índice de refracción
+constante de dos puntos, 1.33 en todo el espectro) por una tabla completa
+e independiente por medio activo (\codigo{CreateWCDOpticalTable}), cada una
+con su propio \codigo{RINDEX} espectral de 32 puntos (agua pura y las tres
+soluciones), una \codigo{ABSLENGTH} común como línea base, y el modelo Mie
+del ejemplo \codigo{OpNovice} de Geant4 conservado explícitamente como
+aproximación declarada. Adicionalmente, se corrige
+\codigo{linerOpticalPT}: se le añade la propiedad \codigo{RINDEX}
+(requerida por \codigo{G4OpBoundaryProcess} para una superficie
+\codigo{dielectric\_dielectric}), y la superficie \codigo{LinerOptSurf}
+pasa de \codigo{dielectric\_metal}/\codigo{ground} a
+\codigo{dielectric\_dielectric}/\codigo{groundbackpainted}, el modelo
+correcto para un recubrimiento reflectante sobre un medio dieléctrico
+(agua) en vez de un metal.
+
+\subsection{Grupo 4 --- Rama óptica alternativa (no integrada)}
+\label{sec:grupo4}
+
+\codigo{Materials-mejorado-optica.cc} y \codigo{SaltyWCD-mejorado-optica.cc}
+proponen un modelo distinto para la misma necesidad física (diferenciar
+las propiedades ópticas del agua pura y las soluciones de NaCl): en vez de
+tablas \codigo{RINDEX} medidas punto a punto, interpolan la curva de
+dispersión del agua pura y la desplazan verticalmente hasta que su valor
+en la línea D del sodio (589.3\,nm) coincide con un índice objetivo por
+concentración; añaden además dispersión de Rayleigh explícita
+(\codigo{RAYLEIGH}) con una longitud de referencia de 100\,m a 400\,nm.
+
+Un análisis cronológico de las marcas de tiempo del sistema de archivos
+muestra que esta propuesta se escribió \emph{antes} que la de tablas
+tabuladas del grupo 3 (15:11--15:28 frente a 15:45--16:32 del
+2026-09-11), y que la cadena que efectivamente continuó hacia la revisión
+final \codigo{-corregido} (con las correcciones de PMT) es la del grupo 3,
+no esta. Como ambas modifican las mismas tablas de propiedades del mismo
+material de forma mutuamente excluyente, \textbf{no es posible aplicar
+ambas simultáneamente sin reintroducir una inconsistencia física}
+(¿qué \codigo{RINDEX} usa el agua pura?). Se optó por integrar la rama
+efectivamente continuada (grupo 3), dejando esta propuesta documentada
+aquí como una alternativa evaluada y no adoptada en la versión final del
+simulador. Su archivo fuente se conserva sin cambios en la carpeta de
+insumos por si se desea retomar como línea de trabajo futura o como
+comparación de sistemáticas.
+
+\subsection{Grupo 5 --- Correcciones de la respuesta del PMT}
+
+\begin{itemize}
+  \item \textbf{\codigo{G4MPMTAction::ProcessHits}}: la respuesta del PMT
+    ahora se activa únicamente cuando el fotón óptico cruza la frontera
+    geométrica de entrada (\codigo{step->GetPreStepPoint()->GetStepStatus()
+    == fGeomBoundary}); los fotones aceptados, rechazados por rango de
+    energía y rechazados por eficiencia cuántica se terminan explícitamente
+    (\codigo{track->SetTrackStatus(fStopAndKill)}), evitando que el mismo
+    fotón genere más de un fotoelectrón en pasos repetidos dentro del
+    volumen de Pyrex.
+  \item \textbf{\codigo{OptDevice::GetQuantumEfficiency}}: la eficiencia
+    cuántica nominal del PMT R5912 se interpola linealmente entre ocho
+    puntos tabulados de 300 a 650\,nm, en vez de usar una función escalón
+    de 50\,nm con saltos artificiales. La eficiencia de colección se aplica
+    una única vez, sobre el resultado de la interpolación.
+  \item \textbf{Eliminación de archivos de depuración por fotón}: se
+    retiran las escrituras a \codigo{eficiencia-limpia*.txt} dentro de
+    \codigo{IsPhotonDetected}/\codigo{GetQuantumEfficiency}, que generaban
+    un archivo de una línea por cada fotón óptico simulado.
+  \item \textbf{Material efectivo del PMT (\codigo{Pyrex})}: el rango de
+    energía de su tabla óptica pasa de un intervalo fijo (2.00--4.00\,eV)
+    a exactamente el mismo rango que \codigo{OptDevice} usa para la
+    eficiencia cuántica (300--650\,nm, expresado en eV), y se documenta
+    explícitamente que el fotocátodo es un absorbente efectivo: la
+    eficiencia cuántica y de colección se muestrean una única vez en
+    \codigo{G4MPMTAction}/\codigo{OptDevice}, no en la tabla de
+    propiedades del material.
+  \item \textbf{Geometría del WCD (\codigo{SaltyWCD::BuildDetector})}: se
+    reescribe con capas explícitas y no superpuestas (agua/salmuera,
+    Tyvek superior/inferior/lateral, acero superior/inferior/lateral) en
+    vez del anidamiento de \emph{casings} del Meiga anterior, y se añaden
+    verificaciones con \codigo{G4Exception} que abortan la construcción de
+    la geometría si el medio activo no tiene \codigo{RINDEX}/\codigo{ABSLENGTH},
+    si la superficie del Tyvek no tiene \codigo{RINDEX}/\codigo{REFLECTIVITY},
+    o si el material efectivo del PMT no tiene \codigo{RINDEX}/\codigo{ABSLENGTH}.
+\end{itemize}
+
+\subsection{Reintegración del modelo térmico S($\alpha,\beta$)}
+\label{sec:salphabeta}
+
+Los cinco grupos de mejora se desarrollaron, según pudo determinarse
+comparando \codigo{Materials-mejorado.cc} contra el Meiga anterior, a
+partir de una copia de \codigo{Materials.cc} \emph{previa} a la
+introducción del elemento \codigo{TS\_H\_of\_Water}: construían
+\codigo{Water} con \codigo{elH} (hidrógeno libre) y densidad nominal de
+Geant4 (1.0\,g/cm\textsuperscript{3}), en vez de con el elemento ligado y
+la densidad medida a 20\,\textdegree C (0.99820\,g/cm\textsuperscript{3}).
+Aplicar esa cadena de cambios tal cual habría eliminado silenciosamente el
+tratamiento térmico S($\alpha,\beta$) ya validado en el Meiga anterior
+--el objeto central de la variante \codigo{SalphaBeta-2026}-- para
+\emph{todas} las soluciones de NaCl y para el agua pura.
+
+En la integración final se restituyó \codigo{elTSHWater} en
+\codigo{Materials::CreateElements}, se reconstruyó \codigo{Water} con el
+mismo estado termodinámico explícito del Meiga anterior
+(\codigo{kStateLiquid}, 293.15\,K, 1\,bar) usando \codigo{elTSHWater} en
+vez de \codigo{elH}, y se propagó el mismo elemento ligado a los tres
+materiales salinos nuevos del grupo 2
+(\codigo{CreateSaltyWaterByFinalMassFraction} ahora recibe
+\codigo{elTSHWater} como elemento de hidrógeno, y construye cada material
+con el mismo estado termodinámico). De esta manera, \codigo{G4ThermalNeutrons}
+--que se activa automáticamente sobre cualquier material que contenga un
+elemento \codigo{TS\_*} reconocido, sin necesidad de cambios en
+\codigo{G4MPhysicsList.cc}-- aplica la ley S($\alpha,\beta$) del agua de
+forma consistente a los cuatro medios activos del WCD (agua pura y las
+tres soluciones), tal como especifica el CHANGELOG original de la
+variante SalphaBeta: \emph{“El H de las soluciones reutiliza la evaluación
+h\_water; Na, Cl y O siguen el tratamiento estándar de G4NDL”}. Los
+apéndices de la Sección~\ref{ap:diffs} muestran este parche como parte
+del \emph{diff} de \codigo{Materials.cc}.
+
+\section{Validación realizada y pendiente}
+\label{sec:validacion}
+
+\begin{itemize}
+  \item \textbf{Realizada en este entorno} (sin instalación de Geant4
+    disponible): verificación de balance de llaves y paréntesis en cada
+    archivo modificado; búsqueda exhaustiva, en todo \codigo{src/}, de
+    referencias a cada símbolo público añadido, renombrado o eliminado de
+    \codigo{Materials}; confirmación de que \codigo{WCD.cc},
+    \codigo{Hodoscope.cc}, \codigo{Mudulus.cc}, \codigo{Musaic.cc} y
+    \codigo{Scintillator.cc} —que comparten la instancia \emph{singleton}
+    de \codigo{Materials}— siguen compilando lógicamente contra la nueva
+    interfaz; confirmación de que \codigo{G4WCDConstruction.cc} invoca
+    \codigo{SaltyWCD::BuildDetector} con la misma firma.
+  \item \textbf{Pendiente, a realizar en la máquina de simulación con
+    Geant4 10.7.3 y G4NDL 4.6 instalados}: compilación completa
+    (\codigo{cmake && make}), una corrida corta de verificación por cada
+    una de las cuatro concentraciones de NaCl, e inspección de las nuevas
+    tablas TSV generadas por \codigo{G4WCDSteppingAction} para confirmar
+    que \codigo{capturas-neutrones.tsv} reporta $Z=1$ para el hidrógeno y
+    que la fracción de capturas por debajo de 4\,eV es consistente con la
+    obtenida en la validación original de la variante SalphaBeta.
+\end{itemize}
+
+\section{Archivos entregados}
+
+Junto con este informe se entrega:
+
+\begin{itemize}
+  \item El árbol de código fuente completo de MEIGA con todas las mejoras
+    integradas (\codigo{MEIGA-final/}), listo para compilar en la máquina
+    de simulación.
+  \item Copia de los ocho archivos originales del Meiga anterior que
+    fueron modificados (carpeta \codigo{originales/}), y copia de su
+    versión final integrada (carpeta \codigo{finales/}), para inspección
+    directa lado a lado.
+  \item El \emph{diff} unificado de cada uno de los ocho archivos
+    (carpeta \codigo{diffs/} y Apéndice~\ref{ap:diffs} de este informe).
+\end{itemize}
+
+\section{Conclusiones}
+
+Las cinco familias de mejoras revisadas en los informes técnicos previos
+--registro paso a paso, densidades y composición de las soluciones de
+NaCl, corrección óptica del Tyvek con tablas por concentración,
+correcciones de la respuesta del PMT, y una propuesta óptica alternativa--
+se integraron en una única base de código consistente derivada del Meiga
+anterior. La integración requirió resolver tres inconsistencias no
+triviales en los archivos de entrada (una rama óptica alternativa
+incompatible, un archivo con nombre incorrecto, y un archivo huérfano de
+nombre corrupto) y restituir el tratamiento térmico S($\alpha,\beta$) que
+la cadena de archivos de mejora había perdido por partir de una copia
+anterior a su introducción. El resultado conserva íntegramente el objetivo
+original de la variante \codigo{SalphaBeta-2026} --dispersión térmica
+realista del hidrógeno del agua y las soluciones de NaCl-- y añade sobre
+él todas las correcciones ópticas y de respuesta del PMT revisadas,
+dejando el simulador listo para compilar y validar en la máquina de
+simulación.
+
+\appendix
+
+\section{Diffs unificados: Meiga anterior vs.\ versión integrada}
+\label{ap:diffs}
+
+Cada listado muestra el \emph{diff} unificado (\codigo{diff -u}) entre el
+archivo original del Meiga anterior (\codigo{---}) y la versión final
+integrada en este trabajo (\codigo{+++}). Las líneas que comienzan con
+\codigo{-} se eliminaron; las que comienzan con \codigo{+} se añadieron.
+
+\subsection{\texorpdfstring{\codigo{Applications/G4WCDSimulator/G4WCDSteppingAction.h}}{Applications/G4WCDSimulator/G4WCDSteppingAction.h}}
+\lstinputlisting[style=diffstyle]{diffs/G4WCDSteppingAction.h.diff}
+
+\subsection{\texorpdfstring{\codigo{Applications/G4WCDSimulator/G4WCDSteppingAction.cc}}{Applications/G4WCDSimulator/G4WCDSteppingAction.cc}}
+\lstinputlisting[style=diffstyle]{diffs/G4WCDSteppingAction.cc.diff}
+
+\subsection{\texorpdfstring{\codigo{G4Models/Materials.h}}{G4Models/Materials.h}}
+\lstinputlisting[style=diffstyle]{diffs/Materials.h.diff}
+
+\subsection{\texorpdfstring{\codigo{G4Models/Materials.cc}}{G4Models/Materials.cc}}
+\lstinputlisting[style=diffstyle]{diffs/Materials.cc.diff}
+
+\subsection{\texorpdfstring{\codigo{G4Models/SaltyWCD.cc}}{G4Models/SaltyWCD.cc}}
+\lstinputlisting[style=diffstyle]{diffs/SaltyWCD.cc.diff}
+
+\subsection{\texorpdfstring{\codigo{G4Models/G4MPMTAction.h}}{G4Models/G4MPMTAction.h}}
+\lstinputlisting[style=diffstyle]{diffs/G4MPMTAction.h.diff}
+
+\subsection{\texorpdfstring{\codigo{G4Models/G4MPMTAction.cc}}{G4Models/G4MPMTAction.cc}}
+\lstinputlisting[style=diffstyle]{diffs/G4MPMTAction.cc.diff}
+
+\subsection{\texorpdfstring{\codigo{Framework/Detector/OptDevice.cc}}{Framework/Detector/OptDevice.cc}}
+\lstinputlisting[style=diffstyle]{diffs/OptDevice.cc.diff}
+
+\section{Archivos de referencia sin cambios}
+
+Los siguientes archivos, aportados como copias de referencia en la carpeta
+\codigo{Correcciones-PMT/}, se compararon byte a byte contra el Meiga
+anterior y resultaron \textbf{idénticos}, por lo que no requirieron ninguna
+acción: \codigo{Detector.h}, \codigo{Detector.cc}, \codigo{OptDevice.h},
+\codigo{OpticalPhysics.cc}, \codigo{OpticalPhysics.hh},
+\codigo{G4MPMTAction.h} (copia sin sufijo) y \codigo{G4MPMTAction.cc}
+(copia sin sufijo). También \codigo{G4Models/SaltyWCD.h} se mantuvo sin
+cambios: ninguna de las revisiones de \codigo{SaltyWCD.cc} añadió
+miembros nuevos a la clase, por lo que su interfaz pública
+(\codigo{BuildDetector}) permanece igual.
+
+\end{document}

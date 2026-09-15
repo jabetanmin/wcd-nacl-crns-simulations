@@ -1,0 +1,172 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,booktabs,tabularx,xcolor,listings,microtype,parskip,hyperref,titlesec}
+\usepackage[margin=2.4cm]{geometry}
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+\hypersetup{colorlinks=true,linkcolor=azulWCD,pdftitle={Densidades de los medios del WCD},pdfauthor={Jaime A. Betancourt}}
+\lstset{language=C++,basicstyle=\ttfamily\small,breaklines=true,frame=single,backgroundcolor=\color{gray!6}}
+\newcommand{\codigo}[1]{\texttt{#1}}
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Densidades de los\\[0.2cm]
+medios del WCD}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Implementación de la composición y densidad de los medios agua--NaCl en el WCD''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+11 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Se documentan las modificaciones propuestas para \codigo{Materials.cc} y
+\codigo{SaltyWCD.cc} con el fin de representar, a $20\,^{\circ}\mathrm{C}$,
+agua pura y soluciones acuosas con 2.5, 5.0 y 10.0\,\% de NaCl en fracción
+másica final. Cada medio recibe su densidad indicada, la composición elemental
+se calcula con la misma convención y la geometría selecciona el material
+correspondiente. No se modifican la geometría, los modelos físicos de Geant4
+ni las propiedades ópticas existentes.
+\end{abstract}
+
+\section{Convención de concentración}
+La concentración se interpreta como fracción másica de NaCl respecto a la masa
+total de solución:
+\begin{equation}
+r_{\mathrm{NaCl}}=\frac{m_{\mathrm{NaCl}}}{m_{\mathrm{agua}}+m_{\mathrm{NaCl}}},
+\qquad
+w_{\mathrm{agua}}=1-r_{\mathrm{NaCl}}.
+\end{equation}
+Por ejemplo, 2.5\,\% significa 2.5 g de NaCl y 97.5 g de agua por cada
+100 g de solución. 
+%Esta definición sustituye la interpretación anterior $m_{\mathrm{NaCl}}/m_{\mathrm{agua}}$, incompatible con la ecuación usada en la tesis.
+
+\section{Densidades implementadas}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Medio & $w_{\mathrm{NaCl}}$ & Densidad (g cm$^{-3}$)\\
+\midrule
+Agua pura & 0.000 & 0.99820\\
+Agua + 2.5\,\% NaCl & 0.025 & 1.01604\\
+Agua + 5.0\,\% NaCl & 0.050 & 1.03401\\
+Agua + 10.0\,\% NaCl & 0.100 & 1.07051\\
+\bottomrule
+\end{tabular}
+\end{center}
+Las densidades se asignan explícitamente y no se interpolan. Una concentración
+no estudiada no recibe una densidad aproximada.
+
+\section{Implementación en Materials.cc}
+El agua pura se define como un material local, pues \codigo{G4\_WATER} usa la
+densidad nominal $1.0\,\mathrm{g\,cm^{-3}}$:
+\begin{lstlisting}
+Water = new G4Material("Water",
+                       WCDMediumDensity20C(0.0), 2);
+Water->AddElement(elH, 2);
+Water->AddElement(elO, 1);
+\end{lstlisting}
+La tabla óptica \codigo{waterPT1} se conserva.
+
+Para las soluciones, \codigo{CreateSaltyWaterByFinalMassFraction} calcula:
+\begin{align}
+w_{\mathrm H}&=(1-r)\frac{2M_{\mathrm H}}{M_{\mathrm{H_2O}}},&
+w_{\mathrm O}&=(1-r)\frac{M_{\mathrm O}}{M_{\mathrm{H_2O}}},\\
+w_{\mathrm{Na}}&=r\frac{M_{\mathrm{Na}}}{M_{\mathrm{NaCl}}},&
+w_{\mathrm{Cl}}&=r\frac{M_{\mathrm{Cl}}}{M_{\mathrm{NaCl}}}.
+\end{align}
+Las cuatro fracciones suman uno. La función
+\codigo{WCDMediumDensity20C} acepta solo $r=0$, 0.025, 0.050 y 0.100; otro
+valor genera \codigo{WCD-MAT-001}. También se admiten 2.5, 5 y 10 como
+representación porcentual.
+
+\section{Implementación en SaltyWCD.cc}
+Este archivo no reconstruye la química. Lee
+\codigo{detector.GetImpuritiesFraction()} y selecciona uno de los cuatro
+materiales creados en \codigo{Materials.cc}. Se eliminó la aproximación al
+medio más cercano: una concentración distinta genera
+\codigo{WCD-MAT-002}. Así se evita simular silenciosamente, por ejemplo, una
+entrada de 7\,\% con el medio de 5\,\%.
+
+Durante la construcción se imprimen el nombre del medio, la fracción másica
+normalizada y la densidad que Geant4 asignó. El volumen lógico del tanque usa
+directamente ese \codigo{DetectorMedium}; por ello composición y densidad
+cambian juntas al cambiar la configuración.
+
+\section{Consecuencia física}
+La densidad modifica la densidad numérica de H, O, Na y Cl por unidad de
+volumen y, con ello, las longitudes libres medias y las probabilidades de
+dispersión y captura. No debe aplicarse otra corrección de densidad en la
+geometría: duplicaría o desacoplaría la propiedad almacenada en
+\codigo{G4Material}.
+
+\section{Verificación requerida}
+Antes de producción se debe:
+\begin{enumerate}
+\item ejecutar \codigo{git diff --check};
+\item compilar con MEIGA y Geant4 10.07.p04;
+\item probar entradas 0, 0.025, 0.050 y 0.100;
+\item repetir con 0, 2.5, 5 y 10;
+\item verificar las cuatro densidades impresas;
+\item comprobar que 0.07 sea rechazado;
+\item comparar corridas cortas con la versión anterior.
+\end{enumerate}
+La revisión realizada es estática. La validación final requiere el repositorio
+completo, la geometría, lista de física, datos nucleares y propiedades ópticas
+de la investigación.
+
+\section{Integración}
+Los archivos se deben ubicar con nombres canónicos en
+\codigo{src/Applications/G4WCDSimulator/}: \codigo{Materials.cc} y
+\codigo{SaltyWCD.cc}. Las funciones nuevas son internas a
+\codigo{Materials.cc}, por lo que no requieren declaraciones nuevas en
+\codigo{Materials.h}. Si la cabecera conserva comentarios con la convención
+anterior, deben actualizarse documentalmente.
+\end{document}
