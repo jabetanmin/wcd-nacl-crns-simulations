@@ -1,12 +1,20 @@
 // implementation of the G4MPhysicsList class
 #include "G4MPhysicsList.h"
 
+#include "G4NeutronHPManager.hh"
+#include <cstdlib>
+#include <iostream>
+
+
+//#include "G4NeutronCapture.hh"
 #include "G4LossTableManager.hh"
 #include "G4ProcessManager.hh"
 #include "G4ParticleTypes.hh"
 #include "G4ParticleTable.hh"
 #include "FTFP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
+#include "G4ThermalNeutrons.hh"
+#include "G4Exception.hh"
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
@@ -19,7 +27,7 @@
 #include "G4RadioactiveDecayPhysics.hh"
 #include "G4SystemOfUnits.hh"
 //#include "PhysicsListMessenger.hh"
-
+//#include "G4HadronPhysicsFTFP-BERT-HP.hh"
 #include "StepMax.hh"
 #include "ExtraPhysics.hh"
 #include "OpticalPhysics.hh"
@@ -35,13 +43,36 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 	fCutForElectron  = defaultCutValue;
 	fCutForPositron  = defaultCutValue;
 
+	const char* neutronHPDataPath = std::getenv("G4NEUTRONHPDATA");
+	if (!neutronHPDataPath) 
+	   {
+    		G4cerr << "Error: La variable de entorno G4NEUTRONHPDATA no está configurada." << G4endl;
+    		G4cerr << "Por favor, configurela apuntando a los datos de neutrones HP." << G4endl;
+    		exit(1); // Salida del programa con error.
+	  } else {
+    		G4cout << "G4NEUTRONHPDATA está configurada en: " << neutronHPDataPath << G4endl;
+	  }
+
+
+
+
+
+
 	// G4PhysListFactory factory;
-	G4VModularPhysicsList* phys = NULL;
-	if (physName == "QGSP_BERT_HP") {
-		phys = new QGSP_BERT_HP;
-	} else {
-		phys = new FTFP_BERT;
-	}
+	//G4VModularPhysicsList* phys = NULL;
+	//if (physName == "QGSP_BERT_HP") {
+	//	phys = new QGSP_BERT_HP;
+	//} else {
+	//	phys = new FTFP_BERT;
+	//}
+
+        G4VModularPhysicsList* phys = NULL;
+        if (physName == "QGSP_BERT_HP") {
+                phys = new QGSP_BERT_HP;
+        } else {
+                phys = new FTFP_BERT;
+        }
+
 	
 	/*
 	if (factory.IsReferencePhysList(physName)) {
@@ -65,6 +96,29 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 	RegisterPhysics(new ExtraPhysics());
 	RegisterPhysics(fOpticalPhysics = new OpticalPhysics(fAbsorptionOn));
 	RegisterPhysics(new G4RadioactiveDecayPhysics());
+
+	// Registers G4NeutronHP thermal (S(alpha,beta)) scattering laws for any
+	// material containing a recognized TS_* element (e.g. TS_H_of_Water).
+	// MUST be registered AFTER the base physics list's own physics
+	// constructors (above): G4ThermalNeutrons::ConstructProcess() looks up
+	// the neutron's existing hadronic elastic process (created by
+	// hElasticWEL_CHIPS_HP) and only attaches the thermal model to it - it
+	// does not create that process itself. G4VModularPhysicsList calls
+	// ConstructProcess() for each registered constructor in RegisterPhysics()
+	// order, so registering G4ThermalNeutrons too early causes a silent
+	// "Fail to add thermal neutron scattering" warning.
+	if (physName == "QGSP_BERT_HP") {
+		RegisterPhysics(new G4ThermalNeutrons());
+		G4cout << "RegisterPhysics: G4ThermalNeutrons "
+		       << "(S(alpha,beta), E < 4 eV)" << G4endl;
+	} else {
+		G4Exception("G4MPhysicsList::G4MPhysicsList",
+		            "MEIGA-TSL-001",
+		            JustWarning,
+		            "Thermal scattering was not registered. Select "
+		            "QGSP_BERT_HP for the WCD S(alpha,beta) configuration.");
+	}
+
 
 	fStepMaxProcess = new StepMax();
 

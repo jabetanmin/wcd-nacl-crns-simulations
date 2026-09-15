@@ -45,6 +45,9 @@ G4MOptDeviceAction::EndOfEvent(G4HCofThisEvent* const /*hce*/)
 
 	// clear PE time vector
 	fPETime.clear();
+        //std::ofstream outputFilefpet("Datos-simulacion/tiempo.txt", std::ios_base::app);
+        //outputFilefpet << fPETime <<"\n";
+
 
 }
 
@@ -63,6 +66,9 @@ G4MOptDeviceAction::ProcessHits(G4Step* const step, G4TouchableHistory* const /*
 
 	// check if photon is detected according to its energy and quantum efficiency
 	if (optDevice.IsPhotonDetected(photonEnergy)) {
+           //std::ofstream outputFilethis("Datos-simulacion/foton-detectado.txt", std::ios_base::app);
+           //outputFilethis << optDevice.IsPhotonDetected(photonEnergy) <<"\n";
+           //outputFilethis.close();
 
 		DetectorSimData& detSimData = simData.GetDetectorSimData(fDetectorId);
 		OptDeviceSimData& odSimData = detSimData.GetOptDeviceSimData(fOptDeviceId);
@@ -70,7 +76,11 @@ G4MOptDeviceAction::ProcessHits(G4Step* const step, G4TouchableHistory* const /*
 		const double time = step->GetPreStepPoint()->GetGlobalTime() / (1*CLHEP::ns);
 		odSimData.AddPhotonEnergy(photonEnergy);
 		odSimData.AddPhotonTime(time);
-		
+           std::ofstream outputFilethis("Datos-simulacion/time.txt", std::ios_base::app);
+           outputFilethis << time <<"\n";
+           outputFilethis.close();
+	
+
 		fPETime.push_back(time);
 
 	}

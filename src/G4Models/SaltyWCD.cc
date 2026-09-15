@@ -1,188 +1,466 @@
 #include <iostream>
+#include <cmath>
 
 #include "SaltyWCD.h"
 #include "Geometry.h"
 #include "G4MDetectorAction.h"
 #include "G4MPMTAction.h"
 
-
 #include "G4VisAttributes.hh"
 #include "G4NistManager.hh"
 #include "G4Colour.hh"
+#include "G4Tubs.hh"
+#include "G4Ellipsoid.hh"
+#include "G4PVPlacement.hh"
+#include "G4LogicalVolume.hh"
+#include "G4LogicalBorderSurface.hh"
+#include "G4SDManager.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4Exception.hh"
+#include "G4MaterialPropertiesTable.hh"
+#include "G4OpticalSurface.hh"
 
 using namespace std;
 
-void 
-SaltyWCD::BuildDetector(G4LogicalVolume* logMother, Detector& detector, Event& theEvent, G4bool fCheckOVerlaps)
+namespace
 {
+    // This helper is only for selecting one of the materials already built in
+    // Materials.cc.  It does NOT create a new chemical material here.
+    G4double NormalizeDetectorNaClInput(G4double x)
+    {
+        // Accept 0.025 and 2.5 as the same input convention.
+        if (x > 1.0) x /= 100.0;
 
-	
-	// solids
-	G4Tubs* solidCasingTop = nullptr;
-	G4Tubs* solidCasingSide = nullptr;
+        return x;
+    }
 
-	G4Tubs* solidTank = nullptr;
-	G4Tubs* solidTop  = nullptr;
-	G4Tubs* solidBot  = nullptr;
-	G4Tubs* solidSide = nullptr;
+    G4Material* SelectWCDMedium(Materials& mat, G4double userNaClValue)
+    {
+		// Final mass fraction: w_NaCl = m_NaCl/(m_H2O + m_NaCl).
+        const G4double w = NormalizeDetectorNaClInput(userNaClValue);
+        const G4double tol = 1.0e-6;
 
-	// pmt solids
-	G4Ellipsoid* solidPMT = nullptr;
+        if (std::abs(w) < tol) {
+            return mat.Water;
+        }
 
-	// logical volumes
-	G4LogicalVolume* logCasingTop = nullptr;
-	G4LogicalVolume* logCasingBot = nullptr;
-	G4LogicalVolume* logCasingSide = nullptr;
+        if (std::abs(w - 0.025) < tol) {
+            return mat.SaltyWater_2p5;
+        }
+        if (std::abs(w - 0.050) < tol) {
+            return mat.SaltyWater_5;
+        }
+        if (std::abs(w - 0.100) < tol) {
+            return mat.SaltyWater_10;
+        }
 
-	G4LogicalVolume* logTank = nullptr;
-	G4LogicalVolume* logTop  = nullptr;
-	G4LogicalVolume* logBot = nullptr;
-	G4LogicalVolume* logSide = nullptr;
+        G4ExceptionDescription description;
+        description << "Unsupported WCD NaCl final mass fraction: " << w
+                    << ". Use 0, 0.025, 0.050 or 0.100 "
+                    << "(equivalently 0, 2.5, 5 or 10 percent).";
+        G4Exception("SelectWCDMedium", "WCD-MAT-002",
+                    FatalException, description);
+        return nullptr;
+    }
+}
 
-	G4LogicalVolume* logPMT = nullptr;
+void
+SaltyWCD::BuildDetector(G4LogicalVolume* logMother,
+                        Detector& detector,
+                        Event& theEvent,
+                        G4bool fCheckOVerlaps)
+{
+    // --------------------------------------------------------------------
+    // Materials
+    // --------------------------------------------------------------------
+    Materials mat;
 
-	// physical volumes
-	G4PVPlacement* physCasingBot = nullptr;
-	G4PVPlacement* physCasingTop = nullptr;
-	G4PVPlacement* physCasingSide = nullptr;
+    G4NistManager* nist = G4NistManager::Instance();
+    G4Material* StainlessSteel =
+        nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
-	G4PVPlacement* physTank = nullptr;
-	G4PVPlacement* physBot  = nullptr;
-	G4PVPlacement* physTop  = nullptr;
-	G4PVPlacement* physSide = nullptr;
+    const G4double fNaClFracMass = detector.GetImpuritiesFraction();
+    G4Material* DetectorMedium = SelectWCDMedium(mat, fNaClFracMass);
 
-	// SaltyWCD dimensions
-	G4double fTankRadius = detector.GetTankRadius();
-	G4double fTankHeight = detector.GetTankHeight();
-	G4double fTankHalfHeight = 0.5 * fTankHeight;
-	G4double fTankThickness = detector.GetTankThickness();
-	G4double fNaClFracMass = detector.GetImpuritiesFraction();
-	// --------------------------------------------------------------------
-	// SaltyWater defined here for this particular detector
-	// --------------------------------------------------------------------
-	G4Material* SaltyWater = new G4Material("SaltyWater", 1.1 * g/cm3, 2);
-	SaltyWater->AddMaterial(Materials().Water,1-fNaClFracMass);
-	SaltyWater->AddMaterial(Materials().Salt, fNaClFracMass);
-	SaltyWater->SetMaterialPropertiesTable(Materials().waterPT1);
+    // --------------------------------------------------------------------
+    // WCD dimensions
+    // --------------------------------------------------------------------
+    // In this geometry detector.GetTankRadius() and detector.GetTankHeight()
+    // are interpreted as the active water/saline-water dimensions.
+    //
+    // Active volume:
+    //   diameter = 96 cm  -> radius = 48 cm
+    //   height   = 133 cm
+    //
+    // Layer sequence:
+    //   active water/saline water -> Tyvek liner -> stainless-steel casing
+    // --------------------------------------------------------------------
+    const G4double fWaterRadius     = detector.GetTankRadius();
+    const G4double fWaterHeight     = detector.GetTankHeight();
+    const G4double fWaterHalfHeight = 0.5 * fWaterHeight;
 
-	G4NistManager* nist = G4NistManager::Instance();
-	G4Material* StainlessSteel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-	
-	// PMT properties photonis-XP1805
-	OptDevice pmt = detector.GetOptDevice(OptDevice::ePMT);
-	G4double fPMTSemiX = pmt.GetSemiAxisX() * CLHEP::cm;
-	G4double fPMTSemiY = pmt.GetSemiAxisY() * CLHEP::cm;
-	G4double fPMTSemiZ = pmt.GetSemiAxisZ() * CLHEP::cm;
+    const G4double fSteelThickness  = detector.GetTankThickness();
+    const G4double fTyvekThickness  = 0.12 * mm;
 
-	G4ThreeVector detectorPos = Geometry::ToG4Vector(detector.GetDetectorPosition(), 1.);
-	G4double fTankPosX = detectorPos.getX();
-	G4double fTankPosY = detectorPos.getY();
-	G4double fTankPosZ = detectorPos.getZ();
-	
-	// define PMT position as the center of the tank
-	G4ThreeVector fTankCenter = detectorPos + G4ThreeVector(0, 0, fTankHalfHeight + fTankThickness);
-	int detectorId = detector.GetId();
-	int pmtId = 0;
-	ostringstream namedetector;
-	namedetector.str("");
-	namedetector << "/SaltyWCD"+to_string(detectorId);
-	cout << "[INFO] G4Models::SaltyWCD: Building detector " << namedetector.str();
-	cout << " (ID = " << detectorId << ")";
-	cout << " with " << pmt.GetName() << ". " << endl;
-	cout << "[INFO] G4Models::SaltyWCD: Detector Dimensions:" << endl;
-	cout << "Tank Radius = " << fTankRadius / CLHEP::cm << " cm " << endl;
-	cout << "Tank Height = " << fTankHeight / CLHEP::cm << " cm " << endl;
-	cout << "Fraction of Water Impurities = " << fNaClFracMass << endl;
-	/****************************************************************
-		
-		Geant4 Volume construction
-		
-		SaltyWCD is a WCD filled with salty water. The fraction of
-		NaCl w.r.t water is determined by the parameter fNaClFracMass
-		which value is between 0 and 1.
-		
-		The water is contained in a cylinder of stainless steel.
+    const G4double fTyvekOuterRadius = fWaterRadius + fTyvekThickness;
+    const G4double fSteelOuterRadius = fTyvekOuterRadius + fSteelThickness;
 
-		The PMT is simulated as a semi-sphere made of Pyrex
-		to account for reflectivity of photons at the PMT
-		window. The PMT volume is registered as a SensitiveDetector
-		and its response is computed by the G4MPMTAction class.
+    const G4double fTyvekSideHalfHeight = fWaterHalfHeight;
+    const G4double fSteelSideHalfHeight = fWaterHalfHeight + fTyvekThickness;
 
-	****************************************************************/
-	solidCasingTop = new G4Tubs("CasingTop", 0, fTankRadius + fTankThickness, fTankThickness/2, 0, 360*deg);
-	solidCasingSide = new G4Tubs("CasingSide", fTankRadius, fTankRadius + fTankThickness, fTankHalfHeight, 0, 360*deg);
+    // --------------------------------------------------------------------
+    // PMT properties
+    // --------------------------------------------------------------------
+    OptDevice pmt = detector.GetOptDevice(OptDevice::ePMT);
 
-	solidTank = new G4Tubs("Tank", 0, fTankRadius, fTankHalfHeight, 0, 360*deg);
-	solidTop = new G4Tubs("Top", 0, fTankRadius, fTankThickness/2, 0, 360*deg);
-	solidSide = new G4Tubs("Side", fTankRadius, fTankRadius + fTankThickness, fTankHalfHeight, 0, 360*deg);
+    const G4double fPMTSemiX = pmt.GetSemiAxisX() * CLHEP::cm;
+    const G4double fPMTSemiY = pmt.GetSemiAxisY() * CLHEP::cm;
+    const G4double fPMTSemiZ = pmt.GetSemiAxisZ() * CLHEP::cm;
 
-	// pmt solids 
-	solidPMT = new G4Ellipsoid("PMT", fPMTSemiX, fPMTSemiY, fPMTSemiZ, -fPMTSemiZ, 0);
+    // --------------------------------------------------------------------
+    // Detector position
+    // --------------------------------------------------------------------
+    G4ThreeVector detectorPos = Geometry::ToG4Vector(detector.GetDetectorPosition(), 1.);
 
-	// assemble SaltyWCD 
-	G4SDManager* const sdMan = G4SDManager::GetSDMpointer();
+    const G4double fTankPosX = detectorPos.getX();
+    const G4double fTankPosY = detectorPos.getY();
+    const G4double fTankPosZ = detectorPos.getZ();
 
-	// tank casing are made of Stainless-steel
-	logCasingTop = new G4LogicalVolume(solidCasingTop, StainlessSteel, "logCasingTop", 0, 0, 0);
-	physCasingTop = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + 2*fTankHalfHeight + 1.5*fTankThickness), logCasingTop, "physCasingTop", logMother, false, 0, fCheckOVerlaps);
-	
-	logCasingBot = new G4LogicalVolume(solidCasingTop, StainlessSteel, "logCasingBot", 0, 0, 0);
-	physCasingBot = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + 0.5*fTankThickness), logCasingBot, "physCasingBot", logMother, false, 0);
+    // Bottom reference is fTankPosZ.  The active water volume starts after
+    // the bottom steel plate and the bottom Tyvek sheet.
+    const G4double zSteelBot  = fTankPosZ + 0.5*fSteelThickness;
+    const G4double zTyvekBot  = fTankPosZ + fSteelThickness + 0.5*fTyvekThickness;
+    const G4double zWater     = fTankPosZ + fSteelThickness + fTyvekThickness
+                                + fWaterHalfHeight;
+    const G4double zTyvekTop  = fTankPosZ + fSteelThickness + fTyvekThickness
+                                + fWaterHeight + 0.5*fTyvekThickness;
+    const G4double zSteelTop  = fTankPosZ + fSteelThickness + fTyvekThickness
+                                + fWaterHeight + fTyvekThickness
+                                + 0.5*fSteelThickness;
 
-	logCasingSide = new G4LogicalVolume(solidCasingSide, StainlessSteel, "logCasingSide", 0, 0, 0);
-	physCasingSide = new G4PVPlacement(nullptr, G4ThreeVector(fTankPosX, fTankPosY, fTankPosZ + fTankHalfHeight + fTankThickness), logCasingSide, "physCasingSide", logMother, false, 0, fCheckOVerlaps);
+    const G4ThreeVector waterCenter(fTankPosX, fTankPosY, zWater);
 
+    const int detectorId = detector.GetId();
+    const int pmtId = 0;
+    
+    ostringstream namedetector;
+    namedetector << "/SaltyWCD" << detectorId;
 
-	// water part
-	logTank  = new G4LogicalVolume(solidTank, SaltyWater, "logTank", 0, 0, 0);
-	physTank = new G4PVPlacement(nullptr, fTankCenter, logTank, "physTank", logMother, false, 0, fCheckOVerlaps);
-	// register water logical volume in the Detector
-	if (!detector.HasLogicalVolume("logTank"))
-		detector.SetLogicalVolume("logTank", logTank);
+    G4cout << "[INFO] G4Models::SaltyWCD: Building detector "
+           << namedetector.str()
+           << " (ID = " << detectorId << ") with "
+           << pmt.GetName() << "." << G4endl;
 
-	// top, bottom and side walls of the tank
-	logTop  = new G4LogicalVolume(solidTop, Materials().HDPE, "logTop", 0, 0, 0);
-	physTop = new G4PVPlacement(nullptr, G4ThreeVector(), logTop, "physTop", logCasingTop, false, 0, fCheckOVerlaps);
-	
-	logBot = new G4LogicalVolume(solidTop, Materials().HDPE, "logBot", 0, 0, 0);
-	physBot = new G4PVPlacement(nullptr, G4ThreeVector(), logBot, "physBot", logCasingBot, false, 0, fCheckOVerlaps);
-	
-	logSide  = new G4LogicalVolume(solidSide, Materials().HDPE, "logSide", 0, 0, 0);
-	physSide = new G4PVPlacement(nullptr, G4ThreeVector(), logSide, "physSide", logCasingSide, false, 0, fCheckOVerlaps);
+    G4cout << "[INFO] G4Models::SaltyWCD: Active medium = "
+           << DetectorMedium->GetName() << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: NaCl final mass fraction = "
+           << NormalizeDetectorNaClInput(fNaClFracMass) << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Active-medium density = "
+           << DetectorMedium->GetDensity() / (g/cm3) << " g/cm3" << G4endl;
+    G4MaterialPropertiesTable* opticalTable =
+        DetectorMedium->GetMaterialPropertiesTable();
 
-	// tank liner surface
-	new G4LogicalBorderSurface("TopSurface", physTank, physTop, Materials().LinerOptSurf);
-	new G4LogicalBorderSurface("BotSurface", physTank, physBot, Materials().LinerOptSurf);
-	new G4LogicalBorderSurface("SideSurface", physTank, physSide, Materials().LinerOptSurf);
+    if (!opticalTable ||
+        !opticalTable->GetProperty("RINDEX") ||
+        !opticalTable->GetProperty("ABSLENGTH")) {
+        G4Exception(
+            "SaltyWCD::BuildDetector",
+            "WCD-OPT-001",
+            FatalException,
+            "The selected WCD medium requires RINDEX and ABSLENGTH.");
+    }
 
-	// PMT
-	string logName = "logPMT_"+to_string(pmtId);
-	logPMT = new G4LogicalVolume(solidPMT, Materials().Pyrex, logName, 0, 0, 0);
-	new G4PVPlacement(nullptr, G4ThreeVector(0, 0, fTankHalfHeight), logPMT, "physPMT", logTank, false, pmtId, fCheckOVerlaps);
+    G4MaterialPropertiesTable* tyvekSurfaceTable =
+        mat.LinerOptSurf
+            ? mat.LinerOptSurf->GetMaterialPropertiesTable()
+            : nullptr;
 
-	// register PMT in the Detector
-	if (!detector.HasOptDevice(pmtId)) {
-		detector.MakeOptDevice(pmtId, OptDevice::ePMT);
-		cout << "[DEBUG] Adding PMT id = " << pmtId << endl;
-	}
-	OptDevice optDevice = detector.GetOptDevice(pmtId);
-	cout << "[DEBUG] Getting " << optDevice.GetName() << " with id " << optDevice.GetId() << endl;
-	// register PMT logical volume
-	//if (!optDevice.HasLogicalVolume(logName))
-		//optDevice.SetLogicalVolume(logName, logPMT);
+    if (!tyvekSurfaceTable ||
+        !tyvekSurfaceTable->GetProperty("RINDEX") ||
+        !tyvekSurfaceTable->GetProperty("REFLECTIVITY")) {
+        G4Exception(
+            "SaltyWCD::BuildDetector",
+            "WCD-OPT-002",
+            FatalException,
+            "The Tyvek groundbackpainted surface requires RINDEX and REFLECTIVITY.");
+    }
 
-	string optName = pmt.GetName() + "_"+to_string(pmtId);
-	ostringstream fullName;
-	fullName.str("");
-	fullName << "/SaltyWCD_/"+to_string(detectorId) << "/" << optName;
-	G4MPMTAction* const pmtSD = new G4MPMTAction(fullName.str().c_str(), detectorId, pmtId, theEvent);
-	sdMan->AddNewDetector(pmtSD);
-	logPMT->SetSensitiveDetector(pmtSD);
+    G4MaterialPropertiesTable* pmtTable =
+        mat.Pyrex ? mat.Pyrex->GetMaterialPropertiesTable() : nullptr;
+    if (!pmtTable ||
+        !pmtTable->GetProperty("RINDEX") ||
+        !pmtTable->GetProperty("ABSLENGTH")) {
+        G4Exception(
+            "SaltyWCD::BuildDetector",
+            "WCD-OPT-003",
+            FatalException,
+            "The effective PMT medium requires RINDEX and ABSLENGTH.");
+    }
 
+    G4cout << "[INFO] G4Models::SaltyWCD: Active-medium optical properties "
+           << "RINDEX/ABSLENGTH = assigned" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Tyvek surface properties "
+           << "RINDEX/REFLECTIVITY = assigned" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Effective PMT response = "
+           << "Fresnel RINDEX + terminal absorption + OptDevice QE" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Water radius = "
+           << fWaterRadius / CLHEP::cm << " cm" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Water height = "
+           << fWaterHeight / CLHEP::cm << " cm" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Tyvek thickness = "
+           << fTyvekThickness / CLHEP::mm << " mm" << G4endl;
+    G4cout << "[INFO] G4Models::SaltyWCD: Steel thickness = "
+           << fSteelThickness / CLHEP::mm << " mm" << G4endl;
 
-	// register water volume as sensitive detector
-	G4MDetectorAction* const waterSD = new G4MDetectorAction(namedetector.str().c_str(), detectorId, theEvent);
-	sdMan->AddNewDetector(waterSD);
-	logTank->SetSensitiveDetector(waterSD);
-	
+    /****************************************************************
+        Geometry model
+
+        The WCD is built as explicit, non-overlapping layers:
+
+        1. Active volume:
+           pure water or predefined saline water material:
+           Water, SaltyWater_2p5, SaltyWater_5, SaltyWater_10.
+
+        2. Tyvek liner:
+           material Materials::HDPE, named Tyvek_HDPE in Materials.cc.
+           Its optical behavior is controlled by Materials::LinerOptSurf.
+
+        3. Stainless-steel external casing:
+           G4_STAINLESS-STEEL from NIST.
+
+        4. PMT:
+           ellipsoidal Pyrex window placed inside the active volume and
+           registered as a sensitive detector.
+    ****************************************************************/
+
+    // --------------------------------------------------------------------
+    // Solids
+    // --------------------------------------------------------------------
+    G4Tubs* solidWater = new G4Tubs("WaterVolume",
+                                    0.0,
+                                    fWaterRadius,
+                                    fWaterHalfHeight,
+                                    0.0,
+                                    360.0*deg);
+
+    G4Tubs* solidTyvekBot = new G4Tubs("TyvekBottom",
+                                       0.0,
+                                       fTyvekOuterRadius,
+                                       0.5*fTyvekThickness,
+                                       0.0,
+                                       360.0*deg);
+
+    G4Tubs* solidTyvekTop = new G4Tubs("TyvekTop",
+                                       0.0,
+                                       fTyvekOuterRadius,
+                                       0.5*fTyvekThickness,
+                                       0.0,
+                                       360.0*deg);
+
+    G4Tubs* solidTyvekSide = new G4Tubs("TyvekSide",
+                                        fWaterRadius,
+                                        fTyvekOuterRadius,
+                                        fTyvekSideHalfHeight,
+                                        0.0,
+                                        360.0*deg);
+
+    G4Tubs* solidSteelBot = new G4Tubs("SteelBottom",
+                                       0.0,
+                                       fSteelOuterRadius,
+                                       0.5*fSteelThickness,
+                                       0.0,
+                                       360.0*deg);
+
+    G4Tubs* solidSteelTop = new G4Tubs("SteelTop",
+                                       0.0,
+                                       fSteelOuterRadius,
+                                       0.5*fSteelThickness,
+                                       0.0,
+                                       360.0*deg);
+
+    G4Tubs* solidSteelSide = new G4Tubs("SteelSide",
+                                        fTyvekOuterRadius,
+                                        fSteelOuterRadius,
+                                        fSteelSideHalfHeight,
+                                        0.0,
+                                        360.0*deg);
+
+    G4Ellipsoid* solidPMT = new G4Ellipsoid("PMT",
+                                            fPMTSemiX,
+                                            fPMTSemiY,
+                                            fPMTSemiZ,
+                                            -fPMTSemiZ,
+                                            0.0);
+
+    // --------------------------------------------------------------------
+    // Logical volumes
+    // --------------------------------------------------------------------
+    G4LogicalVolume* logTank =
+        new G4LogicalVolume(solidWater, DetectorMedium, "logTank", 0, 0, 0);
+
+    G4LogicalVolume* logTyvekBot =
+        new G4LogicalVolume(solidTyvekBot, mat.HDPE, "logTyvekBot", 0, 0, 0);
+
+    G4LogicalVolume* logTyvekTop =
+        new G4LogicalVolume(solidTyvekTop, mat.HDPE, "logTyvekTop", 0, 0, 0);
+
+    G4LogicalVolume* logTyvekSide =
+        new G4LogicalVolume(solidTyvekSide, mat.HDPE, "logTyvekSide", 0, 0, 0);
+
+    G4LogicalVolume* logCasingBot =
+        new G4LogicalVolume(solidSteelBot, StainlessSteel, "logCasingBot", 0, 0, 0);
+
+    G4LogicalVolume* logCasingTop =
+        new G4LogicalVolume(solidSteelTop, StainlessSteel, "logCasingTop", 0, 0, 0);
+
+    G4LogicalVolume* logCasingSide =
+        new G4LogicalVolume(solidSteelSide, StainlessSteel, "logCasingSide", 0, 0, 0);
+
+    // --------------------------------------------------------------------
+    // Physical placements
+    // --------------------------------------------------------------------
+    G4PVPlacement* physTank =
+        new G4PVPlacement(nullptr,
+                          waterCenter,
+                          logTank,
+                          "physTank",
+                          logMother,
+                          false,
+                          0,
+                          fCheckOVerlaps);
+
+    G4PVPlacement* physTyvekBot =
+        new G4PVPlacement(nullptr,
+                          G4ThreeVector(fTankPosX, fTankPosY, zTyvekBot),
+                          logTyvekBot,
+                          "physTyvekBot",
+                          logMother,
+                          false,
+                          0,
+                          fCheckOVerlaps);
+
+    G4PVPlacement* physTyvekTop =
+        new G4PVPlacement(nullptr,
+                          G4ThreeVector(fTankPosX, fTankPosY, zTyvekTop),
+                          logTyvekTop,
+                          "physTyvekTop",
+                          logMother,
+                          false,
+                          0,
+                          fCheckOVerlaps);
+
+    G4PVPlacement* physTyvekSide =
+        new G4PVPlacement(nullptr,
+                          waterCenter,
+                          logTyvekSide,
+                          "physTyvekSide",
+                          logMother,
+                          false,
+                          0,
+                          fCheckOVerlaps);
+
+    new G4PVPlacement(nullptr,
+                      G4ThreeVector(fTankPosX, fTankPosY, zSteelBot),
+                      logCasingBot,
+                      "physCasingBot",
+                      logMother,
+                      false,
+                      0,
+                      fCheckOVerlaps);
+
+    new G4PVPlacement(nullptr,
+                      G4ThreeVector(fTankPosX, fTankPosY, zSteelTop),
+                      logCasingTop,
+                      "physCasingTop",
+                      logMother,
+                      false,
+                      0,
+                      fCheckOVerlaps);
+
+    new G4PVPlacement(nullptr,
+                      waterCenter,
+                      logCasingSide,
+                      "physCasingSide",
+                      logMother,
+                      false,
+                      0,
+                      fCheckOVerlaps);
+
+    // --------------------------------------------------------------------
+    // Optical border surfaces: active medium -> Tyvek
+    // --------------------------------------------------------------------
+    new G4LogicalBorderSurface("WaterTyvekTopSurface",
+                               physTank,
+                               physTyvekTop,
+                               mat.LinerOptSurf);
+
+    new G4LogicalBorderSurface("WaterTyvekBottomSurface",
+                               physTank,
+                               physTyvekBot,
+                               mat.LinerOptSurf);
+
+    new G4LogicalBorderSurface("WaterTyvekSideSurface",
+                               physTank,
+                               physTyvekSide,
+                               mat.LinerOptSurf);
+                               
+    // --------------------------------------------------------------------
+    // Effective PMT photocathode.  The solid is intentionally absorbing;
+    // G4MPMTAction samples OptDevice's wavelength-dependent response once at
+    // the water/salty-water -> PMT entry boundary and terminates the photon.
+    // --------------------------------------------------------------------
+    string logName = "logPMT_" + to_string(pmtId);
+
+    G4LogicalVolume* logPMT =
+        new G4LogicalVolume(solidPMT, mat.Pyrex, logName, 0, 0, 0);
+
+    // PMT centered in x,y and located at the upper part of the active volume.
+    // The ellipsoid is truncated between -fPMTSemiZ and 0.
+    // Therefore, its flat face is located at z = zPMT.
+    // A small offset avoids numerical problems due to exact boundary contact.
+    const G4double zPMT = 0.3 * fWaterHalfHeight;
+
+    new G4PVPlacement(nullptr,
+                      G4ThreeVector(0.0, 0.0, zPMT),
+                      logPMT,
+                      "physPMT",
+                      logTank,
+                      false,
+                      pmtId,
+                      fCheckOVerlaps);
+
+    // --------------------------------------------------------------------
+    // Register volumes and sensitive detectors
+    // --------------------------------------------------------------------
+    if (!detector.HasLogicalVolume("logTank")) {
+        detector.SetLogicalVolume("logTank", logTank);
+    }
+
+    G4SDManager* const sdMan = G4SDManager::GetSDMpointer();
+
+    if (!detector.HasOptDevice(pmtId)) {
+        detector.MakeOptDevice(pmtId, OptDevice::ePMT);
+        G4cout << "[DEBUG] Adding PMT id = " << pmtId << G4endl;
+    }
+
+    OptDevice optDevice = detector.GetOptDevice(pmtId);
+    G4cout << "[DEBUG] Getting " << optDevice.GetName()
+           << " with id " << optDevice.GetId() << G4endl;
+
+    string optName = pmt.GetName() + "_" + to_string(pmtId);
+
+    ostringstream fullName;
+    fullName << "/SaltyWCD_/" << detectorId << "/" << optName;
+
+    G4MPMTAction* const pmtSD =
+        new G4MPMTAction(fullName.str().c_str(), detectorId, pmtId, theEvent);
+
+    sdMan->AddNewDetector(pmtSD);
+    logPMT->SetSensitiveDetector(pmtSD);
+
+    G4MDetectorAction* const waterSD =
+        new G4MDetectorAction(namedetector.str().c_str(), detectorId, theEvent);
+
+    sdMan->AddNewDetector(waterSD);
+    logTank->SetSensitiveDetector(waterSD);
 }

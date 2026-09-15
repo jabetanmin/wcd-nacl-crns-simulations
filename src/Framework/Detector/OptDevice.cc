@@ -1,6 +1,7 @@
 #include "OptDevice.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Random/RandGauss.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -42,12 +43,38 @@ OptDevice::SetProperties(OptDevice::DeviceType type)
 			SetName("Multi-Channel_PMT");
 		break;
 
+               //case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        //SetSemiAxisX(40);
+                        //SetSemiAxisY(40);
+                        //SetSemiAxisZ(26);
+                        //SetName("PMT");
+
+
 		case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        SetSemiAxisX(10.1);
+                        SetSemiAxisY(10.1);
+                        SetSemiAxisZ(6.5);
+                        SetName("PMT");
+
+               //case ePMT:
+                        // represented in G4Models as a G4Ellipsoid
+                        //SetinnerRadius(0.0);
+			//SetouterRadius(10.0);
+                        //SetstartPhi(0.0);
+                        //SetdeltaPhi(360.0);
+			//SetstartTheta(0.0);
+                        //SetdeltaTheta(180.0);
+                        //SetName("PMT");
+
+				
+		//case ePMT:
 			// represented in G4Models as a G4Ellipsoid
-			SetSemiAxisX(10.1);
-			SetSemiAxisY(10.1);
-			SetSemiAxisZ(6.5);
-			SetName("PMT");
+		//	SetSemiAxisX(10.1);
+		//	SetSemiAxisY(10.1);
+		//	SetSemiAxisZ(6.5);
+		//	SetName("PMT");
 		break;
 
 		case eUnknown:
@@ -111,11 +138,9 @@ OptDevice::IsPhotonDetected(double energy)
 
 	double waveLength = 1240. / energy;
 	DeviceType t = GetType();
-	double qeff = GetQuantumEfficiency(waveLength, t);
-	double rand = CLHEP::RandFlat::shoot();
-
-	return (rand < qeff);
-	
+	const double detectionEfficiency =
+		std::max(0.0, std::min(1.0, GetQuantumEfficiency(waveLength, t)));
+	return CLHEP::RandFlat::shoot() < detectionEfficiency;
 }
 
 
@@ -167,25 +192,28 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 
 		case ePMT:
 			{ 
-
-			if(waveLength >= 250. && waveLength < 300.)
-				qeff = 0.01;
-			else if(waveLength >= 300. && waveLength < 350.)
-				qeff = 0.03;
-			else if(waveLength >= 350. && waveLength < 400.)
-				qeff = 0.2;
-			else if(waveLength >= 400. && waveLength < 450.)
-				qeff = 0.25;
-			else if(waveLength >= 450. && waveLength < 500.)
-				qeff = 0.2;
-			else if(waveLength >= 500. && waveLength < 550.)
-				qeff = 0.14;
-			else if(waveLength >= 550. && waveLength < 600.)
-				qeff = 0.07;
-			else if(waveLength >= 600. && waveLength < 650.)
-				qeff = 0.03;
-			else if(waveLength >= 650. && waveLength < 700.)
-				qeff = 0.01;
+			// Nominal R5912 response used by this WCD model.  Values between
+			// tabulated wavelengths are linearly interpolated, avoiding the
+			// artificial jumps of the former 50-nm histogram.  The endpoints
+			// make the supported 300--650 nm range explicit.
+			static const double wavelengthNm[] = {
+				300., 350., 400., 450., 500., 550., 600., 650.
+			};
+			static const double quantumEfficiency[] = {
+				0.03, 0.20, 0.25, 0.20, 0.14, 0.07, 0.03, 0.00
+			};
+			const std::size_t n = sizeof(wavelengthNm) / sizeof(double);
+			if (waveLength >= wavelengthNm[0] && waveLength <= wavelengthNm[n-1]) {
+				for (std::size_t i = 1; i < n; ++i) {
+					if (waveLength <= wavelengthNm[i]) {
+						const double fraction = (waveLength - wavelengthNm[i-1]) /
+						                        (wavelengthNm[i] - wavelengthNm[i-1]);
+						qeff = quantumEfficiency[i-1] + fraction *
+						       (quantumEfficiency[i] - quantumEfficiency[i-1]);
+						break;
+					}
+				}
+			}
 
 #if 0
 				// photonis-XP1805
@@ -254,7 +282,8 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 
 				qeff *= fQEScaleParameter * fPMTCollectionEfficiency;
 #endif
-
+				// The Bernoulli probability is the photon-detection efficiency:
+				// photocathode QE times first-dynode collection efficiency.
 				qeff *= fPMTCollectionEfficiency;
 			}
 			break;
@@ -264,7 +293,6 @@ OptDevice::GetQuantumEfficiency(double waveLength, OptDevice::DeviceType type)
 			break;
 
 	} // end switch
-
 	return qeff;
 
 }
@@ -285,7 +313,8 @@ OptDevice::GetOpticalRange()
 		break;
 
 		case ePMT:
-			fOpticalRange = {1.77 ,4.96};
+			// 650 nm <= lambda <= 300 nm, expressed as increasing energy.
+			fOpticalRange = {1240. / 650., 1240. / 300.};
 		break;
 
 		case eUnknown:
