@@ -1,0 +1,498 @@
+--- MEIGA-anterior/src/G4Models/Materials.cc
++++ MEIGA-integrado/src/G4Models/Materials.cc
+@@ -1,5 +1,10 @@
+ #include "Materials.h"
+ #include "G4NistManager.hh"
++#include "G4Exception.hh"
++#include <sstream>
++#include <iomanip>
++#include <algorithm>
++#include <cmath>
+ // material properties (scintillation, Cherenkov, optics)
+ 
+ // array of photon energies in the red-UV range for scintillation processes
+@@ -116,7 +121,11 @@
+ 	1.42, 1.42, 1.42, 1.42, 1.42, 1.42, 1.42, 1.42, 1.42, 1.42
+ };
+ 
+-static G4double pmtPhotonEnergy[] = {2.00*eV, 4.00*eV};
++// Effective PMT absorber: cover the same 300--650 nm response range used by
++// OptDevice::GetQuantumEfficiency.  RINDEX controls the Fresnel probability at
++// the active-medium/PMT boundary; the very short ABSLENGTH makes transmission
++// into the solid terminal.  QE is applied once in G4MPMTAction, not here.
++static G4double pmtPhotonEnergy[] = {(1240.0/650.0)*eV, (1240.0/300.0)*eV};
+ static G4double pmtRefIndex[] = {1.47, 1.47};
+ static G4double pmtAbsLength[] = {0.0005*mm, 0.0005*mm};
+ G4int pmtArrEntries = sizeof(pmtPhotonEnergy) / sizeof(G4double);
+@@ -161,22 +170,57 @@
+ 		4.002 * eV, 4.136 * eV
+ 	};
+ 
+-static G4double water2RefIndex[] = {
+-		1.3435, 1.344,  1.3445, 1.345,  1.3455, 1.346,  1.3465, 1.347,
+-		1.3475, 1.348,  1.3485, 1.3492, 1.35,   1.3505, 1.351,  1.3518,
+-		1.3522, 1.3530, 1.3535, 1.354,  1.3545, 1.355,  1.3555, 1.356,
+-		1.3568, 1.3572, 1.358,  1.3585, 1.359,  1.3595, 1.36,   1.3608
+-	};
+-
+-G4double scaleAbsLen2 = 1.0*m;
+-static G4double water2AbsLen[] = {
+-		3.448*scaleAbsLen2,  4.082*scaleAbsLen2,  6.329*scaleAbsLen2,  9.174*scaleAbsLen2,  12.346*scaleAbsLen2, 13.889*scaleAbsLen2,
+-		15.152*scaleAbsLen2, 17.241*scaleAbsLen2, 18.868*scaleAbsLen2, 20.000*scaleAbsLen2, 26.316*scaleAbsLen2, 35.714*scaleAbsLen2,
+-		45.455*scaleAbsLen2, 47.619*scaleAbsLen2, 52.632*scaleAbsLen2, 52.632*scaleAbsLen2, 55.556*scaleAbsLen2, 52.632*scaleAbsLen2,
+-		52.632*scaleAbsLen2, 47.619*scaleAbsLen2, 45.455*scaleAbsLen2, 41.667*scaleAbsLen2, 37.037*scaleAbsLen2, 33.333*scaleAbsLen2,
+-		30.000*scaleAbsLen2, 28.500*scaleAbsLen2, 27.000*scaleAbsLen2, 24.500*scaleAbsLen2, 22.000*scaleAbsLen2, 19.500*scaleAbsLen2,
+-		17.500*scaleAbsLen2, 14.500*scaleAbsLen2
+-	};
++// WCD refractive-index spectra on the same 32-point energy grid above.
++// Arrays are intentionally non-const for compatibility with the
++// G4MaterialPropertiesTable::AddProperty API in Geant4 10.07.p04.
++static G4double pureWaterRefIndex[] = {
++    1.3319872, 1.3324872, 1.3329872, 1.3334872, 1.3339872, 1.3344872,
++    1.3349872, 1.3354872, 1.3359872, 1.3364872, 1.3369872, 1.3376872,
++    1.3384872, 1.3389872, 1.3394872, 1.3402872, 1.3406872, 1.3414872,
++    1.3419872, 1.3424872, 1.3429872, 1.3434872, 1.3439872, 1.3444872,
++    1.3452872, 1.3456872, 1.3464872, 1.3469872, 1.3474872, 1.3479872,
++    1.3484872, 1.3492872
++};
++
++static G4double saltyWater2p5RefIndex[] = {
++    1.3389748, 1.3393319, 1.3396866, 1.3400397, 1.3403883, 1.3407376,
++    1.3410888, 1.3414396, 1.3417951, 1.3421537, 1.3425175, 1.3430903,
++    1.3437697, 1.3441624, 1.3445696, 1.3452923, 1.3456353, 1.3463984,
++    1.3468882, 1.3474063, 1.3479562, 1.3485422, 1.3491666, 1.3498363,
++    1.3508518, 1.3515223, 1.3526517, 1.3535431, 1.3545063, 1.3555405,
++    1.3566576, 1.3581655
++};
++
++static G4double saltyWater5RefIndex[] = {
++    1.3428145, 1.3431976, 1.3435767, 1.3439527, 1.3443232, 1.3446927,
++    1.3450624, 1.3454307, 1.3458022, 1.3461759, 1.3465541, 1.3471392,
++    1.3478302, 1.3482365, 1.3486578, 1.3493938, 1.3497542, 1.3505348,
++    1.3510465, 1.3515907, 1.3521714, 1.3527942, 1.3534617, 1.3541829,
++    1.3552573, 1.3559996, 1.3572114, 1.3581999, 1.3592765, 1.3604404,
++    1.3617071, 1.3633853
++};
++
++static G4double saltyWater10RefIndex[] = {
++    1.3588310, 1.3590937, 1.3593505, 1.3596026, 1.3598447, 1.3600849,
++    1.3603250, 1.3605609, 1.3608010, 1.3610423, 1.3612880, 1.3617427,
++    1.3623022, 1.3625837, 1.3628854, 1.3635060, 1.3637615, 1.3644425,
++    1.3648698, 1.3653417, 1.3658659, 1.3664496, 1.3670986, 1.3678241,
++    1.3689258, 1.3697281, 1.3710292, 1.3721451, 1.3733899, 1.3747644,
++    1.3762907, 1.3782804
++};
++
++// Common absorption-length spectrum. In the absence of concentration-specific
++// measurements, the same baseline is used for all four WCD media.
++static G4double waterAbsLen[] = {
++     3.448*m,  4.082*m,  6.329*m,  9.174*m,
++    12.346*m, 13.889*m, 15.152*m, 17.241*m,
++    18.868*m, 20.000*m, 26.316*m, 35.714*m,
++    45.455*m, 47.619*m, 52.632*m, 52.632*m,
++    55.556*m, 52.632*m, 52.632*m, 47.619*m,
++    45.455*m, 41.667*m, 37.037*m, 33.333*m,
++    30.000*m, 28.500*m, 27.000*m, 24.500*m,
++    22.000*m, 19.500*m, 17.500*m, 14.500*m
++};
+ 
+ 
+ static G4double water2PhotonEnergyMie[] = {
+@@ -217,32 +261,57 @@
+ // gforward, gbackward, forward backward ratio
+ static G4double water2MieConst[3] = { 0.99, 0.99, 0.8 };
+ 
++static G4MaterialPropertiesTable* CreateWCDOpticalTable(
++    G4double* refractiveIndex)
++{
++    G4MaterialPropertiesTable* table = new G4MaterialPropertiesTable();
++    table->AddProperty("RINDEX",
++                       water2PhotonEnergy,
++                       refractiveIndex,
++                       water2ArrEntries);
++    table->AddProperty("ABSLENGTH",
++                       water2PhotonEnergy,
++                       waterAbsLen,
++                       water2ArrEntries);
++
++    // Retain the pre-existing Geant4 OpNovice Mie model as a common baseline.
++    // It is not a measured salinity-dependent scattering model.
++    table->AddProperty("MIEHG",
++                       water2PhotonEnergyMie,
++                       water2Mie,
++                       sizeof(water2PhotonEnergyMie)/sizeof(G4double));
++    table->AddConstProperty("MIEHG_FORWARD", water2MieConst[0]);
++    table->AddConstProperty("MIEHG_BACKWARD", water2MieConst[1]);
++    table->AddConstProperty("MIEHG_FORWARD_RATIO", water2MieConst[2]);
++    return table;
++}
++
+ 
+ 
+ // ----------- Liner (Tyvek) --------------------------
+ 
+ static G4double linerAbsLen[] = {
+-	10*m,  10*m,  10*m,  10*m,  10*m,  10*m,
+-	10*m,  10*m,  10*m,  10*m,  10*m,  10*m,
+-	10*m,  10*m,  10*m,  10*m,  10*m,  10*m,
+-	10*m,  10*m,  10*m,  10*m,  10*m,  10*m,
+-	10*m,  10*m,  10*m,  10*m,  10*m,  10*m
++	0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,
++	0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,
++	0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,
++	0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,
++	0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm,  0.1*mm
+ };
+ 
+ static G4double linerRefIndex[] = {
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0
++	1.49, 1.49, 1.49, 1.49, 1.49, 1.49,
++	1.49, 1.49, 1.49, 1.49, 1.49, 1.49,
++	1.49, 1.49, 1.49, 1.49, 1.49, 1.49,
++	1.49, 1.49, 1.49, 1.49, 1.49, 1.49,
++	1.49, 1.49, 1.49, 1.49, 1.49, 1.49
+ };
+ 
+ static G4double linerBackScatter[] = {
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0,
+-	0, 0, 0, 0, 0, 0
++	0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
++	0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
++	0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
++	0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
++	0.02, 0.02, 0.02, 0.02, 0.02, 0.02
+ };
+ 
+ static G4double scaleLinerRef = 0.94;
+@@ -258,9 +327,100 @@
+ static G4double fSigmaAlpha = 0.17; // 0.23 in doi = 10.1364/OE.19.004199
+ static G4double specularLobePhotonEnergy[] = {2.08*eV, 3.0*eV, 4.20*eV};
+ // fraction of light reflected in a lobe with width characterized by sigmaAlpha
+-static G4double specularLobe[] = {0.2, 0.2, 0.2}; // same value in doi = 10.1364/OE.19.004199
++static G4double specularLobe[] = {0.02, 0.02, 0.02}; // same value in doi = 10.1364/OE.19.004199
+ static G4double specularSpike[] = {0, 0, 0};
+ 
++// --------------------------------------------------------------------
++// Utilities for saline water at 20 C
++// --------------------------------------------------------------------
++static G4double NormalizeNaClFraction(G4double x)
++{
++	// r_NaCl = m_NaCl / (m_H2O + m_NaCl).
++	// Accept both 0.025 and 2.5 as input representations of 2.5% w/w.
++	if (x > 1.0) x /= 100.0;
++	return x;
++}
++
++static G4double WCDMediumDensity20C(G4double wNaCl)
++{
++	// Tabulated densities used by this study at 20 degC.
++	// No interpolation is performed: only the four simulated media are valid.
++	const G4double tol = 1.0e-9;
++	if (std::abs(wNaCl - 0.000) < tol) return 0.99820 * g/cm3;
++	if (std::abs(wNaCl - 0.025) < tol) return 1.01604 * g/cm3;
++	if (std::abs(wNaCl - 0.050) < tol) return 1.03401 * g/cm3;
++	if (std::abs(wNaCl - 0.100) < tol) return 1.07051 * g/cm3;
++
++	G4ExceptionDescription description;
++	description << "Unsupported NaCl final mass fraction: " << wNaCl
++	            << ". Valid values are 0, 0.025, 0.050 and 0.100.";
++	G4Exception("WCDMediumDensity20C", "WCD-MAT-001",
++	            FatalException, description);
++	return 0.0;
++}
++
++static G4String SaltyWaterName(G4double wNaCl)
++{
++	const G4double w = NormalizeNaClFraction(wNaCl);
++	std::ostringstream os;
++	os << "SaltyWater_NaCl_"
++	   << std::fixed << std::setprecision(1)
++	   << 100.0*w << "pct";
++	return os.str();
++}
++
++static G4Material* CreateSaltyWaterByFinalMassFraction(
++	const G4String& name,
++	G4double wNaClInput,
++	G4Element* elBoundH,
++	G4Element* elO,
++	G4Element* elNa,
++	G4Element* elCl,
++	G4MaterialPropertiesTable* opticalMPT
++)
++{
++	// Final solution mass fraction:
++	// w_NaCl = m_NaCl / (m_H2O + m_NaCl).
++	const G4double wNaCl = NormalizeNaClFraction(wNaClInput);
++
++	const G4double MH  = 1.00794;
++	const G4double MO  = 15.9994;
++	const G4double MNa = 22.98977;
++	const G4double MCl = 35.453;
++
++	const G4double MH2O  = 2.0*MH + MO;
++	const G4double MNaCl = MNa + MCl;
++
++	const G4double wWater = 1.0 - wNaCl;
++
++	const G4double wH  = wWater * (2.0*MH/MH2O);
++	const G4double wO  = wWater * (MO/MH2O);
++	const G4double wNa = wNaCl  * (MNa/MNaCl);
++	const G4double wCl = wNaCl  * (MCl/MNaCl);
++
++	const G4double density = WCDMediumDensity20C(wNaCl);
++
++	// Same thermal state as Water_TS_H_of_Water, and the same bound-hydrogen
++	// element, so that every WCD saline medium also receives the h_water
++	// S(alpha,beta) treatment below 4 eV (see G4MPhysicsList::G4MPhysicsList).
++	// Na, Cl and O keep the standard G4NDL free-gas treatment: G4NDL 4.6 has
++	// no concentration-specific thermal scattering law for these solutions.
++	G4Material* saltyWater = new G4Material(name, density, 4,
++	                                        kStateLiquid,
++	                                        293.15 * kelvin,
++	                                        1.0 * bar);
++	saltyWater->AddElement(elBoundH, wH);
++	saltyWater->AddElement(elO,  wO);
++	saltyWater->AddElement(elNa, wNa);
++	saltyWater->AddElement(elCl, wCl);
++
++	// Each saline medium receives its own concentration-dependent optical
++	// table (see CreateWCDOpticalTable / pureWaterRefIndex / saltyWaterNRefIndex).
++	if (opticalMPT) saltyWater->SetMaterialPropertiesTable(opticalMPT);
++
++	return saltyWater;
++}
++
+ 
+ //////
+ static bool isInitialized = 0;
+@@ -292,6 +452,9 @@
+ G4Material* Materials::Water;
+ G4Material* Materials::Salt;
+ G4Material* Materials::SaltyWater;
++G4Material* Materials::SaltyWater_2p5;
++G4Material* Materials::SaltyWater_5;
++G4Material* Materials::SaltyWater_10;
+ G4Material* Materials::StdRock;
+ G4Material* Materials::ScinPlastic;
+ G4Material* Materials::ScinCoating;
+@@ -354,6 +517,8 @@
+ 	elH  = new G4Element("Hydrogen", "H", 1, 1.01 * g/mole);
+ 	// Exact Geant4 thermal-scattering name.  G4NeutronHP maps this
+ 	// pseudo-element to the h_water S(alpha,beta) evaluation in G4NDL.
++	// Used for every WCD active medium (pure water and the three NaCl
++	// solutions) so hydrogen is consistently treated as bound, not free-gas.
+ 	elTSHWater = new G4Element("TS_H_of_Water", "H_WATER",
+ 	                            1.0, 1.00794 * g/mole);
+ 	elC  = new G4Element("Carbon", "C", 6, 12.0107 * g/mole);
+@@ -456,10 +621,13 @@
+ 	//Water->AddElement(elH, 2);
+ 	//Water->AddElement(elO, 1);
+ 
+-	// Liquid water at 20 degC with hydrogen bound in the molecular medium.
+-	// Using G4_WATER here would leave H under the free-gas elastic treatment.
++	// Liquid water at 20 degC with hydrogen bound in the molecular medium
++	// (S(alpha,beta) thermal-scattering law, see G4MPhysicsList).  Using
++	// G4_WATER or plain elH here would leave H under the free-gas elastic
++	// treatment below 4 eV.  A dedicated material is used because G4_WATER
++	// also has the nominal Geant4 density 1.0 g/cm3 rather than 0.99820 g/cm3.
+ 	Water = new G4Material("Water_TS_H_of_Water",
+-	                       0.99820 * g/cm3,
++	                       WCDMediumDensity20C(0.0),
+ 	                       2,
+ 	                       kStateLiquid,
+ 	                       293.15 * kelvin,
+@@ -468,23 +636,42 @@
+ 	Water->AddElement(elO, 1);
+ 
+ 
+-	// Define different PropertiesTable for different water "types"
+-	waterPT1 = new G4MaterialPropertiesTable();
+-	waterPT1->AddProperty("RINDEX", water1PhotonEnergyShort, water1RefIndex, 2);
+-	waterPT1->AddProperty("ABSLENGTH", water1PhotonEnergy, water1AbsLen, water1ArrEntries);
+-	
+-	// --- Material Properties Table from Geant4 OpNovice example.
+-	waterPT2 = new G4MaterialPropertiesTable();
+-	waterPT2->AddProperty("RINDEX", water2PhotonEnergy, water2RefIndex, water2ArrEntries);
+-	waterPT2->AddProperty("ABSLENGTH", water2PhotonEnergy, water2AbsLen, water2ArrEntries);
+-	waterPT2->AddProperty("MIEHG", water2PhotonEnergyMie, water2Mie, water2ArrEntries);
+-	waterPT2->AddConstProperty("MIEHG_FORWARD", water2MieConst[0]);
+-	waterPT2->AddConstProperty("MIEHG_BACKWARD", water2MieConst[1]);
+-	waterPT2->AddConstProperty("MIEHG_FORWARD_RATIO", water2MieConst[2]);
++	// One complete optical table per active medium. RINDEX changes with NaCl;
++	// ABSLENGTH and MIEHG are common baselines until concentration-dependent
++	// measurements are available.
++	waterPT1 = CreateWCDOpticalTable(pureWaterRefIndex);
++	waterPT2 = waterPT1;  // backward-compatible alias
++	G4MaterialPropertiesTable* saltyWater2p5PT =
++		CreateWCDOpticalTable(saltyWater2p5RefIndex);
++	G4MaterialPropertiesTable* saltyWater5PT =
++		CreateWCDOpticalTable(saltyWater5RefIndex);
++	G4MaterialPropertiesTable* saltyWater10PT =
++		CreateWCDOpticalTable(saltyWater10RefIndex);
+ 
+-	// function to set waterPT from configuration file
+ 	Water->SetMaterialPropertiesTable(waterPT1);
+ 
++	// --------------------------------------------------------------------
++	// Saline water materials at 20 C
++	// Convention: w_NaCl = m_NaCl / (m_H2O + m_NaCl).
++	// elTSHWater (not elH) supplies hydrogen so every solution keeps the
++	// bound-hydrogen S(alpha,beta) treatment used by pure water.
++	// --------------------------------------------------------------------
++	SaltyWater_2p5 = CreateSaltyWaterByFinalMassFraction(
++		SaltyWaterName(0.025), 0.025, elTSHWater, elO, elNa, elCl,
++		saltyWater2p5PT);
++
++	SaltyWater_5 = CreateSaltyWaterByFinalMassFraction(
++		SaltyWaterName(0.05), 0.05, elTSHWater, elO, elNa, elCl,
++		saltyWater5PT);
++
++	SaltyWater_10 = CreateSaltyWaterByFinalMassFraction(
++		SaltyWaterName(0.10), 0.10, elTSHWater, elO, elNa, elCl,
++		saltyWater10PT);
++
++	// Backward-compatible default alias. Prefer explicit SaltyWater_2p5,
++	// SaltyWater_5 or SaltyWater_10 in the detector geometry.
++	SaltyWater = SaltyWater_10;
++
+ 
+ 	// --------------------------------------------------------------------
+ 	// Rocks
+@@ -577,15 +764,14 @@
+ 
+ 
+ 	// --------------------------------------------------------------------
+-	// Borosilicate glass "Pyrex" (for SiPM & PMT active surfaces)
++	// Effective absorbing PMT medium (keeps legacy material name "Pyrex")
+ 	// --------------------------------------------------------------------
+ 	/*
+-		NOTE : The "face" is actually an ellipsoidal surface
+-		The active area (photocathode) covers 90% of it.
+-		The refractive index is the same as the dome
+-		refractive index. The absorption length is set
+-		so that no photons propagate through the
+-		photocathode.
++		This is not a resolved glass-window/vacuum/photocathode stack.  The
++		ellipsoidal solid represents an effective photocathode: Fresnel losses
++		are obtained from its RINDEX and photons that enter are absorbed.  The
++		wavelength-dependent QE and collection efficiency are sampled exactly
++		once by G4MPMTAction/OptDevice.  Do not also add EFFICIENCY here.
+ 	*/
+ 
+ 	// from PDG:
+@@ -597,46 +783,89 @@
+ 	Pyrex->AddMaterial(B2O2, 0.13);
+ 	Pyrex->AddMaterial(Na2O, 0.07);
+ 
+-	// Add properties to table
+-	#warning "This properties are for PMTs! Check Pyrex optical properties for SiPMs!!"
++	// Optical properties for the effective PMT absorber.
+ 	pyrexPT = new G4MaterialPropertiesTable();
+ 	pyrexPT->AddProperty("RINDEX", pmtPhotonEnergy, pmtRefIndex, pmtArrEntries);
+ 	pyrexPT->AddProperty("ABSLENGTH", pmtPhotonEnergy, pmtAbsLength, pmtArrEntries);
+ 	Pyrex->SetMaterialPropertiesTable(pyrexPT);
+-
++	
+ 	// --------------------------------------------------------------------
+-	// HDPE for WCD liner material (Tyvek®)
++	// Tyvek / HDPE liner material for WCD
+ 	// --------------------------------------------------------------------
+-	// 
+-	HDPE = new G4Material("HDPE", 0.94 * g/cm3, 2);
++
++	HDPE = new G4Material("Tyvek_HDPE", 0.94 * g/cm3, 2);
+ 	HDPE->AddElement(elC, 2);
+ 	HDPE->AddElement(elH, 4);
+ 
++	// Bulk optical properties of Tyvek/HDPE
+ 	linerPT1 = new G4MaterialPropertiesTable();
+-	linerPT1->AddProperty("ABSLENGTH", water1PhotonEnergy, linerAbsLen, water1ArrEntries);
++
++	linerPT1->AddProperty("RINDEX",
++                      water1PhotonEnergy,
++                      linerRefIndex,
++                      water1ArrEntries);
++
++	linerPT1->AddProperty("ABSLENGTH",
++                      water1PhotonEnergy,
++                      linerAbsLen,
++                      water1ArrEntries);
++
+ 	HDPE->SetMaterialPropertiesTable(linerPT1);
+ 
+-	// Liner optical surface properties
++
++	// --------------------------------------------------------------------
++	// Optical surface: water/salty water -> Tyvek
++	// --------------------------------------------------------------------
++	
+ 	linerOpticalPT = new G4MaterialPropertiesTable();
+-	linerOpticalPT->AddProperty("SPECULARLOBECONSTANT", specularLobePhotonEnergy, specularLobe, 3);
+-	linerOpticalPT->AddProperty("SPECULARSPIKECONSTANT", specularLobePhotonEnergy, specularSpike, 3);
+-	linerOpticalPT->AddProperty("REFLECTIVITY", water1PhotonEnergy, linerReflectivity, water1ArrEntries);
+-	linerOpticalPT->AddProperty("BACKSCATTERCONSTANT", water1PhotonEnergy, linerBackScatter, water1ArrEntries);
+-	linerOpticalPT->AddProperty("RINDEX", water1PhotonEnergy, linerRefIndex, water1ArrEntries);
+ 
+-	LinerOptSurf =  new G4OpticalSurface("WallSurface");
++	// Required by G4OpBoundaryProcess for a dielectric_dielectric
++	// groundbackpainted surface. This describes the refractive index of the
++	// optical coating at the active-medium -> Tyvek boundary.
++	linerOpticalPT->AddProperty("RINDEX",
++                            water1PhotonEnergy,
++                            linerRefIndex,
++                            water1ArrEntries);
++
++	linerOpticalPT->AddProperty("REFLECTIVITY",
++                            water1PhotonEnergy,
++                            linerReflectivity,
++                            water1ArrEntries);
++
++	linerOpticalPT->AddProperty("BACKSCATTERCONSTANT",
++                            water1PhotonEnergy,
++                            linerBackScatter,
++                            water1ArrEntries);
++
++	linerOpticalPT->AddProperty("SPECULARLOBECONSTANT",
++                            specularLobePhotonEnergy,
++                            specularLobe,
++                            3);
++
++	linerOpticalPT->AddProperty("SPECULARSPIKECONSTANT",
++                            specularLobePhotonEnergy,
++                            specularSpike,
++                            3);
++
++	LinerOptSurf = new G4OpticalSurface("TyvekOpticalSurface");
++
+ 	LinerOptSurf->SetModel(unified);
+-	LinerOptSurf->SetType(dielectric_metal);
+-	LinerOptSurf->SetFinish(ground);
++	LinerOptSurf->SetType(dielectric_dielectric);
++	LinerOptSurf->SetFinish(groundbackpainted);
+ 	LinerOptSurf->SetSigmaAlpha(fSigmaAlpha);
+ 	LinerOptSurf->SetMaterialPropertiesTable(linerOpticalPT);
+ 
+-	// LAGO WCD parameters
+-	LinerOptSurf2 =  new G4OpticalSurface("WallSurface");
++	// Alternate LAGO WCD liner surface (dielectric_LUT/groundtyvekair).  Not
++	// used by SaltyWCD::BuildDetector, kept initialized for parity with other
++	// detector models that may select it directly from Materials.
++	LinerOptSurf2 = new G4OpticalSurface("WallSurface");
+ 	LinerOptSurf2->SetType(dielectric_LUT);
+ 	LinerOptSurf2->SetFinish(groundtyvekair);
+ 	LinerOptSurf2->SetModel(LUT);
+ 
++
++
++
+ 	// --------------------------------------------------------------------
+ 	// Concrete
+ 	// --------------------------------------------------------------------

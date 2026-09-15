@@ -1,0 +1,712 @@
+--- MEIGA-anterior/src/Applications/G4WCDSimulator/G4WCDSteppingAction.cc
++++ MEIGA-integrado/src/Applications/G4WCDSimulator/G4WCDSteppingAction.cc
+@@ -1,398 +1,338 @@
+-// implementation of the G4WCDSteppingAction class
+-#include "G4WCDSimulator.h"
++// Registro de informacion paso a paso del modelo WCD.
++
+ #include "G4WCDSteppingAction.h"
+-#include "G4WCDConstruction.h"
+-#include "G4WCDEventAction.h"
+-#include "G4WCDTrackingAction.h"
+ 
++#include "G4AutoLock.hh"
++#include "G4DynamicParticle.hh"
++#include "G4Element.hh"
++#include "G4Event.hh"
++#include "G4Exception.hh"
++#include "G4HadronicProcess.hh"
++#include "G4Material.hh"
++#include "G4Nucleus.hh"
++#include "G4OpticalPhoton.hh"
++#include "G4ParticleDefinition.hh"
++#include "G4Run.hh"
++#include "G4RunManager.hh"
+ #include "G4Step.hh"
++#include "G4StepPoint.hh"
++#include "G4SystemOfUnits.hh"
+ #include "G4Track.hh"
+-#include "G4RunManager.hh"
++#include "G4VProcess.hh"
+ 
+-#include "G4OpticalPhoton.hh"
++#include <fstream>
++#include <iomanip>
++#include <sstream>
++#include <string>
++#include <vector>
+ 
+-#include "SimData.h"
+-#include "Detector.h"
++namespace
++{
++G4Mutex outputMutex = G4MUTEX_INITIALIZER;
++
++const G4String outputDirectory = "Datos-simulacion/";
++
++const char* stepHeader =
++  "# run_id\tevent_id\tparticle\ttrack_id\tparent_id\tstep_number\t"
++  "creator_process\tstep_process\tmaterial\tpre_x_cm\tpre_y_cm\tpre_z_cm\t"
++  "post_x_cm\tpost_y_cm\tpost_z_cm\tpre_energy_MeV\tpost_energy_MeV\t"
++  "global_time_ns";
++
++const char* secondaryHeader =
++  "# run_id\tevent_id\tcategory\tparent_particle\tparent_track_id\t"
++  "parent_step_number\tsecondary_index\tparticle\ttrack_id\tparent_id\t"
++  "creator_process\tmaterial\tx_cm\ty_cm\tz_cm\tkinetic_energy_MeV\t"
++  "global_time_ns";
++
++const char* captureHeader =
++  "# run_id\tevent_id\tparticle\ttrack_id\tparent_id\tstep_number\t"
++  "step_process\tmaterial\ttarget_Z\ttarget_A\tpre_x_cm\tpre_y_cm\tpre_z_cm\t"
++  "post_x_cm\tpost_y_cm\tpost_z_cm\tpre_energy_MeV\tpost_energy_MeV\t"
++  "global_time_ns";
+ 
+-G4WCDSteppingAction::G4WCDSteppingAction(const G4WCDConstruction* det, G4WCDEventAction* G4event, Event& theEvent)
+-	: G4UserSteppingAction(),
+-		fDetectorConstruction(det),
+-		fEventAction(G4event),
+-    fEvent(theEvent)
+-{
+-
+-    // Inicializa el mapa para registrar las reacciones
+-    fReactionsPerEvent.clear();
+-}
+-
+-G4WCDSteppingAction::~G4WCDSteppingAction()
++G4String ProcessName(const G4VProcess* process)
+ {
++  return process ? process->GetProcessName() : "none";
+ }
+ 
+-void
+-G4WCDSteppingAction::UserSteppingAction(const G4Step* step)
+-{
+-    G4double paso = step->GetTrack()->GetCurrentStepNumber();
+-    G4Track* track = step->GetTrack();
+-    G4String particleName = track->GetParticleDefinition()->GetParticleName();
+-    G4StepPoint* preStepPoint = step->GetPreStepPoint();
+-    G4ThreeVector position_i = preStepPoint->GetPosition();
+-    G4double x_i = position_i.x(); // Coordenada x
+-    G4double y_i = position_i.y(); // Coordenada y
+-    G4double z_i = position_i.z(); // Coordenada z
+-    G4double E_i = preStepPoint->GetKineticEnergy();
+-    G4StepPoint* postStepPoint = step->GetPostStepPoint();
+-    G4ThreeVector position_f = postStepPoint->GetPosition();
+-    G4double x_f = position_f.x(); // Coordenada x
+-    G4double y_f = position_f.y(); // Coordenada y
+-    G4double z_f = position_f.z(); // Coordenada z
+-    G4double E_f = postStepPoint->GetKineticEnergy();
+-    G4String processName = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-    G4double parentID = step->GetTrack()->GetParentID();
+-    G4int trackID = track->GetTrackID();
+-
+-    // Diagnostic stream for the S(alpha,beta) validation.  Geant4 reports the
+-    // process as hadElastic for both free-gas and thermal scattering, so the
+-    // material name, temperature and energy transfer are recorded explicitly.
+-    if (particleName == "neutron" && processName == "hadElastic" &&
+-        E_i <= 4.0*eV) {
+-        const G4Material* thermalMaterial = preStepPoint->GetMaterial();
+-        std::ofstream thermalOutput(
+-            "Datos-simulacion/dispersion-termica-SalphaBeta.tsv",
+-            std::ios_base::app);
+-        thermalOutput
+-            << trackID << '\t'
+-            << paso << '\t'
+-            << thermalMaterial->GetName() << '\t'
+-            << thermalMaterial->GetTemperature()/kelvin << '\t'
+-            << E_i/eV << '\t'
+-            << E_f/eV << '\t'
+-            << (E_f-E_i)/eV << '\n';
+-    }
+-   
++G4String MaterialName(const G4StepPoint* point)
++{
++  return (point && point->GetMaterial()) ? point->GetMaterial()->GetName()
++                                         : "none";
++}
+ 
+-    std::ofstream outputFileinformacion("Datos-simulacion/informacion-completa.txt", std::ios_base::app);
+-    outputFileinformacion << paso <<"\t" << particleName <<"\t" << trackID <<"\t"<< parentID <<"\t"<<  E_i / MeV <<"\t"<< x_i <<"\t"<< y_i <<"\t" << z_i <<"\t" << x_f<<"\t"<<y_f<<"\t"<<z_f <<"\t"<< E_f / MeV <<"\t" << postStepPoint->GetProcessDefinedStep()->GetProcessName()<< "\n";
+-    outputFileinformacion.close();
+-
+-    if(paso == 1 && particleName == "neutron"  )
+-    { std::ofstream outputFileisertados("Datos-simulacion/neutrones-incertados.txt", std::ios_base::app);
+-    outputFileisertados << paso <<"\t" << particleName <<"\t" << trackID <<"\t"<< parentID <<"\t"<<  E_i / MeV <<"\t"<< x_i <<"\t"<< y_i <<"\t" << z_i <<"\t" << x_f<<"\t"<<y_f<<"\t"<<z_f <<"\t"<< E_f / MeV <<"\t" << postStepPoint->GetProcessDefinedStep()->GetProcessName()<< "\n";
+-    outputFileisertados.close();}
+-
+-    if( particleName == "neutron"  )
+-    { std::ofstream outputFilecompleto("Datos-simulacion/interaccion-completa-neutrones.txt", std::ios_base::app);
+-    outputFilecompleto << paso <<"\t" << particleName <<"\t" << trackID <<"\t"<< parentID <<"\t"<<  E_i / MeV <<"\t"<< x_i <<"\t"<< y_i <<"\t" << z_i <<"\t" << x_f<<"\t"<<y_f<<"\t"<<z_f <<"\t"<< E_f / MeV <<"\t" << postStepPoint->GetProcessDefinedStep()->GetProcessName()<< "\n";
+-    outputFilecompleto.close();}
++G4int CurrentRunId()
++{
++  const auto* runManager = G4RunManager::GetRunManager();
++  const auto* run = runManager ? runManager->GetCurrentRun() : nullptr;
++  return run ? run->GetRunID() : -1;
++}
++
++G4int CurrentEventId()
++{
++  const auto* runManager = G4RunManager::GetRunManager();
++  const auto* event = runManager ? runManager->GetCurrentEvent() : nullptr;
++  return event ? event->GetEventID() : -1;
++}
+ 
++// Agrega una linea TSV de forma segura en ejecuciones multihilo. El encabezado
++// se escribe una sola vez cuando el archivo no existe o esta vacio.
++void AppendTsv(const G4String& fileName,
++               const char* header,
++               const G4String& row)
++{
++  G4AutoLock lock(&outputMutex);
+ 
++  const G4String path = outputDirectory + fileName;
++  std::ifstream input(path.c_str(), std::ios::binary | std::ios::ate);
++  const bool needsHeader = !input.good() || input.tellg() == std::streampos(0);
++  input.close();
++
++  std::ofstream output(path.c_str(), std::ios::out | std::ios::app);
++  if (!output) {
++    G4ExceptionDescription description;
++    description << "No se pudo abrir " << path
++                << ". Compruebe que el directorio Datos-simulacion existe "
++                << "y tiene permisos de escritura.";
++    G4Exception("AppendTsv", "WCD-OUTPUT-001", FatalException, description);
++    return;
++  }
++
++  if (needsHeader) {
++    output << header << '\n';
++  }
++  output << row << '\n';
++}
+ 
+-   //////////////////////////////////////////Hasta aqui/////////////////////
+-
+-  /*  if (fReactionsPerEvent.find(processName) == fReactionsPerEvent.end()) 
+-    {
+-        // Si el proceso no está registrado, inicializa el conteo
+-        fReactionsPerEvent[processName] = 1;
+-    } 
+-    else {
+-        // Incrementa el conteo del proceso
+-        fReactionsPerEvent[processName]++;
+-    }
++G4String StepRow(const G4Step* step, const G4String& processName)
++{
++  const auto* track = step->GetTrack();
++  const auto* pre = step->GetPreStepPoint();
++  const auto* post = step->GetPostStepPoint();
++  const auto prePosition = pre->GetPosition();
++  const auto postPosition = post->GetPosition();
++
++  std::ostringstream row;
++  row << std::setprecision(10)
++      << CurrentRunId() << '\t'
++      << CurrentEventId() << '\t'
++      << track->GetParticleDefinition()->GetParticleName() << '\t'
++      << track->GetTrackID() << '\t'
++      << track->GetParentID() << '\t'
++      << track->GetCurrentStepNumber() << '\t'
++      << ProcessName(track->GetCreatorProcess()) << '\t'
++      << processName << '\t'
++      << MaterialName(pre) << '\t'
++      << prePosition.x() / cm << '\t'
++      << prePosition.y() / cm << '\t'
++      << prePosition.z() / cm << '\t'
++      << postPosition.x() / cm << '\t'
++      << postPosition.y() / cm << '\t'
++      << postPosition.z() / cm << '\t'
++      << pre->GetKineticEnergy() / MeV << '\t'
++      << post->GetKineticEnergy() / MeV << '\t'
++      << track->GetGlobalTime() / ns;
++  return row.str();
++}
+ 
+-    // Si es el último paso en el volumen principal, imprime las reacciones del evento
+-    if (step->GetTrack()->GetTrackID() == 1 && step->IsLastStepInVolume()) 
+-    {
+-        G4cout << "\n Lista de reacciones nucleares en este evento: \n" << G4endl;
+-
+-        for (const auto& reaction : fReactionsPerEvent) 
+-	{
+-            G4cout << "  " << std::setw(30) << reaction.first << ": "
+-                   << std::setw(7) << reaction.second << G4endl;
+-        }
+-    }*/
+-
+-////////////////////////////////para el inicio////////////////////
++void WriteSecondaries(const G4Step* step,
++                      const G4String& category,
++                      const G4String& fileName)
++{
++  const auto* parent = step->GetTrack();
++  const auto* pre = step->GetPreStepPoint();
++  const auto* secondaries = step->GetSecondaryInCurrentStep();
++
++  for (std::size_t index = 0; index < secondaries->size(); ++index) {
++    const auto* secondary = (*secondaries)[index];
++    const auto position = secondary->GetPosition();
++
++    std::ostringstream row;
++    row << std::setprecision(10)
++        << CurrentRunId() << '\t'
++        << CurrentEventId() << '\t'
++        << category << '\t'
++        << parent->GetParticleDefinition()->GetParticleName() << '\t'
++        << parent->GetTrackID() << '\t'
++        << parent->GetCurrentStepNumber() << '\t'
++        << index << '\t'
++        << secondary->GetParticleDefinition()->GetParticleName() << '\t'
++        << secondary->GetTrackID() << '\t'
++        << secondary->GetParentID() << '\t'
++        << ProcessName(secondary->GetCreatorProcess()) << '\t'
++        << MaterialName(pre) << '\t'
++        << position.x() / cm << '\t'
++        << position.y() / cm << '\t'
++        << position.z() / cm << '\t'
++        << secondary->GetKineticEnergy() / MeV << '\t'
++        << secondary->GetGlobalTime() / ns;
+ 
++    AppendTsv(fileName, secondaryHeader, row.str());
++  }
++}
++
++void WriteCapture(const G4Step* step, const G4String& processName)
++{
++  const auto* track = step->GetTrack();
++  const auto* pre = step->GetPreStepPoint();
++  const auto* post = step->GetPostStepPoint();
++  const auto prePosition = pre->GetPosition();
++  const auto postPosition = post->GetPosition();
++
++  G4int targetZ = -1;
++  G4int targetA = -1;
++  const auto* process = post->GetProcessDefinedStep();
++  const auto* hadronicProcess = dynamic_cast<const G4HadronicProcess*>(process);
++  if (hadronicProcess && hadronicProcess->GetTargetNucleus()) {
++    targetZ = hadronicProcess->GetTargetNucleus()->GetZ_asInt();
++    targetA = hadronicProcess->GetTargetNucleus()->GetA_asInt();
++  }
++
++  std::ostringstream row;
++  row << std::setprecision(10)
++      << CurrentRunId() << '\t'
++      << CurrentEventId() << '\t'
++      << track->GetParticleDefinition()->GetParticleName() << '\t'
++      << track->GetTrackID() << '\t'
++      << track->GetParentID() << '\t'
++      << track->GetCurrentStepNumber() << '\t'
++      << processName << '\t'
++      << MaterialName(pre) << '\t'
++      << targetZ << '\t'
++      << targetA << '\t'
++      << prePosition.x() / cm << '\t'
++      << prePosition.y() / cm << '\t'
++      << prePosition.z() / cm << '\t'
++      << postPosition.x() / cm << '\t'
++      << postPosition.y() / cm << '\t'
++      << postPosition.z() / cm << '\t'
++      << pre->GetKineticEnergy() / MeV << '\t'
++      << post->GetKineticEnergy() / MeV << '\t'
++      << track->GetGlobalTime() / ns;
+ 
++  AppendTsv("capturas-neutrones.tsv", captureHeader, row.str());
++}
+ 
++bool IsGammaInteraction(const G4String& processName)
++{
++  return processName == "phot" || processName == "compt" ||
++         processName == "conv" || processName == "Rayl";
++}
+ 
++bool IsNeutronInteraction(const G4String& processName)
++{
++  return processName == "hadElastic" || processName == "nCapture" ||
++         processName == "neutronInelastic";
++}
+ 
+-   //G4Track* track = step->GetTrack();
+-   //G4String particleName = track->GetDynamicParticle()->GetDefinition()->GetParticleName();
+-   
+-   
+-   //G4ParticleDefinition* particle = track->GetDefinition();
+-   //G4String motherParticleName = "None";
+-   G4ThreeVector position = track->GetPosition();
+-   G4double x = position.x();
+-   G4double y = position.y();
+-   G4double z = position.z();
+-   //G4double time = track->GetGlobalTime();
+-   G4double energy = track->GetKineticEnergy();
+-   //G4double parentID = step->GetTrack()->GetParentID();
+-   //G4double paso = step->GetTrack()->GetCurrentStepNumber();
+-   //G4int trackID = track->GetTrackID();
+-   // G4String processName = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-   
+-
+-    
+-   //G4String processName_pos = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-   //G4String processNamepre = step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-   G4double preProcessEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+-   G4double postProcessEnergy = step->GetPostStepPoint()->GetKineticEnergy();
+-
+-
+-//if (parentID > 0) {
+-   //G4String  motherParticleName = track->GetDynamicParticle()->GetPrimaryParticle()->GetParticleDefinition()->GetParticleName();
+-  
+-  //  }
+-
+-   std::ofstream outputFileparticles("Datos-simulacion/rastreo-completo-particulas.txt", std::ios_base::app);
+-   outputFileparticles << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName <<"\t"<< x << "\t" << y << "\t" << z << "\t" << preProcessEnergy <<"\t" << energy / MeV << "\t" << postProcessEnergy << "\n";
+-    outputFileparticles.close();
+-
+-    //if (particleName == "neutron" )
+-      // {
+-
+-        // G4double zTopCap = 66.5*cm;  // Cambia si la tapa está en otra altura
+-        // G4double radiusCylinder = 48.0 *cm;  // Radio del cilindro
+-
+-         //if (z == zTopCap && std::sqrt(x*x + y*y) <= radiusCylinder)
+-          //  {
+-
+-            //std::ofstream outputFileneutroncruce("Datos-simulacion/neutrons_crossing_top.txt", std::ios_base::app);
+-            //outputFileneutroncruce << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<<  x << "\t" << y << "\t" << z << "\t" << preProcessEnergy <<"\t" <<  energy / MeV << "\t" << postProcessEnergy << "\n";
+-            //} 
+-     // }
+-
+-
+-    // Log basic neutron data
+-
+-
+-
+- if (particleName == "neutron")
+-   {
+- 
+-     std::ofstream outputFileneutron("Datos-simulacion/rastreo-neutron-completo.txt", std::ios_base::app);
+-     outputFileneutron << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName << "\t" << x << "\t" << y << "\t" << z << "\t" << preProcessEnergy <<"\t" <<  energy / MeV << "\t" << postProcessEnergy << "\n";
+-   
+-     //outputFileneutron.close();
+-
+-
+-     //std::ofstream outputFile("captured_neutrons.txt", std::ios_base::app);
+-     //       outputFile << "Energy: " << energy / CLHEP::eV << " eV, "
+-      //                 << "Position: " << position.x() / CLHEP::cm << " cm, "
+-      //                 << position.y() / CLHEP::cm << " cm, "
+-      //                 << position.z() / CLHEP::cm << " cm\n";
+-      //      outputFile.close();
+-
+-
+-
+-      //G4double zTopCap = 130*cm;  // Cambia si la tapa está en otra altura
+-      //G4double radiusCylinder = 48.0 *cm;  // Radio del cilindro
+-
+-     //if (position.z() <= zTopCap && std::sqrt(position.x() * position.x() + position.y() * position.y()) <= radiusCylinder) 
+-       // {
+-
+-        //std::ofstream outputFileneutroncruce("Datos-simulacion/neutrons_crossing_top.txt", std::ios_base::app);
+-        //outputFileneutroncruce << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<<  x << "\t" << y << "\t" << z << "\t" << preProcessEnergy <<"\t" <<  energy / MeV << "\t" << postProcessEnergy << "\n";
+-       //}
+-
+-    if (processName == "nCapture" ) //&&  parentID == 0 
+-      {
+-       
+-       //const G4Nucleus* targetNucleus = hadronicProcess->GetTargetNucleus();
+-       //if (!targetNucleus) return;
+-
+-       // Identificar si el núcleo objetivo es hidrógeno
+-       //G4int Z = targetNucleus->GetZ_asInt();  
+-       //G4int A = targetNucleus->GetA_asInt();  
+-	      
+-       //G4String materialName = step->GetPreStepPoint()->GetMaterial()->GetName();
+-       //if (materialName != "Water") return;
+-       //if (parentID != 1 ) return;
+-
+-        G4ThreeVector captureposition = track->GetPosition();
+-        G4double xcn = captureposition.x();
+-        G4double ycn = captureposition.y();
+-        G4double zcn = captureposition.z();
+-        //G4double captureEnergy = track->GetKineticEnergy();
+-        G4double preCaptureEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+-        G4double postCaptureEnergy = step->GetPostStepPoint()->GetKineticEnergy();
+-        //G4String processNamepos = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-        //G4String processNamepre = step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-         
+-        
+-        // Identificar el elemento del núcleo objetivo
+-    	const G4Material* material = step->GetPreStepPoint()->GetMaterial();
+-    	const G4Element* elemento = material->GetElement(0); // Primer elemento del material
+-    	G4String elementName = elemento->GetName();
+-    	G4int Z = elemento->GetZ(); // Número atómico
+-    	// G4int A = elemento->GetN(); // Número de masa si está disponible
+-
+-    	// Abrir archivos para registrar los datos
+-    	std::ofstream outputFileTotal("Datos-simulacion/neutrones-capturados.txt", std::ios_base::app);
+-
+-    	if (Z ==  8 && elementName == "Oxygen") { // Oxigeno
+-        	std::ofstream outputFileCl35("Datos-simulacion/neutrones-capturados-Cl35.txt", std::ios_base::app);
+-        	outputFileCl35 << particleName << "\t" << trackID << "\t" << parentID << "\t" << paso << "\t"<< processName << "\t" << xcn << "\t" << ycn << "\t" << zcn << "\t"<< preCaptureEnergy << "\t" << energy / MeV << "\t" << postCaptureEnergy << "\n";
+-        	outputFileCl35.close();
+-    } else if (Z == 1 &&
+-               (elementName == "Hydrogen" ||
+-                elementName == "TS_H_of_Water")) { // Hidrógeno libre o ligado
+-        	std::ofstream outputFileH("Datos-simulacion/neutrones-capturados-hidrogeno.txt", std::ios_base::app);
+-        outputFileH << particleName << "\t" << trackID << "\t" << parentID << "\t" << paso << "\t"<< processName << "\t" << xcn << "\t" << ycn << "\t" << zcn << "\t" << preCaptureEnergy << "\t" << energy / MeV << "\t" << postCaptureEnergy << "\n";
+-        outputFileH.close();
++void WriteCerenkovPhotons(const G4Step* step)
++{
++  const auto* parent = step->GetTrack();
++  const auto* pre = step->GetPreStepPoint();
++  const auto* secondaries = step->GetSecondaryInCurrentStep();
++
++  for (std::size_t index = 0; index < secondaries->size(); ++index) {
++    const auto* secondary = (*secondaries)[index];
++    const auto* creator = secondary->GetCreatorProcess();
++
++    if (secondary->GetParticleDefinition() != G4OpticalPhoton::Definition() ||
++        ProcessName(creator) != "Cerenkov") {
++      continue;
+     }
+ 
+-    // Registrar en el archivo general
+-    outputFileTotal << particleName << "\t" << trackID << "\t" << parentID << "\t" << paso << "\t"<< processName << "\t" << xcn << "\t" << ycn << "\t" << zcn << "\t"<< preCaptureEnergy << "\t" << energy / MeV << "\t" << postCaptureEnergy << "\n";
+-    outputFileTotal.close();
+-
+-        // std::ofstream outputFilecaneutron1("Datos-simulacion/neutrones-capturados.txt", std::ios_base::app);
+-        // outputFilecaneutron1 << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName << "\t" <<  xcn << "\t" << ycn << "\t" << zcn << "\t" << preCaptureEnergy <<"\t" << energy / MeV <<"\t" << postCaptureEnergy <<"\n";
+-         
+-         //outputFilecaneutron1.close();
+-         // Get secondary particlesof capture
+-         const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
+-         for (size_t i = 0; i < secondaries->size(); ++i)
+-           {
+-              const G4Track* secondary = (*secondaries)[i];
+-              G4String particleNamesp = secondary->GetDefinition()->GetParticleName();
+-              G4ThreeVector positionsp = secondary->GetPosition();
+-	      G4double xsp = positionsp.x();
+-              G4double ysp = positionsp.y();
+-              G4double zsp = positionsp.z();
+-              G4double energysp = secondary->GetKineticEnergy();
+-	      G4double parentIDspCn = step->GetTrack()->GetParentID();
+-              G4double pasospCn = step->GetTrack()->GetCurrentStepNumber();
+-              G4int trackIDspCn = track->GetTrackID();
+-              std::ofstream outputFilecaneutronsc("Datos-simulacion/secondary-particles-neutron-capturado.txt", std::ios_base::app);
+-              outputFilecaneutronsc << particleNamesp << "\t" << trackIDspCn <<"\t" << parentIDspCn <<"\t"<< pasospCn <<"\t"<< processName << "\t" << xsp << "\t" << ysp << "\t" << zsp << "\t" << energysp / MeV <<"\n";
+-
+-             outputFilecaneutronsc.close();
+-
+-	  }
+-         // outputFilecaneutron1.close();
+-        }
+-       
+-  
+-       if (processName == "neutronInelastic" )
+-          {
+-           G4ThreeVector ninelasticposition = track->GetPosition();
+-           G4double xni = ninelasticposition.x();
+-           G4double yni = ninelasticposition.y();
+-           G4double zni = ninelasticposition.z();
+-           G4double ninelasticEnergy = track->GetKineticEnergy();
+-
+-           std::ofstream outputFilecaneutronin("Datos-simulacion/neutron-inelastico-punto.txt", std::ios_base::app);
+-           outputFilecaneutronin << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<<processName << "\t" << xni << "\t" << yni << "\t" << zni << "\t" << ninelasticEnergy / MeV <<"\n";
+-
+-	   outputFilecaneutronin.close();
+-           // Get secondary particles
+-           const std::vector<const G4Track*>* secondariesni = step->GetSecondaryInCurrentStep();
+-           for (size_t j = 0; j < secondariesni->size(); ++j)
+-               {
+-                const G4Track* secondaryni = (*secondariesni)[j];
+-                G4String particleNamesni = secondaryni->GetDefinition()->GetParticleName();
+-                G4ThreeVector positionni = secondaryni->GetPosition();
+-                G4double xin = positionni.x();
+-                G4double yin = positionni.y();
+-                G4double zin = positionni.z();
+-                G4double energyni = secondaryni->GetKineticEnergy();
+-
+-                std::ofstream outputFilecaneutronsin("Datos-simulacion/secondary-particles-neutron-inelastic.txt", std::ios_base::app);
+-                outputFilecaneutronsin << particleNamesni << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName << "\t" << xin << "\t" << yin << "\t" << zin << "\t" << energyni / MeV <<"\n";
+-                outputFilecaneutronsin.close();
+-	       }
+-           }
+-           outputFileneutron.close();
+-       }
+-//}
+-//////////////////////////SECCION GAMMAS////////////////////////////////////////////////////////////////////////////////////////////////
+-
+-       //if (particleName == "gamma" &&  parentID == 1) {
+-   if (particleName == "gamma")
+-    {
+-       std::ofstream outputFilegamma1("Datos-simulacion/gamma-completo.txt", std::ios_base::app);
+-       outputFilegamma1 << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<<processName << "\t" << x << "\t" << y << "\t" << z << "\t" << energy / MeV <<"\n";
+-      outputFilegamma1.close();
+-	      
+-      if (processName == "phot" || processName == "compt" || processName == "conv" || processName=="Rayl" )
+-        {//|| processName=="Rayl"
+-          G4ThreeVector comptposition = track->GetPosition();
+-           G4double xcmpt = comptposition.x();
+-           G4double ycmpt = comptposition.y();
+-           G4double zcmpt = comptposition.z();
+-           G4double comptEnergy = track->GetKineticEnergy();
+-           G4double precomptEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+-           G4double postcomptEnergy = step->GetPostStepPoint()->GetKineticEnergy();
+-           //G4String posprocessNamega = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-           //G4String preprocessNamega = step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-	   std::ofstream outputFilegammacompt("Datos-simulacion/gamma-compt-punto.txt", std::ios_base::app);
+-           outputFilegammacompt << particleName << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName  << "\t" <<  xcmpt << "\t" << ycmpt << "\t" << zcmpt << "\t" << precomptEnergy <<"\t" << comptEnergy / MeV  <<"\t" <<postcomptEnergy <<"\n";
+-          outputFilegammacompt.close();
+-	   
+-	  // Get secondary particles
+-       const std::vector<const G4Track*>* secondariescompt = step->GetSecondaryInCurrentStep();
+-           for (size_t k = 0; k < secondariescompt->size(); ++k)
+-               {
+-                const G4Track* secondarycompt = (*secondariescompt)[k];
+-                G4String particleNamescompt = secondarycompt->GetDefinition()->GetParticleName();
+-                G4ThreeVector positioncompt = secondarycompt->GetPosition();
+-                G4double xpcompt =positioncompt.x();
+-                G4double ypcompt =positioncompt.y();
+-                G4double zpcompt =positioncompt.z();
+-                G4double energycompt = secondarycompt->GetKineticEnergy();
+-                G4double Energyprecompt = step->GetPreStepPoint()->GetKineticEnergy();
+-                G4double Energypostcompt = step->GetPostStepPoint()->GetKineticEnergy();
+-
+-                std::ofstream outputFilesecparcompt("Datos-simulacion/secondary-particles-gamma-compton.txt", std::ios_base::app);
+-                outputFilesecparcompt << particleNamescompt << "\t" << trackID <<"\t" << parentID <<"\t"<< paso <<"\t"<< processName << "\t" << xpcompt << "\t" << ypcompt << "\t" << zpcompt << "\t" <<  Energyprecompt << "\t" <<   energycompt / MeV <<"\t" << Energypostcompt << "\n";
+-                outputFilesecparcompt.close();
+-  
+-	       }
+-         }
+-     }
+-
+-//////////////////SECCION ELECTRONES/////////////////////////////////////////////////////////////////////////////////////////////////
+-
+-      if (particleName == "e-" || particleName == "e+" )
+-       {
+-          std::ofstream outputFilelectron("Datos-simulacion/rastreo-electron.txt", std::ios_base::app);
+-          outputFilelectron << particleName << "\t" << processName <<"\t" << trackID <<"\t" << parentID <<"\t" << paso <<"\t"<< x << "\t" << y << "\t" << z <<"\t" <<  energy / MeV << "\n";
+-       
+-	  outputFilelectron.close();
+-          if (processName == "Cerenkov" )
+-             {
+-              G4ThreeVector cerenkovposition = track->GetPosition();
+-              G4double xck = cerenkovposition.x();
+-              G4double yck = cerenkovposition.y();
+-              G4double zck = cerenkovposition.z();
+-              //G4double captureEnergy = track->GetKineticEnergy();
+-              //G4double preCerenkovEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+-              //G4double postCerenkovEnergy = step->GetPostStepPoint()->GetKineticEnergy();
+-              //G4String processNamepos = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-              //G4String processNamepre = step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName();
+-              
+-	      
+-	    std::ofstream outputFileCerenkov("Datos-simulacion/radiacion-Cerenkov-electron.txt", std::ios_base::app);
+-            outputFileCerenkov << particleName << "\t" << processName <<"\t" << trackID <<"\t" << parentID <<"\t" << paso <<"\t"<< xck << "\t" << yck << "\t" << zck << "\t" <<  energy / MeV << "\n";
+-             outputFileCerenkov.close();
+-            }
+-       }
+-       //outputFilecaneutronsc.close();
+-       //outputFilecaneutron1.close();  
+-       //outputFilecaneutronin.close();
+-       //outputFilecaneutronsin.close();
+-       //outputFilegamma1.close();
+-       //outputFilegammacompt.close();
+-       //outputFilesecparcompt.close();
+-       //outputFilelectron.close();
+-       //outputFileCerenkov.close();
++    const auto position = secondary->GetPosition();
++    std::ostringstream row;
++    row << std::setprecision(10)
++        << CurrentRunId() << '\t'
++        << CurrentEventId() << '\t'
++        << "Cerenkov" << '\t'
++        << parent->GetParticleDefinition()->GetParticleName() << '\t'
++        << parent->GetTrackID() << '\t'
++        << parent->GetCurrentStepNumber() << '\t'
++        << index << '\t'
++        << secondary->GetParticleDefinition()->GetParticleName() << '\t'
++        << secondary->GetTrackID() << '\t'
++        << secondary->GetParentID() << '\t'
++        << ProcessName(creator) << '\t'
++        << MaterialName(pre) << '\t'
++        << position.x() / cm << '\t'
++        << position.y() / cm << '\t'
++        << position.z() / cm << '\t'
++        << secondary->GetKineticEnergy() / MeV << '\t'
++        << secondary->GetGlobalTime() / ns;
++
++    AppendTsv("fotones-cherenkov.tsv", secondaryHeader, row.str());
++  }
++}
++}  // namespace
++
++G4WCDSteppingAction::G4WCDSteppingAction(
++  const G4WCDConstruction* detector,
++  G4WCDEventAction* eventAction,
++  Event& event)
++  : G4UserSteppingAction(),
++    fDetectorConstruction(detector),
++    fEventAction(eventAction),
++    fEvent(event)
++{}
++
++void G4WCDSteppingAction::UserSteppingAction(const G4Step* step)
++{
++  if (!step || !step->GetTrack() || !step->GetPreStepPoint() ||
++      !step->GetPostStepPoint()) {
++    return;
++  }
++
++  const auto* track = step->GetTrack();
++  const G4String particleName =
++    track->GetParticleDefinition()->GetParticleName();
++  const G4String processName =
++    ProcessName(step->GetPostStepPoint()->GetProcessDefinedStep());
++  const G4String row = StepRow(step, processName);
++
++  // Historia completa. Puede generar archivos grandes; comentese esta linea
++  // cuando solo se necesiten los productos filtrados.
++  AppendTsv("pasos-particulas.tsv", stepHeader, row);
++
++  if (particleName == "neutron") {
++    AppendTsv("pasos-neutrones.tsv", stepHeader, row);
++
++    // Solo los neutrones primarios incidentes, no neutrones secundarios.
++    if (track->GetParentID() == 0 && track->GetCurrentStepNumber() == 1) {
++      AppendTsv("neutrones-incidentes.tsv", stepHeader, row);
++    }
+ 
++    if (IsNeutronInteraction(processName)) {
++      AppendTsv("interacciones-neutrones.tsv", stepHeader, row);
++    }
+ 
++    if (processName == "nCapture") {
++      WriteCapture(step, processName);
++      WriteSecondaries(step,
++                       "nCapture",
++                       "secundarias-captura-neutron.tsv");
++    } else if (processName == "neutronInelastic") {
++      WriteSecondaries(step,
++                       "neutronInelastic",
++                       "secundarias-inelastica-neutron.tsv");
++    }
++  }
+ 
+-             fReactionsPerEvent.clear();
++  if (particleName == "gamma") {
++    AppendTsv("pasos-gamma.tsv", stepHeader, row);
++    if (IsGammaInteraction(processName)) {
++      AppendTsv("interacciones-gamma.tsv", stepHeader, row);
++      WriteSecondaries(step,
++                       processName,
++                       "secundarias-interaccion-gamma.tsv");
++    }
++  }
+ 
++  if (particleName == "e-" || particleName == "e+") {
++    AppendTsv("pasos-electrones.tsv", stepHeader, row);
++  }
++
++  // Cerenkov se reconoce por el proceso creador del foton optico. No suele
++  // ser el proceso que limita el paso de la particula cargada.
++  WriteCerenkovPhotons(step);
+ }

@@ -1,0 +1,216 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,provide=*]{babel}
+\usepackage{geometry,booktabs,longtable,array,xcolor,listings,hyperref,titlesec}
+\geometry{margin=2.25cm}
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+\hypersetup{colorlinks=true,linkcolor=azulWCD,urlcolor=azulWCD}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,columns=fullflexible}
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.6cm}
+{\Huge\bfseries\color{tituloColor} Implementación revisada\\[0.2cm]
+del PMT en el WCD agua--NaCl}
+
+\vspace{2.2cm}
+{\large\textbf{Informe técnico}}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Propuesta técnica para MEIGA\\[0.1cm]
+wcd-nacl-crns-simulations
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+11 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\section{Resultado}
+Se revisó conjuntamente la definición óptica del medio sensible del PMT, su
+geometría, el detector sensible, la curva de eficiencia y el registro de física
+óptica. La implementación resultante conserva el modelo efectivo empleado por
+MEIGA: el sólido elipsoidal del PMT actúa como fotocátodo absorbente, la frontera
+con el agua o solución salina aplica las pérdidas de Fresnel mediante los índices
+de refracción y \texttt{OptDevice} aplica la respuesta espectral. No se añadió
+\texttt{EFFICIENCY} a una \texttt{G4OpticalSurface}, pues ello duplicaría la
+eficiencia cuántica ya aplicada por \texttt{G4MPMTAction}.
+
+\section{Problemas encontrados}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.29\textwidth}
+                  >{\raggedright\arraybackslash}p{0.61\textwidth}}
+\toprule
+Problema & Consecuencia \\
+\midrule\endhead
+\texttt{ProcessHits} se ejecutaba en cualquier paso dentro del PMT &
+Un fotón no aceptado por la QE podía volver a sortearse en pasos posteriores. \\
+No se terminaba explícitamente el track & Un fotón aceptado podía producir más
+de un fotoelectrón lógico; uno rechazado continuaba hasta ser absorbido. \\
+QE escalonada en intervalos de 50 nm & Introducía discontinuidades artificiales
+y asignaba 6\% entre 650--700 nm después de 3\% entre 600--650 nm. \\
+Rango 250--700 nm frente a la banda descrita de 300--650 nm & Permitía fotones
+fuera de la respuesta nominal adoptada para el R5912. \\
+Tres archivos de depuración escritos por fotón & Alto coste de E/S, archivos
+muy grandes y riesgo de mezcla en ejecución multihilo. \\
+Uso de \texttt{GetDetectorSimData()} sin identificador & Riesgo de asociar la
+información al detector incorrecto cuando existe más de un detector. \\
+Contadores sin inicialización explícita & Valores indeterminados antes del
+primer incremento. \\
+Comentarios describían Pyrex como vidrio real & En realidad
+\texttt{ABSLENGTH}=0.5~$\mu$m lo convierte en un absorbente efectivo. \\
+\bottomrule
+\end{longtable}
+
+\section{Cambios implementados}
+\subsection{G4MPMTAction.cc y G4MPMTAction.h}
+La respuesta sólo se evalúa cuando el prepaso tiene estado
+\texttt{fGeomBoundary}, es decir, al entrar al volumen del PMT. Se descartan las
+partículas no ópticas. Los fotones fuera de banda, no detectados o detectados
+terminan con \texttt{fStopAndKill}; únicamente los aceptados se añaden a las
+distribuciones temporales. Así, cada track puede generar como máximo un
+fotoelectrón. Se inicializan y reinician contadores y vectores por evento, y se
+consulta \texttt{GetDetectorSimData(fDetectorId)}.
+
+\subsection{OptDevice.cc}
+Se mantiene la información nominal ya presente en el proyecto, pero se expresa
+como nodos de una curva continua:
+\begin{center}
+\begin{tabular}{rrrrrrrrr}
+\toprule
+$\lambda$ (nm)&300&350&400&450&500&550&600&650\\
+QE&0.03&0.20&0.25&0.20&0.14&0.07&0.03&0.00\\
+PDE (QE$\times0.70$)&0.021&0.140&0.175&0.140&0.098&0.049&0.021&0.000\\
+\bottomrule
+\end{tabular}
+\end{center}
+Entre nodos se usa interpolación lineal. La probabilidad empleada por el sorteo
+es QE multiplicada por la eficiencia de colección del primer dínodo, fijada en
+0.70 en el código preexistente. La probabilidad se limita al intervalo $[0,1]$.
+Se eliminaron los archivos \texttt{eficiencia-limpia*.txt} generados por cada
+fotón. El rango energético queda en 1.9077--4.1333 eV, equivalente a
+650--300 nm.
+
+Esta curva conserva y suaviza la parametrización previa; no debe presentarse
+como una digitalización metrológica de una hoja de datos. Antes de resultados
+finales debe contrastarse con la curva del número de serie/modelo usado o con
+una medida experimental.
+
+\subsection{Materials.cc}
+La tabla del medio efectivo del PMT cubre la misma banda 300--650 nm. Se mantiene
+$n=1.47$ y \texttt{ABSLENGTH}=0.0005 mm porque, en esta arquitectura, el sólido
+no representa una ventana macroscópica: es un fotocátodo efectivo terminal.
+Los comentarios ahora explican esta aproximación y advierten que no debe
+añadirse una segunda \texttt{EFFICIENCY}.
+
+\subsection{SaltyWCD.cc}
+Se valida al construir la geometría que el PMT tenga \texttt{RINDEX} y
+\texttt{ABSLENGTH}. Un error produce una excepción fatal identificada como
+\texttt{WCD-OPT-003}. También se informa en el log que la respuesta combina
+Fresnel, absorción terminal y QE de \texttt{OptDevice}.
+
+\section{Dependencia con la salinidad}
+La QE y la eficiencia de colección pertenecen al PMT y son comunes a los cuatro
+medios. La salinidad influye antes de la detección mediante el \texttt{RINDEX}
+del medio detector: cambia el ángulo de Cherenkov, el transporte y el coeficiente
+de Fresnel en la frontera medio--PMT. Esta separación evita atribuir al PMT una
+dependencia química que corresponde al medio.
+
+\section{Archivos revisados sin cambios}
+\texttt{OpticalPhysics.cc/.hh} registran Cherenkov, scintillation, absorption,
+boundary y WLS. Rayleigh y MieHG están construidos pero su registro permanece
+comentado. No se activaron en este parche porque alteraría todo el transporte,
+no sólo el PMT, y los datos de dispersión salina están documentados como una
+aproximación común. Deben evaluarse en un cambio independiente.
+
+\texttt{G4WCDSteppingAction} registra producción e interacciones, pero no debe
+volver a contabilizar la detección del PMT mientras ésta sea responsabilidad de
+\texttt{G4MPMTAction}. \texttt{Detector} y \texttt{OptDevice.h} no requieren
+cambios de interfaz para este modelo.
+
+El archivo suministrado como \texttt{Materials(1).h} no es el encabezado de
+\texttt{Materials}: su contenido corresponde a una implementación de
+\texttt{SaltyWCD::BuildDetector}. Por ello no debe copiarse como
+\texttt{Materials.h}. Este parche no añade miembros a \texttt{Materials} y puede
+usar el encabezado real ya existente en el repositorio.
+
+\section{Validación realizada y pendiente}
+Se verificaron estáticamente monotonía del dominio espectral, límites de QE/PDE,
+conversión energía--longitud de onda, ausencia de las escrituras de depuración,
+y presencia de la condición de frontera y terminación del track. El entorno de
+trabajo no contiene \texttt{geant4-config} ni el árbol completo de cabeceras de
+MEIGA; por tanto no fue posible compilar ni ejecutar una corrida Geant4 aquí.
+
+Antes de producción se requieren pruebas monoenergéticas, para cada uno de los
+cuatro medios, con fotones dirigidos al PMT. Debe comprobarse:
+\begin{enumerate}
+\item que ningún \texttt{trackID} produce más de un PE;
+\item que la fracción detectada, condicionada a entrar al PMT, converge a la PDE;
+\item que la fracción que alcanza/entra cambia con el índice del medio;
+\item que el balance entre reflexión, absorción y detección cierra;
+\item que el resultado es reproducible con semilla fija y seguro en multihilo.
+\end{enumerate}
+
+\section{Limitaciones y siguiente nivel de fidelidad}
+El modelo efectivo no separa vidrio, vacío y fotocátodo, ni implementa
+reflectividad propia del fotocátodo o el 90\% de cobertura activa comentado en
+versiones previas. Para esa fidelidad se requiere una cáscara elipsoidal de
+vidrio con espesor real, una superficie interna \texttt{dielectric\_metal},
+curvas medidas de $n(\lambda)$, transmisión, reflectividad y QE, y un único
+mecanismo de registro del estado \texttt{Detection}. No debe añadirse esa capa
+sin disponer de dichos datos, pues cambiaría la definición estadística de QE.
+
+\section{Resumen listo para commit}
+\begin{lstlisting}
+fix(pmt): apply optical response once at photocathode entry
+
+- gate PMT sensitive response on fGeomBoundary
+- terminate accepted, rejected and out-of-range optical photons
+- prevent duplicate photoelectrons from repeated Pyrex steps
+- interpolate the nominal R5912 QE over 300--650 nm
+- apply collection efficiency once and remove per-photon debug files
+- align PMT material and OptDevice spectral ranges
+- validate effective PMT RINDEX and ABSLENGTH during geometry build
+- document the effective-absorber model and its limitations
+\end{lstlisting}
+
+\section{Referencias}
+Geant4 Collaboration, \emph{Book for Application Developers}, procesos ópticos:
+\url{https://geant4.web.cern.ch/documentation/pipelines/master/bfad_html/ForApplicationDevelopers/TrackingAndPhysics/physicsProcess.html}
+
+Geant4 Collaboration, \texttt{G4OpBoundaryProcess}:
+\url{https://github.com/Geant4/geant4/blob/master/source/processes/optical/src/G4OpBoundaryProcess.cc}
+
+\end{document}

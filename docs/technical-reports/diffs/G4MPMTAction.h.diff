@@ -1,0 +1,22 @@
+--- MEIGA-anterior/src/G4Models/G4MPMTAction.h
++++ MEIGA-integrado/src/G4Models/G4MPMTAction.h
+@@ -24,9 +24,9 @@
+ 
+     int fDetectorId = 0;
+     int fOptDeviceId = 0;
+-    int NumCerenkovPhotons;
+-    int NumPE;
+-    int NumPEMuDecay;
++    int NumCerenkovPhotons = 0;
++    int NumPE = 0;
++    int NumPEMuDecay = 0;
+ 
+     std::vector<double> fPETime;
+     std::vector<double> fPETimeComp;
+@@ -35,4 +35,4 @@
+ };
+ 
+ 
+-#endif
+\ No hay ningún carácter de nueva línea al final del archivo
++#endif
