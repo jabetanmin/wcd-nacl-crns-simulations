@@ -1,0 +1,250 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,provide=*]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\geometry{margin=2.3cm}
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+\hypersetup{colorlinks=true,linkcolor=azulWCD,urlcolor=azulWCD}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,
+  columns=fullflexible,keywordstyle=\color{azulWCD}}
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Revisión técnica de la\\[0.2cm]
+superficie óptica del PMT}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Simulación WCD en Geant4''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Propuesta de revisión para MEIGA\\[0.1cm]
+wcd-nacl-crns-simulations
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+11 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\section{Alcance}
+Se revisaron los archivos \texttt{Materials-mejorado-optica-Tyvek-RINDEX(1).cc}
+y \texttt{SaltyWCD-mejorado-optica-Tyvek-RINDEX(1).cc}. El análisis cubre la
+ventana de borosilicato, la interfaz medio--PMT, la fotocátodo, la eficiencia
+cuántica, la reflexión y el mecanismo de registro de fotones ópticos. No se
+ejecutaron simulaciones ni se modificó un repositorio externo.
+
+\section{Conclusión ejecutiva}
+La implementación actual no constituye un modelo físico completo de una
+superficie de PMT. El material denominado \texttt{Pyrex} tiene índice de
+refracción constante $n=1.47$, pero una longitud de absorción de
+$0.0005\,\mathrm{mm}=0.5\,\mu\mathrm{m}$. En la geometría, toda la media
+elipsoide sólida se construye con ese material y se declara sensible. Por
+tanto, el volumen se comporta prácticamente como un absorbente negro, no como
+una ventana de vidrio seguida de una fotocátodo.
+
+No se encontró una \texttt{G4OpticalSurface} específica del PMT, ni propiedades
+\texttt{EFFICIENCY} o \texttt{REFLECTIVITY} para la fotocátodo. Tampoco existe
+una interfaz explícita medio detector--PMT. La salinidad sí cambia el
+\texttt{RINDEX} del medio y por ello cambiaría las pérdidas de Fresnel frente a
+una ventana real; sin embargo, la parametrización actual impide estudiar de
+forma separada transmisión por vidrio, reflexión en fotocátodo y detección.
+
+\section{Hallazgos}
+\begin{longtable}{p{0.25\textwidth}p{0.31\textwidth}p{0.34\textwidth}}
+\toprule
+Elemento & Estado encontrado & Evaluación \\
+\midrule
+\endhead
+\texttt{RINDEX} de Pyrex & Dos puntos, 2--4 eV, $n=1.47$ constante &
+Útil sólo como aproximación gruesa. No reproduce dispersión espectral y no
+cubre completamente la malla del agua hasta 4.136 eV. \\
+\texttt{ABSLENGTH} de Pyrex & $0.5\,\mu$m constante &
+Incorrecta para una ventana de borosilicato. Implementa deliberadamente un
+absorbente superficial mediante una propiedad de volumen. \\
+Geometría & Media elipsoide sólida de Pyrex &
+No separa pared de vidrio, vacío interno y capa de fotocátodo. El espesor óptico
+no corresponde al espesor de una ventana. \\
+Superficie de fotocátodo & Ausente &
+No hay tipo, acabado, reflectividad ni eficiencia cuántica espectral. \\
+Detector sensible & \texttt{logPMT} usa \texttt{G4MPMTAction} &
+Puede contar fotones que entran o pasos dentro del volumen, pero su semántica no
+está disponible en los archivos revisados. Es crítico auditarlo antes de usar
+\texttt{EFFICIENCY}. \\
+Posición/orientación & Elipsoide truncado entre $-z$ y 0, colocado en la parte
+superior del agua & Coherente con una cara curva orientada hacia abajo. El
+desplazamiento de 0.1 mm evita coincidencia exacta, pero debe verificarse con
+\texttt{CheckOverlaps}. \\
+Dependencia con NaCl & Cuatro materiales con diferentes \texttt{RINDEX} &
+La respuesta angular de Fresnel depende automáticamente del medio. La QE propia
+de la fotocátodo no debe cambiar con NaCl salvo que existan medidas específicas;
+lo que sí cambia es la probabilidad de llegada y transmisión en la interfaz. \\
+\bottomrule
+\end{longtable}
+
+\section{Por qué no se sustituyeron números sin datos}
+Cambiar $0.5\,\mu$m por una longitud arbitraria o inventar una curva de QE
+produciría resultados no trazables. Para una implementación científica deben
+aportarse: modelo exacto del PMT, curva de QE o eficiencia de detección frente a
+longitud de onda, reflectividad de la fotocátodo y transmisión/absorción de la
+ventana. Si la curva del fabricante se digitaliza desde una gráfica, debe
+guardarse el CSV, la referencia, la versión y la incertidumbre de digitalización.
+
+\section{Arquitectura de corrección propuesta}
+\subsection{Geometría}
+Construir tres regiones: (1) una cáscara delgada de borosilicato, obtenida como
+diferencia de dos elipsoides; (2) el interior del tubo, normalmente vacío; y
+(3) una fotocátodo delgada o, preferiblemente, una superficie de frontera sobre
+la cara interna relevante. La fracción activa del 90\% mencionada en el código
+debe implementarse geométricamente o eliminarse del comentario.
+
+\subsection{Ventana}
+La tabla del vidrio debe contener \texttt{RINDEX(E)} y
+\texttt{ABSLENGTH(E)} medidos o documentados, en orden creciente de energía y
+cubriendo toda la banda de fotones. La interfaz agua/solución--vidrio puede ser
+\texttt{dielectric\_dielectric}, \texttt{polished}. En esta frontera Geant4
+calcula reflexión y refracción de Fresnel usando los índices de ambos medios;
+por ello no se debe duplicar la reflectividad de Fresnel con una tabla ad hoc.
+
+\subsection{Fotocátodo}
+La fotocátodo puede representarse como \texttt{dielectric\_metal}, acabado
+\texttt{polished}, con \texttt{REFLECTIVITY(E)} y \texttt{EFFICIENCY(E)}.
+En Geant4, \texttt{EFFICIENCY} es la fracción detectada de los fotones que no
+son reflejados; no debe confundirse automáticamente con una QE tabulada respecto
+a fotones incidentes. Si $QE_{\rm inc}(E)$ es la probabilidad por fotón incidente
+y $R(E)$ la reflectividad, la conversión compatible es
+\[
+  \mathrm{EFFICIENCY}(E)=\frac{QE_{\rm inc}(E)}{1-R(E)},
+\]
+siempre que el cociente esté entre 0 y 1 y que el modelo experimental emplee
+esa convención. De lo contrario debe implementarse una aceptación explícita.
+
+\subsection{Registro de detección}
+Antes de activar la superficie se debe escoger un único método:
+\begin{enumerate}
+  \item detectar el estado \texttt{Detection} de \texttt{G4OpBoundaryProcess}
+  en una acción de pasos; o
+  \item invocar el detector sensible desde el proceso de frontera, si la versión
+  de Geant4 y la configuración del proyecto lo permiten; o
+  \item dejar pasar el fotón al volumen sensible y aplicar allí una sola curva
+  de aceptación.
+\end{enumerate}
+Mezclar estos métodos puede producir doble conteo; una superficie que absorbe
+el fotón antes de entrar puede también volver inalcanzable a
+\texttt{G4MPMTAction}.
+
+\section{Cambios de código requeridos}
+\begin{longtable}{p{0.31\textwidth}p{0.59\textwidth}}
+\toprule
+Archivo & Cambio \\
+\midrule
+\endhead
+\texttt{Materials.cc/.h} & Separar propiedades del vidrio y de la fotocátodo;
+declarar la superficie del PMT; validar tamaños, orden y dominio de las tablas. \\
+\texttt{SaltyWCD.cc/.h} & Crear cáscara, interior y frontera; conservar la
+orientación; guardar punteros físicos necesarios para
+\texttt{G4LogicalBorderSurface}; comprobar solapamientos. \\
+\texttt{G4MPMTAction.cc/.h} & Confirmar qué paso cuenta, si elimina el fotón y
+si ya aplica QE/CE. Adaptarlo a un único mecanismo de detección. \\
+\texttt{G4WCDSteppingAction.cc/.h} & Si se escoge detección de frontera, leer
+\texttt{G4OpBoundaryProcessStatus::Detection}, verificar el nombre/copia del PMT
+y registrar exactamente un fotoelectrón. \\
+Lista de física & Confirmar \texttt{G4OpticalPhysics}, Cherenkov, absorción,
+Rayleigh/Mie y \texttt{G4OpBoundaryProcess}; revisar parámetros ópticos globales. \\
+Macros & Fuente monoenergética/monocromática de \texttt{opticalphoton}, barridos
+de energía y ángulo, semillas, verbosidad y número de eventos. \\
+Clases de datos & Revisar \texttt{OptDevice}, \texttt{Detector}, \texttt{Event}
+y la salida para distinguir fotones incidentes, reflejados, absorbidos y
+fotoelectrones. \\
+Construcción/acciones & Verificar registro de detector, acciones por hilo y
+compatibilidad multithreading. \\
+\bottomrule
+\end{longtable}
+
+\section{Pruebas mínimas de aceptación}
+Para cada medio (agua, 2.5\%, 5\% y 10\% NaCl), lanzar fotones ópticos
+monocromáticos normales y oblicuos a la ventana. Registrar $N_{\rm inc}$,
+$N_{\rm refl}$, $N_{\rm trans}$, $N_{\rm abs}$ y $N_{\rm det}$. Exigir cierre
+estadístico
+\[
+N_{\rm inc}=N_{\rm refl}+N_{\rm trans}+N_{\rm abs}+N_{\rm det}
+\]
+según las fronteras definidas. Comprobar límites: QE=0, QE=1, R=0 y R=1; luego
+comparar Fresnel contra cálculo analítico. Finalmente ejecutar la geometría
+completa y verificar que ningún track se cuenta dos veces.
+
+\section{Estado de los dos archivos entregados}
+No se efectuó una sustitución numérica especulativa en los dos archivos fuente.
+El cambio científicamente correcto no queda autocontenido en ellos: depende de
+\texttt{Materials.h}, de la geometría interna del PMT y, de manera decisiva, de
+\texttt{G4MPMTAction}. Los archivos actuales deben considerarse un modelo
+idealizado de absorbente sensible, no una simulación validada de superficie de
+PMT. El parche debe integrarse sólo después de recuperar esos archivos y la
+curva óptica del PMT seleccionado.
+
+\section{Resumen listo para commit}
+\begin{lstlisting}
+docs(pmt): document optical-surface audit and required detector model
+
+- identify sub-micron Pyrex absorption length as an idealized black absorber
+- document missing photocathode EFFICIENCY and REFLECTIVITY
+- define window/photocathode geometry and boundary-model requirements
+- explain NaCl dependence through medium-to-window Fresnel transmission
+- list G4MPMTAction, stepping action, physics list and macro audits
+- specify four-medium optical-photon validation matrix
+\end{lstlisting}
+
+\section{Referencias técnicas}
+Geant4 Collaboration, \emph{Book for Application Developers}, sección de
+procesos ópticos y fronteras: \\
+\url{https://geant4.web.cern.ch/documentation/pipelines/master/bfad_html/ForApplicationDevelopers/TrackingAndPhysics/physicsProcess.html}
+
+Geant4 Collaboration, implementación de \texttt{G4OpBoundaryProcess}: \\
+\url{https://github.com/Geant4/geant4/blob/master/source/processes/optical/src/G4OpBoundaryProcess.cc}
+
+\end{document}
