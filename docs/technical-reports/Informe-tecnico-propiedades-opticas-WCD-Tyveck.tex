@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,booktabs,tabularx,xcolor,listings,microtype,parskip,hyperref,titlesec}
+\usepackage[margin=2.35cm]{geometry}
+\setlength{\emergencystretch}{3em}
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+\hypersetup{colorlinks=true,linkcolor=azulWCD,pdftitle={Propiedades ópticas de los medios del WCD},pdfauthor={Jaime A. Betancourt}}
+\lstset{language=C++,basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,backgroundcolor=\color{gray!6}}
+\newcommand{\codigo}[1]{\texttt{#1}}
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Propiedades ópticas\\[0.2cm]
+de los medios del WCD}
+
+\vspace{1.8cm}
+{\large\textbf{Informe técnico}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Implementación de las propiedades ópticas de los medios agua--NaCl en el WCD''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+11 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Se documenta la ampliación de \codigo{Materials-mejorado.cc} para asignar una
+tabla de propiedades ópticas independiente al agua pura y a las soluciones con
+2.5, 5.0 y 10.0\,\% de NaCl. Cada tabla combina un índice de refracción
+espectral específico con la longitud de absorción suministrada y conserva,
+como aproximación explícita, el modelo Mie preexistente del ejemplo OpNovice de
+Geant4. \codigo{SaltyWCD-mejorado.cc} selecciona el material completo y
+comprueba que la tabla óptica esté asociada al volumen activo.
+\end{abstract}
+
+\section{Malla espectral}
+Las cuatro matrices de índice y la longitud de absorción contienen 32 valores.
+Se asociaron a la matriz creciente \codigo{water2PhotonEnergy}, también de 32
+elementos, que cubre de 2.034 a 4.136 eV. La correspondencia entre energía y
+longitud de onda se obtiene con
+\begin{equation}
+ E_\gamma[\mathrm{eV}]=\frac{1239.841984}{\lambda[\mathrm{nm}]}.
+\end{equation}
+No se empleó \codigo{water1PhotonEnergy}, porque tiene 30 elementos y habría
+producido una asociación dimensional y espectral incorrecta.
+
+\section{Índice de refracción}
+Se incorporaron cuatro dispersiones, almacenadas respectivamente en
+\codigo{pureWaterRefIndex}, \codigo{saltyWater2p5RefIndex},
+\codigo{saltyWater5RefIndex} y
+\codigo{saltyWater10RefIndex}.
+La interpolación lineal que realiza la tabla de propiedades de Geant4 entre los
+puntos vecinos de 2.103 y 2.139 eV produce:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Medio & $n(589.3\,\mathrm{nm})$\\
+\midrule
+Agua pura & 1.3330000\\
+Agua + 2.5\,\% NaCl & 1.3396957\\
+Agua + 5.0\,\% NaCl & 1.3435863\\
+Agua + 10.0\,\% NaCl & 1.3593570\\
+\bottomrule
+\end{tabular}
+\end{center}
+Los resultados reproducen los valores objetivo indicados.
+
+\section{Longitud de absorción}
+La matriz \codigo{waterAbsLen} se añadió sobre la misma malla de 32 energías.
+En ausencia de matrices de absorción medidas por separado para cada
+concentración, se usa como línea base común en los cuatro medios. Esta decisión
+no afirma que la salinidad carezca de efecto sobre la absorción; evita inventar
+una dependencia espectral no suministrada y mantiene visible la aproximación.
+
+\section{Dispersión óptica}
+Se conserva \codigo{MIEHG} con \codigo{water2PhotonEnergyMie},
+\codigo{water2Mie} y las constantes direccionales preexistentes. El mismo
+modelo se conecta provisionalmente a las cuatro tablas. Corresponde al ejemplo
+OpNovice y no constituye una medición específica de las soluciones salinas.
+Cuando se disponga de datos de dispersión en función de la concentración, esta
+propiedad deberá reemplazarse por tablas independientes.
+
+No se añadió manualmente \codigo{RAYLEIGH}: Geant4 puede calcular la
+dispersión Rayleigh para agua cuando dispone de las propiedades termodinámicas
+requeridas, pero extender ese cálculo a soluciones salinas exige parámetros
+validados. Añadir una longitud arbitraria introduciría una hipótesis adicional.
+
+\section{Construcción de las tablas}
+Se creó una única función auxiliar:
+\begin{lstlisting}
+static G4MaterialPropertiesTable* CreateWCDOpticalTable(
+    G4double* refractiveIndex);
+\end{lstlisting}
+Cada llamada crea un objeto distinto y añade \codigo{RINDEX},
+\codigo{ABSLENGTH}, \codigo{MIEHG}, \codigo{MIEHG\_FORWARD},
+\codigo{MIEHG\_BACKWARD} y \codigo{MIEHG\_FORWARD\_RATIO}. El agua recibe
+\codigo{waterPT1}; cada solución recibe su propia tabla mediante
+\codigo{CreateSaltyWaterByFinalMassFraction}. Por tanto, no se comparte el
+puntero de la tabla entre concentraciones.
+
+\codigo{waterPT2} se conserva como alias de \codigo{waterPT1} para evitar
+romper código externo que todavía consulte ese miembro. Esta compatibilidad no
+crea una segunda definición física.
+
+\section{Conexión con SaltyWCD.cc}
+\codigo{SelectWCDMedium} continúa escogiendo el medio por fracción másica
+final. Como la tabla se asigna al construir cada \codigo{G4Material}, el
+\codigo{G4LogicalVolume} del tanque recibe simultáneamente composición,
+densidad e información óptica coherentes.
+
+Se añadió un diagnóstico que consulta
+\codigo{GetMaterialPropertiesTable()} e informa si las propiedades
+\codigo{RINDEX/ABSLENGTH/MIEHG} están asignadas. No se duplican matrices
+ópticas en la clase geométrica.
+
+\section{Propiedades que permanecen independientes}
+No se modificaron:
+\begin{itemize}
+\item la reflectividad, retrodispersión y componentes especulares del Tyvek;
+\item el índice y la absorción del Pyrex;
+\item la eficiencia cuántica o la respuesta del PMT;
+\item las densidades y fracciones másicas implementadas previamente;
+\item las listas y procesos físicos de Geant4.
+\end{itemize}
+Estas propiedades pertenecen a superficies, ventanas o dispositivos distintos
+del medio activo.
+
+\section{Comprobaciones realizadas y pendientes}
+La revisión estática confirmó 32 elementos en cada matriz, energía estrictamente
+creciente, longitudes de absorción positivas y los cuatro valores interpolados
+en 589.3 nm. También se ejecutó \codigo{git diff --check}.
+
+Antes de producción se requiere compilar con MEIGA y Geant4 10.07.p04 y ejecutar
+corridas cortas para los cuatro medios. Deben verificarse la creación de
+fotones Cherenkov, su transporte y llegada al fotocátodo, además de revisar que
+el mensaje de diagnóstico indique \codigo{assigned}. La comparación física
+debe mantener constantes geometría, fuente, lista de física, número de
+incidentes y respuesta del PMT.
+
+\section{Archivos propuestos}
+\begin{itemize}
+\item \codigo{Materials-mejorado-optica.cc};
+\item \codigo{SaltyWCD-mejorado-optica.cc}.
+\end{itemize}
+Para integrarlos deben renombrarse como \codigo{Materials.cc} y
+\codigo{SaltyWCD.cc} en la ruta usada por \codigo{G4WCDSimulator}, después de
+revisar el diff contra la rama activa.
+\end{document}
