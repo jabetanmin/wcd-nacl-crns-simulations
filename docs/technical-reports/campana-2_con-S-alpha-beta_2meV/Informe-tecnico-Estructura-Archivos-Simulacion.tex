@@ -127,6 +127,19 @@ código o volver a inspeccionar los archivos desde cero. Se describen las conven
 los cuatro archivos, el significado físico y las unidades de cada columna, ejemplos reales de
 filas, los valores categóricos que puede tomar cada campo, y cómo se relacionan entre sí mediante
 el identificador \var{run\_id}.
+
+\textbf{Nota sobre la campaña de simulación}: los archivos aquí descritos corresponden a la
+\textbf{Campaña 2} de simulación de la tesis, la que sí incluye el tratamiento térmico
+$S(\alpha,\beta)$ para el hidrógeno ligado en moléculas de agua, y usa clasificación por material
+(a diferencia de la Campaña 1, de cinco energías y sin $S(\alpha,\beta)$, documentada en
+\textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}). En disco, esta corrida vive en una
+carpeta llamada \codigo{25meV/}, pero la energía de inyección real es \textbf{2\,meV} (ver la nota
+de la sección~\ref{sec:convenciones} y el valor verificado en la tabla de
+\archivo{neutrones-incidentes.tsv}, sección~\ref{sec:convenciones}); el nombre de la carpeta es un
+error heredado de una etapa anterior de generación de archivos de flujo. Por ahora esta campaña
+solo se ejecutó a esa única energía, en las cuatro concentraciones de NaCl; extenderla a las cinco
+energías de la Campaña 1 y comparar sistemáticamente los resultados --que ya difieren, sobre todo
+en la fracción de captura-- queda como trabajo futuro.
 \end{abstract}
 
 \tableofcontents
@@ -166,7 +179,7 @@ cada archivo con \codigo{pandas} (dimensiones, tipos, valores únicos, estadíst
   (\var{\_MeV}), tiempo global acumulado desde el inicio del evento en nanosegundos
   (\var{global\_time\_ns}).
   \item \textbf{Tamaño y volumen de datos} (corrida de referencia, agua pura, 100\,000 neutrones a
-  25\,meV): ver la tabla~\ref{tab:tamanos}. Los dos archivos de historial completo
+  2\,meV): ver la tabla~\ref{tab:tamanos}. Los dos archivos de historial completo
   (\archivo{pasos-neutrones.tsv} e \archivo{interacciones-neutrones.tsv}) superan los 500\,MB cada
   uno; se recomienda especificar \codigo{dtype} (p.\,ej. \codigo{category} para las columnas de
   texto) al cargarlos con \codigo{pandas} para reducir el uso de memoria.
@@ -185,7 +198,7 @@ cada archivo con \codigo{pandas} (dimensiones, tipos, valores únicos, estadíst
 \bottomrule
 \end{tabularx}
 \caption{Dimensiones de los cuatro archivos para la corrida de referencia (agua pura, 100\,000
-neutrones, 25\,meV). El número de filas de \archivo{capturas-neutrones.tsv} varía con el medio
+neutrones, 2\,meV). El número de filas de \archivo{capturas-neutrones.tsv} varía con el medio
 (23\,270 para agua con 2.5\,\% de NaCl, por ejemplo), porque depende de cuántos neutrones se
 capturan en total.}
 \label{tab:tamanos}
@@ -221,7 +234,7 @@ ningún proceso, fue inyectada directamente). \\
 primer paso (cm); \var{post\_z\_cm} = 133.124 (superficie superior del tanque) para todos, ya que
 el primer paso de transporte llega hasta la tapa. \\
 \var{pre\_energy\_MeV}, \var{post\_energy\_MeV} & flotante & Energía cinética antes/después del
-paso (MeV); ambas iguales entre sí (2.5$\times10^{-8}$\,MeV = 25\,meV) porque un paso de puro
+paso (MeV); ambas iguales entre sí ($2\times10^{-9}$\,MeV = 2\,meV) porque un paso de puro
 transporte no cambia la energía. \\
 \var{global\_time\_ns} & flotante & Tiempo global transcurrido desde el inicio del evento (ns). \\
 \bottomrule
