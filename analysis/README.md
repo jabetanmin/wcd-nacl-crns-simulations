@@ -23,37 +23,38 @@ un notebook/informe y otro:
 | | **Campaña 1 — "primeras simulaciones"** | **Campaña 2 — exploratoria** |
 |---|---|---|
 | Tratamiento térmico S(α,β) | **No** implementado | **Sí** implementado |
-| Energías de inyección | 1 meV, 10 meV, 25 meV, 100 meV, 10 keV (5 corridas × 4 medios = 20 corridas) | 2 meV únicamente (1 corrida × 4 medios), por ahora |
+| Energías de inyección | 1 meV, 10 meV, 25 meV, 100 meV, 10 keV (5 corridas × 4 medios = 20 corridas) | 25 meV únicamente (1 corrida × 4 medios), por ahora |
 | Clasificación captura/reflexión/transmisión | Por geometría (posición final del neutrón); el archivo de trazabilidad no registra material | Por material (el archivo de trazabilidad sí lo registra) |
 | Rol en la tesis | **Es la campaña sobre la que se apoya el análisis completo de la tesis** | Corrida de verificación/comparación, aún parcial |
-| Informe técnico | [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf`](../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf) | [`docs/technical-reports/campana-2_con-S-alpha-beta_2meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf`](../docs/technical-reports/campana-2_con-S-alpha-beta_2meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf) |
-| Notebooks | Viven junto a los datos crudos, fuera de este repositorio (no replicados aquí por su tamaño) | [`analysis/notebooks/campana-2_con-S-alpha-beta_2meV/`](notebooks/campana-2_con-S-alpha-beta_2meV/) |
-| Carpeta de datos crudos (fuera del repo) | `Nuevas-simulaciones-2026/Primeras-simulaciones/` (~113 GB; incluye la subcarpeta mal etiquetada `1keV/`, que en realidad es 10 keV) | `Nuevas-simulaciones-2026/25meV/` (~82 GB; el nombre de la carpeta es un error heredado — la energía real es **2 meV**, no 25 meV) |
+| Informe técnico | [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf`](../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf) | [`docs/technical-reports/campana-2_con-S-alpha-beta_25meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf`](../docs/technical-reports/campana-2_con-S-alpha-beta_25meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf) |
+| Notebooks | Viven junto a los datos crudos, fuera de este repositorio (no replicados aquí por su tamaño) | [`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`](notebooks/campana-2_con-S-alpha-beta_25meV/) |
+| Carpeta de datos crudos (fuera del repo) | `Nuevas-simulaciones-2026/Primeras-simulaciones/` (~113 GB; incluye la subcarpeta mal etiquetada `1keV/`, que en realidad es 10 keV) | `Nuevas-simulaciones-2026/25meV/` (~82 GB; nombre correcto — 25 meV, verificado directamente en `neutrones-incidentes.tsv` de las 4 concentraciones) |
 
-**Por qué importa esta distinción.** S(α,β) modifica la sección eficaz de dispersión elástica
-del hidrógeno ligado justo en el rango de energías donde ambas campañas se solapan, alrededor
-del equilibrio térmico del agua. No debe asumirse que el balance de captura/reflexión/transmisión
-ni la letargía de una campaña reproducen los de la otra a una energía comparable: los primeros
-resultados de la Campaña 2 (a 2 meV) ya muestran una fracción de captura distinta de la que
-obtiene la Campaña 1 a energías cercanas. Cuantificar sistemáticamente esa diferencia — y
-extender la Campaña 2 a las otras cuatro energías de la Campaña 1 — queda como trabajo futuro;
-ver la sección de conclusiones del informe técnico de la Campaña 1 para más detalle.
+**Por qué importa esta distinción.** Ambas campañas comparten el punto de **25 meV** — elegido en
+la Campaña 2 precisamente para poner a prueba el régimen térmico, en torno a la energía térmica
+del medio, donde S(α,β) más debería notarse. S(α,β) modifica la sección eficaz de dispersión
+elástica del hidrógeno ligado justo en ese rango de energías, así que **25 meV es el punto natural
+de comparación directa entre las dos campañas** — no debe asumirse que el balance de
+captura/reflexión/transmisión ni la letargía de una reproducen los de la otra ahí. Los primeros
+resultados ya muestran una fracción de captura distinta entre campañas a esa misma energía.
+Cuantificar sistemáticamente esa diferencia a partir de este punto — y extender la Campaña 2 a las
+otras cuatro energías de la Campaña 1 — queda como trabajo futuro; ver la sección de conclusiones
+del informe técnico de la Campaña 1 para más detalle.
 
-**Nombres de carpeta mal etiquetados.** Dos carpetas de datos crudos tienen nombres que no
-corresponden a la energía real de la corrida (probablemente arrastrados de una etapa anterior de
-generación de los archivos de flujo de entrada). Se documentan aquí, y en los informes técnicos
-correspondientes, para que no se propague el error, pero **las carpetas no se renombraron en
-disco** — los notebooks existentes leen rutas relativas a ese nombre:
-
-- `1keV/` (dentro de la Campaña 1) contiene en realidad la corrida de **10 keV**.
-- `25meV/` (la Campaña 2 completa) contiene en realidad la corrida de **2 meV**.
+**Nombre de carpeta mal etiquetado.** Solo una de las dos carpetas de datos crudos tiene un nombre
+que no corresponde a la energía real de la corrida (probablemente arrastrado de una etapa anterior
+de generación de los archivos de flujo de entrada): `1keV/` (dentro de la Campaña 1) contiene en
+realidad la corrida de **10 keV**. La carpeta `25meV/` de la Campaña 2 **sí** está correctamente
+nombrada (verificado: 25 meV). Se documenta aquí y en el informe técnico correspondiente para que
+no se propague el error; **la carpeta `1keV/` no se renombró en disco** — los notebooks existentes
+leen rutas relativas a ese nombre.
 
 ## Estructura de este directorio
 
 ```text
 analysis/
 ├── notebooks/
-│   └── campana-2_con-S-alpha-beta_2meV/   Notebooks de la Campaña 2 (con S(α,β), 2 meV)
+│   └── campana-2_con-S-alpha-beta_25meV/  Notebooks de la Campaña 2 (con S(α,β), 25 meV)
 ├── scripts/                                Programas reproducibles
 ├── wcd_analysis/                           Funciones reutilizables (pendiente)
 └── tests/                                  Pruebas de las funciones de análisis (pendiente)
