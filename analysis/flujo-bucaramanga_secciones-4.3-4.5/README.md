@@ -61,6 +61,9 @@ Rutas de origen relativas a `Documetos-Jaime-Betancourt/`.
 | 4.5.9, Fig. 4.64 | `Comparacion_Histogramas_Carga_Termicos.ipynb` | `.../Flujo-termico-suelo-seco/Histograma-carga/` |
 | Tabla 4.23 (conteo y detectados por intervalo) | `Medicion-humedad.ipynb` (celda 2), `contar_neutrones_y_detectados.py` | `.../Flujo-termico-suelo-seco/` |
 
+> La sección 4.6 (respuesta de referencia y curva de calibración, basada en la Tabla 4.23) tiene su propio informe en
+> [`../caracterizacion-respuesta-referencia-wcd_seccion-4.6/`](../caracterizacion-respuesta-referencia-wcd_seccion-4.6/).
+
 ## Advertencias (detalle en el informe)
 
 1. **Normalización del conjunto de 4.4.** `flujo_neutrons_rapidos_Bga.shw` es la salida ARTI de 3600 s,
