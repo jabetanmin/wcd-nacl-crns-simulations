@@ -1,0 +1,44 @@
+FLUJO COMPLETO DE NEUTRONES EN LA SUPERFICIE – BUCARAMANGA
+==============================================================
+Archivo completo: all_bga_neutron_35.shw
+Archivo ARTI:     S3_bga_003600_neutrons.shw
+Normalización: A = 1.0 m^2, t = 3600 s
+
+Neutrones totales:  1,891,124
+  bajan (pz<0):     1,111,010
+  suben (pz>0):     780,114
+E min / max [MeV]:  3.5357e-11 / 4.1841e+05
+Corriente total J:  525.31 n m^-2 s^-1 = 5.2531e-02 n cm^-2 s^-1
+Flujo escalar Phi:  849.83 n m^-2 s^-1 (|cos|>=0.1)
+
+      Grupo           Intervalo  N_baja  N_sube  N_total  J_baja_m2s  J_sube_m2s  J_total_m2s  Albedo_sube/baja  Fraccion_total_%  Phi_escalar_m2s  cos_medio_baja  cos_medio_sube
+    Térmico 1.0e-12-5.0e-07 MeV   69568  166098   235666       19.32       46.14        65.46             2.388             12.46            122.6          0.6388          0.6862
+ Epitérmico 5.0e-07-1.0e-01 MeV  173194  257111   430305       48.11       71.42        119.5             1.485             22.75              226          0.6549          0.6785
+Evaporación 1.0e-01-2.0e+01 MeV  220264  322227   542491       61.18       89.51        150.7             1.463             28.69            276.4          0.6965          0.6734
+    Cascada 2.0e+01-1.0e+07 MeV  647984   34678   682662         180       9.633        189.6           0.05352              36.1            224.8          0.9175          0.6014
+      Total                todo 1111010  780114  1891124       308.6       216.7        525.3            0.7022               100            849.8          0.8153          0.6746
+
+Picos del espectro letárgico (total):
+  Térmico      E = 4.467e-08 MeV   E dPhi/dE = 26.3
+  Evaporación  E = 2.239e+00 MeV   E dPhi/dE = 55.4
+  Cascada      E = 1.413e+02 MeV   E dPhi/dE = 80.6
+
+Ajuste Maxwelliano: kT = 25.77 ± 1.12 meV, T_ef = 299 K
+
+Comparación con ARTI directo (neutrones que bajan):
+ E_umbral_MeV  N_completo_baja  N_ARTI_S3  Cociente  J_completo_m2s  J_ARTI_m2s
+           20           647984     317537     2.041             180        88.2
+           50           569038     258721     2.199           158.1       71.87
+          100           418466     170654     2.452           116.2        47.4
+          300           136522      48677     2.805           37.92       13.52
+         1000            25545       8707     2.934           7.096       2.419
+        10000              714        168      4.25          0.1983     0.04667
+
+ARTI S3 (E > 20 MeV):
+  neutrones: 317,537; cascadas: 247,774
+  neutrones/cascada: media 1.282, máx 176
+  E mediana: 109.5 MeV
+  cos(theta) medio: 0.790
+  distancia al eje: mediana 73.9 m, 90% dentro de 241 m
+  primarios [%]: {'p': 76.96, 'He': 17.51, 'C': 1.15, 'N': 0.29, 'O': 1.47, 'Ne': 0.34, 'Mg': 0.56, 'Si': 0.54, 'Fe': 0.62, 'Otros': 0.58}
+  E primario mediana: 15.8 GeV
