@@ -153,7 +153,7 @@ G4WCDSimulator::RunSimulation(Event& theEvent)
 	auto fDetConstruction = new G4WCDConstruction(theEvent);
 	fRunManager->SetUserInitialization(fDetConstruction);
 	
-	fRunManager->SetUserInitialization(new G4MPhysicsList(fPhysicsName));
+	fRunManager->SetUserInitialization(new G4MPhysicsList(cfg.fPhysicsListName));
 
 	G4MPrimaryGeneratorAction *fPrimaryGenerator = new G4MPrimaryGeneratorAction(theEvent);
 	fRunManager->SetUserAction(fPrimaryGenerator);
