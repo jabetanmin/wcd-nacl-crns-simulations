@@ -47,6 +47,14 @@ add_custom_command(
   COMMENT "Copying ${copy_file_name} to build directory"
 )
 
+# Copying the configuration without S(alpha,beta) (Campaign-1 physics)
+set(copy_file_name_nots "G4WCDSimulator-sin-SalphaBeta.json")
+add_custom_command(
+  TARGET G4WCDSimulator POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy "${copy_source_dir}/${copy_file_name_nots}" "${copy_dest_dir}/${copy_file_name_nots}"
+  COMMENT "Copying ${copy_file_name_nots} to build directory"
+)
+
 # Copying DetectorList.xml from source to build directory
 set(copy_file_name "DetectorList.xml")
 add_custom_command(

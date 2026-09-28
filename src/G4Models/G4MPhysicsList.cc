@@ -66,8 +66,18 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 	//	phys = new FTFP_BERT;
 	//}
 
+	// Physics selection for the WCD campaigns ("PhysicsName" in the JSON):
+	//   "QGSP_BERT_HP"           -> QGSP_BERT_HP + S(alpha,beta) thermal
+	//                               scattering for bound H in water (Campaign 2)
+	//   "QGSP_BERT_HP_NoThermal" -> QGSP_BERT_HP only; H below 4 eV is treated
+	//                               as a free gas (Campaign-1 physics)
+	// Both use the same materials and geometry, so the only difference
+	// between them is the thermal scattering treatment.
+	const G4bool noThermal = (physName == "QGSP_BERT_HP_NoThermal");
+	const G4String basePhysName = noThermal ? G4String("QGSP_BERT_HP") : physName;
+
         G4VModularPhysicsList* phys = NULL;
-        if (physName == "QGSP_BERT_HP") {
+        if (basePhysName == "QGSP_BERT_HP") {
                 phys = new QGSP_BERT_HP;
         } else {
                 phys = new FTFP_BERT;
@@ -111,6 +121,9 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 		RegisterPhysics(new G4ThermalNeutrons());
 		G4cout << "RegisterPhysics: G4ThermalNeutrons "
 		       << "(S(alpha,beta), E < 4 eV)" << G4endl;
+	} else if (noThermal) {
+		G4cout << "RegisterPhysics: QGSP_BERT_HP without S(alpha,beta) "
+		       << "(free-gas hydrogen, Campaign-1 physics)" << G4endl;
 	} else {
 		G4Exception("G4MPhysicsList::G4MPhysicsList",
 		            "MEIGA-TSL-001",
