@@ -15,7 +15,14 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión de trabajo (`v0.2.0`).** Los 18 archivos versionados modificados en la carpeta recibida ya fueron aplicados sobre una copia limpia de la rama `dev_meiga`, commit `39b950e`, y organizados en cinco commits funcionales. Permanecen pendientes los programas finales de análisis, las configuraciones adicionales y una selección documentada de los archivos de flujo.
+**Versión de trabajo consolidada.** La rama `main` reúne la documentación del repositorio, el código de las dos campañas de simulación de la tesis y los análisis por sección:
+
+- **Código actual (`src/`)**: corresponde a la **Campaña 2**, con tratamiento térmico $S(\alpha,\beta)$ para el hidrógeno ligado en el agua (`G4ThermalNeutrons`, materiales `Water_TS_H_of_Water` y `SaltyWater_NaCl_*`), compilado en el contenedor del autor el 15 de septiembre de 2026.
+- **Código de la Campaña 1** (sin $S(\alpha,\beta)$, base de la mayor parte de los resultados de la tesis): commit `25093f8`, que corresponde al ejecutable compilado el 13 de febrero de 2025 con el que se produjeron las corridas de febrero de 2025.
+- **Entorno de ejecución**: Geant4 10.7.4 (10.07.p04), dentro de un contenedor Docker.
+- **Análisis e informes**: ver [`analysis/README.md`](analysis/README.md) y [`docs/technical-reports/`](docs/technical-reports/), organizados por campaña y por sección de la tesis.
+
+Permanecen pendientes los notebooks de la Campaña 1, las configuraciones de cada corrida y el enlace a los datos crudos.
 
 ## Relación con MEIGA
 
@@ -71,7 +78,7 @@ La compilación requiere que Geant4 y sus paquetes de datos estén configurados 
 
 ## Trazabilidad
 
-- Rama de desarrollo: `thesis-wcd-nacl`.
+- Rama principal: `main` (consolida las antiguas ramas `thesis-wcd-nacl` e `integracion-meiga-2026`).
 - Punto de partida: etiqueta `meiga-base-39b950e`.
 - Repositorio original: <https://github.com/ataboadanunez/meiga>.
 - README original preservado en [`docs/MEIGA_UPSTREAM_README.md`](docs/MEIGA_UPSTREAM_README.md).
