@@ -26,6 +26,7 @@ public:
 	static G4Element* elN;
 	static G4Element* elO;
 	static G4Element* elH;
+	static G4Element* elTSHWater;
 	static G4Element* elC;
 	static G4Element* elSi;
 	static G4Element* elTi;
@@ -61,6 +62,11 @@ public:
 	static G4Material* HDPE;
 	static G4Material* Concrete;
 	static G4Material* SaltyWater;
+	// Discrete saline media at fixed final NaCl mass fractions (2.5, 5, 10 %).
+	// Selected by SaltyWCD::BuildDetector according to Detector::GetImpuritiesFraction().
+	static G4Material* SaltyWater_2p5;
+	static G4Material* SaltyWater_5;
+	static G4Material* SaltyWater_10;
 	static G4OpticalSurface* ScinOptSurf;
 	static G4OpticalSurface* LinerOptSurf;
 	static G4OpticalSurface* LinerOptSurf2;

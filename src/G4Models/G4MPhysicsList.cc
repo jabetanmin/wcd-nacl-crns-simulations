@@ -14,6 +14,7 @@
 #include "FTFP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 #include "G4ThermalNeutrons.hh"
+#include "G4Exception.hh"
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
@@ -95,6 +96,29 @@ G4MPhysicsList::G4MPhysicsList(G4String physName) : G4VModularPhysicsList()
 	RegisterPhysics(new ExtraPhysics());
 	RegisterPhysics(fOpticalPhysics = new OpticalPhysics(fAbsorptionOn));
 	RegisterPhysics(new G4RadioactiveDecayPhysics());
+
+	// Registers G4NeutronHP thermal (S(alpha,beta)) scattering laws for any
+	// material containing a recognized TS_* element (e.g. TS_H_of_Water).
+	// MUST be registered AFTER the base physics list's own physics
+	// constructors (above): G4ThermalNeutrons::ConstructProcess() looks up
+	// the neutron's existing hadronic elastic process (created by
+	// hElasticWEL_CHIPS_HP) and only attaches the thermal model to it - it
+	// does not create that process itself. G4VModularPhysicsList calls
+	// ConstructProcess() for each registered constructor in RegisterPhysics()
+	// order, so registering G4ThermalNeutrons too early causes a silent
+	// "Fail to add thermal neutron scattering" warning.
+	if (physName == "QGSP_BERT_HP") {
+		RegisterPhysics(new G4ThermalNeutrons());
+		G4cout << "RegisterPhysics: G4ThermalNeutrons "
+		       << "(S(alpha,beta), E < 4 eV)" << G4endl;
+	} else {
+		G4Exception("G4MPhysicsList::G4MPhysicsList",
+		            "MEIGA-TSL-001",
+		            JustWarning,
+		            "Thermal scattering was not registered. Select "
+		            "QGSP_BERT_HP for the WCD S(alpha,beta) configuration.");
+	}
+
 
 	fStepMaxProcess = new StepMax();
 

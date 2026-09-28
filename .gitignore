@@ -32,3 +32,12 @@ data/private/
 # Copias y archivos temporales detectados en la carpeta de trabajo
 src.zip
 src (1)/
+
+# LaTeX build artifacts
+*.aux
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+

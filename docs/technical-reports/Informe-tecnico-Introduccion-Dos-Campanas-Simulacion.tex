@@ -1,0 +1,220 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{azulClaro}{RGB}{232,241,249}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Dos campanas de simulacion: con y sin tratamiento termico S(alpha,beta)},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{pystyle}{
+  language=Python,
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{azulWCD}\bfseries,
+  commentstyle=\color{verdeCodigo}\itshape,
+  stringstyle=\color{rojoCodigo},
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{gray!40},
+  tabsize=2,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=pystyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\path{#1}}
+\newcommand{\var}[1]{\texttt{#1}}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Dos campañas de simulación:\\[0.2cm]
+con y sin tratamiento térmico S($\alpha,\beta$)}
+
+\vspace{1.8cm}
+{\large\textbf{Introducción al repositorio de análisis}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Léase antes de comparar cifras entre notebooks o informes de este repositorio''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+18 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Este documento introduce, para un lector sin conocimiento previo del desarrollo de la tesis, la existencia de \textbf{dos campañas de simulación Geant4/MEIGA distintas} del detector Cherenkov de agua (WCD) con agua pura y soluciones de NaCl (2.5\,\%, 5\,\%, 10\,\% en masa), documentadas en paralelo en este repositorio. Ambas comparten geometría, materiales de estructura y framework, pero difieren en si el transporte de neutrones subtérmicos incluye o no el tratamiento térmico $S(\alpha,\beta)$ para el hidrógeno ligado en moléculas de agua --y eso hace que sus resultados, en particular la fracción de captura, no coincidan a energías comparables. Cualquier comparación de cifras entre un notebook/informe y otro debe tener esta distinción presente. Este texto corresponde al mismo contenido publicado como introducción en \archivo{analysis/README.md} del repositorio.
+\end{abstract}
+
+\tableofcontents
+
+\section{Qué documenta este repositorio}
+
+Este repositorio contiene los programas y cuadernos utilizados para leer y depurar las salidas de simulación, construir histogramas con intervalos lineales o logarítmicos, normalizar distribuciones por neutrón incidente y ancho de intervalo, calcular eficiencias e incertidumbres estadísticas, comparar agua pura con soluciones de NaCl, y producir las tablas y figuras de la tesis.
+
+\section{Dos campañas de simulación: léase antes de comparar resultados}
+\label{sec:campanas}
+
+Los notebooks y los informes técnicos de este repositorio documentan \textbf{dos campañas de simulación Geant4/MEIGA distintas} del mismo WCD. Comparten geometría, materiales de estructura y framework, pero \textbf{difieren en si el transporte de neutrones subtérmicos incluye o no el tratamiento térmico $S(\alpha,\beta)$} para el hidrógeno ligado en moléculas de agua --y eso hace que sus resultados, en particular la fracción de captura, no coincidan a energías comparables. Quien llegue a este repositorio sin haber seguido el desarrollo de la tesis debe tener esto presente antes de cruzar cifras entre un notebook/informe y otro:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{}l X X@{}}
+\toprule
+ & \textbf{Campaña 1 --- ``primeras simulaciones''} & \textbf{Campaña 2 --- exploratoria} \\
+\midrule
+Tratamiento térmico $S(\alpha,\beta)$ & \textbf{No} implementado & \textbf{Sí} implementado \\
+\addlinespace
+Energías de inyección & 1\,meV, 10\,meV, 25\,meV, 100\,meV, 10\,keV (5 corridas $\times$ 4 medios = 20 corridas) & 25\,meV únicamente (1 corrida $\times$ 4 medios), por ahora \\
+\addlinespace
+Clasificación captura/reflexión/transmisión & Por geometría (posición del neutrón); el archivo de trazabilidad no registra material -- ver nota sobre volumen del tanque más abajo & Por material (el archivo de trazabilidad sí lo registra) \\
+\addlinespace
+Rol en la tesis & \textbf{Es la campaña sobre la que se apoya el análisis completo de la tesis} & Corrida de verificación/comparación, aún parcial \\
+\addlinespace
+Informe técnico & \codigo{campana-1\_sin-S-alpha-beta/Informe-tecnico} & \codigo{campana-2\_con-S-alpha-beta\_25meV/Informe-tecnico} \\
+\addlinespace
+Notebooks & Viven junto a los datos crudos, fuera de este repositorio (no replicados aquí por su tamaño) & \codigo{analysis/notebooks/campana-2\_con-S-alpha-beta\_25meV/} \\
+\addlinespace
+Carpeta de datos crudos (fuera del repo) & \codigo{Nuevas-simulaciones-2026/Primeras-simulaciones/} (incluye la subcarpeta mal etiquetada \codigo{1keV/}, que en realidad es 10\,keV -- ver nota abajo) & \codigo{Nuevas-simulaciones-2026/25meV/} (nombre correcto -- 25\,meV, verificado directamente en \codigo{neutrones-incidentes.tsv} de las 4 concentraciones) \\
+\bottomrule
+\end{tabularx}
+\caption{Comparación entre las dos campañas de simulación documentadas en este repositorio.}
+\label{tab:campanas}
+\end{table}
+
+\subsection{Por qué importa esta distinción}
+
+Ambas campañas comparten el punto de \textbf{25\,meV} --elegido en la Campaña 2 precisamente para
+poner a prueba el régimen térmico, en torno a la energía térmica del medio, donde $S(\alpha,\beta)$
+más debería notarse. $S(\alpha,\beta)$ modifica la sección eficaz de dispersión elástica del
+hidrógeno ligado justo en ese rango de energías, así que \textbf{25\,meV es el punto natural de
+comparación directa entre las dos campañas} --no debe asumirse que el balance de
+captura/reflexión/transmisión ni la letargía de una reproducen los de la otra ahí. Los primeros
+resultados ya muestran una fracción de captura distinta entre campañas a esa misma energía.
+Cuantificar sistemáticamente esa diferencia a partir de este punto --y extender la Campaña 2 a las
+otras cuatro energías de la Campaña 1-- queda como trabajo futuro; ver la sección de conclusiones
+del informe técnico de la Campaña 1 para más detalle.
+
+\subsection{Nombre de carpeta mal etiquetado}
+
+Solo una de las dos carpetas de datos crudos tiene un nombre que no corresponde a la energía real de
+la corrida (probablemente arrastrado de una etapa anterior de generación de los archivos de flujo de
+entrada): \codigo{1keV/} (dentro de la Campaña 1) contiene en realidad la corrida de \textbf{10\,keV}
+--verificado de forma independiente por dos vías (columna de energía cinética inicial en
+\codigo{interaccion-completa-neutrones.txt} y el log crudo de Geant4; ver la sección
+``Configuración de la simulación'' del informe técnico de la Campaña 1 para el detalle). La carpeta
+\codigo{25meV/} de la Campaña 2 \textbf{sí} está correctamente nombrada (verificado: 25\,meV). Se
+documenta aquí y en el informe técnico correspondiente para que no se propague el error;
+\textbf{la carpeta \codigo{1keV/} no se renombró en disco} --los notebooks existentes leen rutas
+relativas a ese nombre.
+
+\subsection{Volumen activo del tanque (actualización del 18 de septiembre de 2026)}
+
+Desde esta fecha, los 20 notebooks de la Campaña 1 subdividen la categoría ``Capturado'' según la
+posición de la captura respecto a la caja del volumen activo del tanque
+($z\in[0,1330]\,\text{mm}$, $|x|,|y|\leq480\,\text{mm}$, dada explícitamente -- no auto-detectada):
+\textbf{Capturado (dentro del tanque)} y \textbf{Capturado fuera del tanque}. La fracción fuera del
+tanque resultó marginal (0.03\,\%--0.4\,\% de los neutrones incidentes) en las 20 corridas, así que
+esta separación no cambia ninguna cifra de captura total ya reportada -- solo añade precisión
+metodológica. El informe técnico de la Campaña 1 documenta el detalle completo.
+
+\section{Estructura del directorio \texttt{analysis/}}
+
+\begin{verbatim}
+analysis/
+|-- notebooks/
+|   `-- campana-2_con-S-alpha-beta_25meV/
+|         Notebooks de la Campaña 2 (con S(alpha,beta), 25 meV)
+|-- scripts/           Programas reproducibles
+|-- wcd_analysis/       Funciones reutilizables (pendiente)
+`-- tests/              Pruebas de las funciones de análisis (pendiente)
+\end{verbatim}
+
+Los notebooks de la Campaña 1 (cinco energías, sin $S(\alpha,\beta)$) no están replicados en este
+repositorio: viven junto a sus datos crudos, cuyo tamaño (cientos de MB a varios GB por corrida) los
+hace poco prácticos para versionar en git. El informe técnico de la Campaña 1 describe su convención
+de nombres y su flujo de trabajo en la sección ``Reproducibilidad''.
+
+Los programas definitivos deben aceptar rutas y parámetros por línea de comandos o archivos de
+configuración; no deben contener rutas personales fijas.
+
+\end{document}
