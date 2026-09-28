@@ -24,11 +24,11 @@ un notebook/informe y otro:
 |---|---|---|
 | Tratamiento térmico S(α,β) | **No** implementado | **Sí** implementado |
 | Energías de inyección | 1 meV, 10 meV, 25 meV, 100 meV, 10 keV (5 corridas × 4 medios = 20 corridas) | 25 meV únicamente (1 corrida × 4 medios), por ahora |
-| Clasificación captura/reflexión/transmisión | Por geometría (posición final del neutrón); el archivo de trazabilidad no registra material | Por material (el archivo de trazabilidad sí lo registra) |
+| Clasificación captura/reflexión/transmisión | Por geometría (posición del neutrón); el archivo de trazabilidad no registra material — ver nota sobre volumen del tanque más abajo | Por material (el archivo de trazabilidad sí lo registra) |
 | Rol en la tesis | **Es la campaña sobre la que se apoya el análisis completo de la tesis** | Corrida de verificación/comparación, aún parcial |
 | Informe técnico | [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf`](../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Analisis-Moderacion-Captura-Neutrones.pdf) | [`docs/technical-reports/campana-2_con-S-alpha-beta_25meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf`](../docs/technical-reports/campana-2_con-S-alpha-beta_25meV/Informe-tecnico-Estructura-Archivos-Simulacion.pdf) |
 | Notebooks | Viven junto a los datos crudos, fuera de este repositorio (no replicados aquí por su tamaño) | [`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`](notebooks/campana-2_con-S-alpha-beta_25meV/) |
-| Carpeta de datos crudos (fuera del repo) | `Nuevas-simulaciones-2026/Primeras-simulaciones/` (~113 GB; incluye la subcarpeta mal etiquetada `1keV/`, que en realidad es 10 keV) | `Nuevas-simulaciones-2026/25meV/` (~82 GB; nombre correcto — 25 meV, verificado directamente en `neutrones-incidentes.tsv` de las 4 concentraciones) |
+| Carpeta de datos crudos (fuera del repo) | `Nuevas-simulaciones-2026/Primeras-simulaciones/` (incluye la subcarpeta mal etiquetada `1keV/`, que en realidad es 10 keV) | `Nuevas-simulaciones-2026/25meV/` (nombre correcto — 25 meV, verificado directamente en `neutrones-incidentes.tsv` de las 4 concentraciones) |
 
 **Por qué importa esta distinción.** Ambas campañas comparten el punto de **25 meV** — elegido en
 la Campaña 2 precisamente para poner a prueba el régimen térmico, en torno a la energía térmica
@@ -48,6 +48,15 @@ realidad la corrida de **10 keV**. La carpeta `25meV/` de la Campaña 2 **sí** 
 nombrada (verificado: 25 meV). Se documenta aquí y en el informe técnico correspondiente para que
 no se propague el error; **la carpeta `1keV/` no se renombró en disco** — los notebooks existentes
 leen rutas relativas a ese nombre.
+
+**Volumen activo del tanque (actualización del 18 de septiembre de 2026).** Los 20 notebooks de la
+Campaña 1 ahora subdividen "Capturado" según si la posición de la captura cae dentro o fuera de la
+caja del volumen activo del tanque (z∈[0,1330] mm, |x|,|y|≤480 mm, dada explícitamente). La fracción
+fuera del tanque resultó marginal (0.03 %–0.4 % de los neutrones incidentes) en las 20 corridas, así
+que no cambia ninguna cifra de captura total ya reportada — ver el informe técnico de la Campaña 1
+para el detalle completo.
+
+
 
 ## Estructura de este directorio
 
