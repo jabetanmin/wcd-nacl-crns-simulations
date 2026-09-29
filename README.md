@@ -19,6 +19,7 @@ Este repositorio reúne y continuará incorporando:
 
 - **Código actual (`src/`)**: corresponde a la **Campaña 2**, con tratamiento térmico $S(\alpha,\beta)$ para el hidrógeno ligado en el agua (`G4ThermalNeutrons`, materiales `Water_TS_H_of_Water` y `SaltyWater_NaCl_*`), compilado en el contenedor del autor el 15 de septiembre de 2026.
 - **Código de la Campaña 1** (sin $S(\alpha,\beta)$, base de la mayor parte de los resultados de la tesis): commit `25093f8`, que corresponde al ejecutable compilado el 13 de febrero de 2025 con el que se produjeron las corridas de febrero de 2025.
+- **Geometría y física de cada campaña** (medidas en los datos): ver [`docs/GEOMETRIA_Y_FISICA_CAMPANAS.md`](docs/GEOMETRIA_Y_FISICA_CAMPANAS.md).
 - **Entorno de ejecución**: Geant4 10.7.4 (10.07.p04), dentro de un contenedor Docker.
 - **Análisis e informes**: ver [`analysis/README.md`](analysis/README.md) y [`docs/technical-reports/`](docs/technical-reports/), organizados por campaña y por sección de la tesis.
 
