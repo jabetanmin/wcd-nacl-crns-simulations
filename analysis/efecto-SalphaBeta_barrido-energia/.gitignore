@@ -1,0 +1,14 @@
+# Archivos intermedios por evento: se regeneran con los scripts (ver README.md)
+capturas_detalle.tsv
+em_eventos.tsv
+em_gammas.tsv
+em_electrones.tsv
+em_luz.tsv
+__pycache__/
+# Productos de LaTeX
+informe/*.aux
+informe/*.log
+informe/*.out
+informe/*.toc
+informe/*.fls
+informe/*.fdb_latexmk

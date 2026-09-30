@@ -1,0 +1,536 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[provide=*,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\definecolor{azulWCD}{RGB}{17,67,112}
+\definecolor{azulClaro}{RGB}{232,241,249}
+\definecolor{grisCodigo}{RGB}{247,247,247}
+\definecolor{verdeCodigo}{RGB}{25,110,55}
+\definecolor{rojoCodigo}{RGB}{145,35,35}
+\definecolor{tituloColor}{RGB}{0,55,110}
+\definecolor{reglaColor}{RGB}{0,90,160}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulWCD,
+  urlcolor=azulWCD,
+  citecolor=azulWCD,
+  pdftitle={Efecto del tratamiento termico S(alpha,beta) en el WCD: transporte de neutrones y respuesta electromagnetica},
+  pdfauthor={Jaime A. Betancourt}
+}
+
+\lstdefinestyle{shstyle}{
+  language=bash,
+  backgroundcolor=\color{grisCodigo},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{azulWCD}\bfseries,
+  commentstyle=\color{verdeCodigo}\itshape,
+  stringstyle=\color{rojoCodigo},
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray!40},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=shstyle}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulWCD}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}
+  {\thesubsection.}{0.5em}{}
+\setlist{itemsep=0.25em,topsep=0.4em}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\codigo}[1]{\nolinkurl{#1}}
+\newcommand{\archivo}[1]{\path{#1}}
+\newcommand{\var}[1]{\texttt{#1}}
+\newcommand{\sab}{$S(\alpha,\beta)$}
+
+\begin{document}
+\pagestyle{empty}
+
+%------------------------------------------------
+% PORTADA
+%------------------------------------------------
+\begin{titlepage}
+\begin{center}
+
+\vspace*{0.5cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\vspace{1.3cm}
+{\Large\scshape Universidad Industrial de Santander}\\[0.2cm]
+{\large Escuela de Física --- Facultad de Ciencias}\\[0.2cm]
+{\large Doctorado en Física}
+
+\vspace{2.2cm}
+{\Huge\bfseries\color{tituloColor} Efecto del tratamiento térmico\\[0.2cm]
+S($\alpha,\beta$) en el detector Cherenkov de agua}
+
+\vspace{1.8cm}
+{\large\textbf{Barrido en energía de 1\,meV a 1\,keV con dos listas de física:}}\\[0.15cm]
+{\large\textbf{transporte de neutrones y respuesta electromagnética del detector}}
+
+\vspace{0.6cm}
+\begin{minipage}{0.82\linewidth}
+\centering
+\textit{``Mismo ejecutable, misma geometría, mismos neutrones: solo cambia cómo se dispersa el hidrógeno ligado del agua''}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Autor}}\\[0.15cm]
+Jaime A. Betancourt\\[0.1cm]
+Doctorado en Física, Universidad Industrial de Santander
+
+\vspace{1.2cm}
+\textcolor{reglaColor}{\rule{0.5\linewidth}{0.6pt}}
+
+\vspace{1cm}
+29 de septiembre de 2026
+
+\vspace{1cm}
+\textcolor{reglaColor}{\rule{\linewidth}{1.2pt}}
+
+\end{center}
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{abstract}
+Se cuantifica el efecto del tratamiento térmico \sab{} para el hidrógeno ligado en el agua sobre el transporte y la captura de neutrones en el detector Cherenkov de agua (WCD) de la tesis. Con un mismo ejecutable de MEIGA/Geant4, la misma geometría (Sidelnik et~al. 2020b: acero de 0.5\,mm, Tyvek de 0.12\,mm, PMT al 65\,\% de la altura) y agua pura, se simularon 10\,000 neutrones monoenergéticos a 16 energías entre 1\,meV y 1\,keV, con dos físicas: QGSP\_BERT\_HP con \sab{} y QGSP\_BERT\_HP sin \sab{} (hidrógeno como gas libre). El efecto de \sab{} sobre la fracción capturada en el agua \textbf{cambia de signo en $E_0\approx0.34$\,eV}: por debajo la reduce hasta en 8.6 puntos porcentuales (a 25\,meV: $19.70\pm0.40$\,\% frente a $28.31\pm0.45$\,\%) y por encima la aumenta hasta en 8.4 puntos (a 1\,keV: $41.90\pm0.49$\,\% frente a $33.54\pm0.47$\,\%), con significancias de 5 a 14$\sigma$. El análisis de los destinos de los neutrones, de la profundidad y del tiempo de captura identifica el mecanismo: \sab{} acorta la difusión térmica; las capturas ocurren más cerca de la superficie, la vida media térmica efectiva sube de $140.7\pm1.5$ a $161.8\pm1.5\,\mu$s y la tasa de fuga baja en $\approx40$\,\%. Esto aumenta el albedo de la tapa para neutrones que llegan casi térmicos y reduce la fuga para los que se termalizan en profundidad. En consecuencia, el máximo de captura entre 0.3 y 10\,eV descrito con la Campaña~1 es una propiedad del modelo de gas libre: con \sab{} la captura crece de forma monótona y se estabiliza en $\approx42$\,\% por encima de 10\,eV.
+
+La segunda parte sigue la cadena electromagnética hasta la carga del PMT. La eficiencia de detección ($Q\geq1$\,pe) es del 8 al 19\,\% por neutrón incidente y reproduce el efecto de \sab{} ($-34$\,\% a 25\,meV, $+21$\,\% a 1\,keV), con el cruce desplazado a $\approx0.7$\,eV. Sus dos cuellos de botella son geométricos: como las capturas ocurren a pocos centímetros de la superficie, solo el 54--64\,\% de los $\gamma$ de 2.2\,MeV interactúa en el agua, y solo el 1.30\,\% de los fotones Cherenkov creados produce un fotoelectrón. El efecto Compton en el agua representa el 87\,\% de las interacciones $\gamma$ y sus electrones emiten el 94\,\% de la luz, aunque solo el 21\,\% supera el umbral Cherenkov. A energías bajas, las capturas en el acero de la tapa aportan hasta un tercio de los eventos detectados, con una carga media de 9.1\,pe frente a 2.5\,pe de una captura en hidrógeno. Ningún eslabón electromagnético depende de \sab{} salvo a través de la profundidad de captura.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%------------------------------------------------
+\section{Motivación}
+%------------------------------------------------
+
+La tesis caracteriza el WCD con dos campañas de simulación. La Campaña~1 (febrero de 2025) usó QGSP\_BERT\_HP sin tratamiento térmico: por debajo de 4\,eV el hidrógeno se trata como un núcleo libre con movimiento térmico (modelo de gas libre). La Campaña~2 (septiembre de 2026) incorporó \var{G4ThermalNeutrons}, que sustituye ese modelo por la ley de dispersión \sab{} del hidrógeno ligado en el agua (\var{TS\_H\_of\_Water}). A 25\,meV la Campaña~2 capturaba en el agua unas 0.69 veces lo que la Campaña~1.
+%, pero las dos campañas diferían además en la geometría (acero de 0.05 frente a 0.5\,mm, posición del PMT), de modo que no era posible atribuir la diferencia a una sola causa.
+
+Este informe aísla el efecto de \sab{}: ambas físicas se ejecutan con el mismo ejecutable, la misma geometría, el mismo medio y los mismos neutrones incidentes, y se recorre la energía inicial desde neutrones fríos (1\,meV) hasta intermedios (1\,keV), por encima del límite de aplicación de \sab{} (4\,eV).
+
+%------------------------------------------------
+\section{Configuración de las simulaciones}
+%------------------------------------------------
+
+\subsection{Código y selección de la física}
+
+Todas las corridas usan el ejecutable \var{G4WCDSimulator} de MEIGA compilado con Geant4 10.7.4 (10.07.p04) dentro del contenedor Docker del autor, recompilado el 28 de septiembre de 2026 a partir del código de la rama \var{main} del repositorio \archivo{wcd-nacl-crns-simulations}. La física se elige en el archivo de configuración con la clave \var{Simulation.PhysicsName}:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+\var{PhysicsName} & Física construida por \var{G4MPhysicsList} \\
+\midrule
+\var{QGSP\_BERT\_HP} & QGSP\_BERT\_HP + \var{G4ThermalNeutrons} (\sab{} para $E<4$\,eV). Física de la Campaña~2. \\
+\var{QGSP\_BERT\_HP\_NoThermal} & QGSP\_BERT\_HP sin \var{G4ThermalNeutrons}: hidrógeno como gas libre. Física de la Campaña~1. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Los materiales son idénticos en ambos casos: el agua conserva el elemento \var{TS\_H\_of\_Water}; sin \var{G4ThermalNeutrons} registrado, Geant4 toma para él los datos ordinarios del hidrógeno ($Z=1$) de la biblioteca G4NDL. Durante la preparación de estas pruebas se detectó que \var{G4WCDSimulator} ignoraba \var{PhysicsName} y usaba siempre QGSP\_BERT\_HP; se corrigió para que lea el valor de la configuración (commit \var{0fa4db1}). Las corridas previas de la Campaña~2 no se ven afectadas, porque sus configuraciones pedían precisamente QGSP\_BERT\_HP. Cada corrida verifica en su registro la línea de física registrada (\var{RegisterPhysics: G4ThermalNeutrons} o \var{RegisterPhysics: QGSP\_BERT\_HP without S(alpha,beta)}), y las 32 corridas la superaron.
+
+\subsection{Geometría, medio e inyección}
+
+La geometría se fija en el propio \archivo{DetectorList.xml} de la prueba, para no depender del \archivo{DetectorProperties.xml} de la carpeta de compilación, que CMake sobrescribe al reconfigurar el proyecto. Los valores coinciden con los de Sidelnik et~al. (2020b) y con los medidos en los datos de la Campaña~2:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+Parámetro & Valor \\
+\midrule
+Volumen activo & cilindro de agua pura de 48\,cm de radio y 133\,cm de altura \\
+Revestimiento & Tyvek de 0.12\,mm \\
+Tanque & acero inoxidable de 0.5\,mm (tapa, pared y fondo) \\
+PMT & sobre el eje, cara plana a 86.5\,cm del fondo (65\,\% de la altura) \\
+Superficie del agua & $z = 133.062$\,cm \\
+Inyección & vertical hacia abajo desde $z=200$\,cm, uniforme en un círculo de 40\,cm de radio \\
+Neutrones por corrida & 10\,000 \\
+Energías $E_0$ & 1, 2.5, 5, 7, 10, 25, 50, 80, 100, 300, 500, 700\,meV; 1, 10, 100\,eV; 1\,keV \\
+%Modo de simulación & \var{eFast} (no afecta al transporte de neutrones) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Las 16 energías reproducen la malla de la Campaña~1 original hasta 1\,keV. El momento del neutrón se calcula como $p=\sqrt{E^2+2mE}$; para 25\,meV se obtiene $6.85407\times10^{-6}$\,GeV/$c$, idéntico al archivo de flujo de la Campaña~2. Cada corrida verifica la energía inyectada en \archivo{neutrones-incidentes.tsv}.
+
+\subsection{Magnitudes analizadas}
+
+Para cada neutrón primario se clasifica su destino con el archivo \archivo{pasos-neutrones.tsv}:
+\begin{itemize}
+  \item \textbf{captura en el agua}: el último paso es \var{nCapture} en el agua;
+  \item \textbf{captura en la estructura}: \var{nCapture} en el acero o el Tyvek;
+  \item \textbf{reflexión por la tapa}, \textbf{escape lateral} o \textbf{transmisión por el fondo}: la cara de salida se toma del último paso dentro de un material del tanque (no de la posición final en el borde del mundo); las capturas y reacciones $(n,p)$ en el aire posteriores a la salida cuentan como escape por esa cara;
+  \item \textbf{desviado en el aire}: el neutrón se dispersa en los 67\,cm de aire entre la fuente y la tapa y nunca entra en el tanque.
+\end{itemize}
+Para las capturas en el agua se registran además el número de dispersiones elásticas previas $N$, la profundidad bajo la superficie del agua, el tiempo transcurrido desde que el neutrón toca la tapa (se descuenta el vuelo por el aire) y la energía cinética al comenzar el paso de captura. Las incertidumbres de las fracciones son binomiales ($1\sigma$).
+
+%------------------------------------------------
+\section{Validación}
+%------------------------------------------------
+
+\begin{itemize}
+  \item \textbf{Selección de física.} Las 32 corridas registran la física pedida. Con la misma geometría, las dos físicas difieren en 5 a 14$\sigma$ en casi todas las energías, lo que descarta que el cambio de física no se aplique.
+  \item \textbf{Reproducción de la Campaña~2.} A 25\,meV con \sab{}, una prueba de 10\,000 neutrones dio $18.70\pm0.39$\,\% de captura en el agua y $\langle N\rangle=88.7$, frente a $19.62\pm0.13$\,\% y 90.4 en la Campaña~2 (100\,000 neutrones). $\langle N\rangle$ coincide; la captura difiere en 2.2$\sigma$. La corrida de agua pura de la Campaña~2 (14-09-2026) se hizo con el ejecutable anterior a la recompilación del 15-09-2026, por lo que no puede excluirse una pequeña diferencia de código.
+  \item \textbf{Reproducción de la Campaña~1.} La física sin \sab{} reproduce el $\langle N\rangle$ de los datos originales de febrero de 2025: 53.3 frente a 52.2 a 25\,meV y 61.3 frente a 60.4 a 1\,eV.
+  \item \textbf{Estabilidad estadística.} El punto de 1\,eV sin \sab{} se simuló dos veces: $32.84\pm0.47$\,\% y $34.49\pm0.48$\,\% (2.5$\sigma$). Con 10\,000 neutrones, fluctuaciones de este tamaño aparecen ocasionalmente; no afectan a las conclusiones cualitativas, pero las cifras definitivas deben obtenerse con más estadística (sección~\ref{sec:limitaciones}).
+  %\item \textbf{Integridad de los datos.} El archivo transferido desde el contenedor (1.6\,GB comprimido) pasó la verificación de \var{gzip}; la tabla recalculada a partir de los TSV transferidos es idéntica a la calculada en el contenedor, y en cada corrida la suma de las seis categorías de destino es igual al número de neutrones incidentes.
+\end{itemize}
+
+%------------------------------------------------
+\section{Resultados}
+%------------------------------------------------
+
+\subsection{Captura en el agua y número de colisiones}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{figuras/fig_captura_N_vs_energia.pdf}
+\caption{(a) Fracción de neutrones incidentes capturados en el agua y (b) número medio de dispersiones elásticas antes de la captura, con y sin \sab{}. Línea discontinua: 4\,eV, límite superior de \sab{}; línea punteada: energía de cruce.}
+\label{fig:captura}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\input{tabla_captura.tex}
+\caption{Captura en el agua (porcentaje de los 10\,000 neutrones incidentes) y $\langle N\rangle$ de los neutrones capturados. ``Efecto'' es la diferencia con menos sin \sab{}, en puntos porcentuales, y ``Signif.'' su cociente con la incertidumbre combinada.}
+\label{tab:captura}
+\end{table}
+
+Los resultados principales son:
+\begin{itemize}
+  \item \textbf{El efecto de \sab{} cambia de signo en $E_0\approx0.34$\,eV} (interpolación logarítmica entre 0.3 y 0.5\,eV). Por debajo, \sab{} reduce la captura; el efecto es máximo entre 7 y 25\,meV ($-7$ a $-8.6$ puntos). Por encima, la aumenta y se estabiliza en $\approx+8$ puntos desde 10\,eV.
+  \item \textbf{El efecto persiste por encima de 4\,eV}, donde \sab{} no actúa sobre el neutrón incidente: todo neutrón termina su historia difundiéndose térmicamente en el agua, y es en esa fase donde interviene \sab{}.
+  \item \textbf{La forma de la curva cambia.} Sin \sab{} la captura presenta un máximo amplio de $\approx34.5$\,\% entre 0.7 y 10\,eV y decrece ligeramente hasta 1\,keV. Con \sab{} crece de forma monótona desde el 13\,\% a 1\,meV y se estabiliza en $\approx42$\,\% por encima de 10\,eV.
+  \item \textbf{$\langle N\rangle$ es entre 1.4 y 1.8 veces mayor con \sab{}} en todo el rango: el hidrógeno ligado dispersa más en energías térmicas, y la razón entre dispersión y absorción aumenta.
+\end{itemize}
+
+\subsection{Destinos de los neutrones}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_destinos_vs_energia.pdf}
+\caption{Destinos de los neutrones incidentes: (a) reflexión por la tapa, (b) captura en la estructura, (c) escape lateral y (d) profundidad media de captura bajo la superficie del agua.}
+\label{fig:destinos}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{La reflexión por la tapa es el destino dominante}: entre el 55 y el 77\,\% de los neutrones incidentes. Es la imagen especular de la captura: con \sab{} la reflexión es mayor por debajo de 0.34\,eV (máximo de 76.7\,\% a 10\,meV frente a 70\,\%) y menor por encima (55\,\% frente a 62\,\% desde 10\,eV).
+  \item \textbf{La captura en la estructura} decrece del 9\,\% a 1\,meV al 0.5\,\% a 1\,keV, siguiendo la ley $1/v$ del hierro, y es casi igual con ambas físicas.
+  \item \textbf{El escape lateral} es inferior al 1.2\,\% y menor con \sab{}. \textbf{No hay transmisión por el fondo} en ninguna corrida: 133\,cm de agua absorben o devuelven todo neutrón.
+  \item \textbf{Entre el 2 y el 6\,\%} de los neutrones se desvían en el aire antes de llegar al tanque; la fracción es la misma con ambas físicas, como corresponde a que \sab{} no actúa en el aire.
+\end{itemize}
+
+La tabla completa de destinos se incluye en el apéndice~\ref{app:destinos}.
+
+\subsection{Profundidad de captura}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_profundidad_captura.pdf}
+\caption{Distribución de la profundidad de captura bajo la superficie del agua para cuatro energías iniciales. Escala logarítmica: una recta corresponde a una cola exponencial.}
+\label{fig:profundidad}
+\end{figure}
+
+Casi todas las capturas ocurren en los primeros 10\,cm bajo la superficie del agua: la mediana va de 1.1\,cm (1\,meV, con \sab{}) a 4.4\,cm (1\,keV, sin \sab{}). Para neutrones fríos y térmicos la distribución es máxima en la superficie y decae exponencialmente; para neutrones de 1\,eV y 1\,keV primero crece hasta 2--4\,cm, donde el neutrón termina de frenarse, y después decae. \textbf{Con \sab{} las capturas ocurren más cerca de la superficie en todas las energías}, y la cola exponencial decae más rápido, lo que indica una longitud de difusión térmica más corta.
+
+\subsection{Tiempo, vida media térmica y energía de captura}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{figuras/fig_tiempo_energia_captura.pdf}
+\caption{(a) Tiempo en el tanque hasta la captura (mediana y rango intercuartílico), (b) vida media térmica efectiva estimada con la cola exponencial ($t>100\,\mu$s) y (c) energía del neutrón al comenzar el paso de captura.}
+\label{fig:tiempo}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\input{tabla_capturas.tex}
+\caption{Profundidad mediana de captura, tiempo mediano en el tanque, vida media térmica efectiva $\tau_\mathrm{ef}$ y energía mediana antes de la captura, con y sin \sab{}.}
+\label{tab:capturas}
+\end{table}
+
+\begin{itemize}
+  \item \textbf{Tiempo en el tanque.} La mediana va de 43 a 91\,$\mu$s. Por encima de $\approx0.1$\,eV es mayor con \sab{} (por ejemplo, 91 frente a 74\,$\mu$s a 1\,keV).
+  \item \textbf{Vida media térmica efectiva.} Combinando las energías $E_0\geq0.3$\,eV, donde $\tau_\mathrm{ef}$ es estable, se obtiene
+  \begin{equation*}
+    \tau_\mathrm{ef}^{\,\mathrm{con}} = 161.8\pm1.5\,\mu\mathrm{s},\qquad
+    \tau_\mathrm{ef}^{\,\mathrm{sin}} = 140.7\pm1.5\,\mu\mathrm{s}.
+  \end{equation*}
+  Ambas son menores que la vida media de absorción en agua infinita, $\tau_a=1/(\Sigma_a v)\approx204.5\,\mu$s ($\Sigma_a=0.02223$\,cm$^{-1}$ a 2200\,m/s).
+  \item \textbf{Energía de captura.} La mediana de la energía antes de la captura está entre 21 y 34\,meV para todas las energías iniciales, y como mucho el 2\,\% de las capturas ocurre por encima de 0.5\,eV: \textbf{prácticamente toda captura es térmica}. La energía inicial determina dónde se termaliza el neutrón, no cómo se captura.
+\end{itemize}
+
+%------------------------------------------------
+\section{Interpretación física}
+%------------------------------------------------
+
+\subsection{Fuga térmica}
+
+La captura en hidrógeno sigue la ley $1/v$, de modo que el producto $\Sigma_a v$ y, con él, el tiempo de absorción $\tau_a$ no dependen de la forma del espectro térmico. Si la población térmica decae por absorción y por fuga,
+\begin{equation}
+  \frac{1}{\tau_\mathrm{ef}} = \frac{1}{\tau_a} + \lambda_\mathrm{fuga},
+\end{equation}
+la diferencia entre las dos vidas medias efectivas se debe únicamente a la fuga:
+\begin{equation*}
+  \lambda_\mathrm{fuga}^{\,\mathrm{con}} \approx 1.29\times10^{-3}\,\mu\mathrm{s}^{-1},\qquad
+  \lambda_\mathrm{fuga}^{\,\mathrm{sin}} \approx 2.22\times10^{-3}\,\mu\mathrm{s}^{-1},
+\end{equation*}
+es decir, \textbf{con \sab{} la tasa de fuga térmica es $\approx40$\,\% menor}. Es la consecuencia esperada de una sección eficaz de dispersión mayor: el coeficiente de difusión $D=1/(3\Sigma_\mathrm{tr})$ disminuye, y con él la longitud de difusión $L=\sqrt{D/\Sigma_a}$. Las Figuras~\ref{fig:destinos}(d) y~\ref{fig:profundidad} muestran directamente la difusión más corta.
+
+\subsection{Albedo y cambio de signo}
+
+El mismo acortamiento de la difusión produce efectos opuestos según dónde se termalice el neutrón:
+\begin{itemize}
+  \item \textbf{Neutrones que llegan casi térmicos} ($E_0\lesssim0.34$\,eV). Comienzan a difundirse en la superficie de entrada. En teoría de difusión, el albedo de un medio semiinfinito es
+  \begin{equation}
+    \beta = \frac{1-2\sqrt{D\,\Sigma_a}}{1+2\sqrt{D\,\Sigma_a}},
+  \end{equation}
+  que crece cuando $D$ disminuye. Con \sab{} la tapa refleja más y la captura disminuye (Figura~\ref{fig:destinos}a).
+  \item \textbf{Neutrones que se termalizan en profundidad} ($E_0\gtrsim0.34$\,eV). Al terminar el frenado se encuentran a varios centímetros de la superficie; con una difusión más corta les resulta más difícil regresar a ella, de modo que la reflexión disminuye y la captura aumenta. Por encima de 10\,eV la profundidad de termalización cambia poco con $E_0$ y el efecto se estabiliza.
+\end{itemize}
+
+Los cuatro análisis (captura, destinos, profundidad y tiempo) son consistentes con este mecanismo y no requieren ningún otro.
+
+%------------------------------------------------
+\section{Respuesta electromagnética del detector}
+\label{sec:em}
+%------------------------------------------------
+
+Las secciones anteriores describen el destino de los neutrones. Esta sección sigue la cadena completa que convierte una captura en una señal: los fotones $\gamma$ de la captura, sus interacciones, los electrones secundarios, la luz Cherenkov y la carga del PMT. Se usan los mismos 32 conjuntos de datos.
+
+\subsection{Método}
+
+\begin{itemize}
+  \item \textbf{Carga.} El PMT escribe en \archivo{Carga-total.txt} una línea por evento (un neutrón incidente) con el número de fotoelectrones. La línea $i$ corresponde al neutrón con \var{run\_id}~$=i$. La asignación se verificó: los neutrones reflejados por la tapa producen señal en el 0.0\,\% de los casos, y nunca hay carga en un evento sin fotones Cherenkov.
+  \item \textbf{Fotones $\gamma$ de captura.} Son las trazas de \archivo{pasos-gamma.tsv} con \var{parent\_id}~$=1$ y \var{creator\_process}~$=$~\var{nCapture}. En \archivo{secundarias-captura-neutron.tsv} el número de traza del secundario aún no está asignado (vale 0), por lo que no sirve para enlazarlos. Un $\gamma$ ``interactúa en el agua'' si tiene al menos un paso Compton, fotoeléctrico o de pares en el agua; la energía transferida es la suma de sus pérdidas en esos pasos. Un $\gamma$ ``se absorbe'' si su última interacción es fotoeléctrica o de pares; si no, sale del tanque, y la cara de salida se determina como para los neutrones.
+  \item \textbf{Electrones y luz.} Para cada electrón o positrón se registra el proceso que lo creó, el material y su energía cinética inicial. Cada fotón Cherenkov de \archivo{fotones-cherenkov.tsv} se asigna a su emisor mediante (\var{run\_id}, \var{parent\_track\_id}); los 10.2 millones de fotones quedaron asignados. Los fotones se registran al crearse; en el modo \var{eFast} la eficiencia cuántica se aplica en ese momento, lo que estadísticamente equivale a aplicarla en el PMT.
+\end{itemize}
+
+\subsection{Eficiencia de detección}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.84\linewidth]{figuras/fig_eficiencia_deteccion.pdf}
+\caption{(a) Fracción de neutrones incidentes que producen al menos 1 y al menos 3 fotoelectrones, (b) probabilidad de señal ($Q\geq1$) una vez capturado el neutrón en el agua y (c) carga media de los eventos con señal.}
+\label{fig:eficiencia}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\footnotesize
+\input{tabla_eficiencia.tex}
+\caption{Eficiencia de detección $\varepsilon$ por neutrón incidente para dos umbrales de carga, probabilidad de señal tras una captura en el agua y fracción de los $\gamma$ de 2.2\,MeV que interactúan en el agua, con y sin \sab{}.}
+\label{tab:eficiencia}
+\end{table}
+
+\begin{itemize}
+  \item \textbf{La eficiencia de detección va del 8 al 19\,\%} por neutrón incidente ($Q\geq1$\,pe). Sigue a la captura: con \sab{} es un 34\,\% menor a 25\,meV ($8.95\pm0.29$ frente a $13.55\pm0.34$\,\%) y un 21\,\% mayor a 1\,keV ($19.46\pm0.40$ frente a $16.13\pm0.37$\,\%).
+  \item \textbf{El cruce de la eficiencia ocurre hacia 0.7\,eV}, por encima del cruce de la captura (0.34\,eV). Una vez capturado el neutrón en el agua, la probabilidad de señal es del 39--47\,\% y resulta 1--3 puntos menor con \sab{}, porque las capturas son más superficiales y se escapan más $\gamma$.
+  \item \textbf{La carga media de los eventos detectados} es mayor a energías bajas (5.0\,pe a 1\,meV frente a 2.6\,pe por encima de 1\,eV). La causa son las capturas en el acero de la tapa: sus $\gamma$ de 7--9\,MeV producen en promedio 9.1\,pe, frente a 2.5\,pe de una captura en hidrógeno, y a 1\,meV constituyen el 38\,\% (con \sab{}) y el 32\,\% (sin \sab{}) de los eventos detectados; por encima de 1\,eV son menos del 3\,\%.
+\end{itemize}
+
+\subsection{Contención de los fotones $\gamma$ de 2.2\,MeV}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_contencion_gamma.pdf}
+\caption{Fotones $\gamma$ de 2.223\,MeV de la captura en hidrógeno: fracción que interactúa en el agua (a) frente a la energía inicial del neutrón y (b) frente a la profundidad de captura, junto con la fracción que sale por la tapa; (c) energía que cada $\gamma$ que interactúa transfiere a los electrones del agua.}
+\label{fig:contencion}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Solo entre el 54 y el 64\,\% de los $\gamma$ interactúan en el agua.} En conjunto, el 52\,\% sale por la tapa, el 26\,\% por la pared lateral, el 19\,\% se absorbe en el agua y el 4\,\% en la estructura. Es consecuencia directa de que las capturas ocurran a pocos centímetros de la superficie, mientras que un $\gamma$ de 2.2\,MeV necesita del orden de 20\,cm de agua para interactuar.
+  \item \textbf{La contención depende solo de la profundidad de captura.} Un $\gamma$ emitido junto a la superficie interactúa en el 48\,\% de los casos y sale por la tapa en el 60\,\%; si se emite a 20\,cm, interactúa en el $\approx80$\,\%. Las curvas con y sin \sab{} coinciden (Figura~\ref{fig:contencion}b): la física electromagnética es la misma, y \sab{} influye únicamente al desplazar el punto de captura.
+  \item \textbf{Energía transferida.} El espectro muestra el continuo Compton hasta el borde de 1.99\,MeV y un 31\,\% de absorciones totales (2.22\,MeV) tras varias interacciones, la forma esperada para un $\gamma$ de esta energía en agua.
+\end{itemize}
+
+\subsection{Procesos de interacción y origen de la luz}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_procesos_luz.pdf}
+\caption{(a) Interacciones de todos los fotones $\gamma$, por proceso y material. (b) Contribución de cada tipo de electrón o positrón a la luz Cherenkov total.}
+\label{fig:procesos}
+\end{figure}
+
+El efecto Compton en el agua representa el 86.8\,\% de todas las interacciones de los $\gamma$, seguido del fotoeléctrico (5.4\,\%) y del Rayleigh (3.5\,\%) en el agua y del fotoeléctrico en el acero (2.1\,\%); la producción de pares es el 0.2\,\%. Las proporciones coinciden con y sin \sab{} a 0.1\,\%. Los electrones Compton del agua emiten el 94.2\,\% de la luz Cherenkov. Los pares $e^+e^-$ aportan el 4\,\%, pese a su escasa frecuencia, porque cada partícula sale con $\approx1.5$\,MeV. Los electrones fotoeléctricos, con energías de unos 20\,keV, no aportan luz.
+
+\subsection{Electrones secundarios y umbral Cherenkov}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_electrones_cherenkov.pdf}
+\caption{(a) Espectro de energía cinética inicial de los electrones Compton creados en el agua. (b) Número medio de fotones Cherenkov emitidos por electrón según su energía inicial.}
+\label{fig:electrones}
+\end{figure}
+
+El espectro de los electrones Compton combina un pico intenso a baja energía, debido a los fotones ya degradados por dispersiones previas, con el borde Compton en 1.99\,MeV. \textbf{Solo el 20.6\,\% de ellos supera el umbral Cherenkov del agua} ($T_\mathrm{umbral}=m_e\left[(1-n^{-2})^{-1/2}-1\right]=0.264$\,MeV para $n=1.33$), con ambas físicas. La luz emitida es nula por debajo del umbral y crece con la energía: $\approx85$ fotones a 1\,MeV y $\approx240$ a 2\,MeV.
+
+\subsection{De la luz a la carga}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figuras/fig_luz_carga.pdf}
+\caption{(a) Fotones Cherenkov creados por evento en capturas en el agua y en el acero. (b) Probabilidad de señal frente al número de fotones creados, comparada con un modelo de Poisson. (c) Espectro de carga de los eventos con señal.}
+\label{fig:luzcarga}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Luz por captura.} Los eventos con luz crean una mediana de 155 fotones Cherenkov en una captura en hidrógeno y de 495 en una captura en el acero.
+  \item \textbf{Solo el $1.30$\,\% de los fotones creados produce un fotoelectrón.} Este factor combina la geometría de colección, la absorción óptica y la eficiencia cuántica, y es el mismo con ambas físicas y para ambos orígenes. La probabilidad de señal sigue la estadística de Poisson, $P(Q\geq1)=1-\exp(-0.0130\,N)$: se necesitan $\approx53$ fotones para un 50\,\% de probabilidad y $\approx230$ para un 95\,\%.
+  \item \textbf{Espectro de carga.} Las capturas en hidrógeno dan 2.5\,pe de media, con una caída rápida; las capturas en el acero dan 9.1\,pe, con una cola que supera los 30\,pe.
+\end{itemize}
+
+\subsection{La cadena completa}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}Xrrrr}
+\toprule
+& \multicolumn{2}{c}{25\,meV} & \multicolumn{2}{c}{1\,keV} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Eslabón & con \sab{} & sin \sab{} & con \sab{} & sin \sab{} \\
+\midrule
+Neutrón capturado en el agua (\% de incidentes) & 19.7 & 28.3 & 41.9 & 33.5 \\
+Su $\gamma$ interactúa en el agua (\% de capturas) & 55.5 & 57.9 & 62.2 & 64.0 \\
+El evento produce luz Cherenkov (\% de capturas) & 53.2 & 55.5 & 59.2 & 61.1 \\
+La luz produce $Q\geq1$ (\% de eventos con luz) & 75.8 & 78.5 & 77.7 & 76.9 \\
+Señal tras la captura en el agua (\% de capturas) & 40.4 & 43.6 & 46.0 & 47.0 \\
+\midrule
+Detectados por captura en el agua (\% de incidentes) & 7.95 & 12.33 & 19.28 & 15.77 \\
+Detectados en total, incluida la estructura (\% de incidentes) & 8.95 & 13.55 & 19.46 & 16.13 \\
+\bottomrule
+\end{tabularx}
+\caption{Eslabones de la cadena de detección para dos energías iniciales.}
+\label{tab:cadena}
+\end{table}
+
+\textbf{Los dos cuellos de botella del detector son geométricos}: el escape de los $\gamma$ por la tapa, consecuencia de la captura superficial, y la colección de solo el 1.3\,\% de los fotones Cherenkov. La física neutrónica, y con ella \sab{}, fija el primer eslabón; los siguientes dependen de ella solo a través de la profundidad de captura.
+
+%------------------------------------------------
+\section{Implicaciones para la tesis}
+%------------------------------------------------
+
+\begin{enumerate}
+  \item \textbf{La diferencia entre campañas se debe a \sab{}.} Con geometría idéntica, el cociente de captura con y sin \sab{} a 25\,meV es 0.70 ($19.70/28.31$), prácticamente el 0.69 observado entre la Campaña~2 y la Campaña~1. La atribución previa de esa diferencia a la tapa de acero debe corregirse.
+  \item \textbf{El máximo de captura entre 0.3 y 10\,eV es una propiedad del modelo de gas libre.} Con \sab{} la captura no presenta máximo: crece de forma monótona y se estabiliza en $\approx42$\,\%. Las conclusiones de los Capítulos~4 y~5 que describen ese máximo como efecto del albedo deben matizarse.
+  \item \textbf{Región térmica.} Por debajo de 0.1\,eV, la física sin \sab{} sobrestima la captura en el agua entre un 18 y un 47\,\% relativo (máximo a 7\,meV).
+  \item \textbf{Región epitérmica, la relevante para CRNS.} Entre 10\,eV y 1\,keV, \sab{} eleva la eficiencia de captura estimada del $\approx34$ al $\approx42$\,\%, un 21--25\,\% relativo más.
+  \item \textbf{Diseño del detector.} Con incidencia desde la tapa, casi toda la captura y, por tanto, la emisión de la cascada $\gamma$ ocurren en los primeros $\sim$10\,cm bajo la superficie del agua. Este resultado es relevante para la posición del PMT y la colección de luz.
+  \item \textbf{Física recomendada.} Para agua a temperatura ambiente, \sab{} es la descripción físicamente correcta del hidrógeno ligado; se recomienda usar QGSP\_BERT\_HP con \var{G4ThermalNeutrons} en las corridas definitivas.
+  \item \textbf{Eficiencia de detección.} El observable del detector, la eficiencia $\varepsilon(E)$, reproduce el efecto de \sab{} sobre la captura, pero con el cruce en $\approx0.7$\,eV. La curva de eficiencia usada para la respuesta de referencia (Sección~4.6 de la tesis) debe recalcularse con \sab{}.
+  \item \textbf{Pérdidas geométricas.} Con incidencia desde la tapa, casi la mitad de los $\gamma$ de captura escapa sin interactuar y solo el 1.3\,\% de la luz se convierte en fotoelectrones. Estas dos pérdidas, y no la física neutrónica, limitan la eficiencia; son los parámetros de diseño con más margen de mejora.
+  \item \textbf{Papel del acero.} A energías térmicas y frías, las capturas en la tapa de acero aportan hasta un tercio de la señal, con cargas altas. Debe tenerse en cuenta al comparar con medidas y con tanques de otro material.
+\end{enumerate}
+
+%------------------------------------------------
+\section{Limitaciones}
+\label{sec:limitaciones}
+%------------------------------------------------
+
+\begin{itemize}
+  \item \textbf{Estadística.} 10\,000 neutrones por punto: incertidumbre de $\approx0.5$ puntos en la captura; se observaron fluctuaciones de hasta 2.5$\sigma$ entre repeticiones. Suficiente para el panorama cualitativo, no para las cifras finales.
+  \item \textbf{Solo agua pura.} El cloro de las soluciones con NaCl tiene una sección eficaz de captura unas 100 veces mayor que el hidrógeno y acortará aún más el camino térmico; el efecto de \sab{} puede cambiar con la salinidad. El material \var{SaltyWater} de MEIGA también usa hidrógeno ligado \var{TS\_H\_of\_Water}.
+  \item \textbf{Incidencia vertical desde la tapa}, en un círculo de 40\,cm de radio y desde 67\,cm por encima de ella. Un campo de albedo real es aproximadamente isótropo e incide también por los lados.
+  \item \textbf{Semilla aleatoria.} El simulador inicializa la semilla con \var{time(NULL)} y no la registra; las corridas no son reproducibles evento a evento, aunque sí estadísticamente.
+  \item \textbf{Corte de producción.} El corte de 1\,mm ($\approx0.35$\,MeV para electrones en agua) impide crear rayos delta de menor energía; esto no afecta a la luz Cherenkov, porque esos electrones estarían casi todos bajo el umbral.
+  \item \textbf{Energía transferida por los $\gamma$.} Se suma solo sobre el $\gamma$ de captura; no sigue a los $\gamma$ secundarios de aniquilación o bremsstrahlung.
+  \item \textbf{Respuesta óptica.} La colección de luz (1.30\,\%) depende de las propiedades ópticas del modelo (absorción, reflectividad del Tyvek, eficiencia cuántica), cuyas incertidumbres no se propagaron.
+  \item \textbf{Archivo excluido.} \archivo{pasos-particulas.tsv} (5.5\,GB) no se transfirió; se conserva en el contenedor. No es necesario para los análisis de este informe.
+\end{itemize}
+
+%------------------------------------------------
+\section{Recomendaciones}
+%------------------------------------------------
+
+\begin{enumerate}
+  \item Repetir el barrido con 100\,000 neutrones por punto para las cifras de la tesis (del orden de 25--30\,h de cómputo y 75\,GB comprimidos).
+  \item Extender el barrido a las soluciones con 2.5, 5 y 10\,\% de NaCl.
+  \item Estudiar configuraciones que aumenten la contención de los $\gamma$ y la colección de luz (posición del PMT, número de PMT, reflectividad del revestimiento), que son los factores que más limitan la eficiencia.
+  \item Repetir el análisis electromagnético con NaCl: las cascadas del cloro ($\approx8.6$\,MeV en varios $\gamma$) deberían aumentar tanto la contención como la luz por captura.
+  \item Estudiar incidencia isótropa o un espectro de albedo realista.
+  \item Registrar la semilla aleatoria de cada corrida en el archivo de salida.
+  \item Actualizar los Capítulos~4 y~5 con los resultados de \sab{}.
+\end{enumerate}
+
+%------------------------------------------------
+\section{Reproducibilidad}
+%------------------------------------------------
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+Elemento & Ubicación \\
+\midrule
+Código del simulador & \archivo{wcd-nacl-crns-simulations}, rama \var{main}; etiquetas \var{campana-1-QGSP\_BERT\_HP} y \var{campana-2-QGSP\_BERT\_HP-SalphaBeta} \\
+Kit de simulación & \archivo{simulations/barrido-SalphaBeta_1meV-1keV/} (\archivo{barrido.sh}, \archivo{correr_prueba.sh}, \archivo{resumen_prueba.sh}, \archivo{tabla_barrido.sh}) \\
+Datos (7.5\,GB) & fuera del repositorio: \archivo{Prueba-agua-pura-1meV-1keV-dos-libreria/};\newline copia comprimida \archivo{barrido-1meV-1keV.tar.gz} (1.6\,GB) \\
+Análisis e informe & \archivo{analysis/efecto-SalphaBeta_barrido-energia/} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Dentro del contenedor, el barrido completo se lanza con:
+\begin{lstlisting}
+cd /opt/Prueba-agua-pura-1meV-1keV-dos-libreria
+./barrido.sh 0.001 0.0025 0.005 0.007 0.01 0.025 0.05 0.08 0.1 0.3 0.5 0.7 1 10 100 1000
+\end{lstlisting}
+y los análisis, las figuras y las tablas de este informe se regeneran con:
+\begin{lstlisting}
+cd analysis/efecto-SalphaBeta_barrido-energia
+D=<carpeta de datos del barrido>
+./balance_destinos.sh $D > balance_destinos.tsv
+./capturas_detalle.sh $D > capturas_detalle.tsv
+python3 figuras_barrido.py && python3 figuras_capturas.py
+./em_detalle.sh $D
+./em_cadena.sh $D
+python3 figuras_em.py && python3 figuras_em2.py
+cd informe && python3 generar_tablas.py && latexmk -pdf Informe-tecnico-Efecto-SalphaBeta-Barrido-Energia.tex
+\end{lstlisting}
+
+\appendix
+\section{Destinos de los neutrones}
+\label{app:destinos}
+
+{\small\renewcommand{\arraystretch}{1.05}\input{tabla_destinos.tex}}
+
+\end{document}
