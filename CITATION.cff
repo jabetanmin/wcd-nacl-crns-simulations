@@ -6,8 +6,9 @@ authors:
   - family-names: "Betancourt"
     given-names: "Jaime A."
     affiliation: "Universidad Industrial de Santander"
-version: 0.2.0
-date-released: 2026-09-07
+version: 0.3.0
+date-released: 2026-09-29
+repository-code: "https://github.com/jabetanmin/wcd-nacl-crns-simulations"
 abstract: >-
   Monte Carlo simulations and analysis tools for evaluating a NaCl-doped
   water Cherenkov detector for cosmic-ray neutron detection and soil-moisture

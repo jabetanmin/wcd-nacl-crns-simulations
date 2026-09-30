@@ -58,6 +58,14 @@ para el detalle completo.
 
 
 
+## Estudio del efecto de S(α,β) (septiembre de 2026)
+
+[`efecto-SalphaBeta_barrido-energia/`](efecto-SalphaBeta_barrido-energia/) compara, con el mismo
+ejecutable y la misma geometría, la física con y sin S(α,β) en agua pura de 1 meV a 1 keV. Muestra
+que la diferencia de captura entre las campañas a 25 meV (factor ≈ 0.69) se debe a S(α,β) y no a la
+tapa de acero, y analiza la cadena electromagnética hasta la carga del PMT. Incluye un informe
+técnico de 21 páginas.
+
 ## Estructura de este directorio
 
 ```text

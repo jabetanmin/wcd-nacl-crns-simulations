@@ -2,10 +2,12 @@
 
 ## Entorno principal de simulación
 
-- Geant4: 10.07.p04.
-- Lista de física de referencia: QGSP_BERT_HP, con las configuraciones específicas que se documenten para cada campaña.
+- Geant4: 10.07.p04 (10.7.4), instalado en `/opt/GEANT4/10.07.p04-install` dentro del contenedor Docker del autor; MEIGA en `/opt/meiga` (código en `src/`, compilación en `build/`).
+- Lista de física: QGSP_BERT_HP. La clave `Simulation.PhysicsName` de la configuración elige `QGSP_BERT_HP` (con `G4ThermalNeutrons`, S(α,β) para el hidrógeno ligado en agua) o `QGSP_BERT_HP_NoThermal` (gas libre). Antes del commit `0fa4db1`, `G4WCDSimulator` ignoraba esta clave y usaba siempre QGSP_BERT_HP.
+- Propiedades del detector: el simulador lee `build/Framework/ConfigManager/DetectorProperties.xml`, que CMake sobrescribe con la copia de `src/` al reconfigurar; ambas deben coincidir. Ver [`GEOMETRIA_Y_FISICA_CAMPANAS.md`](GEOMETRIA_Y_FISICA_CAMPANAS.md).
+- `docker exec` requiere `bash -ic` (o cargar `geant4.sh`) para que el ejecutable encuentre las bibliotecas de Geant4.
 - Procesos ópticos: Cherenkov, absorción, Rayleigh, Mie y procesos de frontera, según la configuración empleada.
-- Semillas aleatorias: deben almacenarse junto con los metadatos de cada corrida cuando sea posible.
+- Semillas aleatorias: el simulador usa `time(NULL)` y no la registra; debe anotarse la hora de inicio de cada corrida y, a futuro, guardar la semilla en la salida.
 
 ## Información mínima por campaña
 

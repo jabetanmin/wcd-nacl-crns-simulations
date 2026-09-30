@@ -15,15 +15,31 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión de trabajo consolidada.** La rama `main` reúne la documentación del repositorio, el código de las dos campañas de simulación de la tesis y los análisis por sección:
+**Versión 0.3.0 (29 de septiembre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección y los informes técnicos.
 
-- **Código actual (`src/`)**: corresponde a la **Campaña 2**, con tratamiento térmico $S(\alpha,\beta)$ para el hidrógeno ligado en el agua (`G4ThermalNeutrons`, materiales `Water_TS_H_of_Water` y `SaltyWater_NaCl_*`), compilado en el contenedor del autor el 15 de septiembre de 2026.
-- **Código de la Campaña 1** (sin $S(\alpha,\beta)$, base de la mayor parte de los resultados de la tesis): commit `25093f8`, que corresponde al ejecutable compilado el 13 de febrero de 2025 con el que se produjeron las corridas de febrero de 2025.
-- **Geometría y física de cada campaña** (medidas en los datos): ver [`docs/GEOMETRIA_Y_FISICA_CAMPANAS.md`](docs/GEOMETRIA_Y_FISICA_CAMPANAS.md).
-- **Entorno de ejecución**: Geant4 10.7.4 (10.07.p04), dentro de un contenedor Docker.
-- **Análisis e informes**: ver [`analysis/README.md`](analysis/README.md) y [`docs/technical-reports/`](docs/technical-reports/), organizados por campaña y por sección de la tesis.
+| Componente | Dónde |
+|---|---|
+| Código actual (`src/`) | Campaña 2 y estudio de S(α,β): QGSP_BERT_HP con o sin `G4ThermalNeutrons`, elegido en la configuración (`PhysicsName`) |
+| Código de la Campaña 1 | etiqueta `campana-1-QGSP_BERT_HP` (ejecutable del 13-02-2025) |
+| Código de la Campaña 2 | etiqueta `campana-2-QGSP_BERT_HP-SalphaBeta` |
+| Geometría y física medidas en los datos | [`docs/GEOMETRIA_Y_FISICA_CAMPANAS.md`](docs/GEOMETRIA_Y_FISICA_CAMPANAS.md) |
+| Entorno | Geant4 10.7.4 (10.07.p04) en un contenedor Docker; ver [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) |
 
-Permanecen pendientes los notebooks de la Campaña 1, las configuraciones de cada corrida y el enlace a los datos crudos.
+Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): notebooks de la Campaña 1 y de la validación (Secciones 4.1–4.2), configuraciones por corrida de las campañas 1 y 2, y publicación de los datos crudos con identificador persistente.
+
+## Mapa entre la tesis y el repositorio
+
+| Tesis | Contenido | Repositorio |
+|---|---|---|
+| Cap. 3, Etapa IV | Modelo del WCD: geometría, materiales, física, óptica y QE | [`src/G4Models/`](src/G4Models/) (`SaltyWCD.cc`, `Materials.cc`, `G4MPhysicsList.cc`, `G4MPMTAction.cc`), [`src/Applications/G4WCDSimulator/`](src/Applications/G4WCDSimulator/); informes de PMT, Tyvek, densidades e integración en [`docs/technical-reports/`](docs/technical-reports/) |
+| Sec. 4.1 | Validación (Sidelnik 2020b y prototipo con AmBe) | pendiente |
+| Sec. 4.2 | Respuesta a neutrones monocromáticos (Campaña 1) | [`docs/technical-reports/campana-1_sin-S-alpha-beta/`](docs/technical-reports/campana-1_sin-S-alpha-beta/); notebooks pendientes |
+| Secs. 4.3–4.5 | Flujo atmosférico y de suelo seco en Bucaramanga | [`analysis/flujo-bucaramanga_secciones-4.3-4.5/`](analysis/flujo-bucaramanga_secciones-4.3-4.5/) |
+| Sec. 4.6 | Respuesta de referencia del WCD a un suelo seco | [`analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/`](analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/) |
+| Estudio complementario | Efecto de S(α,β): barrido de 1 meV a 1 keV, transporte y respuesta electromagnética | [`simulations/barrido-SalphaBeta_1meV-1keV/`](simulations/barrido-SalphaBeta_1meV-1keV/), [`analysis/efecto-SalphaBeta_barrido-energia/`](analysis/efecto-SalphaBeta_barrido-energia/) |
+| Campaña 2 (25 meV) | Moderación y captura con S(α,β), cuatro medios | [`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`](analysis/notebooks/campana-2_con-S-alpha-beta_25meV/), [`docs/technical-reports/campana-2_con-S-alpha-beta_25meV/`](docs/technical-reports/campana-2_con-S-alpha-beta_25meV/) |
+| Apéndice A | Framework MEIGA | [`docs/MEIGA_UPSTREAM_README.md`](docs/MEIGA_UPSTREAM_README.md) |
+| Apéndice H.0.5 | Contribuciones computacionales a MEIGA | [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md), diferencias de código en [`docs/technical-reports/diffs/`](docs/technical-reports/diffs/) |
 
 ## Relación con MEIGA
 
@@ -45,8 +61,8 @@ La descripción detallada se encuentra en [`docs/CONTRIBUTIONS.md`](docs/CONTRIB
 ```text
 wcd-nacl-crns-simulations/
 ├── src/                  Código de MEIGA y modificaciones de la tesis
-├── analysis/             Programas Python y cuadernos de análisis
-├── simulations/          Configuraciones de las campañas de simulación
+├── simulations/          Configuraciones y scripts de corrida de cada campaña
+├── analysis/             Análisis por sección de la tesis (scripts, tablas, figuras, informes)
 ├── data/                 Datos pequeños de entrada y datos procesados
 ├── results/              Figuras y tablas seleccionadas
 ├── docs/                 Metodología, atribución y reproducibilidad
@@ -93,7 +109,7 @@ Consulte [`docs/DATA_MANAGEMENT.md`](docs/DATA_MANAGEMENT.md).
 
 ## Citación
 
-Cuando utilice este repositorio, emplee la información de [`CITATION.cff`](CITATION.cff). La referencia definitiva se completará al publicar la primera versión estable.
+Cuando utilice este repositorio, emplee la información de [`CITATION.cff`](CITATION.cff) (GitHub la muestra en "Cite this repository"). Al publicar la versión 1.0.0 se archivará en Zenodo, que asignará un DOI permanente; la tesis debe citar esa versión por su DOI.
 
 ## Licencia
 
