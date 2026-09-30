@@ -7,7 +7,7 @@
 # El numero de marcas "# x h" es el tiempo de adquisicion en segundos.
 #
 # Por pulso (canal 1) se calculan tres cargas, en ADC:
-#   carga_ventana  notebook senales-detector-prototipo.ipynb, celda 1 (histogramas *_charge_hist.csv):
+#   carga_ventana  notebook senales-detector-prototipo.ipynb, celda 1:
 #                  linea base = media de las 20 primeras muestras; ventana alrededor del pico hasta que
 #                  la senal cae bajo el 5 % del pico; se integra la parte positiva. -1 si el pico <= 0.
 #   carga_figura   mismo notebook, celda 23 (figura Comparacion-3-configuraciones-bins9425 y
