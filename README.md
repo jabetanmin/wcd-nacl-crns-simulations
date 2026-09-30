@@ -25,14 +25,15 @@ Este repositorio reúne y continuará incorporando:
 | Geometría y física medidas en los datos | [`docs/GEOMETRIA_Y_FISICA_CAMPANAS.md`](docs/GEOMETRIA_Y_FISICA_CAMPANAS.md) |
 | Entorno | Geant4 10.7.4 (10.07.p04) en un contenedor Docker; ver [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) |
 
-Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): notebooks de la Campaña 1 y de la validación (Secciones 4.1–4.2), configuraciones por corrida de las campañas 1 y 2, y publicación de los datos crudos con identificador persistente.
+Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): notebooks de la Campaña 1 y de la validación numérica (Secciones 4.1.1 y 4.2), trazabilidad de la Tabla de razones de la Sección 4.1.2, configuraciones por corrida de las campañas 1 y 2, y publicación de los datos crudos con identificador persistente.
 
 ## Mapa entre la tesis y el repositorio
 
 | Tesis | Contenido | Repositorio |
 |---|---|---|
 | Cap. 3, Etapa IV | Modelo del WCD: geometría, materiales, física, óptica y QE | [`src/G4Models/`](src/G4Models/) (`SaltyWCD.cc`, `Materials.cc`, `G4MPhysicsList.cc`, `G4MPMTAction.cc`), [`src/Applications/G4WCDSimulator/`](src/Applications/G4WCDSimulator/); informes de PMT, Tyvek, densidades e integración en [`docs/technical-reports/`](docs/technical-reports/) |
-| Sec. 4.1 | Validación (Sidelnik 2020b y prototipo con AmBe) | pendiente |
+| Sec. 4.1.1 | Validación numérica (Sidelnik et al. 2020b) | pendiente |
+| Sec. 4.1.2 | Validación experimental con un prototipo y ²⁴¹AmBe | [`analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`](analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/) |
 | Sec. 4.2 | Respuesta a neutrones monocromáticos (Campaña 1) | [`docs/technical-reports/campana-1_sin-S-alpha-beta/`](docs/technical-reports/campana-1_sin-S-alpha-beta/); notebooks pendientes |
 | Secs. 4.3–4.5 | Flujo atmosférico y de suelo seco en Bucaramanga | [`analysis/flujo-bucaramanga_secciones-4.3-4.5/`](analysis/flujo-bucaramanga_secciones-4.3-4.5/) |
 | Sec. 4.6 | Respuesta de referencia del WCD a un suelo seco | [`analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/`](analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/) |

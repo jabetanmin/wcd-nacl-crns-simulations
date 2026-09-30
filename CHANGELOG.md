@@ -2,6 +2,15 @@
 
 Todas las modificaciones relevantes del repositorio se documentarán en este archivo.
 
+## [Sin publicar]
+
+### Añadido
+
+- `analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`: notebooks, histogramas de carga,
+  datos simulados de comparación, figuras y sumas SHA-256 de los datos crudos de la validación
+  experimental con ²⁴¹AmBe. Se documenta que las razones de la tabla de validación aún no son
+  trazables a un programa.
+
 ## [0.3.0] - 2026-09-29
 
 ### Añadido

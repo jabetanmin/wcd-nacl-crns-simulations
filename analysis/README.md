@@ -58,6 +58,12 @@ para el detalle completo.
 
 
 
+## Validación experimental (Sección 4.1.2)
+
+[`validacion-experimental-prototipo-AmBe_seccion-4.1.2/`](validacion-experimental-prototipo-AmBe_seccion-4.1.2/)
+contiene los notebooks, los histogramas de carga y las figuras de la validación con el prototipo
+irradiado con ²⁴¹AmBe. Los datos crudos (1.9 GB, formato LAGO) están fuera del repositorio.
+
 ## Estudio del efecto de S(α,β) (septiembre de 2026)
 
 [`efecto-SalphaBeta_barrido-energia/`](efecto-SalphaBeta_barrido-energia/) compara, con el mismo
