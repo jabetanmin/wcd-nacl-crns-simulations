@@ -13,7 +13,7 @@ y su comparación con la simulación.
 | Figuras `Histograma-Comparado-*-mejorado` (neutrones frente a fondo, tres medios) | `figuras/Histograma-Comparado-Agua-{pura,25NaCl,10NaCl}-mejorado.pdf` | `notebooks/señales-detector-prototipo.ipynb` |
 | Figura `compara-sim-exp` (espectros experimentales y simulados) | `figuras/Comparacion-Exp-vs-Sim-Termicos.pdf` | `notebooks/comparacion-experimento-simulacion.ipynb` |
 | Tabla `tab:signal_comparison` (razones de mejora 11.2 y 35.6; simulación 13.2 y 31.8) | — | **No trazable todavía** (ver más abajo) |
-| Figura `Espectro-AmBe-Geant4-vs-IAEA` | — | No está en esta carpeta de origen |
+| Figura `Espectro-AmBe-Geant4-vs-IAEA` (espectro de la fuente simulada frente a la referencia) | `fuente-AmBe/figuras/Espectro-AmBe-Geant4-vs-IAEA.pdf` | `fuente-AmBe/notebooks/Espectro-energia-AmBe-241.ipynb` (ver [`fuente-AmBe/README.md`](fuente-AmBe/README.md)) |
 
 Las figuras de la tesis que muestran el montaje (`tanque-exp`, `blindaje-plomo`, esquema experimental)
 son fotografías o diagramas, no productos de análisis.
@@ -27,6 +27,7 @@ son fotografías o diagramas, no productos de análisis.
 | `datos-derivados/simulacion/` | Fotones Cherenkov simulados por evento (`counts-number-photons*.txt`), histogramas comparados y los archivos de la comparación preliminar (`sim_phot_*`, `exp_adc_*`). |
 | `figuras/` | Figuras de la tesis producidas por los notebooks. |
 | `datos-crudos.sha256` | Sumas SHA-256 de los seis archivos de datos crudos. |
+| `fuente-AmBe/` | Construcción del espectro de la fuente de ²⁴¹AmBe inyectado en Geant4 y su comparación con la referencia. |
 
 ## Datos crudos (no incluidos en git)
 
