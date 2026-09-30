@@ -71,8 +71,8 @@ done; wait                                  # ~2 min; los ev_*.tsv (4.6 M pulsos
 python3 calcular_razones.py <trabajo>       # razones.tsv, razones_umbral.tsv, tiempos_adquisicion.tsv, figura
 ```
 
-`extraer_eventos.sh` calcula por pulso tres cargas: la de los histogramas `*_charge_hist.csv`
-(`carga_ventana`), la de las figuras de la tesis (`carga_figura`) y una variante con línea base
+`extraer_eventos.sh` calcula por pulso tres cargas: la de la celda 1 del notebook
+`señales-detector-prototipo.ipynb` (`carga_ventana`), la de las figuras de la tesis (`carga_figura`) y una variante con línea base
 anterior al pulso (`carga_pretrig`). **Verificación:** con `carga_figura`, la diferencia
 fuente − fondo reproduce bin a bin los archivos `diferencia_original_*_bins9425.dat` que produjo el
 notebook para la figura `Comparacion-3-configuraciones-bins9425` (0 bins distintos en agua pura; un
@@ -111,9 +111,10 @@ tiempo (como la figura del exceso de cuentas) subestiman la señal de 10 % en un
   alcanza con un umbral de carga de ≈ 10⁴ ADC y normalización por tiempo; con ese mismo umbral la
   razón de 2.5 % es 7.1 ± 0.6, y ningún umbral la lleva por encima de ≈ 7.2 con ninguna de las tres
   definiciones de carga.
-- Las incertidumbres de la tesis (±0.1 y ±0.2, ≲ 1 %) solo son compatibles con razones calculadas
-  sobre casi todos los pulsos. Con un umbral de 10⁴ ADC el exceso del agua pura es de unos pocos
-  miles de cuentas y la incertidumbre de Poisson de la razón es del 6–9 %.
+- Con estas definiciones, el umbral necesario para acercarse a 35.6 (≈ 10⁴ ADC) deja un exceso de
+  agua pura de pocos miles de cuentas y una incertidumbre de Poisson del 6–9 %, lejos de ±0.1 y
+  ±0.2. Las incertidumbres publicadas corresponden al procedimiento de la parte 1, cuyo umbral es
+  más bajo (≈ 3.9·10³ ADU) gracias a la corrección de 1.4 del agua pura.
 - Las razones sobre el total de pulsos (2.25 y 6.67) y de carga (3.0 y 10.1) son las que se obtienen
   de forma directa y con incertidumbre pequeña; cualquiera de ellas cambia la comparación con la
   simulación (13.2 y 31.8).
