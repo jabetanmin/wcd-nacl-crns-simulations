@@ -1,0 +1,9 @@
+definicion	normalizacion	razon_2.5	error_2.5	razon_10	error_10
+cuentas netas (todos los disparos)	sin normalizar por el tiempo	2.247	0.005	5.251	0.011
+carga neta (carga_figura)	sin normalizar por el tiempo	2.991	0.022	7.787	0.055
+carga neta (carga_ventana)	sin normalizar por el tiempo	3.006	0.022	7.855	0.055
+carga neta (carga_pretrig)	sin normalizar por el tiempo	3.001	0.027	7.755	0.067
+cuentas netas (todos los disparos)	por segundo	2.246	0.005	6.668	0.013
+carga neta (carga_figura)	por segundo	2.987	0.022	10.106	0.071
+carga neta (carga_ventana)	por segundo	3.002	0.022	10.200	0.071
+carga neta (carga_pretrig)	por segundo	2.997	0.027	10.126	0.088
