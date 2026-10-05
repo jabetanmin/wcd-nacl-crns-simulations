@@ -15,6 +15,17 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   trazabilidad. Las tablas por neutrón (`historias.tsv.gz`) se publicarán en Zenodo.
 - Informe técnico `docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Procesamiento-Campana-1-64-corridas`
   (reemplaza al informe de cinco energías de la misma carpeta).
+- `figuras_seccion_4.2.ipynb` (y `construir_notebook.py`): regenera las Figuras 4.17–4.27 y D.1–D.6 de la tesis
+  solo con los resúmenes del repositorio; verifica automáticamente 25 cifras de la tesis.
+
+### Corregido
+
+- La letargía $\xi$ de la tesis se calcula sobre las dispersiones elásticas de las cadenas que terminan en
+  captura (como en las figuras de la tesis), no sobre todas las colisiones del neutrón capturado; con ello
+  $\langle\xi\rangle$ = 0.0583 a 1 eV en agua pura y el valor 0.058 de la tesis es correcto (la versión anterior
+  del informe señalaba erróneamente un redondeo a 0.059).
+- `resumen.json` incluye los histogramas de $N$, $\xi$ y carga; la columna `suma_ln_E` se reemplaza por
+  `suma_xi_cadena`.
 
 ## [0.4.0] - 2026-10-04
 

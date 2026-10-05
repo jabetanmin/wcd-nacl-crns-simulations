@@ -45,8 +45,9 @@ def comparar(caja, cil, e, m):
     def eta(h, *k):
         return 100 * sum(1 for r in h if r["destino"] in k) / n
     def xi_col(h):
-        cap = [r for r in h if r["ultimo_proceso"] == "nCapture"]
-        return sum(float(r["suma_ln_E"]) for r in cap) / max(sum(int(r["n_hadElastic"]) for r in cap), 1)
+        # xi de la tesis: suma de ln(E_pre/E_post) en las cadenas / número de colisiones de las cadenas
+        c = [r for r in h if r["N_tesis"] != ""]
+        return sum(float(r["suma_xi_cadena"]) for r in c) / max(sum(int(r["N_tesis"]) for r in c), 1)
     fila = {"energia": e, "medio": m,
             "cambia_destino": cambia_dest, "cambia_N": cambia_N}
     for nombre, claves in [("cap_dentro", ("cap_dentro",)), ("cap_fuera", ("cap_fuera",)),
@@ -60,8 +61,8 @@ def comparar(caja, cil, e, m):
     fila["N_cil"] = media(r["N_tesis"] for r in b)
     fila["xi_hist_inicial_caja"] = media(r["xi_historia_inicial"] for r in a)
     fila["xi_hist_inicial_cil"] = media(r["xi_historia_inicial"] for r in b)
-    fila["xi_colision_caja"] = xi_col(a)   # definición de la tesis
-    fila["xi_colision_cil"] = xi_col(b)
+    fila["xi_tesis_caja"] = xi_col(a)
+    fila["xi_tesis_cil"] = xi_col(b)
     return fila
 
 

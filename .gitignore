@@ -45,3 +45,4 @@ src (1)/
 # Campaña 1 (Sec. 4.2): tablas por neutrón (~120 MB) se publican en Zenodo, no en el repositorio
 analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/**/historias.tsv.gz
 analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/resultados-cilindro/*/
+analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/figuras-seccion-4.2/*.png

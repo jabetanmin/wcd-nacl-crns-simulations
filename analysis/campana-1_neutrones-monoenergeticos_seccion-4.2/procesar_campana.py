@@ -29,20 +29,24 @@ def main():
     with Pool(procesos) as pool:
         resumenes = pool.map(tarea, trabajos)
     cols = ["energia", "medio", "historias", "capturas", "eta_cap", "u_eta_cap", "eta_refle", "u_eta_refle",
-            "eta_trans", "u_eta_trans", "eta_otros", "u_eta_otros", "media_Transportation",
-            "media_hadElastic", "media_neutronInelastic", "cadenas_N", "N_tesis_media", "N_total_media",
-            "xi_colision_capturadas", "xi_colision_todas", "xi_historia_inicial_n", "xi_historia_inicial_media", "carga_eventos",
-            "carga_media_pe"]
+            "eta_trans", "u_eta_trans", "eta_otros", "u_eta_otros",
+            "media_Transportation", "std_Transportation", "media_hadElastic", "std_hadElastic",
+            "media_neutronInelastic", "cadenas_N", "N_tesis_media", "N_total_media",
+            "xi_colisiones", "xi_media", "xi_sigma", "xi_mediana",
+            "xi_historia_inicial_n", "xi_historia_inicial_media", "carga_eventos", "carga_media_pe"]
     with open(Path(salida) / "resumen_campana.tsv", "w") as f:
         f.write("\t".join(cols) + "\n")
         for (_, _, e, m), r in zip(trabajos, resumenes):
-            mp = r["media_pasos_por_historia"]
+            pp = r["pasos_por_historia"]
             fila = [e, m, r["historias"], r["capturas"]]
             for k in ("eta_cap", "eta_refle", "eta_trans", "eta_otros"):
                 fila += [f"{r[k]['valor']:.6f}", f"{r[k]['incertidumbre']:.6f}"]
-            fila += [f"{mp['Transportation']:.5f}", f"{mp['hadElastic']:.5f}", f"{mp['neutronInelastic']:.5f}",
+            fila += [f"{pp['Transportation']['media']:.5f}", f"{pp['Transportation']['std']:.5f}",
+                     f"{pp['hadElastic']['media']:.5f}", f"{pp['hadElastic']['std']:.5f}",
+                     f"{pp['neutronInelastic']['media']:.5f}",
                      r["N_tesis"]["cadenas"], f"{r['N_tesis']['media']:.4f}", f"{r['N_total_media']:.4f}",
-                     f"{r['xi_colision_capturadas']:.6f}", f"{r['xi_colision_todas']:.6f}",
+                     r["xi_tesis"]["colisiones"], f"{r['xi_tesis']['media']:.6f}",
+                     f"{r['xi_tesis']['sigma']:.6f}", f"{r['xi_tesis']['mediana']:.6f}",
                      r["xi_historia_inicial"]["n"], f"{r['xi_historia_inicial']['media']:.6f}",
                      r.get("carga", {}).get("eventos", ""),
                      f"{r['carga']['media_pe']:.4f}" if r.get("carga") else ""]

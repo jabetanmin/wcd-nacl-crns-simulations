@@ -123,7 +123,7 @@ def main():
 
     # 5. <xi> con las dos definiciones
     fig, ax = plt.subplots(1, 2, figsize=(12, 4.3))
-    curvas(ax[0], R, "xi_colision_capturadas")
+    curvas(ax[0], R, "xi_media")
     ax[0].set_title(r"Definición de la tesis: $\xi$ por colisión, $\langle\ln(E_\mathrm{pre}/E_\mathrm{post})\rangle$", fontsize=10)
     curvas(ax[1], R, "xi_historia_inicial_media")
     ax[1].set_title(r"Definición inicial (reemplazada): $\langle\ln(E_0/E_\mathrm{cap})/N\rangle$ por historia", fontsize=10)
@@ -174,7 +174,7 @@ def main():
             r = R[(e, m)]
             filas.append(f"{rot} & {100*float(r['eta_cap']):.2f} & {100*float(r['eta_refle']):.2f} & "
                          f"{100*float(r['eta_trans']):.3f} & {100*float(r['eta_otros']):.2f} & "
-                         f"{float(r['N_tesis_media']):.2f} & {float(r['xi_colision_capturadas']):.4f} & "
+                         f"{float(r['N_tesis_media']):.2f} & {float(r['xi_media']):.4f} & "
                          f"{float(r['xi_historia_inicial_media']):.4f} & {float(r['carga_media_pe']):.2f} \\\\")
         (sal / f"tabla_{m}.tex").write_text("\n".join(filas) + "\n")
     print("figuras y tablas en", sal)
