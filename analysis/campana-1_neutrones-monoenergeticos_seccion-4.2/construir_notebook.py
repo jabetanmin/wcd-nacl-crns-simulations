@@ -324,6 +324,78 @@ plt.show()
 """)
 
 md(r"""
+## Figuras 4.28 y 4.29 y Tabla 4.9: longitud de captura $\lambda_\mathrm{cap}$
+
+$\lambda_\mathrm{cap}$ es la distancia en línea recta entre el punto de la primera dispersión elástica del neutrón,
+en la cara interior de la tapa ($z=1330.05$ mm), y el punto de captura, para los neutrones capturados cuya primera
+interacción en el agua es esa dispersión. La distribución es asimétrica, con una cola larga, y su máximo es plano o
+está junto a 0 cm a baja energía; por eso se usa la **mediana** como valor representativo, con su incertidumbre por
+remuestreo, y el rango intercuartílico (percentiles 25 y 75) como medida de dispersión.
+""")
+
+code(r"""
+def lam(e, m, k):
+    return float(TABLA[(e, m)][k])
+
+
+# Figura 4.28: distribuciones a 1 keV
+fig, ax = plt.subplots(figsize=(11, 6.5))
+for m in MEDIOS:
+    h = RESUMEN[("1000000meV", m)]["lambda_cap"]
+    cuenta = np.array(h["histograma"]["conteos"], dtype=float)
+    ancho = h["histograma"]["ancho"] / 10          # cm
+    bordes = np.arange(len(cuenta) + 1) * ancho
+    densidad = cuenta / (h["n"] * ancho)
+    ax.step(bordes[:-1], densidad, where="post", color=COLOR[m], lw=1.6,
+            label=rf"{NOMBRE[m]}: mediana $={h['mediana']/10:.2f}\pm{h['u_mediana']/10:.2f}$ cm")
+    ax.axvline(h["mediana"] / 10, color=COLOR[m], ls="--", lw=1)
+ax.set_xlim(0, 40)
+ax.set_xlabel(r"$\lambda_\mathrm{cap}$ [cm]")
+ax.set_ylabel(r"Densidad de probabilidad [cm$^{-1}$]")
+ax.grid(True, ls=":", color="0.8")
+ax.legend(fontsize=12)
+ax.text(0.98, 0.55, "Neutrones de 1 keV", transform=ax.transAxes, ha="right", fontsize=14)
+guardar(fig, "fig_4_28_lambda_cap_1keV")
+plt.show()
+
+# Figura 4.29: mediana y rango intercuartílico frente a la energía, con ajuste lineal en log10(E/eV)
+fig, axs = plt.subplots(2, 2, figsize=(14, 10), sharex=True, sharey=True)
+AJUSTES = {}
+for ax, m in zip(axs.flat, MEDIOS):
+    med = np.array([lam(e, m, "lambda_mediana_cm") for e in ENERGIAS])
+    u = np.array([lam(e, m, "u_lambda_mediana_cm") for e in ENERGIAS])
+    p25 = np.array([lam(e, m, "lambda_p25_cm") for e in ENERGIAS])
+    p75 = np.array([lam(e, m, "lambda_p75_cm") for e in ENERGIAS])
+    ax.fill_between(VALOR_MEV, p25, p75, color=COLOR[m], alpha=0.15, label="Percentiles 25–75")
+    ax.errorbar(VALOR_MEV, med, yerr=u, fmt=MARCA[m], color=COLOR[m], mec="k", mew=0.5, ms=7, capsize=2,
+                label="Mediana")
+    x = np.log10(VALOR_MEV * 1e-3)                  # log10(E/eV)
+    pend, orden = np.polyfit(x, med, 1, w=1 / u)
+    r2 = 1 - np.sum((med - (pend * x + orden)) ** 2) / np.sum((med - med.mean()) ** 2)
+    AJUSTES[m] = (pend, orden, r2)
+    xx = np.logspace(0, 6, 100)
+    ax.plot(xx, pend * np.log10(xx * 1e-3) + orden, "--", color=COLOR[m], lw=1.2,
+            label=rf"$\lambda={pend:.2f}\,\log_{{10}}(E/\mathrm{{eV}})+{orden:.2f}$, $R^2={r2:.3f}$")
+    ax.set_title(NOMBRE[m], fontsize=15)
+    ax.set_ylabel(r"$\lambda_\mathrm{cap}$ [cm]")
+    eje_energia(ax, rotulos_region=False)
+    ax.legend(fontsize=10, loc="upper left")
+guardar(fig, "fig_4_29_lambda_cap_vs_energia")
+plt.show()
+for m, (pend, orden, r2) in AJUSTES.items():
+    print(f"{NOMBRE[m]:20s} pendiente {pend:.3f} cm/década  ordenada (1 eV) {orden:.2f} cm  R2 {r2:.3f}")
+
+# Tabla 4.9 en LaTeX: mediana ± incertidumbre
+filas = []
+for e in ENERGIAS:
+    celdas = [rf"${lam(e, m, 'lambda_mediana_cm'):.2f}\pm{lam(e, m, 'u_lambda_mediana_cm'):.2f}$" for m in MEDIOS]
+    filas.append(f"{ROTULO[e]} & " + " & ".join(celdas) + r" \\")
+(SALIDA / "tabla_4_9_lambda_cap.tex").write_text("\n".join(filas) + "\n")
+fraccion = [int(TABLA[k]["lambda_n"]) / int(TABLA[k]["capturas"]) for k in TABLA]
+print(f"Fracción de capturas incluidas: {min(fraccion):.3f}–{max(fraccion):.3f}")
+""")
+
+md(r"""
 ## Verificación frente a las cifras de la tesis
 
 Valores citados en el texto, los pies de figura y el Capítulo 5.

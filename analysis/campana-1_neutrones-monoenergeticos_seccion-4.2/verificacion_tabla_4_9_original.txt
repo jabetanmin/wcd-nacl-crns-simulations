@@ -1,0 +1,46 @@
+300meV      Agua-pura     ajuste [ 1.00, 6.00] cm:   3.29 ±  3.15   tabla 3.29 ± 3.15   coincide   datos: archivo ausente (se usan los crudos)
+300meV      Agua+2.5NaCl  ajuste [ 1.00, 5.00] cm:   3.07 ±  2.58   tabla 3.07 ± 2.58   coincide   datos: crudos C1
+300meV      Agua+5NaCl    ajuste [ 1.00, 5.00] cm:   2.85 ±  2.49   tabla 2.85 ± 2.49   coincide   datos: crudos C1
+300meV      Agua+10NaCl   ajuste [ 0.70, 3.50] cm:   2.53 ±  1.76   tabla 2.56 ± 1.73   NO coincide   datos: crudos C1
+700meV      Agua-pura     ajuste [ 1.00, 5.00] cm:   3.42 ±  2.40   tabla 3.55 ± 2.67   NO coincide   datos: crudos C1
+700meV      Agua+2.5NaCl  ajuste [ 1.00, 5.00] cm:   3.29 ±  2.25   tabla 3.42 ± 2.40   NO coincide   datos: OTRO ORIGEN
+700meV      Agua+5NaCl    ajuste [ 1.60, 5.00] cm:   3.12 ±  2.72   tabla 3.29 ± 2.25   NO coincide   datos: OTRO ORIGEN
+700meV      Agua+10NaCl   ajuste [ 1.60, 5.00] cm:   2.98 ±  2.55   tabla 2.98 ± 2.55   coincide   datos: crudos C1
+100000meV   Agua-pura     ajuste [ 3.00, 7.00] cm:   5.87 ±  3.06   tabla 5.87 ± 3.06   coincide   datos: OTRO ORIGEN
+100000meV   Agua+2.5NaCl  ajuste [ 2.00, 6.00] cm:   4.61 ±  2.47   tabla 4.61 ± 2.47   coincide   datos: crudos C1
+100000meV   Agua+5NaCl    ajuste [ 2.50, 6.00] cm:   4.53 ±  2.53   tabla 4.53 ± 2.53   coincide   datos: crudos C1
+100000meV   Agua+10NaCl   ajuste [ 2.00, 6.00] cm:   4.43 ±  2.36   tabla 4.43 ± 2.36   coincide   datos: crudos C1
+100meV      Agua-pura     ajuste [ 0.50, 6.00] cm:   2.88 ±  2.97   tabla 2.88 ± 2.97   coincide   datos: crudos C1
+100meV      Agua+2.5NaCl  ajuste [ 0.50, 5.00] cm:   2.83 ±  2.25   tabla 2.83 ± 2.25   coincide   datos: crudos C1
+100meV      Agua+5NaCl    ajuste [ 0.50, 5.00] cm:   2.58 ±  2.53   tabla 2.58 ± 2.53   coincide   datos: crudos C1
+100meV      Agua+10NaCl   ajuste [ 0.50, 5.00] cm:   2.35 ±  2.54   tabla 2.35 ± 2.54   coincide   datos: crudos C1
+10000meV    Agua-pura     ajuste [ 1.70, 7.00] cm:   4.38 ±  2.74   tabla 4.38 ± 2.74   coincide   datos: crudos C1
+10000meV    Agua+2.5NaCl  ajuste [ 2.00, 6.50] cm:   4.08 ±  2.84   tabla 4.08 ± 2.84   coincide   datos: crudos C1
+10000meV    Agua+5NaCl    ajuste [ 1.70, 6.00] cm:   4.04 ±  2.48   tabla 4.04 ± 2.48   coincide   datos: crudos C1
+10000meV    Agua+10NaCl   ajuste [ 1.70, 7.00] cm:   3.96 ±  2.78   tabla 3.96 ± 2.78   coincide   datos: crudos C1
+10meV       Agua-pura     ajuste [ 0.17, 2.00] cm:   1.14 ±  1.62   tabla 1.14 ± 1.62   coincide   datos: crudos C1
+10meV       Agua+2.5NaCl  ajuste [ 0.50, 2.00] cm:   1.01 ±  1.92   tabla 1.01 ± 1.92   coincide   datos: crudos C1
+10meV       Agua+5NaCl    ajuste [ 0.50, 2.00] cm:   0.89 ±  2.11   tabla 0.89 ± 2.11   coincide   datos: crudos C1
+10meV       Agua+10NaCl   ajuste [ 0.50, 3.00] cm:   0.67 ±  2.58   tabla 0.67 ± 2.58   coincide   datos: crudos C1
+1000000meV  Agua-pura     ajuste [ 0.50,10.00] cm:   6.43 ±  2.69   tabla 6.43 ± 2.69   coincide   datos: crudos C1
+1000000meV  Agua+2.5NaCl  ajuste [ 3.00, 9.00] cm:   5.98 ±  3.10   tabla 5.98 ± 3.10   coincide   datos: crudos C1
+1000000meV  Agua+5NaCl    ajuste [ 3.00, 9.00] cm:   5.81 ±  3.21   tabla 5.81 ± 3.21   coincide   datos: crudos C1
+1000000meV  Agua+10NaCl   ajuste [ 4.00, 6.00] cm:   5.17 ±  2.59   tabla 5.59 ± 2.94   NO coincide   datos: crudos C1
+1000meV     Agua-pura     ajuste [ 2.00, 7.00] cm:   3.58 ±  3.43   tabla 3.58 ± 3.43   coincide   datos: crudos C1
+1000meV     Agua+2.5NaCl  ajuste [ 1.00, 5.00] cm:   3.40 ±  2.43   tabla 3.40 ± 2.43   coincide   datos: crudos C1
+1000meV     Agua+5NaCl    ajuste [ 1.50, 5.50] cm:   3.29 ±  2.56   tabla 3.29 ± 2.56   coincide   datos: crudos C1
+1000meV     Agua+10NaCl   ajuste [ 0.90, 4.50] cm:   3.14 ±  2.05   tabla 3.14 ± 2.05   coincide   datos: crudos C1
+25meV       Agua-pura     ajuste [ 0.40, 2.00] cm:   1.72 ±  1.55   tabla 2.16 ± 2.91   NO coincide   datos: crudos C1
+25meV       Agua+2.5NaCl  ajuste [ 0.40, 4.00] cm:   2.09 ±  2.42   tabla 1.81 ± 2.70   NO coincide   datos: crudos C1
+25meV       Agua+5NaCl    ajuste [ 0.50, 3.00] cm:   1.67 ±  2.53   tabla 1.67 ± 2.53   coincide   datos: crudos C1
+25meV       Agua+10NaCl   ajuste [ 0.40, 2.50] cm:   1.53 ±  1.43   tabla 1.53 ± 1.43   coincide   datos: crudos C1
+5meV        Agua-pura     ajuste [ 0.00,10.00] cm:  -0.61 ±  6.13   tabla 1.03 ± 1.23   NO coincide   datos: crudos C1
+5meV        Agua+2.5NaCl  ajuste [ 0.10, 1.50] cm:   0.91 ±  0.82   tabla 0.91 ± 0.82   coincide   datos: crudos C1
+5meV        Agua+5NaCl    ajuste [ 0.10, 1.00] cm:   0.60 ±  0.44   tabla 0.70 ± 0.44   NO coincide   datos: crudos C1
+5meV        Agua+10NaCl   ajuste [ 0.10, 2.00] cm:   0.99 ±  1.10   tabla 0.61 ± 0.43   NO coincide   datos: crudos C1
+80meV       Agua-pura     ajuste [ 0.50, 5.00] cm:   2.87 ±  2.55   tabla 2.76 ± 2.32   NO coincide   datos: crudos C1
+80meV       Agua+2.5NaCl  ajuste [ 0.50, 4.00] cm:   2.48 ±  2.02   tabla 2.48 ± 2.02   coincide   datos: crudos C1
+80meV       Agua+5NaCl    ajuste [ 0.50, 3.50] cm:   2.28 ±  1.70   tabla 2.28 ± 1.70   coincide   datos: crudos C1
+80meV       Agua+10NaCl   ajuste [ 0.50, 3.00] cm:   2.01 ±  1.42   tabla 2.01 ± 1.42   coincide   datos: crudos C1
+
+33 de 44 valores de la tabla se reproducen con los intervalos registrados

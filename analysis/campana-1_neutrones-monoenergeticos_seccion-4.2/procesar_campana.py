@@ -33,7 +33,9 @@ def main():
             "media_Transportation", "std_Transportation", "media_hadElastic", "std_hadElastic",
             "media_neutronInelastic", "cadenas_N", "N_tesis_media", "N_total_media",
             "xi_colisiones", "xi_media", "xi_sigma", "xi_mediana",
-            "xi_historia_inicial_n", "xi_historia_inicial_media", "carga_eventos", "carga_media_pe"]
+            "xi_historia_inicial_n", "xi_historia_inicial_media", "carga_eventos", "carga_media_pe",
+            "lambda_n", "lambda_mediana_cm", "u_lambda_mediana_cm", "lambda_p25_cm", "lambda_p75_cm",
+            "lambda_moda_cm", "u_lambda_moda_cm", "lambda_media_cm", "u_lambda_media_cm"]
     with open(Path(salida) / "resumen_campana.tsv", "w") as f:
         f.write("\t".join(cols) + "\n")
         for (_, _, e, m), r in zip(trabajos, resumenes):
@@ -50,6 +52,9 @@ def main():
                      r["xi_historia_inicial"]["n"], f"{r['xi_historia_inicial']['media']:.6f}",
                      r.get("carga", {}).get("eventos", ""),
                      f"{r['carga']['media_pe']:.4f}" if r.get("carga") else ""]
+            lam = r["lambda_cap"]
+            fila += [lam["n"]] + [f"{lam[k] / 10:.4f}" for k in ("mediana", "u_mediana", "p25", "p75", "moda",
+                                                                 "u_moda", "media", "u_media")]
             f.write("\t".join(map(str, fila)) + "\n")
     print(f"{len(resumenes)} corridas -> {Path(salida) / 'resumen_campana.tsv'}")
 

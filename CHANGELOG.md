@@ -18,6 +18,10 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 - `figuras_seccion_4.2.ipynb` (y `construir_notebook.py`): regenera las Figuras 4.17–4.27 y D.1–D.6 de la tesis
   solo con los resúmenes del repositorio; verifica automáticamente 25 cifras de la tesis.
 
+- Longitud de captura $\lambda_\mathrm{cap}$ (Tabla 4.9 y Figuras 4.28 y 4.29): `procesar_corrida.py` la calcula con la
+  definición de la tesis y una estadística fija (mediana con incertidumbre por remuestreo y percentiles 25–75); el
+  notebook regenera la tabla y las figuras; `verificar_tabla_4_9_original.py` documenta la tabla anterior.
+
 ### Corregido
 
 - La letargía $\xi$ de la tesis se calcula sobre las dispersiones elásticas de las cadenas que terminan en
@@ -26,6 +30,8 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   del informe señalaba erróneamente un redondeo a 0.059).
 - `resumen.json` incluye los histogramas de $N$, $\xi$ y carga; la columna `suma_ln_E` se reemplaza por
   `suma_xi_cadena`.
+- Tabla 4.9: los valores anteriores (ajustes gaussianos con intervalos elegidos a mano) se sustituyen por la mediana
+  de $\lambda_\mathrm{cap}$; el valor anterior de 100 eV en agua pura se había calculado con los datos de 1 keV.
 
 ## [0.4.0] - 2026-10-04
 
