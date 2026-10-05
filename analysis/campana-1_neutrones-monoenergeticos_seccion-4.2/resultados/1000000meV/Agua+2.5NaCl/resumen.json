@@ -1,0 +1,53 @@
+{
+ "corrida": "1000000meV/Agua+2.5NaCl",
+ "historias": 100000,
+ "media_pasos_por_historia": {
+  "Transportation": 3.86978,
+  "hadElastic": 37.97924,
+  "neutronInelastic": 0.0105,
+  "nCapture": 0.3757
+ },
+ "destinos": {
+  "arriba": 60924,
+  "cap_dentro": 37537,
+  "inel_dentro": 539,
+  "no_entra": 416,
+  "inel_fuera": 511,
+  "abajo": 21,
+  "lateral": 19,
+  "cap_fuera": 33
+ },
+ "eta_cap": {
+  "valor": 0.3757,
+  "incertidumbre": 0.0015315009304600505
+ },
+ "eta_refle": {
+  "valor": 0.60924,
+  "incertidumbre": 0.001542940771384307
+ },
+ "eta_trans": {
+  "valor": 0.0004,
+  "incertidumbre": 6.323290282756281e-05
+ },
+ "eta_otros": {
+  "valor": 0.01466,
+  "incertidumbre": 0.000380066894112076
+ },
+ "capturas": 37570,
+ "N_tesis": {
+  "cadenas": 37501,
+  "media": 61.67472867390203
+ },
+ "N_total_media": 61.81620974181528,
+ "xi_historia_inicial": {
+  "n": 37492,
+  "media": 0.3750319978043002
+ },
+ "xi_colision_capturadas": 0.20558601096388057,
+ "xi_colision_todas": 0.26987868110544866,
+ "carga": {
+  "archivo": "Carga_Total_25NaCl_Neutrones_1KeV.txt",
+  "eventos": 21971,
+  "media_pe": 7.525192298939511
+ }
+}

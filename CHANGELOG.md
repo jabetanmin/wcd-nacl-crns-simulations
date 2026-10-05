@@ -4,6 +4,18 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+### Añadido
+
+- `analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/`: procesamiento reproducible de las 64 corridas
+  de la Campaña 1 (16 energías × 4 medios) desde los archivos crudos del simulador (`procesar_corrida.py`,
+  `procesar_campana.py`), con resúmenes por corrida (`resultados/`), comparación entre la selección por caja
+  y por cilindro (`comparar_cilindro.py`) y generador de figuras (`figuras_informe.py`). Reproduce el balance
+  de la Tabla 4.8 y el Apéndice C, los conteos por proceso y las cifras del Capítulo 5. La letargía se calcula
+  con la definición de la tesis (por colisión); la definición inicial por historia se conserva solo por
+  trazabilidad. Las tablas por neutrón (`historias.tsv.gz`) se publicarán en Zenodo.
+- Informe técnico `docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Procesamiento-Campana-1-64-corridas`
+  (reemplaza al informe de cinco energías de la misma carpeta).
+
 ## [0.4.0] - 2026-10-04
 
 ### Añadido
