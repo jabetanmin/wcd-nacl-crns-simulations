@@ -1,0 +1,53 @@
+{
+ "corrida": "1meV/Agua-pura",
+ "historias": 100000,
+ "media_pasos_por_historia": {
+  "Transportation": 4.41313,
+  "hadElastic": 17.05742,
+  "neutronInelastic": 0.02379,
+  "nCapture": 0.17418
+ },
+ "destinos": {
+  "arriba": 76569,
+  "cap_dentro": 17138,
+  "inel_fuera": 2272,
+  "no_entra": 3589,
+  "cap_fuera": 280,
+  "lateral": 25,
+  "inel_dentro": 107,
+  "abajo": 20
+ },
+ "eta_cap": {
+  "valor": 0.17418,
+  "incertidumbre": 0.0011993386827748032
+ },
+ "eta_refle": {
+  "valor": 0.76569,
+  "incertidumbre": 0.00133943579129423
+ },
+ "eta_trans": {
+  "valor": 0.00045,
+  "incertidumbre": 6.706694416774929e-05
+ },
+ "eta_otros": {
+  "valor": 0.05968,
+  "incertidumbre": 0.0007491214694560556
+ },
+ "capturas": 17418,
+ "N_tesis": {
+  "cadenas": 17213,
+  "media": 44.78028234473944
+ },
+ "N_total_media": 44.618383281662645,
+ "xi_historia_inicial": {
+  "n": 15811,
+  "media": -0.35632332240492587
+ },
+ "xi_colision_capturadas": -0.06536675141857629,
+ "xi_colision_todas": -0.18592437775117926,
+ "carga": {
+  "archivo": "Carga_Total_Agua_Pura_Neutrones_1meV.txt",
+  "eventos": 8021,
+  "media_pe": 3.1954868470265554
+ }
+}
