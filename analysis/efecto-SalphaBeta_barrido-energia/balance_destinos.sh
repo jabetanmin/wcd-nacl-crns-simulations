@@ -1,6 +1,6 @@
 #!/bin/bash
 # Balance de destinos del neutron primario para cada corrida del barrido.
-# Uso: ./balance_destinos.sh <carpeta del barrido> > balance_destinos.tsv
+# Uso: ./balance_destinos.sh <carpeta del barrido> [MEDIO, por defecto AguaPura] > balance_destinos.tsv
 #
 # Cada neutron primario (track_id 1; un run por neutron) se clasifica en:
 #   captura_agua        ultimo paso nCapture en el agua
@@ -14,13 +14,14 @@
 # ocurridas despues de salir, cuentan como escapes por esa cara.
 set -euo pipefail
 D=${1:?Indique la carpeta del barrido}
+MEDIO=${2:-AguaPura}   # AguaPura, Agua25NaCl, Agua5NaCl o Agua10NaCl
 
 printf "energia_eV\tetiqueta\tfisica\tincidentes\tcaptura_agua\tcaptura_estructura\treflexion_tapa\tescape_lateral\ttransmision_fondo\tdesviado_en_aire\tN_medio_captura_agua\tN_error_medio\tz_medio_captura_agua_cm\n"
 
-for d in "$D"/*-AguaPura-*-*N; do
+for d in "$D"/*-"$MEDIO"-*-*N; do
   nombre=$(basename "$d")
-  etiq=${nombre%%-AguaPura-*}
-  fis=${nombre#*-AguaPura-}; fis=${fis%-*N}
+  etiq=${nombre%%-"$MEDIO"-*}
+  fis=${nombre#*-"$MEDIO"-}; fis=${fis%-*N}
   e_ev=$(awk -v t="$etiq" 'BEGIN { if (t ~ /meV$/) { sub(/meV$/, "", t); print t / 1000 } else { sub(/eV$/, "", t); print t + 0 } }')
   # pasos-neutrones.tsv: 1 run_id, 4 track_id, 8 step_process, 9 material, 13-15 post x,y,z (cm)
   awk -F'\t' -v e="$e_ev" -v et="$etiq" -v fis="$fis" '

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!-- Prueba de fisica: agua + 5 % de NaCl en masa, geometria de la Campana 2 (Sidelnik 2020b). La energia la fija correr_prueba.sh. -->
+<!-- Todos los valores se fijan aqui para no depender de DetectorProperties.xml. -->
+<detectorList>
+
+	<!-- Inyeccion vertical desde z = 200 cm, uniforme en un circulo de 40 cm (igual que la Campana 2) -->
+	<injectionMode type="eCircle">
+		<x unit="m"> 0 </x>
+		<y unit="m"> 0 </y>
+		<z unit="m"> 0 </z>
+		<radius unit="m"> 0.4 </radius>
+		<height unit="m"> 2 </height>
+	</injectionMode>
+
+	<detector id="0" type="eSaltyWCD">
+		<x unit="cm"> 0.0 </x>
+		<y unit="cm"> 0.0 </y>
+		<z unit="cm"> 0.0 </z>
+		<tankRadius unit="cm"> 48 </tankRadius>
+		<tankHeight unit="cm"> 133 </tankHeight>
+		<tankThickness unit="mm"> 0.5 </tankThickness>
+		<impuritiesFraction> 0.05 </impuritiesFraction>
+	</detector>
+
+</detectorList>

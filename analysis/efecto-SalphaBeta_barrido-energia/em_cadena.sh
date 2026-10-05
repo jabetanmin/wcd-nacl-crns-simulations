@@ -1,6 +1,6 @@
 #!/bin/bash
 # Cadena electromagnetica completa: interacciones gamma, electrones secundarios y luz Cherenkov.
-# Uso: ./em_cadena.sh <carpeta del barrido>
+# Uso: ./em_cadena.sh <carpeta del barrido> [MEDIO, por defecto AguaPura]
 # Escribe en la carpeta actual:
 #   em_procesos.tsv    interacciones de todos los gammas, por proceso y material, para cada corrida
 #   em_electrones.tsv  una fila por electron o positron: proceso creador, material, energia cinetica
@@ -11,15 +11,16 @@
 # fotones-cherenkov.tsv; se registran al crearse, antes de aplicar la eficiencia cuantica del PMT.
 set -euo pipefail
 D=${1:?Indique la carpeta del barrido}
+MEDIO=${2:-AguaPura}   # AguaPura, Agua25NaCl, Agua5NaCl o Agua10NaCl
 
 printf "energia_eV\tetiqueta\tfisica\tproceso\tmaterial\tinteracciones\n" > em_procesos.tsv
 printf "energia_eV\tetiqueta\tfisica\trun_id\ttrack_id\tparticula\tcreador\tmaterial\tenergia_inicial_MeV\tfotones_cherenkov\n" > em_electrones.tsv
 printf "energia_eV\tetiqueta\tfisica\trun_id\tfotones_agua\tfotones_otros\n" > em_luz.tsv
 
-for d in "$D"/*-AguaPura-*-*N; do
+for d in "$D"/*-"$MEDIO"-*-*N; do
   nombre=$(basename "$d")
-  etiq=${nombre%%-AguaPura-*}
-  fis=${nombre#*-AguaPura-}; fis=${fis%-*N}
+  etiq=${nombre%%-"$MEDIO"-*}
+  fis=${nombre#*-"$MEDIO"-}; fis=${fis%-*N}
   e_ev=$(awk -v t="$etiq" 'BEGIN { if (t ~ /meV$/) { sub(/meV$/, "", t); print t / 1000 } else { sub(/eV$/, "", t); print t + 0 } }')
   S="$d/Datos-simulacion"
   LC_ALL=C awk -F'\t' -v e="$e_ev" -v et="$etiq" -v fis="$fis" \

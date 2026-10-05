@@ -22,7 +22,8 @@ UMBRAL_CHERENKOV_MEV = 0.264   # agua, n = 1.33: T = m_e (1/sqrt(1 - 1/n^2) - 1)
 BARRA = "#2a78d6"               # un solo color: las barras no codifican identidad
 ORIGEN = {"captura_agua": ("#1baf7a", "Captura en agua (H)"),
           "captura_estructura": ("#eda100", "Captura en acero")}
-NOMBRE_MAT = {"Water_TS_H_of_Water": "agua", "G4_STAINLESS-STEEL": "acero", "Tyvek_HDPE": "Tyvek",
+NOMBRE_MAT = {"Water_TS_H_of_Water": "agua", "SaltyWater_NaCl_2.5pct": "agua", "SaltyWater_NaCl_5.0pct": "agua",
+              "SaltyWater_NaCl_10.0pct": "agua", "G4_STAINLESS-STEEL": "acero", "Tyvek_HDPE": "Tyvek",
               "Air": "aire", "Pyrex": "Pyrex"}
 NOMBRE_PROC = {"compt": "Compton", "phot": "Fotoeléctrico", "Rayl": "Rayleigh", "conv": "Pares"}
 

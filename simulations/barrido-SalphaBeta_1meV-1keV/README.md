@@ -1,4 +1,4 @@
-# Barrido en energía con y sin S(α,β) (agua pura, 1 meV – 1 keV)
+# Barrido en energía con y sin S(α,β) (agua pura y NaCl al 2.5, 5 y 10 %, 1 meV – 1 keV)
 
 Kit de simulación que produjo los datos del estudio
 [`analysis/efecto-SalphaBeta_barrido-energia/`](../../analysis/efecto-SalphaBeta_barrido-energia/).
@@ -13,14 +13,14 @@ Para cada energía corre el mismo ejecutable dos veces, cambiando solo la físic
 
 | Parámetro | Valor |
 |---|---|
-| Medio | agua pura (`impuritiesFraction` = 0) |
+| Medio | se elige en `medio.conf` (`MEDIO=AguaPura`, `Agua25NaCl`, `Agua5NaCl` o `Agua10NaCl`), que selecciona `DetectorList-<MEDIO>.xml`; `impuritiesFraction` = 0, 0.025, 0.05 y 0.10 (fracción en masa de la solución) |
 | Geometría | agua de 48 cm de radio y 133 cm de altura; Tyvek 0.12 mm; acero 0.5 mm; PMT con la cara plana a 86.5 cm del fondo (fijada en `DetectorList-AguaPura.xml`, no depende de `DetectorProperties.xml`) |
 | Inyección | vertical hacia abajo desde z = 200 cm, uniforme en un círculo de 40 cm |
 | Neutrones | 10 000 por corrida |
 | Energías (eV) | 0.001 0.0025 0.005 0.007 0.01 0.025 0.05 0.08 0.1 0.3 0.5 0.7 1 10 100 1000 |
 | Código | rama `main` desde el commit `0fa4db1` (lectura de `PhysicsName` desde la configuración) |
 | Entorno | Geant4 10.7.4 en el contenedor Docker del autor, ejecutable recompilado el 2026-09-28 |
-| Fecha de las corridas | 2026-09-29, 16:54–20:12 UTC (32 corridas) |
+| Fecha de las corridas | agua pura: 2026-09-29; 2.5 % NaCl: 2026-09-30/10-01; 5 y 10 % NaCl: 2026-10-01/10-02 (32 corridas por medio) |
 
 El momento del neutrón se calcula como p = √(E² + 2mE); para 25 meV da 6.85407·10⁻⁶ GeV/c, igual
 que el archivo de flujo de la Campaña 2.
@@ -33,8 +33,9 @@ que el archivo de flujo de la Campaña 2.
 | `barrido.sh` | Recorre una lista de energías con ambas físicas; salta las corridas ya terminadas. |
 | `resumen_prueba.sh` | Captura en el agua y ⟨N⟩ de una corrida. |
 | `tabla_barrido.sh` | Tabla comparativa con y sin S(α,β) de todas las corridas terminadas. |
-| `DetectorList-AguaPura.xml`, `G4WCDSimulator-prueba.json` | Geometría, inyección y configuración (la física se inserta en `@FISICA@`). |
-| `tabla_barrido_resultado.tsv` | Tabla producida por el barrido del 2026-09-29. |
+| `medio.conf` | Medio detector de la campaña (por defecto `AguaPura`). `correr_prueba.sh` comprueba en el registro la fracción de NaCl efectivamente construida. |
+| `DetectorList-<MEDIO>.xml`, `G4WCDSimulator-prueba.json` | Geometría y medio de cada configuración, inyección y configuración (la física se inserta en `@FISICA@`). |
+| `tabla_barrido_resultado_<MEDIO>.tsv` | Tabla producida por el barrido de cada medio. |
 
 ## Uso (dentro del contenedor, con el entorno de Geant4 cargado)
 

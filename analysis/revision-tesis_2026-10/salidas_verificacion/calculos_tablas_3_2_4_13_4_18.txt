@@ -1,0 +1,22 @@
+Tabla 3.2 (rho_suelo = 2.7, rho_agua = 1.0 g/cm3)
+  w = 0.05: theta_w = 0.1244, rho_mezcla = 2.4885 g/cm3
+  w = 0.10: theta_w = 0.2308, rho_mezcla = 2.3077 g/cm3
+  w = 0.15: theta_w = 0.3227, rho_mezcla = 2.1514 g/cm3
+  w = 0.25: theta_w = 0.4737, rho_mezcla = 1.8947 g/cm3
+  w = 0.30: theta_w = 0.5364, rho_mezcla = 1.7881 g/cm3
+
+Tabla 4.13 (mu/rho en cm2/g y contribución de cada elemento en %)
+  w = 0.000, M = 960.96 kg, E = 0.02 MeV: mu/rho = 0.809643  H 5.11  O 94.89  Na 0.00  Cl 0.00
+  w = 0.000, M = 960.96 kg, E = 0.1 MeV: mu/rho = 0.170687  H 19.30  O 80.70  Na 0.00  Cl 0.00
+  w = 0.025, M = 978.14 kg, E = 0.02 MeV: mu/rho = 0.926999  H 4.35  O 80.81  Na 2.18  Cl 12.66
+  w = 0.025, M = 978.14 kg, E = 0.1 MeV: mu/rho = 0.171088  H 18.77  O 78.50  Na 0.91  Cl 1.82
+  w = 0.050, M = 995.44 kg, E = 0.02 MeV: mu/rho = 1.044354  H 3.76  O 69.89  Na 3.87  Cl 22.48
+  w = 0.050, M = 995.44 kg, E = 0.1 MeV: mu/rho = 0.171488  H 18.25  O 76.31  Na 1.82  Cl 3.63
+  w = 0.100, M = 1030.57 kg, E = 0.02 MeV: mu/rho = 1.279065  H 2.91  O 54.06  Na 6.33  Cl 36.70
+  w = 0.100, M = 1030.57 kg, E = 0.1 MeV: mu/rho = 0.172290  H 17.21  O 71.95  Na 3.62  Cl 7.22
+
+Tabla 4.18 (umbral calculado y diferencia con el máximo simulado)
+  Agua pura   n = 1.333: E_umbral = 0.26181 MeV, pico = 0.26410 MeV, diferencia = 0.87468 %
+  2.5 % NaCl  n = 1.3397: E_umbral = 0.25689 MeV, pico = 0.26411 MeV, diferencia = 2.81054 %
+  5 % NaCl    n = 1.3436: E_umbral = 0.25411 MeV, pico = 0.26411 MeV, diferencia = 3.93530 %
+  10 % NaCl   n = 1.3594: E_umbral = 0.24336 MeV, pico = 0.26411 MeV, diferencia = 8.52646 %

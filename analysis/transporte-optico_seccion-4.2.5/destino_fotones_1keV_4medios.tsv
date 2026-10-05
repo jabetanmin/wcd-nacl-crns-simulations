@@ -1,0 +1,24 @@
+# Destino de los fotones opticos transportados, 1 keV con S(alpha,beta) (QGSP_BERT_HP), destino_fotones.sh
+# Agua pura: pasos-particulas.tsv del PC (2026-10-02); NaCl: contenedor silly_roentgen /opt/Prueba-agua-{25,5,10}NaCl-1meV-1keV-dos-libreria/1000eV-...-QGSP_BERT_HP-10000N (2026-10-04)
+medio	fotones_seguidos	destino	porcentaje	longitud_media_cm	rebotes_medios
+Agua-pura	41911	detectado	12.4	502	14.7
+Agua-pura	41911	absorbido_agua	15.2	501	13.9
+Agua-pura	41911	absorbido_tyvek_lateral	52.9	503	13.2
+Agua-pura	41911	absorbido_tyvek_tapa	11.8	389	10.7
+Agua-pura	41911	absorbido_tyvek_fondo	7.7	585	15.2
+Agua+2.5NaCl	117045	detectado	12.08	527.0	15.40
+Agua+2.5NaCl	117045	absorbido_agua	15.28	500.3	13.91
+Agua+2.5NaCl	117045	absorbido_tyvek_tapa	11.36	404.6	11.03
+Agua+2.5NaCl	117045	absorbido_tyvek_fondo	7.84	608.8	16.05
+Agua+2.5NaCl	117045	absorbido_tyvek_lateral	53.44	505.7	13.28
+Agua+5NaCl	162088	detectado	12.44	520.7	15.18
+Agua+5NaCl	162088	absorbido_agua	15.30	504.1	13.99
+Agua+5NaCl	162088	absorbido_tyvek_tapa	11.37	418.5	11.42
+Agua+5NaCl	162088	absorbido_tyvek_fondo	7.83	604.7	15.86
+Agua+5NaCl	162088	absorbido_tyvek_lateral	53.06	507.9	13.31
+Agua+10NaCl	214087	detectado	12.47	524.5	15.31
+Agua+10NaCl	214087	absorbido_agua	15.52	508.8	14.13
+Agua+10NaCl	214087	absorbido_tyvek_tapa	11.48	413.4	11.30
+Agua+10NaCl	214087	absorbido_tyvek_fondo	7.88	611.1	16.04
+Agua+10NaCl	214087	absorbido_tyvek_lateral	52.65	515.6	13.53
+# Entrada por la cara plana del PMT (% de detectados): pura 53, 2.5% 51.96, 5% 51.71, 10% 51.72

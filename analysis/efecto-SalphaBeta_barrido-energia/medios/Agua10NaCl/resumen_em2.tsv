@@ -1,0 +1,36 @@
+magnitud	valor
+interacciones gamma: Compton (agua) (%)	85.05
+interacciones gamma: Fotoeléctrico (agua) (%)	7.57
+interacciones gamma: Rayleigh (agua) (%)	3.34
+interacciones gamma: Fotoeléctrico (acero) (%)	1.35
+interacciones gamma: Compton (acero) (%)	1.06
+interacciones gamma: Pares (agua) (%)	0.68
+interacciones gamma: Compton (aire) (%)	0.46
+interacciones gamma: Compton (Pyrex) (%)	0.17
+interacciones gamma: Rayleigh (acero) (%)	0.12
+interacciones gamma: Pares (acero) (%)	0.06
+interacciones gamma: Compton (Tyvek) (%)	0.05
+interacciones gamma: Fotoeléctrico (Pyrex) (%)	0.03
+interacciones gamma: Fotoeléctrico (aire) (%)	0.02
+interacciones gamma: Rayleigh (Pyrex) (%)	0.01
+interacciones gamma: Pares (aire) (%)	0.01
+interacciones gamma: Rayleigh (aire) (%)	0.01
+interacciones gamma: Fotoeléctrico (Tyvek) (%)	0.00
+interacciones gamma: Pares (Pyrex) (%)	0.00
+interacciones gamma: Pares (Tyvek) (%)	0.00
+interacciones gamma: Rayleigh (Tyvek) (%)	0.00
+luz Cherenkov de: e- Compton (agua) (%)	83.74
+luz Cherenkov de: e+ pares (agua) (%)	6.56
+luz Cherenkov de: e- pares (agua) (%)	6.55
+luz Cherenkov de: e- rayo delta (agua) (%)	1.82
+luz Cherenkov de: e- RadioactiveDecayBase (agua) (%)	0.77
+luz Cherenkov de: e- Compton (acero) (%)	0.29
+luz Cherenkov de: e- pares (acero) (%)	0.08
+luz Cherenkov de: e+ pares (acero) (%)	0.08
+electrones Compton en agua sobre el umbral, QGSP_BERT_HP (%)	18.89
+electrones Compton en agua sobre el umbral, QGSP_BERT_HP_NoThermal (%)	18.84
+fotoelectrones por foton Cherenkov creado	0.01326
+fotones por evento, captura_agua (media)	359.9
+carga media de eventos con senal, captura_agua (pe)	8.29
+fotones por evento, captura_estructura (media)	271.8
+carga media de eventos con senal, captura_estructura (pe)	9.12

@@ -1,7 +1,7 @@
 # Efecto de S(α,β) en el WCD: transporte de neutrones y respuesta electromagnética
 
 Análisis del barrido en energía de 1 meV a 1 keV con dos físicas (QGSP_BERT_HP con y sin
-S(α,β)), agua pura, geometría de la Campaña 2 y 10 000 neutrones por punto. Los datos los produce el
+S(α,β)), agua pura y soluciones con 2.5, 5 y 10 % de NaCl, geometría de la Campaña 2 y 10 000 neutrones por punto. Los datos los produce el
 kit [`simulations/barrido-SalphaBeta_1meV-1keV/`](../../simulations/barrido-SalphaBeta_1meV-1keV/).
 
 **Informe técnico completo:**
@@ -69,3 +69,13 @@ Todo el proceso tarda alrededor de un minuto. Los archivos intermedios por event
 
 Las tablas del informe se generan desde los TSV con `informe/generar_tablas.py`, de modo que no hay
 cifras copiadas a mano.
+
+## Cuatro medios (Sec. 4.2.4 de la tesis, apartado «Soluciones de NaCl»)
+
+`analizar_medio.sh <MEDIO> <carpeta de corridas>` produce, para cada medio, las tablas resumen y las
+figuras de [`medios/<MEDIO>/`](medios/); `comparar_medios.py` produce la comparación entre medios de
+[`medios/comparacion/`](medios/comparacion/) (captura por núcleo, cruces del efecto de S(α,β), eficiencia
+y factores de conversión en fotoelectrones). El notebook `Analisis-SalphaBeta-medios.ipynb` se incluye sin
+salidas. Los archivos intermedios por evento (`em_electrones.tsv`, `em_eventos.tsv`, `em_gammas.tsv`,
+`em_luz.tsv`, `capturas_detalle.tsv`; de 2 a 156 MB por medio) no se incluyen en git y se regeneran con
+los scripts.

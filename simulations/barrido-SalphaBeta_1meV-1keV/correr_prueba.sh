@@ -1,5 +1,7 @@
 #!/bin/bash
-# Prueba de fisica del WCD: neutrones monoenergeticos en agua pura, geometria de la Campana 2.
+# Prueba de fisica del WCD: neutrones monoenergeticos, geometria de la Campana 2.
+# El medio detector se lee de medio.conf (MEDIO=AguaPura, Agua25NaCl, Agua5NaCl o Agua10NaCl);
+# sin ese archivo se usa agua pura.
 # Uso (dentro del contenedor, con el entorno de Geant4 cargado):
 #   ./correr_prueba.sh <PhysicsName> <energia en eV> [numero de neutrones, por defecto 10000]
 # Ejemplos:
@@ -15,6 +17,18 @@ N=${3:-10000}
 BASE=$(cd "$(dirname "$0")" && pwd)
 EXE=/opt/meiga/build/Applications/G4WCDSimulator/G4WCDSimulator
 
+[ -f "$BASE/medio.conf" ] && . "$BASE/medio.conf"
+MEDIO=${MEDIO:-AguaPura}
+case "$MEDIO" in
+  AguaPura)   W_NACL=0     ;;
+  Agua25NaCl) W_NACL=0.025 ;;
+  Agua5NaCl)  W_NACL=0.05  ;;
+  Agua10NaCl) W_NACL=0.1   ;;
+  *) echo "MEDIO no reconocido: $MEDIO"; exit 1 ;;
+esac
+XML="$BASE/DetectorList-$MEDIO.xml"
+[ -f "$XML" ] || { echo "No existe $XML"; exit 1; }
+
 case "$FISICA" in
   QGSP_BERT_HP)           ESPERADA="RegisterPhysics: G4ThermalNeutrons" ;;
   QGSP_BERT_HP_NoThermal) ESPERADA="RegisterPhysics: QGSP_BERT_HP without S(alpha,beta)" ;;
@@ -27,7 +41,7 @@ PZ=$(awk -v e="$E_EV" 'BEGIN { if (e <= 0) exit 1; m = 939565420.0; printf "%.6g
   || { echo "Energia no valida: $E_EV"; exit 1; }
 # Etiqueta legible: 0.025 -> 25meV, 1 -> 1eV, 10 -> 10eV
 ETIQ=$(awk -v e="$E_EV" 'BEGIN { if (e < 1) printf "%gmeV", e * 1000; else printf "%geV", e }')
-D="$BASE/$ETIQ-AguaPura-$FISICA-${N}N"
+D="$BASE/$ETIQ-$MEDIO-$FISICA-${N}N"
 
 [ -x "$EXE" ] || { echo "No se encuentra el ejecutable $EXE"; exit 1; }
 [ -e "$D" ] && { echo "Ya existe $D. Borrela o renombrela antes de repetir la prueba."; exit 1; }
@@ -36,10 +50,11 @@ mkdir -p "$D/Datos-simulacion"
 cd "$D"
 
 awk -v n="$N" -v p="$PZ" 'BEGIN { for (i = 0; i < n; i++) print "13 0 0 " p " 0 0 0 0 0 0 0 0" }' > flujo.txt
-cp "$BASE/DetectorList-AguaPura.xml" DetectorList.xml
+cp "$XML" DetectorList.xml
 sed "s|@FISICA@|$FISICA|" "$BASE/G4WCDSimulator-prueba.json" > config.json
 
 echo "Carpeta : $D"
+echo "Medio   : $MEDIO (fraccion masica de NaCl = $W_NACL)"
 echo "Fisica  : $FISICA"
 echo "Energia : $E_EV eV (pz = $PZ GeV/c), $N neutrones"
 echo "Inicio  : $(date '+%F %T')" | tee ejecucion.log
@@ -48,7 +63,7 @@ echo "Inicio  : $(date '+%F %T')" | tee ejecucion.log
 
 echo "Fin     : $(date '+%F %T')" | tee -a ejecucion.log
 
-# Comprobaciones: fisica registrada, energia inyectada, medio y geometria leidos por el simulador
+# Comprobaciones: fisica registrada, medio, energia inyectada y geometria leidos por el simulador
 echo
 echo "== Comprobaciones"
 grep -m1 "PhysicsList =" ejecucion.log || true
@@ -57,8 +72,14 @@ if grep -q "$ESPERADA" ejecucion.log; then
 else
   echo "ATENCION: no aparece \"$ESPERADA\" en el registro. La corrida NO usa la fisica pedida."
 fi
+W_LEIDA=$(grep -m1 "NaCl final mass fraction =" ejecucion.log | awk -F'= ' '{ print $2 + 0 }')
+if [ -n "$W_LEIDA" ] && awk -v a="$W_LEIDA" -v b="$W_NACL" 'BEGIN { exit !((a - b) ^ 2 < 1e-12) }'; then
+  echo "OK medio: fraccion masica de NaCl = $W_LEIDA"
+else
+  echo "ATENCION medio: el simulador uso NaCl = ${W_LEIDA:-desconocido}, se pidio $W_NACL. La corrida NO usa el medio pedido."
+fi
 awk -F'\t' '!/^#/ && $4 == 1 { printf "Energia inyectada (primer neutron): %.6g eV\n", $16 * 1e6; exit }' Datos-simulacion/neutrones-incidentes.tsv
-grep -m6 -E "SaltyWCD: (Active medium|NaCl final mass fraction|Water radius|Water height|Tyvek thickness|Steel thickness)" ejecucion.log || true
+grep -m7 -E "SaltyWCD: (Active medium|Active-medium density|Water radius|Water height|Tyvek thickness|Steel thickness)" ejecucion.log || true
 
 echo
 echo "== Resultados"

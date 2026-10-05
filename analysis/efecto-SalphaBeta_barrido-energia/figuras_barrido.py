@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Figuras del barrido en energia con y sin S(alpha,beta) (agua pura, 10 000 neutrones por punto).
+"""Figuras del barrido en energia con y sin S(alpha,beta) (10 000 neutrones por punto).
+
+El medio y la carpeta de trabajo se eligen con las variables de entorno MEDIO (AguaPura, Agua25NaCl,
+Agua5NaCl o Agua10NaCl; por defecto AguaPura) y SALIDA (por defecto, la carpeta del script).
 
 Lee balance_destinos.tsv (generado por balance_destinos.sh) y produce:
   fig_captura_N_vs_energia.{png,pdf}   captura en el agua y <N> frente a la energia
@@ -9,6 +12,7 @@ Lee balance_destinos.tsv (generado por balance_destinos.sh) y produce:
 """
 import csv
 import math
+import os
 from pathlib import Path
 
 import matplotlib
@@ -17,7 +21,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-AQUI = Path(__file__).resolve().parent
+AQUI = Path(os.environ.get("SALIDA", Path(__file__).resolve().parent)).resolve()
+MEDIO = os.environ.get("MEDIO", "AguaPura")
+MEDIO_TEXTO = {"AguaPura": "Agua pura", "Agua25NaCl": "Agua + 2.5 % de NaCl",
+               "Agua5NaCl": "Agua + 5 % de NaCl", "Agua10NaCl": "Agua + 10 % de NaCl"}[MEDIO]
 Z_SUPERFICIE_AGUA = 133.062  # cm, cara superior del agua (medida en los datos de la Campana 2)
 LIMITE_SAB_EV = 4.0          # G4ThermalNeutrons actua por debajo de 4 eV
 
@@ -126,7 +133,7 @@ def figura_captura(datos):
     ax2.set_xlabel("Energía inicial del neutrón")
     ax2.set_title("b) Número medio de colisiones de los neutrones capturados", loc="left", fontsize=10, color=TINTA)
     ax2.set_xlim(6e-4, 3e3)
-    fig.text(0.01, 0.005, "Agua pura, geometría de la Campaña 2 (acero 0.5 mm, PMT al 65 %), 10 000 neutrones por punto; "
+    fig.text(0.01, 0.005, f"{MEDIO_TEXTO}, geometría de la Campaña 2 (acero 0.5 mm, PMT al 65 %), 10 000 neutrones por punto; "
              "barras: incertidumbre estadística (1σ).", fontsize=7.5, color=TINTA_2)
     for ext in ("png", "pdf"):
         fig.savefig(AQUI / f"fig_captura_N_vs_energia.{ext}", bbox_inches="tight")
