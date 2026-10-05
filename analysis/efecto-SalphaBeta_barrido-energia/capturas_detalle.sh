@@ -1,6 +1,6 @@
 #!/bin/bash
 # Detalle de cada neutron primario capturado en el agua, para todas las corridas del barrido.
-# Uso: ./capturas_detalle.sh <carpeta del barrido> > capturas_detalle.tsv
+# Uso: ./capturas_detalle.sh <carpeta del barrido> [MEDIO, por defecto AguaPura] > capturas_detalle.tsv
 #
 # Columnas de salida:
 #   energia_eV, etiqueta, fisica
@@ -10,13 +10,14 @@
 #   energia_previa_eV  energia cinetica del neutron al comenzar el paso en que se captura
 set -euo pipefail
 D=${1:?Indique la carpeta del barrido}
+MEDIO=${2:-AguaPura}   # AguaPura, Agua25NaCl, Agua5NaCl o Agua10NaCl
 Z_AGUA=133.062
 
 printf "energia_eV\tetiqueta\tfisica\tprofundidad_cm\tradio_cm\ttiempo_us\tenergia_previa_eV\n"
-for d in "$D"/*-AguaPura-*-*N; do
+for d in "$D"/*-"$MEDIO"-*-*N; do
   nombre=$(basename "$d")
-  etiq=${nombre%%-AguaPura-*}
-  fis=${nombre#*-AguaPura-}; fis=${fis%-*N}
+  etiq=${nombre%%-"$MEDIO"-*}
+  fis=${nombre#*-"$MEDIO"-}; fis=${fis%-*N}
   e_ev=$(awk -v t="$etiq" 'BEGIN { if (t ~ /meV$/) { sub(/meV$/, "", t); print t / 1000 } else { sub(/eV$/, "", t); print t + 0 } }')
   # pasos-neutrones.tsv: 1 run_id, 4 track_id, 8 step_process, 9 material,
   # 13-15 post x,y,z (cm), 16 pre_energy_MeV, 18 global_time_ns (al final del paso).

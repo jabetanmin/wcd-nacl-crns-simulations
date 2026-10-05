@@ -1,0 +1,20 @@
+Agua pura   1meV        pico sin desplazar 0.26409 MeV; electrones en la ventana 40752
+Agua pura   10meV       pico sin desplazar 0.26409 MeV; electrones en la ventana 59849
+Agua pura   100meV      pico sin desplazar 0.26409 MeV; electrones en la ventana 81177
+Agua pura   1000meV     pico sin desplazar 0.26409 MeV; electrones en la ventana 90008
+Agua pura   1000000meV  pico sin desplazar 0.26409 MeV; electrones en la ventana 89024
+2.5 % NaCl  1meV        pico sin desplazar 0.26409 MeV; electrones en la ventana 87566
+2.5 % NaCl  10meV       pico sin desplazar 0.26409 MeV; electrones en la ventana 126775
+2.5 % NaCl  100meV      pico sin desplazar 0.26409 MeV; electrones en la ventana 168669
+2.5 % NaCl  1000meV     pico sin desplazar 0.26409 MeV; electrones en la ventana 178672
+2.5 % NaCl  1000000meV  pico sin desplazar 0.26409 MeV; electrones en la ventana 172851
+5 % NaCl    1meV        pico sin desplazar 0.26409 MeV; electrones en la ventana 117309
+5 % NaCl    10meV       pico sin desplazar 0.26409 MeV; electrones en la ventana 168296
+5 % NaCl    100meV      pico sin desplazar 0.26409 MeV; electrones en la ventana 218690
+5 % NaCl    1000meV     pico sin desplazar 0.26409 MeV; electrones en la ventana 237762
+5 % NaCl    1000000meV  pico sin desplazar 0.26409 MeV; electrones en la ventana 225306
+10 % NaCl   1meV        pico sin desplazar 0.26409 MeV; electrones en la ventana 162482
+10 % NaCl   10meV       pico sin desplazar 0.26409 MeV; electrones en la ventana 229272
+10 % NaCl   100meV      pico sin desplazar 0.26409 MeV; electrones en la ventana 293107
+10 % NaCl   1000meV     pico sin desplazar 0.26409 MeV; electrones en la ventana 309196
+10 % NaCl   1000000meV  pico sin desplazar 0.26409 MeV; electrones en la ventana 289149

@@ -1,0 +1,8 @@
+ARTI (1 h, 1 m2): 317537 neutrones, 20.00-1.353e+05 MeV, 88.2 n m-2 s-1 = 8.820e-03 n cm-2 s-1
+Flujo completo (12 h): 647984 neutrones descendentes > 20 MeV = 15.0 n m-2 s-1
+Fracción que llega al suelo: 0.170; aire = 202 g/cm2 -> Lambda = 114 g/cm2
+  Lambda = 115: tiempo compatible 11.9 h
+  Lambda = 120: tiempo compatible 11.0 h
+  Lambda = 130: tiempo compatible 9.7 h
+  Lambda = 140: tiempo compatible 8.7 h
+Muestra de ARTI a 956 m: 34258 partículas, 840 neutrones > 20 MeV; cociente nivel de inyección / suelo = 3.2 (si es de 30 s)

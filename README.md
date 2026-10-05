@@ -15,7 +15,7 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión 0.3.0 (29 de septiembre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección y los informes técnicos.
+**Versión 0.4.0 (4 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis.
 
 | Componente | Dónde |
 |---|---|
@@ -35,9 +35,12 @@ Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): notebook
 | Sec. 4.1.1 | Validación numérica (Sidelnik et al. 2020b) | pendiente |
 | Sec. 4.1.2 | Validación experimental con un prototipo y ²⁴¹AmBe | [`analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`](analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/) |
 | Sec. 4.2 | Respuesta a neutrones monocromáticos (Campaña 1) | [`docs/technical-reports/campana-1_sin-S-alpha-beta/`](docs/technical-reports/campana-1_sin-S-alpha-beta/); notebooks pendientes |
-| Secs. 4.3–4.5 | Flujo atmosférico y de suelo seco en Bucaramanga | [`analysis/flujo-bucaramanga_secciones-4.3-4.5/`](analysis/flujo-bucaramanga_secciones-4.3-4.5/) |
+| Secs. 4.3–4.5 | Flujo atmosférico (ARTI, 3600 s en el nivel de inyección; flujo completo de 12 h en la superficie) y de suelo seco en Bucaramanga | [`analysis/flujo-bucaramanga_secciones-4.3-4.5/`](analysis/flujo-bucaramanga_secciones-4.3-4.5/) |
 | Sec. 4.6 | Respuesta de referencia del WCD a un suelo seco | [`analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/`](analysis/caracterizacion-respuesta-referencia-wcd_seccion-4.6/) |
-| Estudio complementario | Efecto de S(α,β): barrido de 1 meV a 1 keV, transporte y respuesta electromagnética | [`simulations/barrido-SalphaBeta_1meV-1keV/`](simulations/barrido-SalphaBeta_1meV-1keV/), [`analysis/efecto-SalphaBeta_barrido-energia/`](analysis/efecto-SalphaBeta_barrido-energia/) |
+| Sec. 4.2.4 | Efecto de S(α,β): barrido de 1 meV a 1 keV en agua pura y con 2.5, 5 y 10 % de NaCl, transporte y respuesta electromagnética | [`simulations/barrido-SalphaBeta_1meV-1keV/`](simulations/barrido-SalphaBeta_1meV-1keV/), [`analysis/efecto-SalphaBeta_barrido-energia/`](analysis/efecto-SalphaBeta_barrido-energia/) |
+| Sec. 4.2.5 | Transporte óptico y conversión de la luz en fotoelectrones (Tablas 4.26 y 4.27) | [`analysis/transporte-optico_seccion-4.2.5/`](analysis/transporte-optico_seccion-4.2.5/) |
+| Revisión final (Tablas 3.2, 4.8, 4.13, 4.16, 4.18, 4.19, C.3–C.5; Secs. 4.3–4.4; Ap. E) | Scripts que respaldan las correcciones numéricas de octubre de 2026 | [`analysis/revision-tesis_2026-10/`](analysis/revision-tesis_2026-10/) |
+| Figuras regeneradas | Generadores de las figuras de `Figuras-corregidas/` | [`analysis/figuras-tesis/`](analysis/figuras-tesis/) |
 | Campaña 2 (25 meV) | Moderación y captura con S(α,β), cuatro medios | [`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`](analysis/notebooks/campana-2_con-S-alpha-beta_25meV/), [`docs/technical-reports/campana-2_con-S-alpha-beta_25meV/`](docs/technical-reports/campana-2_con-S-alpha-beta_25meV/) |
 | Apéndice A | Framework MEIGA | [`docs/MEIGA_UPSTREAM_README.md`](docs/MEIGA_UPSTREAM_README.md) |
 | Apéndice H.0.5 | Contribuciones computacionales a MEIGA | [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md), diferencias de código en [`docs/technical-reports/diffs/`](docs/technical-reports/diffs/) |

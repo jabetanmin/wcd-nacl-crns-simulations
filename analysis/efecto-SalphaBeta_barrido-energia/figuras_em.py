@@ -17,7 +17,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from figuras_barrido import FISICAS, TINTA, TINTA_2, eje_energia, AQUI
+from figuras_barrido import FISICAS, TINTA, TINTA_2, eje_energia, AQUI, MEDIO_TEXTO
 
 UMBRALES = (1, 3)
 
@@ -54,7 +54,8 @@ def leer():
     edep = defaultdict(list)
     with open(AQUI / "em_gammas.tsv", newline="") as fh:
         for r in csv.DictReader(fh, delimiter="\t"):
-            if r["origen"] != "agua":
+            # Solo los gammas de 2.223 MeV de la captura en hidrogeno del agua
+            if r["origen"] != "agua" or r.get("nucleo", "H") != "H":
                 continue
             f = r["fisica"]
             k = (float(r["energia_eV"]), f)
@@ -117,7 +118,7 @@ def figura_eficiencia(ev):
     for ax in axs:
         eje_energia(ax)
         ax.set_xlim(6e-4, 3e3)
-    fig.text(0.01, 0.005, "Agua pura, 10 000 neutrones incidentes por punto; barras: incertidumbre estadística (1σ). "
+    fig.text(0.01, 0.005, f"{MEDIO_TEXTO}, 10 000 neutrones incidentes por punto; barras: incertidumbre estadística (1σ). "
              "Línea discontinua vertical: 4 eV.", fontsize=7.5, color=TINTA_2)
     for ext in ("png", "pdf"):
         fig.savefig(AQUI / f"fig_eficiencia_deteccion.{ext}", bbox_inches="tight")

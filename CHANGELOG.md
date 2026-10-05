@@ -4,12 +4,29 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.4.0] - 2026-10-04
+
 ### Añadido
 
+- `analysis/revision-tesis_2026-10/`: scripts y salidas que respaldan las correcciones de la revisión
+  final de la tesis: balance de destinos por caras del volumen activo (Tabla 4.8 y Apéndice C),
+  Tablas 3.2, 4.13, 4.16, 4.18 y 4.19, origen de las líneas gamma del Na y de 6–7 MeV, y normalización
+  temporal de los flujos de ARTI.
+- `analysis/transporte-optico_seccion-4.2.5/`: kit de destino de los fotones ópticos y resultados de
+  los cuatro medios (Tablas 4.26 y 4.27).
+- `analysis/figuras-tesis/`: generadores de las figuras regeneradas de la tesis, incluido el flujo de
+  ARTI normalizado a 3600 s (Fig. 4.62).
+- Barrido de S(α,β) para soluciones con 2.5, 5 y 10 % de NaCl: configuración por medio
+  (`medio.conf`, `DetectorList-<MEDIO>.xml`), tablas de resultados y análisis por medio y comparado.
 - `analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`: notebooks, histogramas de carga,
   datos simulados de comparación, figuras y sumas SHA-256 de los datos crudos de la validación
-  experimental con ²⁴¹AmBe. Se documenta que las razones de la tabla de validación aún no son
-  trazables a un programa.
+  experimental con ²⁴¹AmBe, con la reconstrucción de las razones de mejora desde los datos crudos y
+  la documentación de su origen (Sarmiento-Cano et al. 2026, arXiv:2601.17595).
+
+### Cambiado
+
+- Los scripts del barrido y de su análisis se generalizan a los cuatro medios.
+- Mapa entre la tesis y el repositorio actualizado con la numeración final de la tesis.
 
 ## [0.3.0] - 2026-09-29
 

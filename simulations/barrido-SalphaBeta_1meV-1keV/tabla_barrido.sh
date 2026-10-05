@@ -1,20 +1,22 @@
 #!/bin/bash
-# Tabla comparativa con y sin S(alpha,beta) para todas las pruebas terminadas.
+# Tabla comparativa con y sin S(alpha,beta) para todas las pruebas terminadas del medio de medio.conf.
 # Uso: ./tabla_barrido.sh [carpeta ...]   (por defecto: esta carpeta)
 # Tambien guarda la tabla en tabla_barrido.tsv.
 set -uo pipefail
 BASE=$(cd "$(dirname "$0")" && pwd)
+[ -f "$BASE/medio.conf" ] && . "$BASE/medio.conf"
+MEDIO=${MEDIO:-AguaPura}
 if [ $# -gt 0 ]; then DIRS=("$@"); else DIRS=("$BASE"); fi
 
 TMP=$(mktemp)
 for dir in "${DIRS[@]}"; do
   [ -d "$dir" ] || continue
-  for d in "$dir"/*-AguaPura-*-*N; do
+  for d in "$dir"/*-"$MEDIO"-*-*N; do
     [ -f "$d/ejecucion.log" ] || continue
     grep -q "^Fin" "$d/ejecucion.log" || continue            # solo corridas terminadas
     nombre=$(basename "$d")
-    etiq=${nombre%%-AguaPura-*}                               # 25meV, 0.1eV...
-    fis=${nombre#*-AguaPura-}; fis=${fis%-*N}                 # QGSP_BERT_HP o QGSP_BERT_HP_NoThermal
+    etiq=${nombre%%-"$MEDIO"-*}                               # 25meV, 0.1eV...
+    fis=${nombre#*-"$MEDIO"-}; fis=${fis%-*N}                 # QGSP_BERT_HP o QGSP_BERT_HP_NoThermal
     e_ev=$(awk -v t="$etiq" 'BEGIN { if (t ~ /meV$/) { sub(/meV$/, "", t); print t / 1000 } else { sub(/eV$/, "", t); print t + 0 } }')
     linea=$("$BASE/resumen_prueba.sh" "$d/Datos-simulacion" --tsv) || continue
     printf "%s\t%s\t%s\t%s\n" "$e_ev" "$etiq" "$fis" "$linea" >> "$TMP"

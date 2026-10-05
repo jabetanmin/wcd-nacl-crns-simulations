@@ -1,0 +1,26 @@
+Agua-pura: 197079 fotones iniciales; entre 6 y 7 MeV 0.07 %
+   Na 0.4722 (captura)              {'neutrón': 600, 'otra': 3}
+   24Mg 1.3686 (decaimiento 24Na)   {'otra': 2}
+   24Mg 2.7541 (decaimiento 24Na)   {'otra': 4}
+   H 2.2232                         {'neutrón': 186241}
+Agua+2.5NaCl: 403417 fotones iniciales; entre 6 y 7 MeV 9.27 %
+   Na 0.4722 (captura)              {'neutrón': 417, 'otra': 11}
+   Na 3.9823 (captura)              {'neutrón': 847}
+   24Mg 1.3686 (decaimiento 24Na)   {'otra': 1084, 'neutrón': 3}
+   24Mg 2.7541 (decaimiento 24Na)   {'otra': 1349, 'neutrón': 102}
+   H 2.2232                         {'neutrón': 139163, 'otra': 3}
+   Cl 6.1109                        {'neutrón': 19815}
+Agua+5NaCl: 540005 fotones iniciales; entre 6 y 7 MeV 11.08 %
+   Na 0.4722 (captura)              {'neutrón': 312, 'otra': 14}
+   Na 3.9823 (captura)              {'neutrón': 1417, 'otra': 1}
+   24Mg 1.3686 (decaimiento 24Na)   {'otra': 1829, 'neutrón': 1}
+   24Mg 2.7541 (decaimiento 24Na)   {'otra': 2192, 'neutrón': 137}
+   H 2.2232                         {'neutrón': 116331, 'otra': 2}
+   Cl 6.1109                        {'neutrón': 31743}
+Agua+10NaCl: 741227 fotones iniciales; entre 6 y 7 MeV 12.49 %
+   Na 0.4722 (captura)              {'neutrón': 198, 'otra': 23}
+   Na 3.9823 (captura)              {'neutrón': 2205}
+   24Mg 1.3686 (decaimiento 24Na)   {'otra': 2893, 'neutrón': 3}
+   24Mg 2.7541 (decaimiento 24Na)   {'otra': 3430, 'neutrón': 217}
+   H 2.2232                         {'neutrón': 90633, 'otra': 5}
+   Cl 6.1109                        {'neutrón': 49222}

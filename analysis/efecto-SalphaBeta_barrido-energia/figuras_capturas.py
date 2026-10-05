@@ -17,7 +17,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from figuras_barrido import FISICAS, TINTA, TINTA_2, LIMITE_SAB_EV, eje_energia, AQUI
+from figuras_barrido import FISICAS, TINTA, TINTA_2, LIMITE_SAB_EV, eje_energia, AQUI, MEDIO_TEXTO
 
 T0_COLA_US = 100.0      # la vida media se estima con los tiempos mayores que este valor
 TAU_AGUA_INF_US = 204.5  # 1/(Sigma_a v), agua a 2200 m/s: Sigma_a = 0.02223 cm^-1
@@ -91,7 +91,7 @@ def figura_profundidad(d):
     fig.supxlabel("Profundidad de captura bajo la superficie del agua (cm)", fontsize=10, color=TINTA, y=0.04)
     for ax in axs[:, 0]:
         ax.set_ylabel("Fracción de capturas por cm")
-    fig.text(0.01, -0.01, "Solo neutrones capturados en el agua; agua pura, 10 000 neutrones incidentes por punto. "
+    fig.text(0.01, -0.01, f"Solo neutrones capturados en el agua; {MEDIO_TEXTO.lower()}, 10 000 neutrones incidentes por punto. "
              "Escala logarítmica: una recta indica una cola exponencial.", fontsize=7.5, color=TINTA_2)
     for ext in ("png", "pdf"):
         fig.savefig(AQUI / f"fig_profundidad_captura.{ext}", bbox_inches="tight")
