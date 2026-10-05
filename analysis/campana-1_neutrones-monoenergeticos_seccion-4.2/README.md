@@ -14,14 +14,16 @@ Informe técnico: [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-te
 | `procesar_corrida.py` | Procesa una corrida desde los archivos crudos (`interaccion-completa-neutrones.txt`, `Carga_Total_*.txt`) en una sola pasada |
 | `procesar_campana.py` | Procesa las 64 corridas en paralelo (alrededor de 1 minuto) y escribe `resultados/resumen_campana.tsv` |
 | `comparar_cilindro.py` | Repite el procesamiento con un cilindro de 480 mm de radio en lugar de la caja cuadrada y compara |
-| `figuras_seccion_4.2.ipynb` | Regenera las Figuras 4.17–4.27 y D.1–D.6 de la tesis solo con los resúmenes (generado por `construir_notebook.py`) |
+| `figuras_seccion_4.2.ipynb` | Regenera las Figuras 4.17–4.29 y D.1–D.6 y la Tabla 4.9 de la tesis solo con los resúmenes (generado por `construir_notebook.py`) |
+| `verificar_tabla_4_9_original.py` | Repite los ajustes gaussianos de la Tabla 4.9 de la versión anterior y documenta sus problemas (`verificacion_tabla_4_9_original.txt`) |
 | `figuras_informe.py` | Figuras y tablas del informe técnico |
 | `resultados/` | `resumen_campana.tsv` y un `resumen.json` por corrida (las tablas por neutrón `historias.tsv.gz` se publican en Zenodo) |
 | `figuras-seccion-4.2/` | Figuras regeneradas en PDF (los PNG se crean al ejecutar el notebook) |
 
 Cada `resumen.json` contiene las medias y desviaciones de pasos por historia, los destinos y los coeficientes
 $\eta$ con incertidumbre binomial, $\langle N\rangle$ y el histograma de $N$, $\langle\xi\rangle$, $\sigma(\xi)$ y
-el histograma de $\xi$, y la estadística y el histograma de la carga.
+el histograma de $\xi$, la estadística de la longitud de captura $\lambda_\mathrm{cap}$ (mediana, cuartiles, moda y media
+con incertidumbres por remuestreo, e histograma), y la estadística y el histograma de la carga.
 
 ## Definiciones (las de la tesis)
 
@@ -35,6 +37,9 @@ el histograma de $\xi$, y la estadística y el histograma de la carga.
   `Histogramas_cita_*.ipynb`). La definición inicial del estudio, $\ln(E_0/E_\mathrm{cap})/N$ por historia, fue
   reemplazada y se conserva solo por trazabilidad (`xi_historia_inicial`).
 - **Destino final:** última frontera del volumen activo ($|x|,|y|\le480$ mm, $0\le z\le1330$ mm) atravesada.
+- **$\lambda_\mathrm{cap}$:** distancia en línea recta entre el punto de la primera dispersión elástica en la cara interior
+  de la tapa ($z=1330.05$ mm, sin pérdida previa de energía) y el punto de captura. Valor representativo: la mediana,
+  con incertidumbre por remuestreo (200 réplicas, semilla fija), y los percentiles 25–75 como dispersión.
 
 ## Validación
 
@@ -50,11 +55,18 @@ el histograma de $\xi$, y la estadística y el histograma de la carga.
 - Cifras del Capítulo 5: $\langle N\rangle$ = 44.8, 52.2, 60.4 y 76.8; captura de 17.42, 35.88 y 33.77 %, y
   51.38 % con 10 % de NaCl; reflexión de 76.6, 62.2 y 64.6 %; captura relativa a 1 meV de 1.61, 1.35 y 1.19.
 - Diferencias encontradas en la tesis:
-  - la captura relativa a 1 keV con 10 % de NaCl es 1.3447; la tesis escribe 1.35 (debe ser 1.34);
+  - la captura relativa a 1 keV con 10 % de NaCl es 1.3447; la tesis escribía 1.35 (corregido a 1.34);
   - en las Figuras 4.17 y 4.18, tres puntos (700 meV con 2.5 y 5 % de NaCl y 10 eV con 2.5 %) provienen de
     un archivo de promedios que difiere de los datos crudos hasta en 0.7 %.
 
+## Longitud de captura (Tabla 4.9 y Figuras 4.28 y 4.29)
+
+La versión anterior de la tesis daba, para once energías, la posición y el ancho de ajustes gaussianos al pico de la
+distribución de $\lambda_\mathrm{cap}$, con intervalos de ajuste introducidos a mano. `verificar_tabla_4_9_original.py`
+reproduce 33 de los 44 valores con los intervalos registrados en los notebooks y muestra que el archivo de 100 eV en
+agua pura era una copia del de 1 keV y que los de 700 meV con 2.5 y 5 % de NaCl no provienen de los datos de la
+Campaña 1. La versión final de la tesis usa la mediana, calculada con un procedimiento fijo para las 64 corridas.
+
 ## Pendiente
 
-Las Figuras 4.28 y 4.29 (distancia de captura) y las de carga (4.48, 4.50 y 4.51) provienen de otras cadenas de
-análisis y aún no se regeneran desde estos datos.
+Las figuras de carga (4.48, 4.50 y 4.51) provienen de otra cadena de análisis y aún no se regeneran desde estos datos.

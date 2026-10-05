@@ -31,6 +31,13 @@ como en los notebooks Histogramas_cita_*.ipynb. <xi> y sigma(xi) se toman sobre 
 el histograma usa 300 intervalos entre -2 y 2, como las figuras de la tesis. Por historia se guarda la suma
 de xi de su cadena (suma_xi_cadena).
 
+lambda_cap (longitud de captura, definición de la tesis, Sección 4.2.1 y notebooks de Distancia-captura):
+  distancia en línea recta entre la posición previa del paso 3 y la posición de captura, para las historias
+  capturadas cuyo paso 3 es una dispersión elástica que empieza en la cara interior de la tapa
+  (z = 1330.05 mm) sin pérdida previa de energía. Estadística por corrida con un método fijo: mediana
+  (valor principal) y cuartiles, moda (máximo de un histograma de intervalos de 0.5 cm refinado con una
+  parábola de tres puntos) y media, con incertidumbres por remuestreo (bootstrap, 200 réplicas, semilla fija).
+
 xi_historia_inicial (definición inicial del estudio, reemplazada; solo por trazabilidad):
   ln(E_pre del primer hadElastic / E_pre de la captura) / N, por historia.
 
@@ -65,6 +72,58 @@ GEOMETRIA = "caja"   # "caja" (definición de la tesis) o "cilindro" (r = sqrt(x
 # histograma de xi de las figuras de la tesis
 XI_BINS = 300
 XI_RANGO = (-2.0, 2.0)
+
+# longitud de captura
+Z_TAPA = 1330.05            # cara interior de la tapa [mm]
+LAMBDA_BIN = 2.0            # histograma guardado: 0.2 cm
+MODA_BIN = 5.0              # intervalo para la moda: 0.5 cm
+LAMBDA_MAX = 1000.0         # histograma guardado hasta 100 cm
+BOOTSTRAP = 200
+SEMILLA = 20261005
+
+
+def lambda_cap(pasos):
+    """Longitud de captura [mm] según la definición de la tesis, o None."""
+    if len(pasos) < 3 or pasos[-1][8] != "nCapture":
+        return None
+    p3 = pasos[2]
+    if p3[0] != 3 or p3[8] != "hadElastic" or p3[4] != Z_TAPA or p3[1] != pasos[0][1]:
+        return None
+    ult = pasos[-1]
+    return math.dist((p3[2], p3[3], p3[4]), (ult[5], ult[6], ult[7]))
+
+
+def moda_refinada(valores):
+    bordes = np.arange(0.0, valores.max() + MODA_BIN, MODA_BIN)
+    h, _ = np.histogram(valores, bins=bordes)
+    centros = 0.5 * (bordes[:-1] + bordes[1:])
+    i = int(np.argmax(h))
+    if 0 < i < len(h) - 1:
+        a, b, _ = np.polyfit(centros[i - 1:i + 2], h[i - 1:i + 2], 2)
+        if a < 0:
+            return float(-b / (2 * a))
+    return float(centros[i])
+
+
+def estadistica_lambda(valores):
+    v = np.asarray(valores, dtype=float)
+    if len(v) == 0:
+        return None
+    rng = np.random.default_rng(SEMILLA)
+    modas, medianas, medias = [], [], []
+    for _ in range(BOOTSTRAP):
+        m = rng.choice(v, size=len(v), replace=True)
+        modas.append(moda_refinada(m))
+        medianas.append(np.median(m))
+        medias.append(m.mean())
+    h, _ = np.histogram(v, bins=np.arange(0.0, LAMBDA_MAX + LAMBDA_BIN, LAMBDA_BIN))
+    return {"n": int(len(v)), "unidad": "mm",
+            "moda": moda_refinada(v), "u_moda": float(np.std(modas)),
+            "mediana": float(np.median(v)), "u_mediana": float(np.std(medianas)),
+            "media": float(v.mean()), "u_media": float(np.std(medias)), "std": float(v.std()),
+            "p25": float(np.percentile(v, 25)), "p75": float(np.percentile(v, 75)),
+            "histograma": {"ancho": LAMBDA_BIN, "rango": [0.0, LAMBDA_MAX], "conteos": h.tolist(),
+                           "encima": int((v > LAMBDA_MAX).sum())}}
 
 
 def en_caja(x, y, z, caja):
@@ -164,6 +223,7 @@ def procesar(carpeta, salida, geometria="caja"):
             "x_cap": ult[5] if cap else "", "y_cap": ult[6] if cap else "",
             "z_cap": ult[7] if cap else "", "E_cap": ult[1] if cap else "",
             "N_total": conteo["hadElastic"] if cap else "",
+            "lambda_cap": lambda_cap(pasos),
         }
 
     with open(carpeta / "interaccion-completa-neutrones.txt") as f:
@@ -192,7 +252,7 @@ def procesar(carpeta, salida, geometria="caja"):
 
     columnas = ["historia", "n_pasos"] + [f"n_{p}" for p in PROCESOS] + [
         "ultimo_proceso", "destino", "x_cap", "y_cap", "z_cap", "E_cap", "N_total", "N_tesis",
-        "suma_xi_cadena", "xi_historia_inicial"]
+        "suma_xi_cadena", "xi_historia_inicial", "lambda_cap"]
     with gzip.open(salida / "historias.tsv.gz", "wt", compresslevel=9) as f:
         f.write("\t".join(columnas) + "\n")
         for h in sorted(filas):
@@ -201,6 +261,7 @@ def procesar(carpeta, salida, geometria="caja"):
             fila["N_tesis"] = n
             fila["suma_xi_cadena"] = "" if sxi == "" else f"{sxi:.6e}"
             fila["xi_historia_inicial"] = "" if math.isnan(xi_ini) else f"{xi_ini:.6e}"
+            fila["lambda_cap"] = "" if fila["lambda_cap"] is None else f"{fila['lambda_cap']:.6f}"
             f.write("\t".join(str(fila[k]) for k in columnas) + "\n")
 
     # resumen
@@ -244,6 +305,7 @@ def procesar(carpeta, salida, geometria="caja"):
                                     "debajo": int((xi < XI_RANGO[0]).sum()),
                                     "encima": int((xi > XI_RANGO[1]).sum())}},
         "xi_historia_inicial": {"n": int(len(xi_ini)), "media": float(xi_ini.mean()) if len(xi_ini) else None},
+        "lambda_cap": estadistica_lambda([float(r["lambda_cap"]) for r in filas.values() if r["lambda_cap"] != ""]),
     }
     cargas = sorted(glob.glob(str(carpeta / "Carga_Total*.txt")))
     if cargas:
