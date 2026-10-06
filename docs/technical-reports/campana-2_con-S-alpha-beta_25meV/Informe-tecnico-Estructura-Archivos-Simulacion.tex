@@ -119,7 +119,7 @@ Doctorado en Física, Universidad Industrial de Santander
 Este informe documenta, columna por columna, la estructura de los cuatro archivos TSV que
 produce la simulación Geant4/MEIGA del detector Cherenkov de agua (WCD) y que alimentan el
 análisis de moderación y captura de neutrones descrito en
-\textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}: \archivo{neutrones-incidentes.tsv},
+\textit{Informe-tecnico-Analisis-Moderacion-Captura-25meV}: \archivo{neutrones-incidentes.tsv},
 \archivo{pasos-neutrones.tsv}, \archivo{interacciones-neutrones.tsv} y
 \archivo{capturas-neutrones.tsv}. Es un documento de referencia --un diccionario de datos-- para
 cualquier persona que necesite leer, depurar o extender ese análisis sin tener que releer el
@@ -131,15 +131,16 @@ el identificador \var{run\_id}.
 \textbf{Nota sobre la campaña de simulación}: los archivos aquí descritos corresponden a la
 \textbf{Campaña 2} de simulación de la tesis, la que sí incluye el tratamiento térmico
 $S(\alpha,\beta)$ para el hidrógeno ligado en moléculas de agua, y usa clasificación por material
-(a diferencia de la Campaña 1, de cinco energías y sin $S(\alpha,\beta)$, documentada en
-\textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}). En disco, esta corrida vive en la
+(a diferencia de la Campaña 1, de dieciséis energías y sin $S(\alpha,\beta)$, documentada en
+\textit{Informe-tecnico-Respuesta-WCD-flujos-monocromaticos-neutrones}, de la carpeta
+\texttt{docs/technical-reports/campana-1\_sin-S-alpha-beta/}). En disco, esta corrida vive en la
 carpeta \codigo{25meV/}, correctamente nombrada: la energía de inyección es \textbf{25\,meV},
 verificada directamente en la tabla de \archivo{neutrones-incidentes.tsv} (sección~\ref{sec:convenciones})
-en las cuatro concentraciones. Esta energía coincide con uno de los cinco puntos de la Campaña 1,
+en las cuatro concentraciones. Esta energía coincide con uno de los dieciséis puntos de la Campaña 1,
 elegida deliberadamente para poner a prueba el régimen térmico --la energía térmica del medio--,
 donde el tratamiento $S(\alpha,\beta)$ más debería notarse; es, por tanto, el punto natural de
 comparación directa entre ambas campañas. Por ahora esta campaña solo se ejecutó a esa única
-energía, en las cuatro concentraciones de NaCl; extenderla a las otras cuatro energías de la
+energía, en las cuatro concentraciones de NaCl; extenderla a las otras quince energías de la
 Campaña 1 y comparar sistemáticamente los resultados --que ya difieren a 25\,meV, sobre todo en la
 fracción de captura-- queda como trabajo futuro.
 \end{abstract}
@@ -380,7 +381,7 @@ ejemplo-- se realizó con el \textit{notebook} \codigo{Estructura-archivos-simul
 junto a los archivos TSV de cada corrida. El análisis derivado que consume estos cuatro archivos
 --coeficiente de captura, reflexión, transmisión, $N$, $\xi$, $\Delta t$ y $\tau$-- está documentado
 en el \textit{notebook} \codigo{analisis\_moderacion\_captura\_neutrones.ipynb} y en el informe
-técnico \textit{Informe-tecnico-Analisis-Moderacion-Captura-Neutrones}, disponibles ambos en este
+técnico \textit{Informe-tecnico-Analisis-Moderacion-Captura-25meV}, disponibles ambos en este
 mismo repositorio (\archivo{analysis/notebooks/} y \archivo{docs/technical-reports/},
 respectivamente).
 

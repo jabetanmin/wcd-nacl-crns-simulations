@@ -13,8 +13,16 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   de la Tabla 4.8 y el Apéndice C, los conteos por proceso y las cifras del Capítulo 5. La letargía se calcula
   con la definición de la tesis (por colisión); la definición inicial por historia se conserva solo por
   trazabilidad. Las tablas por neutrón (`historias.tsv.gz`) se publicarán en Zenodo.
-- Informe técnico `docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Procesamiento-Campana-1-64-corridas`
-  (reemplaza al informe de cinco energías de la misma carpeta).
+- Informe técnico `docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-WCD-flujos-monocromaticos-neutrones`
+  (*Respuesta del WCD a flujos monocromáticos de neutrones*; antes `Informe-tecnico-Procesamiento-Campana-1-64-corridas`):
+  sigue la parte neutrónica de la Sección 4.2 (transporte, moderación, balance de destinos con su tratamiento
+  multinomial, ganancia relativa y longitud de captura; Figs. 4.17–4.29, D.1–D.6, Tablas 4.6–4.9 y Apéndice C),
+  además del método, la validación y la comparación caja/cilindro. La carga y la eficiencia de detección
+  (Figs. 4.48–4.51) se dejan para el informe de la respuesta electromagnética.
+- `tablas_seccion_4_2.py`: tablas por régimen y medio (pasos por neutrón, $\langle\xi\rangle$ y $\sigma(\xi)$,
+  eficiencia de detección y señal por captura).
+- Guía de lectura de la carpeta de la Sección 4.2 en su `README.md`: contexto, convenciones, glosario, diccionario
+  de datos de `resumen_campana.tsv`, `resumen.json` e `historias.tsv.gz`, e índice de figuras.
 - `figuras_seccion_4.2.ipynb` (y `construir_notebook.py`): regenera las Figuras 4.17–4.27 y D.1–D.6 de la tesis
   solo con los resúmenes del repositorio; verifica automáticamente 25 cifras de la tesis.
 
@@ -24,6 +32,12 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 - Longitud de captura $\lambda_\mathrm{cap}$ (Tabla 4.9 y Figuras 4.28 y 4.29): `procesar_corrida.py` la calcula con la
   definición de la tesis y una estadística fija (mediana con incertidumbre por remuestreo y percentiles 25–75); el
   notebook regenera la tabla y las figuras; `verificar_tabla_4_9_original.py` documenta la tabla anterior.
+
+### Eliminado
+
+- Informe técnico `Informe-tecnico-Analisis-Moderacion-Captura-Neutrones` (subconjunto anterior de cinco energías de la
+  Campaña 1) y su carpeta `figuras-analisis-energia/`; queda en el historial de git. Las referencias en
+  `analysis/README.md` y en el informe de estructura de archivos de la Campaña 2 se actualizaron.
 
 ### Corregido
 
