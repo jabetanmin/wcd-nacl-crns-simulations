@@ -34,6 +34,10 @@ que produce `procesar_campana.py` a partir de los archivos crudos del simulador.
 | 4.25 | Coeficiente de reflexión por la tapa $\eta_\mathrm{Refle}$ |
 | 4.26 | Transmisión y otros destinos |
 | 4.27 | Ganancia relativa de captura con NaCl |
+| 4.28, 4.29 y Tabla 4.9 | Longitud de captura $\lambda_\mathrm{cap}$ |
+| 4.48 | Histogramas del número de fotoelectrones por evento |
+| 4.50 | Fotoelectrones medios por evento detectado |
+| 4.51 | Eficiencia de detección (con el CRS1000 como referencia) |
 
 **Definiciones.**
 - $N$: número de dispersiones elásticas de la cadena ininterrumpida dentro del tanque que termina en la captura.
@@ -42,9 +46,8 @@ que produce `procesar_campana.py` a partir de los archivos crudos del simulador.
   reemplazada en el estudio, no se usa aquí.
 - La carpeta `1000000meV` se rotula "1 keV", como en la tesis.
 
-**Figuras no incluidas.** Las Figs. 4.28 y 4.29 (distancia de captura) y las de carga (4.48, 4.50, 4.51) provienen de
-otras cadenas de análisis (ajustes interactivos y valores transcritos) y se documentan aparte. Las Figs. 4.30–4.47 y
-4.49 usan los datos de partículas secundarias, que no forman parte de este procesamiento.
+**Figuras no incluidas.** Las Figs. 4.30–4.47 y 4.49 usan los datos de partículas secundarias, que no forman parte de
+este procesamiento.
 """)
 
 code(r"""
@@ -396,6 +399,88 @@ print(f"Fracción de capturas incluidas: {min(fraccion):.3f}–{max(fraccion):.3
 """)
 
 md(r"""
+## Figuras 4.48, 4.50 y 4.51: carga y eficiencia de detección
+
+Los archivos `Carga_Total_*.txt` contienen el número de fotoelectrones aceptados por el PMT en cada evento con señal
+(no incluyen eventos con 0 fotoelectrones). Con el umbral ideal de 1 fotoelectrón, la eficiencia de detección es
+$\varepsilon = N_\mathrm{det}/N_\mathrm{inc}$, con $N_\mathrm{inc}=10^5$ e incertidumbre binomial.
+""")
+
+code(r"""
+ENERGIAS_Q = ["1meV", "10meV", "100meV", "1000meV", "10000meV", "100000meV", "1000000meV"]
+COLORES_Q = ["red", "green", "purple", "orange", "blue", "brown", "gray"]
+
+# Figura 4.48: histogramas del número de fotoelectrones por evento (cuentas, intervalos de 1 fotoelectrón)
+fig, axs = plt.subplots(2, 2, figsize=(14, 10), sharex=True, sharey=True)
+for ax, m in zip(axs.flat, MEDIOS):
+    for e, c in zip(ENERGIAS_Q, COLORES_Q):
+        h = np.array(RESUMEN[(e, m)]["carga"]["histograma_pe"], dtype=float)
+        ax.step(np.arange(len(h)), h, where="mid", color=c, lw=1.2, label=ROTULO[e])
+    ax.set_yscale("log")
+    ax.set_xlim(0, 200)
+    ax.set_ylim(0.8, None)
+    ax.set_title(NOMBRE[m], fontsize=15)
+    ax.grid(True, ls=":", color="0.8")
+for ax in axs[1]:
+    ax.set_xlabel("Número de fotoelectrones por evento")
+for ax in axs[:, 0]:
+    ax.set_ylabel("Eventos")
+axs[0, 1].legend(fontsize=11, title="Energía del neutrón")
+guardar(fig, "fig_4_48_histogramas_carga")
+plt.show()
+
+# Figura 4.50: número medio de fotoelectrones por evento detectado
+fig, ax = plt.subplots(figsize=(10, 6))
+for m in MEDIOS:
+    media = np.array([RESUMEN[(e, m)]["carga"]["media_pe"] for e in ENERGIAS])
+    u = np.array([RESUMEN[(e, m)]["carga"]["std_pe"] / np.sqrt(RESUMEN[(e, m)]["carga"]["eventos"])
+                  for e in ENERGIAS])
+    ax.errorbar(VALOR_MEV, media, yerr=u, fmt=MARCA[m] + "-", color=COLOR[m], mec="k", mew=0.5, ms=7,
+                lw=1, capsize=2, label=NOMBRE[m])
+ax.set_ylabel(r"$\langle k\rangle$ [fotoelectrones por evento detectado]")
+ax.set_ylim(0, None)
+eje_energia(ax)
+ax.legend(frameon=False)
+guardar(fig, "fig_4_50_fotoelectrones_medios")
+plt.show()
+
+# Figura 4.51: eficiencia de detección, con las curvas del CRS1000 (Köhli et al., 2018) como referencia cualitativa
+crs = {"superior": ([], []), "lateral": ([], [])}
+with open("datos/eficiencia_CRS1000_Kohli2018.tsv") as f:
+    for linea in f:
+        if linea.startswith("#") or linea.startswith("orientacion"):
+            continue
+        o, E, ef = linea.split()
+        crs[o][0].append(float(E))
+        crs[o][1].append(float(ef))
+fig, ax = plt.subplots(figsize=(12, 7))
+EFICIENCIA = {}
+for m in MEDIOS:
+    n = np.array([RESUMEN[(e, m)]["carga"]["eventos"] for e in ENERGIAS], dtype=float)
+    eps = n / 1e5
+    u = np.sqrt(eps * (1 - eps) / 1e5)
+    EFICIENCIA[m] = (eps, u)
+    ax.errorbar(VALOR_MEV, 100 * eps, yerr=100 * u, fmt=MARCA[m] + "-", color=COLOR[m], mec="k", mew=0.5, ms=6,
+                lw=1, capsize=2, label=f"{NOMBRE[m]} (este trabajo)")
+for o, c in [("superior", "black"), ("lateral", "blue")]:
+    ax.plot(crs[o][0], crs[o][1], ".-", color=c, lw=1, ms=4, label=f"CRS1000, orientación {o} (Köhli et al., 2018)")
+ax.set_xscale("log")
+ax.set_xlim(0.7, 8e10)
+for x in (10, 100, 1e3):
+    ax.axvline(x, color="0.35", ls="--", lw=1)
+ax.set_xlabel(r"Energía del neutrón incidente, $E_n$ [meV]")
+ax.set_ylabel(r"$\varepsilon(E_n,C)$ [%]")
+ax.grid(True, ls=":", color="0.8")
+ax.legend(fontsize=11, loc="upper right")
+guardar(fig, "fig_4_51_eficiencia_deteccion")
+plt.show()
+for m in MEDIOS:
+    eps, u = EFICIENCIA[m]
+    print(f"{NOMBRE[m]:20s} eficiencia 1 meV {100*eps[0]:.2f} ± {100*u[0]:.2f} %, 1 keV {100*eps[-1]:.2f} %, "
+          f"<k> 1 meV {RESUMEN[('1meV', m)]['carga']['media_pe']:.2f}, 1 keV {RESUMEN[('1000000meV', m)]['carga']['media_pe']:.2f}")
+""")
+
+md(r"""
 ## Verificación frente a las cifras de la tesis
 
 Valores citados en el texto, los pies de figura y el Capítulo 5.
@@ -424,6 +509,8 @@ fila("eta_Cap [%], agua pura, 1 meV", 100 * T("1meV", "Agua-pura", "eta_cap"), 1
 fila("eta_Cap [%], agua pura, 1 eV", 100 * T("1000meV", "Agua-pura", "eta_cap"), 35.88, 0.005)
 fila("eta_Cap [%], 10 % NaCl, 1 eV", 100 * T("1000meV", "Agua+10NaCl", "eta_cap"), 51.38, 0.005)
 fila("eta_Refle [%], agua pura, 1 meV", 100 * T("1meV", "Agua-pura", "eta_refle"), 76.6, 0.05)
+fila("eficiencia [%], agua pura, 1 meV (Fig. 4.51)", 100 * EFICIENCIA["Agua-pura"][0][0], 8.021, 0.0005)
+fila("eficiencia [%], 10 % NaCl, 1 keV (Fig. 4.51)", 100 * EFICIENCIA["Agua+10NaCl"][0][-1], 29.259, 0.0005)
 fila("ganancia relativa, 10 % NaCl, 1 meV",
      T("1meV", "Agua+10NaCl", "eta_cap") / T("1meV", "Agua-pura", "eta_cap"), 1.61, 0.005)
 """)

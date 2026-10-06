@@ -14,7 +14,8 @@ Informe técnico: [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-te
 | `procesar_corrida.py` | Procesa una corrida desde los archivos crudos (`interaccion-completa-neutrones.txt`, `Carga_Total_*.txt`) en una sola pasada |
 | `procesar_campana.py` | Procesa las 64 corridas en paralelo (alrededor de 1 minuto) y escribe `resultados/resumen_campana.tsv` |
 | `comparar_cilindro.py` | Repite el procesamiento con un cilindro de 480 mm de radio en lugar de la caja cuadrada y compara |
-| `figuras_seccion_4.2.ipynb` | Regenera las Figuras 4.17–4.29 y D.1–D.6 y la Tabla 4.9 de la tesis solo con los resúmenes (generado por `construir_notebook.py`) |
+| `figuras_seccion_4.2.ipynb` | Regenera las Figuras 4.17–4.29, 4.48, 4.50, 4.51 y D.1–D.6 y la Tabla 4.9 de la tesis solo con los resúmenes (generado por `construir_notebook.py`) |
+| `datos/eficiencia_CRS1000_Kohli2018.tsv` | Funciones de respuesta del CRS1000 (Köhli et al., 2018) usadas como referencia en la Figura 4.51 |
 | `verificar_tabla_4_9_original.py` | Repite los ajustes gaussianos de la Tabla 4.9 de la versión anterior y documenta sus problemas (`verificacion_tabla_4_9_original.txt`) |
 | `figuras_informe.py` | Figuras y tablas del informe técnico |
 | `resultados/` | `resumen_campana.tsv` y un `resumen.json` por corrida (las tablas por neutrón `historias.tsv.gz` se publican en Zenodo) |
@@ -67,6 +68,11 @@ reproduce 33 de los 44 valores con los intervalos registrados en los notebooks y
 agua pura era una copia del de 1 keV y que los de 700 meV con 2.5 y 5 % de NaCl no provienen de los datos de la
 Campaña 1. La versión final de la tesis usa la mediana, calculada con un procedimiento fijo para las 64 corridas.
 
-## Pendiente
+## Carga y eficiencia (Figuras 4.48, 4.50 y 4.51)
 
-Las figuras de carga (4.48, 4.50 y 4.51) provienen de otra cadena de análisis y aún no se regeneran desde estos datos.
+Los archivos `Carga_Total_*.txt` contienen el número de fotoelectrones de cada evento con señal (no hay eventos con 0).
+La eficiencia de detección es el número de eventos con señal dividido entre $10^5$ neutrones; los valores que usaba la
+figura de la tesis coinciden con estos archivos en las 64 corridas. La versión anterior de la Figura 4.50 graficaba
+ese mismo número de eventos con el rótulo "número medio de fotones" (con un valor mal transcrito, 21 399 en lugar de
+21 349); la versión final muestra el número medio de fotoelectrones por evento detectado (3.2 en agua pura y 10.5 con
+10 % de NaCl, casi sin dependencia con la energía).
