@@ -410,12 +410,13 @@ code(r"""
 ENERGIAS_Q = ["1meV", "10meV", "100meV", "1000meV", "10000meV", "100000meV", "1000000meV"]
 COLORES_Q = ["red", "green", "purple", "orange", "blue", "brown", "gray"]
 
-# Figura 4.48: histogramas del número de fotoelectrones por evento (cuentas, intervalos de 1 fotoelectrón)
+# Figura 4.48: histogramas del número de fotoelectrones por evento (cuentas, intervalos de 1 fotoelectrón,
+# dibujados con línea continua)
 fig, axs = plt.subplots(2, 2, figsize=(14, 10), sharex=True, sharey=True)
 for ax, m in zip(axs.flat, MEDIOS):
     for e, c in zip(ENERGIAS_Q, COLORES_Q):
         h = np.array(RESUMEN[(e, m)]["carga"]["histograma_pe"], dtype=float)
-        ax.step(np.arange(len(h)), h, where="mid", color=c, lw=1.2, label=ROTULO[e])
+        ax.plot(np.arange(len(h)) + 0.5, h, "-", color=c, lw=1.2, label=ROTULO[e])   # centro de cada intervalo
     ax.set_yscale("log")
     ax.set_xlim(0, 200)
     ax.set_ylim(0.8, None)
