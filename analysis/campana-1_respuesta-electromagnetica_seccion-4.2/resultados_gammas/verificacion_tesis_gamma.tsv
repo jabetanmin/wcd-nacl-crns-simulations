@@ -1,0 +1,301 @@
+magnitud	energia	medio	tesis	reproducido	definicion	estado
+N_Cap	1meV	Agua-pura	17418	17418	capturas de la Campaña 1	igual
+N(gamma_Cap)	1meV	Agua-pura	17558	17558	líneas de gamma-primario	igual
+N_Total-int	1meV	Agua-pura	133706	133706	todas las filas	igual
+N_Int(Tanque)	1meV	Agua-pura	108898	108898	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1meV	Agua-pura	80740	80740	compt E<3 MeV, todas las posiciones	igual
+N_Int(Ext)	1meV	Agua-pura	24808	24808	filas fuera de la caja	igual
+pares_%	1meV	Agua-pura	0.14	0.14	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1meV	Agua-pura		0.7414	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1meV	Agua+2.5NaCl	20642	20642	capturas de la Campaña 1	igual
+N(gamma_Cap)	1meV	Agua+2.5NaCl	35368	35368	líneas de gamma-primario	igual
+N_Total-int	1meV	Agua+2.5NaCl	265832	265832	todas las filas	igual
+N_Int(Tanque)	1meV	Agua+2.5NaCl	213878	213878	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1meV	Agua+2.5NaCl	154210	154212	compt en la caja	difiere
+N_Int(Ext)	1meV	Agua+2.5NaCl	51954	51954	filas fuera de la caja	igual
+pares_%	1meV	Agua+2.5NaCl	0.4	0.4	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1meV	Agua+2.5NaCl		0.721	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1meV	Agua+5NaCl	23437	23437	capturas de la Campaña 1	igual
+N(gamma_Cap)	1meV	Agua+5NaCl	56620	56620	trazas gamma (filas con paso 1)	igual
+N_Total-int	1meV	Agua+5NaCl	345439	345439	todas las filas	igual
+N_Int(Tanque)	1meV	Agua+5NaCl	275135	275135	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1meV	Agua+5NaCl	195348	195348	compt en la caja	igual
+N_Int(Ext)	1meV	Agua+5NaCl	70304	70304	filas fuera de la caja	igual
+pares_%	1meV	Agua+5NaCl	0.46	0.46	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1meV	Agua+5NaCl		0.71	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1meV	Agua+10NaCl	28107	28107	capturas de la Campaña 1	igual
+N(gamma_Cap)	1meV	Agua+10NaCl	65001	65001	líneas de gamma-primario	igual
+N_Total-int	1meV	Agua+10NaCl	460496	460496	todas las filas	igual
+N_Int(Tanque)	1meV	Agua+10NaCl	363278	363278	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1meV	Agua+10NaCl	253350	253350	compt en la caja	igual
+N_Int(Ext)	1meV	Agua+10NaCl	97218	97218	filas fuera de la caja	igual
+pares_%	1meV	Agua+10NaCl	0.57	0.57	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1meV	Agua+10NaCl		0.6974	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	10meV	Agua-pura	25021	25021	capturas de la Campaña 1	igual
+N(gamma_Cap)	10meV	Agua-pura	25115	25115	líneas de gamma-primario	igual
+N_Total-int	10meV	Agua-pura	194412	194412	todas las filas	igual
+N_Int(Tanque)	10meV	Agua-pura	159194	159194	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	10meV	Agua-pura	118791	118791	compt E<3 MeV, todas las posiciones	igual
+N_Int(Ext)	10meV	Agua-pura	35218	35218	filas fuera de la caja	igual
+pares_%	10meV	Agua-pura	0.15	0.15	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	10meV	Agua-pura		0.7462	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	10meV	Agua+2.5NaCl	29452	29452	capturas de la Campaña 1	igual
+N(gamma_Cap)	10meV	Agua+2.5NaCl	49316	49316	líneas de gamma-primario	igual
+N_Total-int	10meV	Agua+2.5NaCl	377599	377599	todas las filas	igual
+N_Int(Tanque)	10meV	Agua+2.5NaCl	306048	306048	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	10meV	Agua+2.5NaCl	221630	221630	compt en la caja	igual
+N_Int(Ext)	10meV	Agua+2.5NaCl	71551	71551	filas fuera de la caja	igual
+pares_%	10meV	Agua+2.5NaCl	0.39	0.39	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	10meV	Agua+2.5NaCl		0.7242	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	10meV	Agua+5NaCl	32991	32991	capturas de la Campaña 1	igual
+N(gamma_Cap)	10meV	Agua+5NaCl	64802	64802	líneas de gamma-primario	igual
+N_Total-int	10meV	Agua+5NaCl	487960	487960	todas las filas	igual
+N_Int(Tanque)	10meV	Agua+5NaCl	392804	392804	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	10meV	Agua+5NaCl	281787	281787	compt en la caja	igual
+N_Int(Ext)	10meV	Agua+5NaCl	95156	95156	filas fuera de la caja	igual
+pares_%	10meV	Agua+5NaCl	0.48	0.48	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	10meV	Agua+5NaCl		0.7174	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	10meV	Agua+10NaCl	39456	39456	capturas de la Campaña 1	igual
+N(gamma_Cap)	10meV	Agua+10NaCl	89244	89244	líneas de gamma-primario	igual
+N_Total-int	10meV	Agua+10NaCl	646280	646280	todas las filas	igual
+N_Int(Tanque)	10meV	Agua+10NaCl	514877	514877	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	10meV	Agua+10NaCl	362021	362021	compt en la caja	igual
+N_Int(Ext)	10meV	Agua+10NaCl	131403	131403	filas fuera de la caja	igual
+pares_%	10meV	Agua+10NaCl	0.53	0.53	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	10meV	Agua+10NaCl		0.7031	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	100meV	Agua-pura	33180	33180	capturas de la Campaña 1	igual
+N(gamma_Cap)	100meV	Agua-pura	37093	37093	trazas gamma (filas con paso 1)	igual
+N_Total-int	100meV	Agua-pura	262414	262414	todas las filas	igual
+N_Int(Tanque)	100meV	Agua-pura	216088	216088	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	100meV	Agua-pura	161547	161547	compt E<3 MeV, todas las posiciones	igual
+N_Int(Ext)	100meV	Agua-pura	46326	46326	filas fuera de la caja	igual
+pares_%	100meV	Agua-pura	0.13	0.13	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	100meV	Agua-pura		0.7476	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	100meV	Agua+2.5NaCl	38582	38582	capturas de la Campaña 1	igual
+N(gamma_Cap)	100meV	Agua+2.5NaCl	75993	75993	trazas gamma (filas con paso 1)	igual
+N_Total-int	100meV	Agua+2.5NaCl	500696	500696	todas las filas	igual
+N_Int(Tanque)	100meV	Agua+2.5NaCl	409145	409145	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	100meV	Agua+2.5NaCl	298487	298487	compt en la caja	igual
+N_Int(Ext)	100meV	Agua+2.5NaCl	91551	91551	filas fuera de la caja	igual
+pares_%	100meV	Agua+2.5NaCl	0.39	0.39	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	100meV	Agua+2.5NaCl		0.7295	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	100meV	Agua+5NaCl	42412	42412	capturas de la Campaña 1	igual
+N(gamma_Cap)	100meV	Agua+5NaCl	100111	100111	trazas gamma (filas con paso 1)	igual
+N_Total-int	100meV	Agua+5NaCl	683187	636187	todas las filas	difiere
+N_Int(Tanque)	100meV	Agua+5NaCl	517145	517145	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	100meV	Agua+5NaCl	372938	372939	compt en la caja	difiere
+N_Int(Ext)	100meV	Agua+5NaCl	119042	119042	filas fuera de la caja	igual
+pares_%	100meV	Agua+5NaCl	0.46	0.46	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	100meV	Agua+5NaCl		0.7211	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	100meV	Agua+10NaCl	49580	49580	capturas de la Campaña 1	igual
+N(gamma_Cap)	100meV	Agua+10NaCl	136891	136891	trazas gamma (filas con paso 1)	igual
+N_Total-int	100meV	Agua+10NaCl	825011	825011	todas las filas	igual
+N_Int(Tanque)	100meV	Agua+10NaCl	664137	664137	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	100meV	Agua+10NaCl	470694	470694	compt en la caja	igual
+N_Int(Ext)	100meV	Agua+10NaCl	160874	160874	filas fuera de la caja	igual
+pares_%	100meV	Agua+10NaCl	0.54	0.54	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	100meV	Agua+10NaCl		0.7087	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000meV	Agua-pura	35881	35881	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000meV	Agua-pura	40640	40064	trazas gamma (filas con paso 1)	difiere
+N_Total-int	1000meV	Agua-pura	289431	289431	todas las filas	igual
+N_Int(Tanque)	1000meV	Agua-pura	239947	239947	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000meV	Agua-pura	180218	180218	compt E<3 MeV, todas las posiciones	igual
+N_Int(Ext)	1000meV	Agua-pura	49484	49484	filas fuera de la caja	igual
+pares_%	1000meV	Agua-pura	0.11	0.11	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000meV	Agua-pura		0.7511	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000meV	Agua+2.5NaCl	40822	40822	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000meV	Agua+2.5NaCl	79930	79930	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000meV	Agua+2.5NaCl	534570	534570	todas las filas	igual
+N_Int(Tanque)	1000meV	Agua+2.5NaCl	440039	440039	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000meV	Agua+2.5NaCl	322883	322883	compt en la caja	igual
+N_Int(Ext)	1000meV	Agua+2.5NaCl	94531	94531	filas fuera de la caja	igual
+pares_%	1000meV	Agua+2.5NaCl	0.37	0.37	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000meV	Agua+2.5NaCl		0.7338	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000meV	Agua+5NaCl	45105	45105	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000meV	Agua+5NaCl	106296	106296	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000meV	Agua+5NaCl	686295	686295	todas las filas	igual
+N_Int(Tanque)	1000meV	Agua+5NaCl	561933	561933	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000meV	Agua+5NaCl	407543	407543	compt en la caja	igual
+N_Int(Ext)	1000meV	Agua+5NaCl	124362	124362	filas fuera de la caja	igual
+pares_%	1000meV	Agua+5NaCl	0.45	0.45	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000meV	Agua+5NaCl		0.7253	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000meV	Agua+10NaCl	51378	51378	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000meV	Agua+10NaCl	142917	142917	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000meV	Agua+10NaCl	868959	868959	todas las filas	igual
+N_Int(Tanque)	1000meV	Agua+10NaCl	704066	704066	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000meV	Agua+10NaCl	501212	501212	compt en la caja	igual
+N_Int(Ext)	1000meV	Agua+10NaCl	164893	164893	filas fuera de la caja	igual
+pares_%	1000meV	Agua+10NaCl	0.54	0.54	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000meV	Agua+10NaCl		0.7119	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000000meV	Agua-pura	33772	33772	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000000meV	Agua-pura	38253	38253	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000000meV	Agua-pura	283957	283957	todas las filas	igual
+N_Int(Tanque)	1000000meV	Agua-pura	238505	238505	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000000meV	Agua-pura	180263	180263	compt E<3 MeV, todas las posiciones	igual
+N_Int(Ext)	1000000meV	Agua-pura	45452	45452	filas fuera de la caja	igual
+pares_%	1000000meV	Agua-pura	0.13	0.13	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000000meV	Agua-pura		0.7558	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000000meV	Agua+2.5NaCl	37570	37570	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000000meV	Agua+2.5NaCl	74769	74769	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000000meV	Agua+2.5NaCl	513650	513650	todas las filas	igual
+N_Int(Tanque)	1000000meV	Agua+2.5NaCl	428752	428752	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000000meV	Agua+2.5NaCl	316772	316772	compt en la caja	igual
+N_Int(Ext)	1000000meV	Agua+2.5NaCl	84898	84898	filas fuera de la caja	igual
+pares_%	1000000meV	Agua+2.5NaCl	0.37	0.37	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000000meV	Agua+2.5NaCl		0.7388	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000000meV	Agua+5NaCl	40934	40934	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000000meV	Agua+5NaCl	98141	98141	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000000meV	Agua+5NaCl	651474	651474	todas las filas	igual
+N_Int(Tanque)	1000000meV	Agua+5NaCl	541513	541513	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000000meV	Agua+5NaCl	396436	396436	compt en la caja	igual
+N_Int(Ext)	1000000meV	Agua+5NaCl	109961	109961	filas fuera de la caja	igual
+pares_%	1000000meV	Agua+5NaCl	0.45	0.45	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000000meV	Agua+5NaCl		0.7321	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+N_Cap	1000000meV	Agua+10NaCl	45413	45413	capturas de la Campaña 1	igual
+N(gamma_Cap)	1000000meV	Agua+10NaCl	128026	128026	trazas gamma (filas con paso 1)	igual
+N_Total-int	1000000meV	Agua+10NaCl	807929	807929	todas las filas	igual
+N_Int(Tanque)	1000000meV	Agua+10NaCl	667270	667270	filas en la caja z<=1330.05 mm	igual
+N_Int(Com)	1000000meV	Agua+10NaCl	481180	481180	compt en la caja	igual
+N_Int(Ext)	1000000meV	Agua+10NaCl	140195	140659	filas fuera de la caja	difiere
+pares_%	1000000meV	Agua+10NaCl	0.55	0.55	100*conv (todas las posiciones)/N_Int(Tanque)	igual
+f_Compton	1000000meV	Agua+10NaCl		0.7211	N_Int(Com)/N_Int(Tanque)	sin valor en la tesis
+FWHM_Compton_MeV	1meV	Agua-pura	0.054	0.054	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1meV	Agua-pura	0.05	0.05	centro del intervalo máximo	igual
+Cmax_Compton	1meV	Agua-pura	1962	1962	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	10meV	Agua-pura	0.054	0.054	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	10meV	Agua-pura	0.05	0.05	centro del intervalo máximo	igual
+Cmax_Compton	10meV	Agua-pura	2760	2760	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	100meV	Agua-pura	0.054	0.054	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	100meV	Agua-pura	0.047	0.047	centro del intervalo máximo	igual
+Cmax_Compton	100meV	Agua-pura	3825	3825	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	1000meV	Agua-pura	0.057	0.057	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1000meV	Agua-pura	0.047	0.047	centro del intervalo máximo	igual
+Cmax_Compton	1000meV	Agua-pura	4208	4208	cuentas del intervalo máximo	igual
+Emax_Rayleigh_MeV	1meV	Agua-pura		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	10meV	Agua-pura		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	100meV	Agua-pura		0.0405	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000meV	Agua-pura		0.0405	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000000meV	Agua-pura		0.0435	intervalos de 3 keV	sin valor en la tesis
+phot_N	1meV	Agua-pura	4175	4175	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1meV	Agua-pura	0.0464	0.0464	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1meV	Agua-pura	0.0151	0.0151	en [0.01,0.1] MeV	igual
+phot_N	100meV	Agua-pura	8464	8464	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	100meV	Agua-pura	0.0471	0.0471	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	100meV	Agua-pura	0.0156	0.0156	en [0.01,0.1] MeV	igual
+phot_N	1000meV	Agua-pura	9433	9433	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000meV	Agua-pura	0.0468	0.0468	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000meV	Agua-pura	0.0153	0.0153	en [0.01,0.1] MeV	igual
+phot_N	1000000meV	Agua-pura	9397	9397	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000000meV	Agua-pura	0.047	0.047	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000000meV	Agua-pura	0.0157	0.0157	en [0.01,0.1] MeV	igual
+FWHM_Compton_MeV	1meV	Agua+2.5NaCl	0.062	0.062	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1meV	Agua+2.5NaCl	0.047	0.047	centro del intervalo máximo	igual
+Cmax_Compton	1meV	Agua+2.5NaCl	3548	3548	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	10meV	Agua+2.5NaCl	0.057	0.057	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	10meV	Agua+2.5NaCl	0.05	0.05	centro del intervalo máximo	igual
+Cmax_Compton	10meV	Agua+2.5NaCl	5153	5163	cuentas del intervalo máximo	difiere
+FWHM_Compton_MeV	100meV	Agua+2.5NaCl	0.059	0.059	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	100meV	Agua+2.5NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	100meV	Agua+2.5NaCl	6743	6743	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	1000meV	Agua+2.5NaCl	0.059	0.059	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1000meV	Agua+2.5NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	1000meV	Agua+2.5NaCl	7395	7396	cuentas del intervalo máximo	difiere
+Emax_Rayleigh_MeV	1meV	Agua+2.5NaCl		0.0405	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	10meV	Agua+2.5NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	100meV	Agua+2.5NaCl		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000meV	Agua+2.5NaCl		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000000meV	Agua+2.5NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+phot_N	1meV	Agua+2.5NaCl	8884	8884	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1meV	Agua+2.5NaCl	0.0488	0.0488	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1meV	Agua+2.5NaCl	0.0159	0.0159	en [0.01,0.1] MeV	igual
+phot_N	100meV	Agua+2.5NaCl	17275	17275	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	100meV	Agua+2.5NaCl	0.0488	0.0488	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	100meV	Agua+2.5NaCl	0.0159	0.0159	en [0.01,0.1] MeV	igual
+phot_N	1000meV	Agua+2.5NaCl	18645	18645	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000meV	Agua+2.5NaCl	0.0487	0.0487	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000meV	Agua+2.5NaCl	0.0157	0.0157	en [0.01,0.1] MeV	igual
+phot_N	1000000meV	Agua+2.5NaCl	18430	18430	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000000meV	Agua+2.5NaCl	0.0488	0.0488	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000000meV	Agua+2.5NaCl	0.0158	0.0158	en [0.01,0.1] MeV	igual
+FWHM_Compton_MeV	1meV	Agua+5NaCl	0.062	0.062	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1meV	Agua+5NaCl	0.05	0.05	centro del intervalo máximo	igual
+Cmax_Compton	1meV	Agua+5NaCl	4224	4224	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	10meV	Agua+5NaCl	0.065	0.065	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	10meV	Agua+5NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	10meV	Agua+5NaCl	6200	6200	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	100meV	Agua+5NaCl	0.065	0.065	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	100meV	Agua+5NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	100meV	Agua+5NaCl	8271	8272	cuentas del intervalo máximo	difiere
+FWHM_Compton_MeV	1000meV	Agua+5NaCl	0.062	0.062	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1000meV	Agua+5NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	1000meV	Agua+5NaCl	9194	9194	cuentas del intervalo máximo	igual
+Emax_Rayleigh_MeV	1meV	Agua+5NaCl		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	10meV	Agua+5NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	100meV	Agua+5NaCl		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000meV	Agua+5NaCl		0.0435	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000000meV	Agua+5NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+phot_N	1meV	Agua+5NaCl	11928	11928	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1meV	Agua+5NaCl	0.0506	0.0506	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1meV	Agua+5NaCl	0.0161	0.0161	en [0.01,0.1] MeV	igual
+phot_N	100meV	Agua+5NaCl	22828	22828	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	100meV	Agua+5NaCl	0.0507	0.0505	en [0.01,0.1] MeV	difiere
+phot_sigma_MeV	100meV	Agua+5NaCl	0.0158	0.016	en [0.01,0.1] MeV	difiere
+phot_N	1000meV	Agua+5NaCl	24906	24906	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000meV	Agua+5NaCl	0.0504	0.0504	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000meV	Agua+5NaCl	0.016	0.016	en [0.01,0.1] MeV	igual
+phot_N	1000000meV	Agua+5NaCl	24288	24288	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000000meV	Agua+5NaCl	0.0501	0.0501	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000000meV	Agua+5NaCl	0.0158	0.0158	en [0.01,0.1] MeV	igual
+FWHM_Compton_MeV	1meV	Agua+10NaCl	0.07	0.07	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1meV	Agua+10NaCl	0.053	0.053	centro del intervalo máximo	igual
+Cmax_Compton	1meV	Agua+10NaCl	5262	5261	cuentas del intervalo máximo	difiere
+FWHM_Compton_MeV	10meV	Agua+10NaCl	0.068	0.068	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	10meV	Agua+10NaCl	0.055	0.055	centro del intervalo máximo	igual
+Cmax_Compton	10meV	Agua+10NaCl	7644	7644	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	100meV	Agua+10NaCl	0.068	0.068	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	100meV	Agua+10NaCl	0.055	0.055	centro del intervalo máximo	igual
+Cmax_Compton	100meV	Agua+10NaCl	9861	9861	cuentas del intervalo máximo	igual
+FWHM_Compton_MeV	1000meV	Agua+10NaCl	0.065	0.065	1000 intervalos en [0,2.7] MeV	igual
+Emax_Compton_MeV	1000meV	Agua+10NaCl	0.055	0.055	centro del intervalo máximo	igual
+Cmax_Compton	1000meV	Agua+10NaCl	10723	10723	cuentas del intervalo máximo	igual
+Emax_Rayleigh_MeV	1meV	Agua+10NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	10meV	Agua+10NaCl		0.0465	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	100meV	Agua+10NaCl		0.0495	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000meV	Agua+10NaCl		0.0495	intervalos de 3 keV	sin valor en la tesis
+Emax_Rayleigh_MeV	1000000meV	Agua+10NaCl		0.0495	intervalos de 3 keV	sin valor en la tesis
+phot_N	1meV	Agua+10NaCl	16783	16783	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1meV	Agua+10NaCl	0.0534	0.0534	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1meV	Agua+10NaCl	0.0164	0.0164	en [0.01,0.1] MeV	igual
+phot_N	100meV	Agua+10NaCl	31405	31405	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	100meV	Agua+10NaCl	0.0534	0.0532	en [0.01,0.1] MeV	difiere
+phot_sigma_MeV	100meV	Agua+10NaCl	0.0161	0.0163	en [0.01,0.1] MeV	difiere
+phot_N	1000meV	Agua+10NaCl	33601	33601	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000meV	Agua+10NaCl	0.0534	0.0534	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000meV	Agua+10NaCl	0.0163	0.0163	en [0.01,0.1] MeV	igual
+phot_N	1000000meV	Agua+10NaCl	32248	32248	phot con fila anterior compt (tanque estricto)	igual
+phot_media_MeV	1000000meV	Agua+10NaCl	0.0531	0.0531	en [0.01,0.1] MeV	igual
+phot_sigma_MeV	1000000meV	Agua+10NaCl	0.0162	0.0162	en [0.01,0.1] MeV	igual
+espacial_N	1meV	Agua-pura	4802	4802	anterior compt/Rayl/Transportation; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1meV	Agua-pura	109.5	109.5	anterior compt/Rayl/Transportation	igual
+espacial_r_media_cm	1meV	Agua-pura		24.1	anterior compt/Rayl/Transportation	sin valor en la tesis
+espacial_N	1meV	Agua+2.5NaCl	8750	8750	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1meV	Agua+2.5NaCl	110.0	110.0	anterior compt	igual
+espacial_r_media_cm	1meV	Agua+2.5NaCl		24.5	anterior compt	sin valor en la tesis
+espacial_N	1meV	Agua+5NaCl	11761	11761	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1meV	Agua+5NaCl	109.7	109.7	anterior compt	igual
+espacial_r_media_cm	1meV	Agua+5NaCl		24.5	anterior compt	sin valor en la tesis
+espacial_N	1meV	Agua+10NaCl	16598	16598	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1meV	Agua+10NaCl	110.6	110.6	anterior compt	igual
+espacial_r_media_cm	1meV	Agua+10NaCl		24.1	anterior compt	sin valor en la tesis
+espacial_N	1000000meV	Agua-pura	9263	9263	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1000000meV	Agua-pura	108.8	108.8	anterior compt	igual
+espacial_r_media_cm	1000000meV	Agua-pura		24.2	anterior compt	sin valor en la tesis
+espacial_N	1000000meV	Agua+2.5NaCl	18159	18159	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1000000meV	Agua+2.5NaCl	109.6	109.6	anterior compt	igual
+espacial_r_media_cm	1000000meV	Agua+2.5NaCl		24.2	anterior compt	sin valor en la tesis
+espacial_N	1000000meV	Agua+5NaCl	23941	23941	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1000000meV	Agua+5NaCl	110.0	110.0	anterior compt	igual
+espacial_r_media_cm	1000000meV	Agua+5NaCl		24.3	anterior compt	sin valor en la tesis
+espacial_N	1000000meV	Agua+10NaCl	31780	31780	anterior compt; r<=46 cm, 0<=z<=133 cm	igual
+espacial_z_media_cm	1000000meV	Agua+10NaCl	110.5	110.5	anterior compt	igual
+espacial_r_media_cm	1000000meV	Agua+10NaCl		24.2	anterior compt	sin valor en la tesis
