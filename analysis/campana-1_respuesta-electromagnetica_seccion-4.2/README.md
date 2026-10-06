@@ -9,7 +9,7 @@ y por ahora contiene la primera: los **fotones gamma** de captura (producción, 
 La parte neutrónica (transporte, moderación y captura) está en
 [`../campana-1_neutrones-monoenergeticos_seccion-4.2/`](../campana-1_neutrones-monoenergeticos_seccion-4.2/).
 
-**Informe técnico:** [*Respuesta electromagnética del WCD a la captura de neutrones — Parte I: fotones gamma*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf).
+**Informe técnico:** [*Respuesta electromagnética del WCD a la captura de neutrones: fotones gamma*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf).
 Integra y actualiza los tres informes previos sobre los gamma (procesos y destino, espectros por proceso y líneas de
 captura de H, O, Na y Cl).
 
