@@ -144,6 +144,50 @@ def main():
             filas.append(f"{NOM[m]} & {ROT[e]} & {T[('FWHM_Compton_MeV', e, m)]} & {T[('Emax_Compton_MeV', e, m)]} & "
                          f"{miles(int(T[('Cmax_Compton', e, m)]))} \\\\")
     (sal / "tabla_fwhm.tex").write_text("\n".join(filas) + "\n")
+    tabla_caja_cilindro(res, sal)
+
+
+def tabla_caja_cilindro(res, sal):
+    """Intervalo (64 corridas) del cambio relativo al clasificar con el cilindro r <= 480 mm en lugar de la caja."""
+    arch = res.parent / "resultados_gammas_cilindro" / "comparacion_caja_cilindro_gammas.tsv"
+    if not arch.exists():
+        return
+    rango = {}
+    for r in csv.DictReader(open(arch), delimiter="\t"):
+        v = 100 * float(r["diferencia_relativa"])
+        lo, hi = rango.get(r["magnitud"], (v, v))
+        rango[r["magnitud"]] = (min(lo, v), max(hi, v))
+    filas_def = [
+        ("Interacciones físicas", None),
+        ("compt_tanque", "Dispersiones Compton en el tanque"),
+        ("phot_tanque", "Fotoabsorciones en el tanque"),
+        ("Rayl_tanque", "Dispersiones Rayleigh en el tanque"),
+        ("conv_tanque", "Conversiones de pares en el tanque"),
+        ("fraccion_compton_fisicas", "Fracción Compton de las interacciones físicas"),
+        ("fotones_absorbidos_tanque", "Fotones absorbidos en el tanque"),
+        ("fotones_que_escapan", "Fotones que escapan"),
+        ("FWHM_Compton", "FWHM del espectro Compton"),
+        ("z_fotoabs_media", "Profundidad media de la fotoabsorción"),
+        ("r_fotoabs_media", "Radio medio de la fotoabsorción"),
+        ("Magnitudes con pasos de transporte", None),
+        ("Transportation_tanque", "Pasos de transporte en el tanque"),
+        ("Transportation_tanque_estricto", "Pasos de transporte en el tanque estricto (Fig.~4.31)"),
+        ("pasos_tanque", "$N_\\mathrm{Int}(\\gamma_\\mathrm{Tanque})$ (Tabla~4.10)"),
+        ("pasos_exterior", "$N_\\mathrm{Int}(\\gamma_\\mathrm{Ext})$ (Tabla~4.10)"),
+        ("f_Compton_tesis", "Fracción Compton de la tesis ($/N_\\mathrm{Int}(\\gamma_\\mathrm{Tanque})$)"),
+        ("pares_%_tesis", "Conversión de pares de la tesis"),
+        ("fotoabs_tesis_N", "Fotoabsorciones con la definición de la tesis"),
+        ("fotoabs_tesis_media", "Energía media antes de la fotoabsorción (tesis)"),
+    ]
+    filas = []
+    for k, nombre in filas_def:
+        if nombre is None:
+            filas.append(f"\\midrule\n\\multicolumn{{2}}{{l}}{{\\textit{{{k}}}}} \\\\")
+            continue
+        lo, hi = rango[k]
+        fmt = lambda v: "$0$" if abs(v) < 0.0005 else f"${v:+.3f}$" if abs(v) < 1 else f"${v:+.1f}$"
+        filas.append(f"{nombre} & {fmt(lo)} a {fmt(hi)} \\\\" if fmt(lo) != fmt(hi) else f"{nombre} & {fmt(lo)} \\\\")
+    (sal / "tabla_caja_cilindro.tex").write_text("\n".join(filas) + "\n")
 
 
 if __name__ == "__main__":

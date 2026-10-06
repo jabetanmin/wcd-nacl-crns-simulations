@@ -33,12 +33,14 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   definición de la tesis y una estadística fija (mediana con incertidumbre por remuestreo y percentiles 25–75); el
   notebook regenera la tabla y las figuras; `verificar_tabla_4_9_original.py` documenta la tabla anterior.
 
-- `analysis/campana-1_respuesta-electromagnetica_seccion-4.2/` (Parte I, fotones gamma): `procesar_gammas.py` procesa
+- `analysis/campana-1_respuesta-electromagnetica_seccion-4.2/` (fotones gamma): `procesar_gammas.py` procesa
   los 64 archivos `gamma-completo` (y las cascadas de `gamma-primario`, 1–10 meV); `verificar_tesis_gamma.py`
   reproduce 239 de 252 cifras gamma de la tesis y documenta sus definiciones; notebook de figuras (Figs. 4.30–4.42 y
   dos nuevas) y tablas del informe técnico `Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones`, que
   integra los tres informes previos sobre los gamma. Documenta que las cascadas de captura del 35Cl de `G4NeutronHP`
   no conservan la energía (10.1–10.3 MeV frente a Q = 8.58 MeV).
+- Comparación caja/cilindro de los fotones gamma (`comparar_cilindro_gammas.py`), incluida como sección del informe:
+  las interacciones físicas cambian menos del 0.12 %; solo cambian los conteos con pasos de transporte.
 
 ### Eliminado
 

@@ -32,7 +32,7 @@
 \definecolor{reglaColor}{RGB}{0,90,160}
 
 \hypersetup{colorlinks=true, linkcolor=azulWCD, urlcolor=azulWCD, citecolor=azulWCD,
-  pdftitle={Respuesta electromagnética del WCD a la captura de neutrones}, pdfauthor={Jaime A. Betancourt}}
+  pdftitle={Respuesta electromagnética del WCD a la captura de neutrones: fotones gamma}, pdfauthor={Jaime A. Betancourt}}
 
 \lstdefinestyle{shstyle}{backgroundcolor=\color{grisCodigo}, basicstyle=\ttfamily\footnotesize, breaklines=true,
   frame=single, rulecolor=\color{gray!40}, columns=fullflexible, keepspaces=true}
@@ -69,7 +69,7 @@
 {\Huge\bfseries\color{tituloColor} Respuesta electromagnética\\[0.3cm] del WCD a la captura\\[0.3cm] de neutrones}
 
 \vspace{1.2cm}
-{\Large Parte I: fotones gamma}
+{\Large Fotones gamma}
 
 \vspace{1.4cm}
 {\large\textbf{Informe técnico}}
@@ -99,7 +99,7 @@ Doctorado en Física, Universidad Industrial de Santander
 \pagestyle{plain}
 
 \begin{abstract}
-Este informe es la primera parte del estudio de la respuesta electromagnética del detector Cherenkov de agua (WCD) a la captura de neutrones de la Campaña~1 (dieciséis energías entre 1~meV y 1~keV, agua pura y agua con 2.5, 5 y 10~\% de NaCl, $10^5$ neutrones por corrida, \texttt{QGSP\_BERT\_HP} sin $S(\alpha,\beta)$). Trata los fotones gamma: su producción en las cascadas de captura, sus interacciones en el tanque y su destino. Un script del repositorio procesa en once segundos los 64 archivos crudos de fotones (5.07 millones de fotones) y un notebook regenera las figuras gamma de la tesis. La reconstrucción de las cifras publicadas reproduce exactamente 239 de 252 valores, identifica las definiciones que se usaron y corrige tres errores de transcripción de la tabla de interacciones y nueve puntos mal copiados en las figuras de conteos frente a la energía, ya corregidos en la tesis. La dispersión Compton es el 88--90~\% de las interacciones físicas en el tanque; solo un 28--37~\% de los fotones se absorbe en el agua y el resto escapa. El NaCl duplica el número de fotones por captura (de 1.02 a 2.3); la normalización muestra que el aumento de las interacciones con la salinidad se debe por completo a la fuente (más capturas y más fotones por captura), mientras que el número de dispersiones por fotón disminuye. Se documenta además una limitación del modelo de captura del simulador: las cascadas del $^{35}$Cl no conservan la energía (emiten en promedio 10.1--10.3~MeV en lugar de 8.58~MeV), lo que aumenta la energía gamma emitida por captura en un 12--17~\% en los medios con NaCl.
+Este informe estudia la respuesta electromagnética del detector Cherenkov de agua (WCD) a la captura de neutrones de la Campaña~1 (dieciséis energías entre 1~meV y 1~keV, agua pura y agua con 2.5, 5 y 10~\% de NaCl, $10^5$ neutrones por corrida, \texttt{QGSP\_BERT\_HP} sin $S(\alpha,\beta)$) en lo que concierne a los fotones gamma: su producción en las cascadas de captura, sus interacciones en el tanque y su destino. Un script del repositorio procesa en once segundos los 64 archivos crudos de fotones (5.07 millones de fotones) y un notebook regenera las figuras gamma de la tesis. La reconstrucción de las cifras publicadas reproduce exactamente 239 de 252 valores, identifica las definiciones que se usaron y corrige tres errores de transcripción de la tabla de interacciones y nueve puntos mal copiados en las figuras de conteos frente a la energía, ya corregidos en la tesis. La dispersión Compton es el 88--90~\% de las interacciones físicas en el tanque; solo un 28--37~\% de los fotones se absorbe en el agua y el resto escapa. El NaCl duplica el número de fotones por captura (de 1.02 a 2.3); la normalización muestra que el aumento de las interacciones con la salinidad se debe por completo a la fuente (más capturas y más fotones por captura), mientras que el número de dispersiones por fotón disminuye. Se documenta además una limitación del modelo de captura del simulador: las cascadas del $^{35}$Cl no conservan la energía (emiten en promedio 10.1--10.3~MeV en lugar de 8.58~MeV), lo que aumenta la energía gamma emitida por captura en un 12--17~\% en los medios con NaCl.
 \end{abstract}
 
 \tableofcontents
@@ -111,7 +111,7 @@ La Sección~4.2 de la tesis caracteriza la respuesta del WCD a neutrones monoene
 \[
 \mathrm{n}\;\longrightarrow\;\text{captura}\;\longrightarrow\;\gamma_\mathrm{Cap}\;\longrightarrow\;e^-,\,e^+\;\longrightarrow\;\text{radiación Cherenkov}\;\longrightarrow\;\mathrm{PMT}.
 \]
-Este informe estudia esa cadena en tres partes. Esta primera parte trata los fotones gamma; las siguientes tratarán los electrones y positrones secundarios y la radiación Cherenkov, con la carga y la eficiencia de detección. Los objetivos son:
+Este informe trata el segundo eslabón de esa cadena, los fotones gamma de captura. Los electrones y positrones secundarios y la radiación Cherenkov, con la carga y la eficiencia de detección, se documentan en informes técnicos propios. Los objetivos son:
 \begin{enumerate}
   \item procesar de forma reproducible los archivos crudos de los fotones de las 64 corridas;
   \item reconstruir con qué definiciones se obtuvieron las tablas y figuras gamma de la tesis, verificar sus cifras y corregir los errores;
@@ -139,6 +139,7 @@ Figs.~4.43, 4.44 y tabla & Distribución espacial de la fotoabsorción & Tabla~\
 Tabla de conversión de pares & Producción de pares & Tabla~\ref{tab:pares} \\
 Tablas de XCOM & Coeficientes de atenuación & Sin cambios (datos externos) \\
 --- & Cascadas de captura y conservación de la energía & Sec.~\ref{sec:cascadas} (nuevo) \\
+--- & Clasificación con la caja o con el cilindro del tanque & Sec.~\ref{sec:cilindro} (nuevo) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -470,6 +471,34 @@ Las Figuras~4.31, 4.32, 4.35, 4.37 y 4.40 se dibujaron con valores escritos a ma
   \item siete valores tenían dígitos mal copiados: Compton a 80~meV con 10~\% (464\,414 por 464\,514), transporte a 1~keV con 10~\% (50\,524 por 60\,524), Rayleigh a 50~meV con 5~\% (13\,710 por 14\,710) y fotoabsorciones a 2.5~meV en agua pura (4\,776 por 4\,766), a 2.5~meV con 5~\% (13\,573 por 13\,753) y a 1~eV con 5~\% (24\,406 por 24\,906), además de diferencias de 1 a 6 cuentas en dos puntos Rayleigh.
 \end{itemize}
 Las cinco figuras se regeneraron desde los resúmenes y se reemplazaron en la tesis (carpeta \archivo{Figuras-corregidas/}, archivos \archivo{fig_gamma_*.pdf}); la Figura~4.30 y los espectros se calcularon en su momento directamente desde los archivos y no tenían este problema.
+
+% =====================================================================
+\section{Caja frente a cilindro}
+\label{sec:cilindro}
+
+La tesis clasifica los pasos como dentro o fuera del tanque con una caja cuadrada ($|x|,|y|\le480$~mm), mientras que el volumen activo del simulador es un cilindro de 480~mm de radio (\var{tankRadius} = 48~cm). Las cuatro esquinas de la caja, entre 480 y 679~mm del eje, ya están fuera del agua. Para cuantificar el efecto, las 64 corridas se reprocesaron con el cilindro
+\[
+r=\sqrt{x^2+y^2}\le480~\mathrm{mm},
+\]
+con los mismos límites en $z$. El reprocesamiento usa la opción \texttt{cilindro} de \archivo{procesar_gammas.py}, y la comparación, el script \archivo{comparar_cilindro_gammas.py}. Con la caja, el procesamiento reproduce exactamente los resultados de las secciones anteriores.
+
+\begin{table}[H]
+\centering\small
+\caption{Cambio relativo (cilindro/caja $-$ 1, en \%) de las magnitudes de este informe y de la tesis en las 64 corridas.}
+\label{tab:cilindro}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Magnitud & Cambio [\%] \\
+\csname @@input\endcsname \tablas/tabla_caja_cilindro.tex
+\bottomrule
+\end{tabular}
+\end{table}
+
+Las interacciones físicas apenas cambian (Tabla~\ref{tab:cilindro}): las dispersiones Compton, las fotoabsorciones, las dispersiones Rayleigh y las conversiones en el tanque varían menos del 0.12~\%, el número de fotones que escapan es idéntico y los espectros, la FWHM de Compton y la posición media de la fotoabsorción no cambian. En las esquinas de la caja solo hay unas decenas de interacciones por corrida, en la pared de acero.
+
+En cambio, las esquinas contienen unos 23\,000 pasos de transporte por corrida: fotones que ya salieron del agua y que \textsc{Geant4} registra al cruzar las fronteras de la pared y del aire. Por eso cambian todas las magnitudes que incluyen pasos de transporte: los pasos de transporte en el tanque disminuyen un 25--28~\% (53--57~\% en el tanque estricto de la Figura~4.31), $N_\mathrm{Int}(\gamma_\mathrm{Tanque})$ de la Tabla~4.10 disminuye un 4.4--5.2~\% y $N_\mathrm{Int}(\gamma_\mathrm{Ext})$ aumenta un 19--24~\%; los cocientes de la tesis que dividen entre $N_\mathrm{Int}(\gamma_\mathrm{Tanque})$ (fracción Compton y porcentaje de pares) aumentan un 4.6--5.5~\% (por ejemplo, la fracción Compton a 1~meV en agua pura pasa de 0.738 a 0.774, y el porcentaje de pares a 1~meV con 10~\% de NaCl, de 0.57 a 0.60). Las fotoabsorciones con la definición de la tesis aumentan un 1.4--2.9~\%, porque al retirar esos pasos de transporte cambia el ``paso anterior'' de algunas fotoabsorciones y más de ellas quedan precedidas por una dispersión Compton.
+
+Ninguna conclusión física cambia. Las diferencias confirman que los pasos de transporte son contabilidad de \textsc{Geant4} y dependen de la geometría usada para clasificarlos, por lo que no deben interpretarse como interacciones. Este informe y la tesis conservan la caja, igual que el análisis de los neutrones, para mantener la comparabilidad con las cifras publicadas.
 
 % =====================================================================
 \section{Reproducibilidad}
