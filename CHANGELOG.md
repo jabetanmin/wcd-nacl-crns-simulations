@@ -18,6 +18,9 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 - `figuras_seccion_4.2.ipynb` (y `construir_notebook.py`): regenera las Figuras 4.17–4.27 y D.1–D.6 de la tesis
   solo con los resúmenes del repositorio; verifica automáticamente 25 cifras de la tesis.
 
+- Carga y eficiencia (Figuras 4.48, 4.50 y 4.51): `resumen.json` guarda el histograma de fotoelectrones por evento; el
+  notebook regenera las tres figuras (la 4.50 pasa a mostrar los fotoelectrones medios por evento detectado) con las
+  curvas del CRS1000 de Köhli et al. (2018) en `datos/`.
 - Longitud de captura $\lambda_\mathrm{cap}$ (Tabla 4.9 y Figuras 4.28 y 4.29): `procesar_corrida.py` la calcula con la
   definición de la tesis y una estadística fija (mediana con incertidumbre por remuestreo y percentiles 25–75); el
   notebook regenera la tabla y las figuras; `verificar_tabla_4_9_original.py` documenta la tabla anterior.
