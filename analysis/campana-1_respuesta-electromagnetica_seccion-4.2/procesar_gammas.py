@@ -22,7 +22,7 @@ Definiciones:
     último paso fuera del tanque (escapa) u otro.
 
 Uso:
-  python3 procesar_gammas.py <carpeta Gammas-contenido-completo> <carpeta de salida> [procesos]
+  python3 procesar_gammas.py <carpeta Gammas-contenido-completo> <carpeta de salida> [procesos] [caja|cilindro]
 Salida: <salida>/<energía>/<medio>/resumen_gammas.json y <salida>/resumen_gammas_campana.tsv.
 """
 import json
@@ -78,8 +78,15 @@ class Hist:
                 "n": self.n, "media": media, "std": sd}
 
 
+GEOMETRIA = {"forma": "caja"}      # "caja" (criterio de la tesis) o "cilindro" (r <= 480 mm, radio del tanque)
+
+
 def dentro(x, y, z, zmax=Z_MAX):
-    return -XY_MAX <= x <= XY_MAX and -XY_MAX <= y <= XY_MAX and Z_MIN <= z <= zmax
+    if not Z_MIN <= z <= zmax:
+        return False
+    if GEOMETRIA["forma"] == "cilindro":
+        return x * x + y * y <= XY_MAX * XY_MAX
+    return -XY_MAX <= x <= XY_MAX and -XY_MAX <= y <= XY_MAX
 
 
 def clase_emision(e):
@@ -162,7 +169,8 @@ def archivo_crudo(carpeta):
     return fs[0]
 
 
-def procesar(carpeta, salida, nombre):
+def procesar(carpeta, salida, nombre, geometria="caja"):
+    GEOMETRIA["forma"] = geometria
     arch = archivo_crudo(carpeta)
     filas = {"total": 0, "tanque": 0, "exterior": 0, "tanque_estricto": 0}
     proc = {p: {"total": 0, "tanque": 0, "exterior": 0, "tanque_estricto": 0} for p in PROCESOS}
@@ -286,6 +294,7 @@ def procesar(carpeta, salida, nombre):
     res = {
         "corrida": nombre,
         "archivo": arch.name,
+        "geometria": geometria,
         "filas": filas,
         "procesos": proc,
         "otros_procesos": otros_procesos,
@@ -316,14 +325,15 @@ def procesar(carpeta, salida, nombre):
 
 
 def tarea(args):
-    base, salida, e, m = args
-    return procesar(Path(base) / CARPETA_ENERGIA.get(e, e) / m, Path(salida) / e / m, f"{e}/{m}")
+    base, salida, e, m, geometria = args
+    return procesar(Path(base) / CARPETA_ENERGIA.get(e, e) / m, Path(salida) / e / m, f"{e}/{m}", geometria)
 
 
 def main():
     base, salida = sys.argv[1], sys.argv[2]
     procesos = int(sys.argv[3]) if len(sys.argv) > 3 else 8
-    trabajos = [(base, salida, e, m) for e in ENERGIAS for m in MEDIOS]
+    geometria = sys.argv[4] if len(sys.argv) > 4 else "caja"
+    trabajos = [(base, salida, e, m, geometria) for e in ENERGIAS for m in MEDIOS]
     with Pool(procesos) as pool:
         resumenes = pool.map(tarea, trabajos)
     cols = ["energia", "medio", "filas_total", "filas_tanque", "filas_exterior", "filas_tanque_estricto",
@@ -337,7 +347,7 @@ def main():
              "tesis_phot_std_0.01-0.1"]
     with open(Path(salida) / "resumen_gammas_campana.tsv", "w") as f:
         f.write("\t".join(cols) + "\n")
-        for (b, s, e, m), r in zip(trabajos, resumenes):
+        for (b, s, e, m, g), r in zip(trabajos, resumenes):
             dn, ds = r["destino"]["neutron"], r["destino"]["secundarias"]
             fila = [e, m] + [r["filas"][k] for k in ("total", "tanque", "exterior", "tanque_estricto")]
             fila += [r["trazas"][k] for k in ("total", "neutron", "secundarias")]

@@ -48,7 +48,8 @@ intermedios del análisis original; no está en el repositorio). Son las mismas 
 
 | Archivo | Función |
 |---|---|
-| `procesar_gammas.py` | Procesa los 64 `gamma-completo` (y los `gamma-primario` disponibles) en una pasada; ~11 s con 8 procesos |
+| `procesar_gammas.py` | Procesa los 64 `gamma-completo` (y los `gamma-primario` disponibles) en una pasada; ~11 s con 8 procesos; cuarto argumento opcional `caja` (por defecto, criterio de la tesis) o `cilindro` (r ≤ 480 mm) |
+| `comparar_cilindro_gammas.py` | Compara caja y cilindro (`resultados_gammas_cilindro/comparacion_caja_cilindro_gammas.tsv`): las interacciones físicas cambian menos del 0.12 %; solo cambian los conteos que incluyen pasos de transporte |
 | `verificar_tesis_gamma.py` | Recalcula las cifras gamma de la tesis con las definiciones de los notebooks originales y las compara |
 | `construir_notebook_gammas.py` | Genera `figuras_gammas_seccion_4.2.ipynb` |
 | `figuras_gammas_seccion_4.2.ipynb` | Regenera las Figs. 4.30–4.37, 4.39–4.42 de la tesis y dos figuras nuevas |

@@ -47,3 +47,4 @@ analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/**/historias.tsv.gz
 analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/resultados-cilindro/*/
 analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/figuras-seccion-4.2/*.png
 analysis/campana-1_respuesta-electromagnetica_seccion-4.2/figuras-gammas/*.png
+analysis/campana-1_respuesta-electromagnetica_seccion-4.2/resultados_gammas_cilindro/*/
