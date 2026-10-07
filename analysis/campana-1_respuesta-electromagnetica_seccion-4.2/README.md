@@ -5,13 +5,18 @@ neutrón es capturado. El estudio avanza en tres etapas, siguiendo la cadena de 
 
 > captura → **fotones gamma** → electrones y positrones → luz Cherenkov → fotomultiplicador (PMT)
 
-y por ahora contiene la primera: los **fotones gamma** de captura (producción, interacciones en el tanque y destino).
+y contiene las dos primeras: los **fotones gamma** de captura (producción, interacciones en el tanque y destino) y los
+**electrones y positrones** que producen. La luz Cherenkov, la carga y la eficiencia quedan para la etapa siguiente.
 La parte neutrónica (transporte, moderación y captura) está en
 [`../campana-1_neutrones-monoenergeticos_seccion-4.2/`](../campana-1_neutrones-monoenergeticos_seccion-4.2/).
 
-**Informe técnico:** [*Respuesta electromagnética del WCD a la captura de neutrones: fotones gamma*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf).
-Integra y actualiza los tres informes previos sobre los gamma (procesos y destino, espectros por proceso y líneas de
-captura de H, O, Na y Cl).
+**Informes técnicos:**
+
+- [*Respuesta electromagnética del WCD a la captura de neutrones: fotones gamma*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf).
+  Integra y actualiza los tres informes previos sobre los gamma (procesos y destino, espectros por proceso y líneas de
+  captura de H, O, Na y Cl).
+- [*Respuesta electromagnética del WCD a la captura de neutrones: electrones y positrones secundarios*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-electrones-secundarios.pdf).
+  Ver la sección [Electrones y positrones](#electrones-y-positrones).
 
 ## Cómo leer esta carpeta
 
@@ -119,3 +124,77 @@ python3 tablas_informe_gammas.py resultados_gammas \
 ```
 
 Sin los datos crudos, el notebook y `tablas_informe_gammas.py` funcionan con los resúmenes de `resultados_gammas/`.
+
+## Electrones y positrones
+
+### Datos de entrada
+
+Carpeta `Electrones/<energía>/` del equipo del autor (4.2 GB, no está en el repositorio):
+`rastreo-electron-{AP,A-25NaCl,A-5NaCl,A-10NaCl}-<energía>.txt`, las mismas 64 corridas (el número de trazas de
+positrones coincide, ±4, con el de conversiones del archivo gamma). El de 300 meV en agua pura se copió de
+`Imagenes-radiacion-EM/imagenes-resultados/Cherenkov/300meV/Agua-pura/rastreo-electron.txt` (MD5 idéntico).
+
+Una fila por paso de cada e- o e+: `partícula proceso trackID parentID paso x y z E`, con el proceso que **limitó** el
+paso (`GetProcessDefinedStep`), la posición [mm] y la energía cinética [MeV] posteriores. Particularidades:
+
+- contar filas por proceso es contar pasos, no interacciones: la ionización continua actúa en todos los pasos;
+- `Scintillation` es un paso de longitud cero con E = 0 que Geant4 añade cuando el electrón se detiene (≈ una por
+  traza); no hay luz de centelleo;
+- `G4Cerenkov` acorta el paso para que el electrón termine sobre el umbral del material: la energía tras los pasos
+  `Cerenkov` se acumula en 264.06 keV (agua, n = 1.33 constante, tabla `waterPT1`, **igual en los cuatro medios**) y en
+  186.2 keV (Pyrex del PMT, n = 1.47);
+- las trazas se intercalan (G4Cerenkov suspende el electrón para seguir sus fotones): se siguen por `trackID`;
+- falta el punto inicial de cada traza: la energía tras el paso 1 es una cota inferior de la de producción.
+
+### Contenido
+
+| Archivo | Función |
+|---|---|
+| `procesar_electrones.py` | Procesa los 64 `rastreo-electron` en una pasada (~35 s con 12 procesos); mismo cuarto argumento `caja`/`cilindro` |
+| `verificar_tesis_electrones.py` | Recalcula las cifras de electrones de la tesis (Figs. 4.45–4.47, Tablas 4.17–4.19 y E.1) |
+| `construir_notebook_electrones.py` | Genera `figuras_electrones_seccion_4.2.ipynb` |
+| `figuras_electrones_seccion_4.2.ipynb` | Regenera las Figs. 4.45–4.47, E.3–E.4 y seis figuras nuevas |
+| `tablas_informe_electrones.py` | Tablas LaTeX del informe de electrones |
+| `resultados_electrones/` | `resumen_electrones_campana.tsv`, un `resumen_electrones.json` por corrida y `verificacion_tesis_electrones.tsv` |
+| `figuras-electrones/` | Figuras en PDF |
+
+### `resultados_electrones/resumen_electrones_campana.tsv` (una fila por corrida)
+
+| Columna | Significado |
+|---|---|
+| `filas_*` | Pasos en total, en el tanque (z ≤ 1330.05 mm), en el tanque estricto (z ≤ 1330 mm, criterio de la tesis) y fuera |
+| `trazas_e-`, `trazas_e+`, `trazas_tanque_*` | Trazas, en total y nacidas en el tanque |
+| `trazas_sobre_umbral_*` | Trazas nacidas en el tanque con E > 264.06 keV tras el paso 1 |
+| `trazas_emisoras_*` | Trazas con al menos un paso `Cerenkov` en el tanque |
+| `<proceso>_{total,tanque,tanque_estricto,exterior}` | Pasos por proceso y zona |
+| `longitud_tanque_mm`, `longitud_sobre_umbral_mm` | Longitud registrada en el tanque (sin el primer paso), total y con E sobre el umbral |
+| `Cerenkov_ventana_tesis`, `Cerenkov_ventana_pyrex`, `Cerenkov_bajo_umbral_agua` | Pasos `Cerenkov` (tanque estricto) en 259.6–268.6 keV (Tabla 4.19), en 180–190 keV y bajo el umbral |
+| `Cerenkov_pico_MeV`, `eIoni_E_no_nula_media` | Intervalo más poblado (0.04 keV) y media de la energía tras los pasos `eIoni` con E ≠ 0 |
+
+### Resultados principales
+
+- 118 de 152 cifras se reproducen exactamente y 20 (ajuste del máximo Cherenkov, Tabla 4.18) a menos de un intervalo.
+  Ocho celdas de la Tabla E.1 estaban mal transcritas (msc/eBrem intercambiados a 1 meV con 2.5 y 5 %; valores de 1 meV
+  repetidos a 100 meV); se corrigieron en la tesis (2026-10-06), junto con las Figs. 4.45 y 4.46, la nota de la
+  Tabla 4.19 y la interpretación del máximo Cherenkov.
+- La Fig. 4.46 ("espectro de ionización") es la ventana de 0.4–1.3 MeV en la que `eIoni` limita el paso; fuera de ella
+  lo limita `Cerenkov`. Su máximo (0.48–0.50 MeV) no se desplaza con el NaCl; sí cambia la media (0.71 → 0.87 MeV).
+- El máximo Cherenkov ajustado es 264.085–264.088 keV en las 20 combinaciones: el umbral de n = 1.33. El acuerdo del
+  0.87 % con la Tabla 4.17 refleja n = 1.333 frente a 1.33, no una validación.
+- El análisis original restó a las energías Cherenkov de los medios con NaCl una constante (5.6, 9.4 y 15.4 keV) sin
+  base física; las ventanas de la nota de la Tabla 4.19 son esas ventanas desplazadas (equivalen a la de agua pura).
+- Por captura, los rendimientos casi no dependen de E_n; con 10 % de NaCl, 2.3–2.4 veces más trazas emisoras y una
+  longitud sobre el umbral 5.3–5.7 veces mayor que en agua pura.
+
+### Cómo reproducir
+
+```bash
+python3 procesar_electrones.py <Electrones> resultados_electrones 12
+python3 verificar_tesis_electrones.py <Electrones> resultados_electrones \
+  resultados_electrones/verificacion_tesis_electrones.tsv
+python3 construir_notebook_electrones.py
+jupyter nbconvert --to notebook --execute figuras_electrones_seccion_4.2.ipynb
+python3 tablas_informe_electrones.py resultados_electrones \
+  ../campana-1_neutrones-monoenergeticos_seccion-4.2/resultados/resumen_campana.tsv \
+  ../../docs/technical-reports/campana-1_sin-S-alpha-beta/tablas-electrones-secundarios
+```
