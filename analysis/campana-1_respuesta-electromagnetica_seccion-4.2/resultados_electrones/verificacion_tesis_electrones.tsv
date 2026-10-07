@@ -1,0 +1,160 @@
+magnitud	energia	medio	tesis	reproducido	definicion	estado
+Tabla E.1 eIoni	1meV	Agua-pura	104415	104415	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1meV	Agua+2.5NaCl	219435	219435	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1meV	Agua+5NaCl	288335	288335	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1meV	Agua+10NaCl	394546	394546	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1meV	Agua-pura	91041	91041	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1meV	Agua+2.5NaCl	192940	192940	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1meV	Agua+5NaCl	254074	254074	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1meV	Agua+10NaCl	347387	347387	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1meV	Agua-pura	68740	68740	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1meV	Agua+2.5NaCl	161906	161906	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1meV	Agua+5NaCl	219636	219636	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1meV	Agua+10NaCl	307946	307946	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1meV	Agua-pura	2132	2132	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1meV	Agua+2.5NaCl	4091	5415	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 msc	1meV	Agua+5NaCl	5911	7652	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 msc	1meV	Agua+10NaCl	11728	11728	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1meV	Agua-pura	1329	1329	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1meV	Agua+2.5NaCl	5415	4091	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 eBrem	1meV	Agua+5NaCl	7652	5911	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 eBrem	1meV	Agua+10NaCl	8858	8858	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1meV	Agua-pura	87	87	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1meV	Agua+2.5NaCl	240	240	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1meV	Agua+5NaCl	338	338	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1meV	Agua+10NaCl	523	523	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	100meV	Agua-pura	209524	209524	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	100meV	Agua+2.5NaCl	422441	422441	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	100meV	Agua+5NaCl	549511	549511	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	100meV	Agua+10NaCl	728838	728838	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	100meV	Agua-pura	182662	182662	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	100meV	Agua+2.5NaCl	371480	371480	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	100meV	Agua+5NaCl	483640	483640	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	100meV	Agua+10NaCl	641841	641841	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	100meV	Agua-pura	136634	136634	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	100meV	Agua+2.5NaCl	310438	310438	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	100meV	Agua+5NaCl	410596	410596	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	100meV	Agua+10NaCl	559205	559205	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	100meV	Agua-pura	2132	3668	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 msc	100meV	Agua+2.5NaCl	7023	7023	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	100meV	Agua+5NaCl	8804	8804	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	100meV	Agua+10NaCl	12226	12226	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	100meV	Agua-pura	3668	2694	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 eBrem	100meV	Agua+2.5NaCl	7893	7893	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	100meV	Agua+5NaCl	11126	11126	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	100meV	Agua+10NaCl	8858	15765	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 Transportation	100meV	Agua-pura	168	168	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	100meV	Agua+2.5NaCl	240	504	filas del proceso en el tanque estricto (z <= 1330 mm)	difiere
+Tabla E.1 Transportation	100meV	Agua+5NaCl	624	624	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	100meV	Agua+10NaCl	983	983	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000meV	Agua-pura	233776	233776	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000meV	Agua+2.5NaCl	456494	456494	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000meV	Agua+5NaCl	598031	598031	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000meV	Agua+10NaCl	775607	775607	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000meV	Agua-pura	203711	203711	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000meV	Agua+2.5NaCl	401768	401768	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000meV	Agua+5NaCl	527083	527083	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000meV	Agua+10NaCl	683269	683269	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000meV	Agua-pura	151900	151900	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000meV	Agua+2.5NaCl	330520	330520	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000meV	Agua+5NaCl	446025	446025	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000meV	Agua+10NaCl	591381	591381	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000meV	Agua-pura	4038	4038	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000meV	Agua+2.5NaCl	6908	6908	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000meV	Agua+5NaCl	9197	9197	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000meV	Agua+10NaCl	12096	12096	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000meV	Agua-pura	2920	2920	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000meV	Agua+2.5NaCl	8415	8415	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000meV	Agua+5NaCl	11789	11789	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000meV	Agua+10NaCl	17019	17019	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000meV	Agua-pura	164	164	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000meV	Agua+2.5NaCl	560	560	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000meV	Agua+5NaCl	710	710	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000meV	Agua+10NaCl	927	927	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000000meV	Agua-pura	233665	233665	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000000meV	Agua+2.5NaCl	447464	447464	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000000meV	Agua+5NaCl	579771	579771	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eIoni	1000000meV	Agua+10NaCl	739300	739300	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000000meV	Agua-pura	204394	204394	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000000meV	Agua+2.5NaCl	394211	394211	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000000meV	Agua+5NaCl	511984	511984	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Scintillation	1000000meV	Agua+10NaCl	652533	652533	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000000meV	Agua-pura	150130	150130	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000000meV	Agua+2.5NaCl	320817	320817	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000000meV	Agua+5NaCl	424867	424867	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Cerenkov	1000000meV	Agua+10NaCl	553076	553076	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000000meV	Agua-pura	3538	3538	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000000meV	Agua+2.5NaCl	5756	5756	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000000meV	Agua+5NaCl	7594	7594	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 msc	1000000meV	Agua+10NaCl	10830	10830	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000000meV	Agua-pura	2835	2835	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000000meV	Agua+2.5NaCl	8093	8093	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000000meV	Agua+5NaCl	11463	11463	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 eBrem	1000000meV	Agua+10NaCl	15849	15849	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000000meV	Agua-pura	160	160	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000000meV	Agua+2.5NaCl	481	481	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000000meV	Agua+5NaCl	673	673	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla E.1 Transportation	1000000meV	Agua+10NaCl	1007	1007	filas del proceso en el tanque estricto (z <= 1330 mm)	igual
+Tabla 4.19 N_e en la ventana	1meV	Agua-pura	40753	40753	filas Cerenkov del tanque estricto con 0.2596000 <= E <= 0.2686000 MeV	igual
+fracción en la ventana (%)	1meV	Agua-pura		59.286	Tabla 4.19 / filas Cerenkov del tanque estricto	sin valor en la tesis
+Tabla 4.19 N_e en la ventana	1meV	Agua+2.5NaCl	87566	87566	filas Cerenkov del tanque estricto con 0.2595728 <= E <= 0.2685728 MeV	igual
+Tabla 4.19 N_e en la ventana	1meV	Agua+5NaCl	117309	117309	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	1meV	Agua+10NaCl	162482	162482	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	10meV	Agua-pura	59850	59850	filas Cerenkov del tanque estricto con 0.2596000 <= E <= 0.2686000 MeV	igual
+fracción en la ventana (%)	10meV	Agua-pura		59.419	Tabla 4.19 / filas Cerenkov del tanque estricto	sin valor en la tesis
+Tabla 4.19 N_e en la ventana	10meV	Agua+2.5NaCl	126775	126775	filas Cerenkov del tanque estricto con 0.2595728 <= E <= 0.2685728 MeV	igual
+Tabla 4.19 N_e en la ventana	10meV	Agua+5NaCl	168296	168296	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	10meV	Agua+10NaCl	229272	229272	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	100meV	Agua-pura	81179	81179	filas Cerenkov del tanque estricto con 0.2596000 <= E <= 0.2686000 MeV	igual
+fracción en la ventana (%)	100meV	Agua-pura		59.413	Tabla 4.19 / filas Cerenkov del tanque estricto	sin valor en la tesis
+Tabla 4.19 N_e en la ventana	100meV	Agua+2.5NaCl	168669	168669	filas Cerenkov del tanque estricto con 0.2595728 <= E <= 0.2685728 MeV	igual
+Tabla 4.19 N_e en la ventana	100meV	Agua+5NaCl	218690	218690	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	100meV	Agua+10NaCl	293107	293107	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	1000meV	Agua-pura	90012	90012	filas Cerenkov del tanque estricto con 0.2596000 <= E <= 0.2686000 MeV	igual
+fracción en la ventana (%)	1000meV	Agua-pura		59.257	Tabla 4.19 / filas Cerenkov del tanque estricto	sin valor en la tesis
+Tabla 4.19 N_e en la ventana	1000meV	Agua+2.5NaCl	178672	178672	filas Cerenkov del tanque estricto con 0.2595728 <= E <= 0.2685728 MeV	igual
+Tabla 4.19 N_e en la ventana	1000meV	Agua+5NaCl	237762	237762	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	1000meV	Agua+10NaCl	309196	309196	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	1000000meV	Agua-pura	89030	89030	filas Cerenkov del tanque estricto con 0.2596000 <= E <= 0.2686000 MeV	igual
+fracción en la ventana (%)	1000000meV	Agua-pura		59.302	Tabla 4.19 / filas Cerenkov del tanque estricto	sin valor en la tesis
+Tabla 4.19 N_e en la ventana	1000000meV	Agua+2.5NaCl	172851	172851	filas Cerenkov del tanque estricto con 0.2595728 <= E <= 0.2685728 MeV	igual
+Tabla 4.19 N_e en la ventana	1000000meV	Agua+5NaCl	225306	225306	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+Tabla 4.19 N_e en la ventana	1000000meV	Agua+10NaCl	289149	289149	filas Cerenkov del tanque estricto con 0.2595931 <= E <= 0.2685931 MeV	igual
+fracción en la ventana: mínimo (%)	5 energías	Agua-pura	59.257	59.257	mínimo de las cinco energías	igual
+fracción en la ventana: máximo (%)	5 energías	Agua-pura	59.419	59.419	máximo de las cinco energías	igual
+Fig. 4.46 máximo del espectro eIoni (MeV)	1meV	Agua-pura	0.472	0.472	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	igual
+Fig. 4.46 máximo del espectro eIoni (MeV)	1meV	Agua+2.5NaCl	0.492	0.488	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Fig. 4.46 máximo del espectro eIoni (MeV)	10meV	Agua-pura	0.472	0.472	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	igual
+Fig. 4.46 máximo del espectro eIoni (MeV)	10meV	Agua+2.5NaCl	0.492	0.504	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Fig. 4.46 máximo del espectro eIoni (MeV)	100meV	Agua-pura	0.472	0.504	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Fig. 4.46 máximo del espectro eIoni (MeV)	100meV	Agua+2.5NaCl	0.492	0.472	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Fig. 4.46 máximo del espectro eIoni (MeV)	1000meV	Agua-pura	0.472	0.472	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	igual
+Fig. 4.46 máximo del espectro eIoni (MeV)	1000meV	Agua+2.5NaCl	0.492	0.504	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Fig. 4.46 máximo del espectro eIoni (MeV)	10000meV	Agua-pura	0.472	0.472	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	igual
+Fig. 4.46 máximo del espectro eIoni (MeV)	10000meV	Agua+2.5NaCl	0.492	0.52	centro del intervalo máximo, 100 intervalos en 0-1.6 MeV, eIoni con E != 0	difiere
+Tabla 4.17 umbral Cherenkov (MeV)		Agua-pura	0.26181	0.26181	mc^2 (1/sqrt(1-1/n^2) - 1), n = 1.333, mc^2 = 0.51099895 MeV	igual
+Tabla 4.17 umbral Cherenkov (MeV)		Agua+2.5NaCl	0.25689	0.25689	mc^2 (1/sqrt(1-1/n^2) - 1), n = 1.3397, mc^2 = 0.51099895 MeV	igual
+Tabla 4.17 umbral Cherenkov (MeV)		Agua+5NaCl	0.25411	0.25411	mc^2 (1/sqrt(1-1/n^2) - 1), n = 1.3436, mc^2 = 0.51099895 MeV	igual
+Tabla 4.17 umbral Cherenkov (MeV)		Agua+10NaCl	0.24336	0.24336	mc^2 (1/sqrt(1-1/n^2) - 1), n = 1.3594, mc^2 = 0.51099895 MeV	igual
+umbral con el n de la simulación (MeV)		4 medios		0.26406	n = 1.33 (waterPT1, igual en los cuatro medios)	sin valor en la tesis
+umbral en el Pyrex del PMT (MeV)				0.18617	n = 1.47 (pmtRefIndex)	sin valor en la tesis
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1meV	Agua-pura	0.2641	0.264088	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	10meV	Agua-pura	0.2641	0.264085	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	100meV	Agua-pura	0.2641	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000meV	Agua-pura	0.2641	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000000meV	Agua-pura	0.26411	0.264086	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1meV	Agua+2.5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	10meV	Agua+2.5NaCl	0.26411	0.264086	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	100meV	Agua+2.5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000meV	Agua+2.5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000000meV	Agua+2.5NaCl	0.26411	0.264086	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1meV	Agua+5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	10meV	Agua+5NaCl	0.26411	0.264086	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	100meV	Agua+5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000meV	Agua+5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000000meV	Agua+5NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1meV	Agua+10NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	10meV	Agua+10NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	100meV	Agua+10NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000meV	Agua+10NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
+Tabla 4.18 / Fig. 4.47 máximo Cherenkov ajustado (MeV)	1000000meV	Agua+10NaCl	0.26411	0.264087	gaussiana + fondo lineal en +-4.5 keV, intervalos de 0.04 keV, filas Cerenkov del tanque estricto	compatible
