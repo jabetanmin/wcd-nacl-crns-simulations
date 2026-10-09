@@ -177,10 +177,8 @@ def fig_deuterones():
 # ---------------------------------------------------------------- 4. captura relativa (Campaña 1)
 def fig_captura_relativa():
     t = pd.read_csv(CAPT, sep="\t", names=["carpeta", "medio", "N", "capt", "capt_tanque"])
-    # La carpeta 1000000meV contiene neutrones de 10 keV (verificado con la energía del primer paso).
+    # La carpeta 1000000meV se rotula 1 keV (1e6 meV), como en toda la tesis.
     energia = {c: float(c.replace("meV", "")) for c in t.carpeta.unique()}
-    # Por decisión del autor, este punto se rotula como 1 keV en toda la tesis.
-    energia["1000000meV"] = 1e6
     t["E_meV"] = t.carpeta.map(energia)
     pura = t[t.medio == "Agua-pura"].set_index("E_meV")
     fig, ax = plt.subplots(figsize=(9, 5.8))

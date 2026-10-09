@@ -11,7 +11,7 @@ Este proyecto se apoya en el framework MEIGA, desarrollado con anterioridad a la
 
 La licencia permite usar, copiar, modificar y distribuir el software, siempre que el aviso de copyright y el aviso de permiso se incluyan en todas las copias o porciones sustanciales. La inclusión de un archivo no debe eliminar avisos de autoría, licencia o copyright existentes.
 
-El commit exacto utilizado como base en la tesis y la relación de archivos modificados permanecen pendientes de identificación.
+La base de la tesis es el commit `39b950e` del repositorio original (15 de octubre de 2023), marcado con la etiqueta `meiga-base-39b950e`. Los archivos modificados o añadidos se describen en `docs/CONTRIBUTIONS.md`, y sus diferencias frente a esa base están en `docs/technical-reports/diffs/`.
 
 ## Otras dependencias
 

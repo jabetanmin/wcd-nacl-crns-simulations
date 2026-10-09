@@ -4,6 +4,8 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.5.0] - 2026-10-09
+
 ### Añadido
 
 - `analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/`: procesamiento reproducible de las 64 corridas
@@ -52,6 +54,13 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 - Informe técnico `Informe-tecnico-Analisis-Moderacion-Captura-Neutrones` (subconjunto anterior de cinco energías de la
   Campaña 1) y su carpeta `figuras-analisis-energia/`; queda en el historial de git. Las referencias en
   `analysis/README.md` y en el informe de estructura de archivos de la Campaña 2 se actualizaron.
+- `analysis/notebooks/analisis_moderacion_captura_neutrones__agua-{pura,2.5pct-nacl}.ipynb`: copias anteriores de los
+  notebooks de la Campaña 2 (sin la nota de campaña); quedan los de `campana-2_con-S-alpha-beta_25meV/`.
+
+### Cambiado
+
+- `analysis/scripts/build_notebook_moderacion_captura.py` se mueve junto a los notebooks que genera
+  (`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`), que ahora tienen un `README.md`.
 
 ### Corregido
 
@@ -63,6 +72,11 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   `suma_xi_cadena`.
 - Tabla 4.9: los valores anteriores (ajustes gaussianos con intervalos elegidos a mano) se sustituyen por la mediana
   de $\lambda_\mathrm{cap}$; el valor anterior de 100 eV en agua pura se había calculado con los datos de 1 keV.
+- Documentación: la Campaña 1 se rotula de 1 meV a 1 keV en todo el repositorio (`simulations/README.md`,
+  `analysis/README.md`, `analysis/figuras-tesis/regenerar_figuras.py`); la fila del barrido S(α,β) en
+  `simulations/README.md` incluye los cuatro medios; `THIRD_PARTY_NOTICES.md` identifica la base de MEIGA (commit
+  `39b950e`, etiqueta `meiga-base-39b950e`); el árbol de `analysis/README.md` refleja la estructura real (se quitan
+  `wcd_analysis/` y `tests/`, que no existían); el informe de electrones remite al informe de carga y eficiencia.
 
 ## [0.4.0] - 2026-10-04
 
