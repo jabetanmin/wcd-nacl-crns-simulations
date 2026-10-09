@@ -4,6 +4,13 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.6.1] - 2026-10-09
+
+### Corregido
+
+- Salvedad de la Sección 4.1.1 (README de la carpeta e informe): la corrida conservada de 2×10⁵ neutrones es anterior
+  al estudio de validación (septiembre–octubre de 2024). La tesis la recoge en una nota al pie de la Sección 4.1.1.
+
 ## [0.6.0] - 2026-10-09
 
 ### Añadido
@@ -15,7 +22,7 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   control de Pearson, ajustes de Poisson); notebook de figuras, tablas e informe técnico
   `Informe-tecnico-Validacion-numerica-500MeV-Seccion-4.1.1`. Conteos normalizados a 1.5×10⁵ neutrones incidentes.
 - Salvedad sobre los datos: el estudio original usó 1.5×10⁵ neutrones por medio y sus datos se perdieron por un daño
-  del disco; se analiza la corrida conservada de 2×10⁵, con la que se generaron las figuras y tablas de carga y el
+  del disco; se analiza la corrida conservada de 2×10⁵ (anterior al estudio, septiembre–octubre de 2024), con la que se generaron las figuras y tablas de carga y el
   espectro gamma de la versión actual de la sección. No se conservan los datos de las figuras de electrones,
   deuterones y líneas por núcleo.
 
