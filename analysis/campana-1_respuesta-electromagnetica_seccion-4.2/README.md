@@ -5,8 +5,9 @@ neutrón es capturado. El estudio avanza en tres etapas, siguiendo la cadena de 
 
 > captura → **fotones gamma** → electrones y positrones → luz Cherenkov → fotomultiplicador (PMT)
 
-y contiene las dos primeras: los **fotones gamma** de captura (producción, interacciones en el tanque y destino) y los
-**electrones y positrones** que producen. La luz Cherenkov, la carga y la eficiencia quedan para la etapa siguiente.
+y contiene los **fotones gamma** de captura (producción, interacciones en el tanque y destino), los **electrones y
+positrones** que producen y, al final de la cadena, la **carga total por evento y la eficiencia de detección**. La
+producción y propagación de la luz Cherenkov no tiene todavía un análisis propio.
 La parte neutrónica (transporte, moderación y captura) está en
 [`../campana-1_neutrones-monoenergeticos_seccion-4.2/`](../campana-1_neutrones-monoenergeticos_seccion-4.2/).
 
@@ -17,6 +18,8 @@ La parte neutrónica (transporte, moderación y captura) está en
   captura de H, O, Na y Cl).
 - [*Respuesta electromagnética del WCD a la captura de neutrones: electrones y positrones secundarios*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-electrones-secundarios.pdf).
   Ver la sección [Electrones y positrones](#electrones-y-positrones).
+- [*Respuesta electromagnética del WCD a la captura de neutrones: carga total y eficiencia de detección*](../../docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-carga-eficiencia.pdf).
+  Ver la sección [Carga y eficiencia de detección](#carga-y-eficiencia-de-detección).
 
 ## Cómo leer esta carpeta
 
@@ -197,4 +200,68 @@ jupyter nbconvert --to notebook --execute figuras_electrones_seccion_4.2.ipynb
 python3 tablas_informe_electrones.py resultados_electrones \
   ../campana-1_neutrones-monoenergeticos_seccion-4.2/resultados/resumen_campana.tsv \
   ../../docs/technical-reports/campana-1_sin-S-alpha-beta/tablas-electrones-secundarios
+```
+
+## Carga y eficiencia de detección
+
+### Datos de entrada
+
+No lee datos crudos: usa los resultados de la parte neutrónica,
+[`../campana-1_neutrones-monoenergeticos_seccion-4.2/resultados/<energía>/<medio>/`](../campana-1_neutrones-monoenergeticos_seccion-4.2/resultados/):
+
+- `resumen.json`: historias, capturas y el histograma de `Carga_Total_*.txt` (fotoelectrones por evento). Esos archivos
+  **solo contienen eventos con señal** (Q ≥ 1), así que ε(Q ≥ 1) = N / 10⁵;
+- `historias.tsv.gz` (no está en el repositorio): posición de cada captura (`z_cap`), de la que salen la profundidad bajo
+  la superficie del agua (z = 1330 mm) y las capturas fuera del agua (z > 1330 mm). Sin estos archivos, esas dos
+  columnas quedan vacías.
+
+### Contenido
+
+| Archivo | Función |
+|---|---|
+| `procesar_carga.py` | Estadística de la carga, eficiencia por umbral, captura y profundidad; pruebas de dependencia con la energía; ganancia del NaCl (~12 s) |
+| `construir_notebook_carga.py` | Genera `figuras_carga_seccion_4.2.ipynb` |
+| `figuras_carga_seccion_4.2.ipynb` | Matriz de histogramas (absoluta y normalizada), captura/eficiencia/señal por captura, profundidad, carga media y eficiencia por umbral |
+| `tablas_informe_carga.py` | Tablas LaTeX del informe de carga y eficiencia |
+| `resultados_carga/` | `resumen_carga_campana.tsv`, `histograma_carga.tsv`, `planitud_carga.tsv` y `ganancia_eficiencia_carga.tsv` |
+| `figuras-carga/` | Figuras en PDF |
+
+Las Figs. 4.48, 4.50 y 4.51 de la tesis se regeneran en el notebook de la parte neutrónica; esta etapa las amplía.
+
+### `resultados_carga/resumen_carga_campana.tsv` (una fila por corrida)
+
+| Columna | Significado |
+|---|---|
+| `E_meV`, `historias`, `capturas` | Energía nominal de la carpeta (`1000000meV` se rotula "1 keV"), neutrones lanzados y capturados |
+| `eventos_senal`, `eps`, `u_eps` | Eventos con Q ≥ 1 y eficiencia por neutrón incidente, con error binomial |
+| `eta_cap`, `P_senal_captura` | Fracción de captura y eventos con señal por captura |
+| `Q_media_pe`, `u_Q_media_pe`, `Q_std_pe`, `Q_mediana_pe`, `Q_max_pe` | Estadística de la carga de los eventos con señal |
+| `f_Q20` | Fracción de los eventos con señal con Q ≥ 20 pe |
+| `eps_Q1` … `eps_Q20` | Eficiencia por neutrón incidente con umbral Q ≥ 1, 3, 5, 10 y 20 pe |
+| `capturas_fuera_agua`, `profundidad_captura_media_mm` | Capturas con z > 1330 mm y profundidad media de las demás |
+
+`planitud_carga.tsv`: por medio, carga media ponderada, χ² de las 16 medias frente a una constante, prueba χ² de
+homogeneidad de los 16 histogramas y diferencia entre las energías ≤ 10 meV y ≥ 25 meV.
+`ganancia_eficiencia_carga.tsv`: ε_NaCl(Q ≥ q) / ε_pura(Q ≥ q) a 1 meV, 25 meV, 1 eV y 1 keV.
+
+### Resultados principales
+
+- La forma de la distribución y la carga media dependen del medio (3.20, 7.47, 9.07 y 10.50 pe) y no de la energía del
+  neutrón: la variación entre energías es ≤ 3 %.
+- La energía controla cuántos eventos dan señal: ε(Q ≥ 1) va de 8.0 % (1 meV) a 18.0 % (1 eV) en agua pura y de
+  16.4 % a 31.8 % con 10 % de NaCl, sobre todo por la fracción de captura.
+- P(señal | captura) crece con la profundidad media de captura (2–5 cm bajo la superficie): de 0.46 a 0.52 en agua pura
+  y de 0.58 a 0.64 con 10 % de NaCl.
+- Ganancia del NaCl: ×1.25–2.0 con Q ≥ 1 y ×40–125 con Q ≥ 20 pe.
+- Abierto: con 2.5 % de NaCl la carga media es 0.22 ± 0.04 pe (5σ, 3 %) mayor por debajo de 10 meV; no ocurre en los
+  otros medios.
+
+### Cómo reproducir
+
+```bash
+python3 procesar_carga.py ../campana-1_neutrones-monoenergeticos_seccion-4.2/resultados resultados_carga
+python3 construir_notebook_carga.py
+jupyter nbconvert --to notebook --execute figuras_carga_seccion_4.2.ipynb
+python3 tablas_informe_carga.py resultados_carga \
+  ../../docs/technical-reports/campana-1_sin-S-alpha-beta/tablas-carga
 ```
