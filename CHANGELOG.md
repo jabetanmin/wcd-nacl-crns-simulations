@@ -41,6 +41,11 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
   no conservan la energía (10.1–10.3 MeV frente a Q = 8.58 MeV).
 - Comparación caja/cilindro de los fotones gamma (`comparar_cilindro_gammas.py`), incluida como sección del informe:
   las interacciones físicas cambian menos del 0.12 %; solo cambian los conteos con pasos de transporte.
+- Respuesta electromagnética, etapa de la carga y la eficiencia (`procesar_carga.py`, `construir_notebook_carga.py`,
+  `tablas_informe_carga.py`, `resultados_carga/`, `figuras-carga/`) e informe técnico
+  `Informe-tecnico-Respuesta-electromagnetica-WCD-carga-eficiencia`: distribución de carga en las 64 corridas,
+  pruebas de su independencia de la energía, factorización ε = η_Cap × P(señal | captura), profundidad de captura y
+  ganancia de eficiencia del NaCl por umbral de carga.
 
 ### Eliminado
 
