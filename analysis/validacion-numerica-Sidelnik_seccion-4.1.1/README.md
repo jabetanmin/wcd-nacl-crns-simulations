@@ -4,7 +4,7 @@ Reproducción de Sidelnik et al. (2020, *Adv. Space Res.* 65, 2216–2222): WCD 
 irradiado con neutrones de 500 MeV. Esta carpeta procesa los datos de esa simulación, verifica las cifras de la
 Sección 4.1.1 y prueba la robustez de la validación cuantitativa.
 
-> **Salvedad sobre los datos.** El estudio de validación se realizó originalmente con una simulación de 1.5×10⁵ neutrones de 500 MeV por medio, cuyos datos se perdieron por un daño del disco. Se conserva una corrida de 2×10⁵ neutrones por medio, con la que se generaron las figuras y tablas de carga y el espectro gamma de la versión actual de la Sección 4.1.1 (verificado por comparación de archivos y por reproducción exacta de las cifras). No se conservan los datos de la figura de electrones, de la de deuterones ni de las líneas por núcleo; esas figuras corresponden al análisis original.
+> **Salvedad sobre los datos.** El estudio de validación se realizó originalmente con una simulación de 1.5×10⁵ neutrones de 500 MeV por medio, cuyos datos se perdieron por un daño del disco. Se conserva una corrida anterior al estudio de validación (septiembre–octubre de 2024), de 2×10⁵ neutrones por medio, con la que se generaron las figuras y tablas de carga y el espectro gamma de la versión actual de la Sección 4.1.1 (verificado por comparación de archivos y por reproducción exacta de las cifras). No se conservan los datos de la figura de electrones, de la de deuterones ni de las líneas por núcleo; esas figuras corresponden al análisis original.
 
 **Informe técnico:** [`informe/Informe-tecnico-Validacion-numerica-500MeV-Seccion-4.1.1.pdf`](informe/Informe-tecnico-Validacion-numerica-500MeV-Seccion-4.1.1.pdf)
 
