@@ -1,0 +1,7 @@
+medio	archivo	md5	eventos	eventos_norm	eficiencia	Q_min	Q_max	Q_media	Q_std	Q_mediana
+Agua+0.5NaCl	Carga_Total_Agua_05NACl_Neutrones_500MeV.txt	01c68996196c39879a09ef1d213b5dbf	161443	121082	0.807215	1	4640	182.496	352.834	74
+Agua+10NaCl	Carga_Total_Agua_10NACl_Neutrones_500MeV.txt	39614042f02911df00da7cc824b39582	159602	119702	0.79801	1	4105	213.551	363.503	104
+Agua+1NaCl	Carga_Total_Agua_1NACl_Neutrones_500MeV.txt	62e0c00cd694a6e92d708fc6ea18b316	161672	121254	0.80836	1	4052	186.372	354.009	78
+Agua+2.5NaCl	Carga_Total_Agua_25NACl_Neutrones_500MeV.txt	550b5e0615e28f657f843d0e41f2966c	161270	120952	0.80635	1	4265	194.105	357.469	85
+Agua+5NaCl	Carga_Total_Agua_5NACl_Neutrones_500MeV.txt	23d4f7be38f898216c8fbc81a17cf76f	160691	120518	0.803455	1	4322	200.736	356.558	93
+Agua-pura	Carga_Total_Agua_Pura_Neutrones_500MeV.txt	d01b89d7fc50829c63ab22657eb827ed	161393	121045	0.806965	1	4337	178.058	350.844	71

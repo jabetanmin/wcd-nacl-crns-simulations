@@ -1,0 +1,12 @@
+archivo	md5	filas	rotulo	emparejado_con	fraccion_e_le_gamma
+Espectro-gamma/Espectro-energia-gamma-agua-pura.txt	09af57a1d090e83dfabb2844edf4d7bb	15804908	Agua-pura		
+Espectro-gamma/Espectro-energia-gammas-25NaCl.txt	00d5376f7796a844461a3aadf5da389d	17520236	Agua+2.5NaCl		
+Espectro-gamma/Espectro-energia-gammas-5NaCl.txt	b471c398d96b7b452ace3e89807bf53f	18288091	Agua+5NaCl		
+Espectro-gamma/Espectro-energia-gammas-10NaCl.txt	843f56f57b203c2488ee727d0564daa0	18943255	Agua+10NaCl		
+Espectro-electrones/Espectro-energia-electrones-agua-pura.txt	d5ebd54e6b4f41e55a4ae754bb118640	15804908	Espectro-energia-electrones-agua-pura.txt	Agua-pura	1
+Espectro-electrones/Espectro-energia-electrones-agua-25NaCl.txt	a56537a5ddd723518fe3655f1607548d	18288091	Espectro-energia-electrones-agua-25NaCl.txt	Agua+5NaCl	1
+Espectro-electrones/Espectro-energia-electrones-agua-5NaCl.txt	ee10587f81e6d92160ea12054900f768	18943255	Espectro-energia-electrones-agua-5NaCl.txt	Agua+10NaCl	1
+Espectro-electrones/Espectro-energia-electrones-agua-10NaCl.txt	ffbb50373e55b685f201b103907a2e55	16783818	Espectro-energia-electrones-agua-10NaCl.txt	ninguno	0.844409
+Espectro-electrones/Espectro-energia-electrones-agua-10NaCl-1.txt	a56537a5ddd723518fe3655f1607548d	18288091	Espectro-energia-electrones-agua-10NaCl-1.txt	Agua+5NaCl	1
+Espectro-electrones/Espectro-energia-electrones-agua-5NaCl-Meiga.txt	5f70d02b634306d52c9b89fdf66a4438	11230999	Espectro-energia-electrones-agua-5NaCl-Meiga.txt	ninguno	0.838908
+Espectro-electrones/Espectro-energia-electrones-agua-10NaCl-Meiga.txt	791b848d8075e6024f69c517a08cfad0	11876594	Espectro-energia-electrones-agua-10NaCl-Meiga.txt	ninguno	0.83304

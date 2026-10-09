@@ -4,6 +4,21 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.6.0] - 2026-10-09
+
+### Añadido
+
+- `analysis/validacion-numerica-Sidelnik_seccion-4.1.1/`: validación numérica con neutrones de 500 MeV (Sec. 4.1.1).
+  `procesar_500MeV.py` procesa la carga de seis medios (agua pura y 0.5–10 % NaCl) y los espectros de fotones y
+  electrones; `analizar_validacion.py` recalcula la Tabla de métricas y la de ajustes de la tesis (coinciden
+  exactamente) y prueba su robustez (grados de libertad reales, artefactos de la digitalización de la referencia,
+  control de Pearson, ajustes de Poisson); notebook de figuras, tablas e informe técnico
+  `Informe-tecnico-Validacion-numerica-500MeV-Seccion-4.1.1`. Conteos normalizados a 1.5×10⁵ neutrones incidentes.
+- Salvedad sobre los datos: el estudio original usó 1.5×10⁵ neutrones por medio y sus datos se perdieron por un daño
+  del disco; se analiza la corrida conservada de 2×10⁵, con la que se generaron las figuras y tablas de carga y el
+  espectro gamma de la versión actual de la sección. No se conservan los datos de las figuras de electrones,
+  deuterones y líneas por núcleo.
+
 ## [0.5.0] - 2026-10-09
 
 ### Añadido
