@@ -6,8 +6,8 @@ authors:
   - family-names: "Betancourt"
     given-names: "Jaime A."
     affiliation: "Universidad Industrial de Santander"
-version: 0.4.0
-date-released: 2026-10-04
+version: 0.5.0
+date-released: 2026-10-09
 repository-code: "https://github.com/jabetanmin/wcd-nacl-crns-simulations"
 abstract: >-
   Monte Carlo simulations and analysis tools for evaluating a NaCl-doped

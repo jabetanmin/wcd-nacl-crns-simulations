@@ -7,11 +7,11 @@ import nbformat as nbf
 #   2) NUCLEOS_ARG:  "Z:Simbolo,Z:Simbolo,..." p.ej. "1:H,8:O" o "1:H,8:O,11:Na,17:Cl"
 #   3) OUT:          ruta de salida del .ipynb generado
 # Ejemplo:
-#   python3 build_notebook.py "Agua + 5% NaCl" "1:H,8:O,11:Na,17:Cl" /ruta/a/analisis_moderacion_captura_neutrones.ipynb
+#   python3 build_notebook_moderacion_captura.py "Agua + 5% NaCl" "1:H,8:O,11:Na,17:Cl" /ruta/a/analisis_moderacion_captura_neutrones.ipynb
 if len(sys.argv) != 4:
     sys.exit(
-        'Uso: python3 build_notebook.py "<NOMBRE_MEDIO>" "<Z:Simbolo,...>" <ruta_salida.ipynb>\n'
-        'Ejemplo: python3 build_notebook.py "Agua + 5% NaCl" "1:H,8:O,11:Na,17:Cl" '
+        'Uso: python3 build_notebook_moderacion_captura.py "<NOMBRE_MEDIO>" "<Z:Simbolo,...>" <ruta_salida.ipynb>\n'
+        'Ejemplo: python3 build_notebook_moderacion_captura.py "Agua + 5% NaCl" "1:H,8:O,11:Na,17:Cl" '
         '/ruta/a/analisis_moderacion_captura_neutrones.ipynb'
     )
 

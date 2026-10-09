@@ -41,9 +41,8 @@ estudio [`efecto-SalphaBeta_barrido-energia/`](efecto-SalphaBeta_barrido-energia
 efecto de S(α,β) entre 1 meV y 1 keV.
 
 **Subconjunto anterior de cinco energías (retirado).** Antes del procesamiento de las 64 corridas,
-la Campaña 1 se analizó con un subconjunto de cinco energías (1, 10, 25 y 100 meV y 10 keV; carpeta
-`Nuevas-simulaciones-2026/Primeras-simulaciones/`, cuya subcarpeta `1keV/` contiene en realidad la
-corrida de **10 keV** y no se renombró en disco). Ese análisis y su informe
+la Campaña 1 se analizó con un subconjunto de cinco energías (1, 10, 25 y 100 meV y 1 keV; carpeta
+`Nuevas-simulaciones-2026/Primeras-simulaciones/`). Ese análisis y su informe
 (`Informe-tecnico-Analisis-Moderacion-Captura-Neutrones`) se retiraron del repositorio el 6 de octubre
 de 2026 y se conservan en el historial de git; el informe de la Sección 4.2 los reemplaza. Lo que
 estableció ese análisis sigue siendo válido en el procesamiento nuevo: la fracción de capturas fuera
@@ -69,11 +68,11 @@ técnico de 21 páginas.
 
 ```text
 analysis/
-├── notebooks/
-│   └── campana-2_con-S-alpha-beta_25meV/  Notebooks de la Campaña 2 (con S(α,β), 25 meV)
-├── scripts/                                Programas reproducibles
-├── wcd_analysis/                           Funciones reutilizables (pendiente)
-└── tests/                                  Pruebas de las funciones de análisis (pendiente)
+├── <tema>_seccion-<n>/                      Una carpeta por sección de la tesis, con su README
+├── figuras-tesis/                           Generadores de las figuras regeneradas de la tesis
+├── revision-tesis_2026-10/                  Respaldo de las correcciones de la revisión final
+└── notebooks/
+    └── campana-2_con-S-alpha-beta_25meV/    Notebooks de la Campaña 2 (con S(α,β), 25 meV) y su generador
 ```
 
 Los datos crudos de la Campaña 1 (cientos de MB a varios GB por corrida) y los notebooks originales

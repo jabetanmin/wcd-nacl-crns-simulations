@@ -15,7 +15,7 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión 0.4.0 (4 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis.
+**Versión 0.5.0 (9 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis. La versión 0.5.0 completa la Sección 4.2 (Campaña 1): neutrones, fotones gamma, electrones, y carga y eficiencia de detección.
 
 | Componente | Dónde |
 |---|---|
