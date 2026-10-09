@@ -1,0 +1,4 @@
+medio	r_tesis	p_tesis	rho_tesis	RMSE_tesis	MAE_tesis	r_reproducido	p_reproducido	rho_reproducido	RMSE_reproducido	MAE_reproducido
+Agua+2.5NaCl	0.825	3.5e-175	0.76	0.252	0.2	0.825028	3.48729e-175	0.759851	0.251986	0.200339
+Agua+5NaCl	0.789	4.1e-150	0.729	0.593	0.432	0.789481	4.09497e-150	0.728803	0.592748	0.432375
+Agua+10NaCl	0.625	5.2e-77	0.59	0.756	0.582	0.624647	5.22193e-77	0.589646	0.75551	0.581523

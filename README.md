@@ -15,7 +15,7 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión 0.5.0 (9 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis. La versión 0.5.0 completa la Sección 4.2 (Campaña 1): neutrones, fotones gamma, electrones, y carga y eficiencia de detección.
+**Versión 0.6.0 (9 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis. La versión 0.5.0 completó la Sección 4.2 (Campaña 1); la 0.6.0 añade la validación numérica de la Sección 4.1.1.
 
 | Componente | Dónde |
 |---|---|
@@ -25,14 +25,14 @@ Este repositorio reúne y continuará incorporando:
 | Geometría y física medidas en los datos | [`docs/GEOMETRIA_Y_FISICA_CAMPANAS.md`](docs/GEOMETRIA_Y_FISICA_CAMPANAS.md) |
 | Entorno | Geant4 10.7.4 (10.07.p04) en un contenedor Docker; ver [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) |
 
-Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): notebooks de la validación numérica (Sección 4.1.1), trazabilidad de la Tabla de razones de la Sección 4.1.2, configuraciones por corrida de las campañas 1 y 2, y publicación de los datos crudos con identificador persistente.
+Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): datos de deuterones y de líneas por núcleo de la Sección 4.1.1, trazabilidad de la Tabla de razones de la Sección 4.1.2, configuraciones por corrida de las campañas 1 y 2, y publicación de los datos crudos con identificador persistente.
 
 ## Mapa entre la tesis y el repositorio
 
 | Tesis | Contenido | Repositorio |
 |---|---|---|
 | Cap. 3, Etapa IV | Modelo del WCD: geometría, materiales, física, óptica y QE | [`src/G4Models/`](src/G4Models/) (`SaltyWCD.cc`, `Materials.cc`, `G4MPhysicsList.cc`, `G4MPMTAction.cc`), [`src/Applications/G4WCDSimulator/`](src/Applications/G4WCDSimulator/); informes de PMT, Tyvek, densidades e integración en [`docs/technical-reports/`](docs/technical-reports/) |
-| Sec. 4.1.1 | Validación numérica (Sidelnik et al. 2020b) | pendiente |
+| Sec. 4.1.1 | Validación numérica con neutrones de 500 MeV (Sidelnik et al. 2020b): carga, espectros de fotones y electrones, validación cuantitativa y ajustes por tramos. Los datos originales de 1.5×10⁵ neutrones se perdieron; se analiza la corrida conservada de 2×10⁵ (ver la salvedad en el README de la carpeta) | [`analysis/validacion-numerica-Sidelnik_seccion-4.1.1/`](analysis/validacion-numerica-Sidelnik_seccion-4.1.1/) |
 | Sec. 4.1.2 | Validación experimental con un prototipo y ²⁴¹AmBe | [`analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`](analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/) |
 | Sec. 4.2 | Respuesta a neutrones monocromáticos (Campaña 1): procesamiento de las 64 corridas, validación frente a la tesis y comparación caja/cilindro y notebook que regenera las Figuras 4.17–4.29, 4.48, 4.50, 4.51, D.1–D.6 y la Tabla 4.9 | [`analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/`](analysis/campana-1_neutrones-monoenergeticos_seccion-4.2/), [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-WCD-flujos-monocromaticos-neutrones.pdf`](docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-WCD-flujos-monocromaticos-neutrones.pdf) |
 | Sec. 4.2 (respuesta electromagnética) | Fotones gamma de captura: cascadas, interacciones, destino y espectros; verificación de las cifras gamma de la tesis (Figs. 4.30–4.42); carga total por evento y eficiencia de detección | [`analysis/campana-1_respuesta-electromagnetica_seccion-4.2/`](analysis/campana-1_respuesta-electromagnetica_seccion-4.2/), [`docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf`](docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-captura-neutrones.pdf), [`…-carga-eficiencia.pdf`](docs/technical-reports/campana-1_sin-S-alpha-beta/Informe-tecnico-Respuesta-electromagnetica-WCD-carga-eficiencia.pdf) |
