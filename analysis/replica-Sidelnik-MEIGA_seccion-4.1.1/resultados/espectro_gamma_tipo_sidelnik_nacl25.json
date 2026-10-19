@@ -1,0 +1,116 @@
+{
+ "ancho_bin_keV": 2,
+ "gammas_creados_en_agua": 1032591,
+ "pico_2223": {
+  "MEIGA_cuentas": 82544.0,
+  "Sidelnik_cuentas_aprox": 279114.97163753875
+ },
+ "cociente_0511_2223": {
+  "Sidelnik": 0.4231613793450881,
+  "MEIGA": 1.305291723202171,
+  "MEIGA_sin_decaimiento_radiactivo": 0.6633982688930006
+ },
+ "cociente_6130_2223": {
+  "Sidelnik": 0.11487908395619172,
+  "MEIGA": 0.10910544679201396,
+  "MEIGA_sin_decaimiento_radiactivo": 0.10910544679201396
+ },
+ "pico_sobre_continuo": {
+  "1": {
+   "Sidelnik": 95.9240950714879,
+   "MEIGA": 366.0487804878049
+  },
+  "3": {
+   "Sidelnik": 186.67421656236468,
+   "MEIGA": 1100.5866666666666
+  },
+  "4": {
+   "Sidelnik": 368.3537200788073,
+   "MEIGA": 1587.3846153846155
+  },
+  "5": {
+   "Sidelnik": 325.12337366005903,
+   "MEIGA": 2230.9189189189187
+  },
+  "10": {
+   "Sidelnik": 6688.076080876865,
+   "MEIGA": 16508.8
+  },
+  "15": {
+   "Sidelnik": 43808.241453504736,
+   "MEIGA": 165088.0
+  }
+ },
+ "positrones_por_proceso": {
+  "DecayWithSpin": 3126,
+  "Decay": 112,
+  "RadioactiveDecayBase": 29222,
+  "conv": 26963
+ },
+ "linea_0511_por_creador": {
+  "annihil": 108430,
+  "eBrem": 139,
+  "nCapture": 13,
+  "neutronInelastic": 593,
+  "pi+Inelastic": 1,
+  "pi-Inelastic": 3,
+  "protonInelastic": 70
+ },
+ "linea_6130_por_creador": {
+  "RadioactiveDecayBase": 894,
+  "annihil": 1,
+  "dInelastic": 3,
+  "eBrem": 8,
+  "neutronInelastic": 2937,
+  "protonInelastic": 7
+ },
+ "continuo_1_8_por_creador": {
+  "RadioactiveDecayBase": 4728,
+  "annihil": 2957,
+  "dInelastic": 294,
+  "eBrem": 23152,
+  "hBertiniCaptureAtRest": 1583,
+  "nCapture": 176469,
+  "neutronInelastic": 181192,
+  "pi+Inelastic": 322,
+  "pi-Inelastic": 846,
+  "protonInelastic": 18336
+ },
+ "continuo_10_17_por_creador": {
+  "annihil": 294,
+  "eBrem": 2972,
+  "neutronInelastic": 1398,
+  "protonInelastic": 147
+ },
+ "N": 150000,
+ "lineas_sobre_2223": {
+  "0,511/0,517": {
+   "Sidelnik": 0.4231613793450881,
+   "MEIGA": 1.305291723202171
+  },
+  "1,165 (Cl)": {
+   "Sidelnik": 0.16476595119256487,
+   "MEIGA": 0.14718210893584027
+  },
+  "1,951 (Cl)": {
+   "Sidelnik": 0.17906555296923757,
+   "MEIGA": 0.10393244814886606
+  },
+  "6,11/6,13": {
+   "Sidelnik": 0.11487908395619172,
+   "MEIGA": 0.10910544679201396
+  },
+  "7,41 (Cl)": {
+   "Sidelnik": 0.05903157047645994,
+   "MEIGA": 0.05738757511145571
+  },
+  "7,79 (Cl)": {
+   "Sidelnik": 0.04728232188043196,
+   "MEIGA": 0.045599922465594106
+  },
+  "8,58 (Cl)": {
+   "Sidelnik": 0.015587306827544247,
+   "MEIGA": 0.1508771079666602
+  }
+ }
+}

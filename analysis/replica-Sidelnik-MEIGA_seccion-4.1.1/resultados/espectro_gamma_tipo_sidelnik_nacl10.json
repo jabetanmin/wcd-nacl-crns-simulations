@@ -1,0 +1,120 @@
+{
+ "ancho_bin_keV": 2,
+ "gammas_creados_en_agua": 1276293,
+ "pico_2223": {
+  "MEIGA_cuentas": 45420.0,
+  "Sidelnik_cuentas_aprox": 155873.06827544243
+ },
+ "cociente_0511_2223": {
+  "Sidelnik": 1.1811067639400608,
+  "MEIGA": 2.7964993394980184,
+  "MEIGA_sin_decaimiento_radiactivo": 1.6046953757058153
+ },
+ "cociente_6130_2223": {
+  "Sidelnik": 0.4115833818666487,
+  "MEIGA": 0.4247247908410392,
+  "MEIGA_sin_decaimiento_radiactivo": 0.4247247908410392
+ },
+ "pico_sobre_continuo": {
+  "1": {
+   "Sidelnik": 211.49553580063366,
+   "MEIGA": 178.8188976377953
+  },
+  "3": {
+   "Sidelnik": 208.58213497506483,
+   "MEIGA": 534.3529411764706
+  },
+  "4": {
+   "Sidelnik": 290.9748290349017,
+   "MEIGA": 783.1034482758621
+  },
+  "5": {
+   "Sidelnik": 348.47263129172546,
+   "MEIGA": 1164.6153846153845
+  },
+  "10": {
+   "Sidelnik": 2909.748290349018,
+   "MEIGA": 9084.0
+  },
+  "15": {
+   "Sidelnik": 12836.119008195767,
+   "MEIGA": 45420.0
+  }
+ },
+ "positrones_por_proceso": {
+  "Decay": 110,
+  "DecayWithSpin": 3165,
+  "RadioactiveDecayBase": 29725,
+  "conv": 36748
+ },
+ "linea_0511_por_creador": {
+  "annihil": 127731,
+  "dInelastic": 1,
+  "eBrem": 181,
+  "hBertiniCaptureAtRest": 3,
+  "nCapture": 31,
+  "neutronInelastic": 676,
+  "pi+Inelastic": 1,
+  "pi-Inelastic": 4,
+  "protonInelastic": 82
+ },
+ "linea_6130_por_creador": {
+  "RadioactiveDecayBase": 912,
+  "annihil": 2,
+  "dInelastic": 1,
+  "eBrem": 9,
+  "hBertiniCaptureAtRest": 2,
+  "neutronInelastic": 3037,
+  "photonNuclear": 1,
+  "protonInelastic": 9
+ },
+ "continuo_1_8_por_creador": {
+  "RadioactiveDecayBase": 7828,
+  "annihil": 3588,
+  "dInelastic": 340,
+  "eBrem": 26599,
+  "hBertiniCaptureAtRest": 1990,
+  "nCapture": 244900,
+  "neutronInelastic": 198114,
+  "pi+Inelastic": 322,
+  "pi-Inelastic": 892,
+  "protonInelastic": 18791
+ },
+ "continuo_10_17_por_creador": {
+  "annihil": 331,
+  "eBrem": 3158,
+  "neutronInelastic": 1527,
+  "protonInelastic": 137
+ },
+ "N": 150000,
+ "lineas_sobre_2223": {
+  "0,511/0,517": {
+   "Sidelnik": 1.1811067639400608,
+   "MEIGA": 2.7964993394980184
+  },
+  "1,165 (Cl)": {
+   "Sidelnik": 0.5741642455935723,
+   "MEIGA": 0.5614707177454866
+  },
+  "1,951 (Cl)": {
+   "Sidelnik": 0.6239944441689821,
+   "MEIGA": 0.3969396741523558
+  },
+  "6,11/6,13": {
+   "Sidelnik": 0.4115833818666487,
+   "MEIGA": 0.4247247908410392
+  },
+  "7,41 (Cl)": {
+   "Sidelnik": 0.2057088669321498,
+   "MEIGA": 0.2162703654777631
+  },
+  "7,79 (Cl)": {
+   "Sidelnik": 0.16476595119256487,
+   "MEIGA": 0.17195068251871423
+  },
+  "8,58 (Cl)": {
+   "Sidelnik": 0.054317498249458335,
+   "MEIGA": 0.5829150154117129
+  }
+ }
+}

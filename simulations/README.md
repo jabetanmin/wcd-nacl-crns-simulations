@@ -10,6 +10,7 @@ las fechas de ejecución. Las salidas de las corridas no se almacenan aquí (ver
 | Campaña 1 (febrero de 2025): neutrones monocromáticos de 1 meV a 1 keV (16 energías), cuatro medios | QGSP_BERT_HP, sin S(α,β) | Código en la etiqueta `campana-1-QGSP_BERT_HP`; configuraciones por corrida pendientes |
 | Campaña 2 (septiembre de 2026): 25 meV, cuatro medios | QGSP_BERT_HP + S(α,β) | Código en la etiqueta `campana-2-QGSP_BERT_HP-SalphaBeta`; configuraciones pendientes |
 | [`barrido-SalphaBeta_1meV-1keV/`](barrido-SalphaBeta_1meV-1keV/) (septiembre de 2026): agua pura y NaCl al 2.5, 5 y 10 %, 16 energías | ambas | Completo |
+| [`replica-Sidelnik-500MeV/`](replica-Sidelnik-500MeV/) (octubre de 2026): réplica de Sidelnik et al. (2020), 150 000 neutrones de 500 MeV, cuatro medios (Sec. 4.1.1) | QGSP_BERT_HP, sin S(α,β) | Completo |
 | Flujo atmosférico y suelo seco (Bucaramanga) | QGSP_BERT_HP | Flujos de entrada documentados en [`analysis/flujo-bucaramanga_secciones-4.3-4.5/`](../analysis/flujo-bucaramanga_secciones-4.3-4.5/) |
 | Validación con AmBe | — | Pendiente |
 

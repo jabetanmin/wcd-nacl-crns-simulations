@@ -4,6 +4,38 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.7.0] - 2026-10-19
+
+### Añadido
+
+- `analysis/replica-Sidelnik-MEIGA_seccion-4.1.1/`: validación numérica de la Sección 4.1.1 con corridas nuevas de MEIGA
+  en la configuración de Sidelnik et al. (2020): 1.5×10⁵ neutrones de 500 MeV por medio, agua pura y agua con 2.5, 5 y
+  10 % de NaCl, `QGSP_BERT_HP_NoThermal` (sin S(α,β)), tanque de acero con Tyvek y PMT en la tapa. Incluye:
+  - procesamiento de las corridas y 45 scripts de análisis (interacciones del primario, vértices elásticos, probabilidad,
+    tiempo y distancia de captura, líneas γ por núcleo y esquemas de niveles de ¹⁷O y ³⁶Cl, cascadas del Cl, espectros
+    γ y de electrones frente a las Figs. 3–5 del artículo, deuterones, Fig. 6 con y sin piones, curvas de razón
+    NaCl/agua pura con métricas, destino de los fotones ópticos y sensibilidad al modelo del Tyvek);
+  - figuras `fig00`–`fig24`, resultados reducidos (`resultados/`) y digitalizaciones de las Figs. 2–6 del artículo;
+  - informe técnico `Informe-Sidelnik-500MeV.pdf` (49 páginas), con el mismo contenido que la Sec. 4.1.1 de la tesis
+    (fuente común `informe/seccion_4_1_1.tex`), y notas técnicas `Informe-Sidelnik-500MeV-tecnico.pdf`;
+  - notebook `Analisis-Sidelnik-500MeV.ipynb` generado a partir de los scripts y del informe.
+- `simulations/replica-Sidelnik-500MeV/`: generador del flujo, configuraciones por medio, ajuste del PMT a la geometría
+  de Sidelnik, scripts de corrida y de verificación, y la configuración exacta de cada corrida realizada.
+
+### Cambiado
+
+- README raíz: la Sec. 4.1.1 apunta al nuevo análisis; el estudio anterior
+  (`analysis/validacion-numerica-Sidelnik_seccion-4.1.1/`, corrida conservada de 2×10⁵ neutrones) se mantiene como
+  referencia. Se retira de los pendientes la falta de datos de deuterones y de líneas por núcleo, que el nuevo análisis
+  regenera.
+
+### Notas
+
+- Las imágenes de las figuras del artículo de Sidelnik et al. (2020) no se versionan (derechos de la revista); se
+  incluyen sus digitalizaciones y el informe en PDF.
+- La escala absoluta de la carga en el PMT depende del modelo óptico del Tyvek (factor `scaleLinerRef` = 0.94 de
+  `Materials.cc`); la comparación con el artículo y las diferencias entre medios no dependen de él.
+
 ## [0.6.1] - 2026-10-09
 
 ### Corregido

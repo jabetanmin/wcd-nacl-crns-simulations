@@ -1,0 +1,12 @@
+[     0s] incidentes: 150000
+[     0s] capturas: 124548
+[     4s] productos de captura: 249460
+[    36s] interacciones de neutrones: 15892677
+[    52s] pasos-gamma
+[    64s] interacciones-gamma
+[    76s] electrones de gammas
+[   128s] pasos-electrones
+[   438s] fotones Cherenkov
+[   439s] carga: 150000 eventos
+[   440s] LISTO -> resultados/pura.npz
+RSS 14774252 kB 445.91 s

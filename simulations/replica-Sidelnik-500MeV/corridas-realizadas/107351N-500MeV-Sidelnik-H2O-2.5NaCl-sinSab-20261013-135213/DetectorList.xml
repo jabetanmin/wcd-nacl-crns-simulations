@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!--
+  Replica de Sidelnik et al. (2020), Adv. Space Res. 65, 2216: agua + 2,5 % NaCl en masa
+  (w_NaCl = m_NaCl/(m_NaCl+m_H2O) = 0.025, Ec. 3.12 de la tesis; densidad y RINDEX de la Tabla 3.6
+  ya definidos en Materials.cc de MEIGA).
+  Neutrones de 500 MeV horizontales (+x) a media altura del tanque, desde
+  1 cm fuera del borde exterior.
+
+  injectionMode eCircle con radio 0: la posicion queda fija en (x, y, height)
+  y la direccion se toma del archivo de entrada (px > 0 -> +x).
+
+  Geometria (SaltyWCD.cc de MEIGA, sin cambios): agua R = 48 cm, H = 133 cm,
+  Tyvek 0,12 mm (fijo en el codigo), acero inoxidable de espesor tankThickness.
+  Fondo del tanque en z = 0  ->  centro del agua en z = 0,05 + 0,012 + 66,5 = 66,562 cm.
+  Borde exterior en r = 48 + 0,012 + 0,05 = 48,062 cm  ->  fuente en x = -49,062 cm.
+-->
+<detectorList>
+
+	<injectionMode type="eCircle">
+		<x unit="cm"> -49.062 </x>
+		<y unit="cm"> 0 </y>
+		<z unit="cm"> 66.562 </z>
+		<radius unit="cm"> 0 </radius>
+		<height unit="cm"> 66.562 </height>
+	</injectionMode>
+
+	<detector id="0" type="eSaltyWCD">
+		<x unit="cm"> 0.0 </x>
+		<y unit="cm"> 0.0 </y>
+		<z unit="cm"> 0.0 </z>
+		<tankRadius unit="cm"> 48 </tankRadius>
+		<tankHeight unit="cm"> 133 </tankHeight>
+		<tankThickness unit="mm"> 0.5 </tankThickness>
+		<impuritiesFraction> 0.025 </impuritiesFraction>
+	</detector>
+
+</detectorList>

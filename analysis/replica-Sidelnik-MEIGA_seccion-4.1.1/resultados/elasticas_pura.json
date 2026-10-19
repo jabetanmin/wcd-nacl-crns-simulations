@@ -1,0 +1,169 @@
+{
+ "N": 150000,
+ "vertices": 15573769,
+ "vertices_primario": 215160,
+ "elasticas_por_neutron_primario": 103.82512666666666,
+ "retroceso": {
+  "sin retroceso": 0.9532661618391797,
+  "proton": 0.034491201198630854,
+  "O16": 0.012156851690814215,
+  "N14": 3.8333687882490105e-05,
+  "O18": 2.4656844467129314e-05,
+  "Fe56": 7.5126322985784624e-06,
+  "C12": 3.852631947988955e-06,
+  "O17": 3.531579285656542e-06,
+  "deuteron": 2.568421298659303e-06,
+  "Cr52": 2.1189475713939254e-06,
+  "Ni58": 5.778947921983432e-07,
+  "Fe54": 5.136842597318606e-07
+ },
+ "retroceso_primario": {
+  "sin retroceso": 0.7408579661647147,
+  "O16": 0.13989589142963377,
+  "proton": 0.11836307863915226,
+  "O18": 0.00033463469046291134,
+  "N14": 0.0002091466815393196,
+  "Fe56": 0.00013478341699200595,
+  "C12": 6.042015244469232e-05,
+  "Cr52": 5.112474437627812e-05
+ },
+ "conservacion": {
+  "energia_|dE|<1e-6_MeV": 0.22884578921769333,
+  "energia_|dE|/Ein<1e-3": 0.9999780166029606,
+  "impulso_|dp|/p<1e-2": 0.9672117633157558,
+  "impulso_mediana": 0.00011990815468272352,
+  "carga_barionico_leptonico": "n + (A,Z) -> n + (A,Z): se conservan por construcción; 0 leptones en el estado inicial y final",
+  "frac_sin_retroceso": 0.9532661618391797
+ },
+ "por_rango": {
+  "< 1 eV": {
+   "vertices": 11466643,
+   "blanco_cin": {
+    "no reconstruible": 1.0
+   },
+   "xi_H_cin": null,
+   "xi_O_cin": null,
+   "acuerdo_cin_retroceso": null,
+   "frac_H": 0.0,
+   "frac_O": 0.0,
+   "frac_sin_retroceso": 1.0,
+   "xi_H": NaN,
+   "xi_O16": NaN,
+   "dE_rel_mediana_H": NaN,
+   "dE_rel_max_O16": NaN,
+   "frac_ganan_energia": 0.43909250510371695,
+   "M_cin_mediana_H": NaN,
+   "M_cin_mediana_O16": NaN,
+   "dp_rel_mediana": null
+  },
+  "1 eV - 1 keV": {
+   "vertices": 1002307,
+   "blanco_cin": {
+    "H": 0.882061085076728,
+    "O": 0.054696814449066,
+    "?": 0.04936910547367224,
+    "Na": 0.007045745465211756,
+    "no reconstruible": 0.005936304944493055,
+    "Cl": 0.0008909445908289575
+   },
+   "xi_H_cin": 1.017219414984216,
+   "xi_O_cin": 0.13118898500444448,
+   "acuerdo_cin_retroceso": null,
+   "frac_H": 0.0,
+   "frac_O": 0.0,
+   "frac_sin_retroceso": 1.0,
+   "xi_H": NaN,
+   "xi_O16": NaN,
+   "dE_rel_mediana_H": NaN,
+   "dE_rel_max_O16": NaN,
+   "frac_ganan_energia": 0.004677209677274528,
+   "M_cin_mediana_H": NaN,
+   "M_cin_mediana_O16": NaN,
+   "dp_rel_mediana": null
+  },
+  "1 keV - 1 MeV": {
+   "vertices": 1083824,
+   "blanco_cin": {
+    "H": 0.8557911616646245,
+    "O": 0.14196585423463587,
+    "no reconstruible": 0.0016063493703774782,
+    "?": 0.00062187218588996,
+    "Na": 1.4762544472165223e-05
+   },
+   "xi_H_cin": 1.0003646349676545,
+   "xi_O_cin": 0.11844228093853507,
+   "acuerdo_cin_retroceso": 0.9999950053941743,
+   "frac_H": 0.17580345148289758,
+   "frac_O": 0.008896278362538567,
+   "frac_sin_retroceso": 0.8152688997475604,
+   "xi_H": 1.3916252461200638,
+   "xi_O16": 0.19661932552767966,
+   "dE_rel_mediana_H": 0.6690879384420164,
+   "dE_rel_max_O16": 0.22335587906263096,
+   "frac_ganan_energia": 8.303931265592937e-06,
+   "M_cin_mediana_H": 938.7808576375783,
+   "M_cin_mediana_O16": 14899.373562277155,
+   "dp_rel_mediana": 0.00028313719652163613
+  },
+  "1 - 20 MeV": {
+   "vertices": 413486,
+   "blanco_cin": {
+    "H": 0.7066672148512888,
+    "O": 0.28422969580590396,
+    "no reconstruible": 0.007531089323459561,
+    "?": 0.0015720000193476925
+   },
+   "xi_H_cin": 1.0067514877240182,
+   "xi_O_cin": 0.09430984849889384,
+   "acuerdo_cin_retroceso": 0.9999944733366125,
+   "frac_H": 0.6804341622207282,
+   "frac_O": 0.19393885161770893,
+   "frac_sin_retroceso": 0.12480229076679743,
+   "xi_H": 1.04442656206654,
+   "xi_O16": 0.12963737142778844,
+   "dE_rel_mediana_H": 0.5222160388994331,
+   "dE_rel_max_O16": 0.2246193445250227,
+   "frac_ganan_energia": 0.0,
+   "M_cin_mediana_H": 938.7819593781196,
+   "M_cin_mediana_O16": 14899.104329600701,
+   "dp_rel_mediana": 0.0001169173849918184
+  },
+  "> 20 MeV": {
+   "vertices": 194087,
+   "blanco_cin": {
+    "O": 0.4483092633715808,
+    "H": 0.33639553396157396,
+    "no reconstruible": 0.21243566029667107,
+    "?": 0.0028595423701742004
+   },
+   "xi_H_cin": 1.1063102307908204,
+   "xi_O_cin": 0.01110316841368113,
+   "acuerdo_cin_retroceso": 0.9997163959354107,
+   "frac_H": 0.33628218273248595,
+   "frac_O": 0.5148928058035829,
+   "frac_sin_retroceso": 0.1461354959373889,
+   "xi_H": 1.1066811735176594,
+   "xi_O16": 0.009644613356320688,
+   "dE_rel_mediana_H": 0.4751735525191939,
+   "dE_rel_max_O16": 0.22538173304796488,
+   "frac_ganan_energia": 0.0,
+   "M_cin_mediana_H": 938.2720713330298,
+   "M_cin_mediana_O16": 14895.082378989377,
+   "dp_rel_mediana": 2.7307178751212508e-06
+  }
+ },
+ "xi_global": {
+  "H_cin": 1.0112836988969465,
+  "O_cin": 0.09066798101630497,
+  "H_con_retroceso": 1.1751487541212988,
+  "O16_con_retroceso": 0.0698604414455153
+ },
+ "blanco_cin_global": {
+  "no reconstruible": 0.8303770911203319,
+  "H": 0.13927970807837203,
+  "O": 0.026533397278462264,
+  "?": 0.0032979813685434785,
+  "Na": 0.00045448214879776375,
+  "Cl": 5.734000549256895e-05
+ }
+}

@@ -51,3 +51,6 @@ analysis/campana-1_respuesta-electromagnetica_seccion-4.2/resultados_gammas_cili
 analysis/campana-1_respuesta-electromagnetica_seccion-4.2/figuras-electrones/*.png
 analysis/campana-1_respuesta-electromagnetica_seccion-4.2/figuras-carga/*.png
 analysis/validacion-numerica-Sidelnik_seccion-4.1.1/figuras/*.png
+# Réplica de Sidelnik (Sec. 4.1.1): imágenes de las figuras del artículo (derechos de la revista); se versionan sus digitalizaciones
+analysis/replica-Sidelnik-MEIGA_seccion-4.1.1/datos/*.png
+analysis/replica-Sidelnik-MEIGA_seccion-4.1.1/informe/Figuras/

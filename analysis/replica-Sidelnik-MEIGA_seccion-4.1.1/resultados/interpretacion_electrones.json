@@ -1,0 +1,78 @@
+{
+ "composicion": {
+  "pura": {
+   "antes_borde": {
+    "captura H": 2674.5,
+    "captura otra": 2.0,
+    "inelástica n": 664.75,
+    "otros hadrónicos": 93.25,
+    "bremsstrahlung": 67.75,
+    "aniquilación": 6.25,
+    "decaimiento radiactivo": 27.0
+   },
+   "despues_borde": {
+    "captura H": 0.0,
+    "captura otra": 0.2,
+    "inelástica n": 618.4,
+    "otros hadrónicos": 82.0,
+    "bremsstrahlung": 60.2,
+    "aniquilación": 5.4,
+    "decaimiento radiactivo": 26.6
+   },
+   "frac_inelastica_despues": 0.7800201816347124,
+   "salto": 4.459510595358224,
+   "salto_sin_piones": 4.582616179001721,
+   "salto_Sidelnik": 6.476778224730009,
+   "k_fondo": 1.5978196023024298
+  },
+  "nacl25": {
+   "antes_borde": {
+    "captura H": 1762.75,
+    "captura Cl": 311.25,
+    "captura otra": 7.75,
+    "inelástica n": 679.0,
+    "otros hadrónicos": 97.25,
+    "bremsstrahlung": 66.5,
+    "aniquilación": 7.0,
+    "decaimiento radiactivo": 32.5
+   },
+   "despues_borde": {
+    "captura H": 0.0,
+    "captura Cl": 293.8,
+    "captura otra": 9.4,
+    "inelástica n": 623.2,
+    "otros hadrónicos": 86.4,
+    "bremsstrahlung": 62.0,
+    "aniquilación": 7.2,
+    "decaimiento radiactivo": 38.2
+   },
+   "frac_inelastica_despues": 0.5563292269237636,
+   "salto": 2.6459560792715586,
+   "salto_sin_piones": 2.6978939724037763,
+   "salto_Sidelnik": 3.3680875121820026,
+   "k_fondo": 1.7627502561143922
+  }
+ },
+ "NaCl_sobre_pura": {
+  "0.5-1.8": {
+   "MEIGA": 1.1352709544346522,
+   "MEIGA_fondo_entre_k": 1.1589811512649586,
+   "Sidelnik": 1.078869366223705
+  },
+  "2.05-4.0": {
+   "MEIGA": 1.490999793098692,
+   "MEIGA_fondo_entre_k": 1.7531994057448026,
+   "Sidelnik": 1.6329833039625412
+  },
+  "4.0-5.85": {
+   "MEIGA": 1.6736282194848824,
+   "MEIGA_fondo_entre_k": 2.0671222089471866,
+   "Sidelnik": 1.7412647553586322
+  },
+  "7.0-8.3": {
+   "MEIGA": 2.4644688644688646,
+   "MEIGA_fondo_entre_k": 3.318953724050512,
+   "Sidelnik": 1.5770439549357569
+  }
+ }
+}

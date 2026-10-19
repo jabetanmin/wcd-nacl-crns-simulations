@@ -1,0 +1,50 @@
+{
+ "pura": {
+  "N_primarios": 150000,
+  "deuterones": 124287,
+  "media_MeV": 0.0014335363887253818,
+  "RMS_MeV": 0.023168649617803336,
+  "mediana_MeV": 0.001319021096,
+  "media_ventana_MeV": 0.0013190258977589416,
+  "sigma_ventana_MeV": 9.919422583128496e-06,
+  "frac_fuera_ventana": 0.0012149299604946595,
+  "max_MeV": 6.893872733,
+  "E_retroceso_teorico_MeV": 0.0013189915496571191
+ },
+ "nacl25": {
+  "N_primarios": 150000,
+  "deuterones": 82373,
+  "media_MeV": 0.0016663428100307349,
+  "RMS_MeV": 0.04424328383212815,
+  "mediana_MeV": 0.001319056436,
+  "media_ventana_MeV": 0.001319083626830027,
+  "sigma_ventana_MeV": 1.0537660050910681e-05,
+  "frac_fuera_ventana": 0.0017967052310829956,
+  "max_MeV": 8.120908026,
+  "E_retroceso_teorico_MeV": 0.0013189914599251046
+ },
+ "nacl5": {
+  "N_primarios": 150000,
+  "deuterones": 64370,
+  "media_MeV": 0.0015858094502567547,
+  "RMS_MeV": 0.04048108896130301,
+  "mediana_MeV": 0.0013190306065,
+  "media_ventana_MeV": 0.0013190414748081012,
+  "sigma_ventana_MeV": 1.0818691733826532e-05,
+  "frac_fuera_ventana": 0.0024700947646418836,
+  "max_MeV": 9.41971065,
+  "E_retroceso_teorico_MeV": 0.0013190657759377666
+ },
+ "nacl10": {
+  "N_primarios": 150000,
+  "deuterones": 45147,
+  "media_MeV": 0.0015053253984973509,
+  "RMS_MeV": 0.02146192706359952,
+  "mediana_MeV": 0.001318995547,
+  "media_ventana_MeV": 0.0013189950113267968,
+  "sigma_ventana_MeV": 1.1630688101385528e-05,
+  "frac_fuera_ventana": 0.0037211774868761704,
+  "max_MeV": 3.799884785,
+  "E_retroceso_teorico_MeV": 0.0013189915051137258
+ }
+}

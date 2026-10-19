@@ -1,0 +1,650 @@
+{
+ "pura": {
+  "N": 150000,
+  "capturas_total": 124548,
+  "capturas_en_agua": 124364,
+  "capturas_por_material": {
+   "Water_TS_H_of_Water": 124364,
+   "G4_STAINLESS-STEEL": 169,
+   "Air": 8,
+   "Tyvek_HDPE": 7
+  },
+  "capturas_por_neutron_agua": 0.8290933333333333,
+  "P_al_menos_1_captura_agua": [
+   0.42434,
+   0.0012761284271838266
+  ],
+  "P_primario_capturado": [
+   0.008813333333333333,
+   0.00024132493294158242
+  ],
+  "capturas_agua_por_nucleo": {
+   "H": [
+    124287,
+    0.9993808497635972
+   ],
+   "O16": [
+    77,
+    0.0006191502364028175
+   ]
+  },
+  "distancia_max_absorcion_cm": 46.53425414364637,
+  "distancia_media_cm": 47.03832145416681,
+  "distancia_mediana_cm": 46.697064683,
+  "distancia3D_max_absorcion_cm": 57.69127516778504,
+  "d_vertice_max_cm": 11.087544483985793,
+  "d_vertice_mediana_cm": 15.600535922468946,
+  "d_inel_primario_max_cm": 12.699576271186476,
+  "d_inel_primario_mediana_cm": 23.21268898595334,
+  "tau_captura_us": 191.65475639743258,
+  "tiempo_captura_mediana_us": 131.47239274999998,
+  "E_captura_mediana_meV": 30.487797175,
+  "frac_captura_epitermica_gt_0.5eV": 0.008089157634042006,
+  "gamma_captura_por_neutron": 0.8327466666666666,
+  "E_gamma_captura_por_neutron_MeV": 1.8548129197878007,
+  "lineas_captura_top": [
+   [
+    2.2244,
+    120273
+   ],
+   [
+    2.2243,
+    4021
+   ],
+   [
+    0.8708,
+    75
+   ],
+   [
+    2.1842,
+    73
+   ],
+   [
+    1.088,
+    69
+   ],
+   [
+    7.6461,
+    59
+   ],
+   [
+    0.0144,
+    36
+   ],
+   [
+    0.8349,
+    18
+   ],
+   [
+    3.2722,
+    15
+   ],
+   [
+    8.9993,
+    14
+   ],
+   [
+    4.1431,
+    13
+   ],
+   [
+    0.3523,
+    12
+   ]
+  ],
+  "primario_primera_interaccion": {
+   "neutronInelastic": 74146,
+   "hadElastic": 43174
+  },
+  "primario_inelastica_en_agua": [
+   0.6174866666666666,
+   0.0012548489501544415
+  ],
+  "profundidad_inelastica_primario_media_cm": 40.14694384580031,
+  "gammas_creados_agua_por_neutron": 5.97826,
+  "gammas_creados_por_proceso": {
+   "neutronInelastic": 2.6275333333333335,
+   "eBrem": 1.2346133333333333,
+   "nCapture": 0.8302133333333334,
+   "annihil": 0.6722266666666666,
+   "protonInelastic": 0.26814666666666664,
+   "hBertiniCaptureAtRest": 0.15992,
+   "Decay": 0.12320666666666667,
+   "RadioactiveDecayBase": 0.01932
+  },
+  "e_de_gammas_por_neutron": 44.1234,
+  "e_de_gammas_frac_sobre_umbral": 0.0800837348587522,
+  "e_de_gammas_por_proceso": {
+   "compt|e-": 37.11938,
+   "conv|e+": 0.0915,
+   "conv|e-": 0.09210666666666667,
+   "phot|e-": 6.801473333333333,
+   "phot|gamma": 0.01894
+  },
+  "fotones_cherenkov_por_neutron": [
+   1440.6954,
+   10.863006551655594
+  ],
+  "Q_media": [
+   9.779,
+   0.07643501937283517
+  ],
+  "eficiencia_Q_ge1": [
+   0.5304866666666667,
+   0.0012885924185082873
+  ],
+  "Q_sobre_fotones": 0.006787694331501302,
+  "carga_igual_json": true,
+  "carga_por_ventana": {
+   "<1 us": {
+    "frac": 0.857346013566486,
+    "eficiencia_ge1": 0.46148
+   },
+   "1 us-1 ms": {
+    "frac": 0.12711865562259264,
+    "eficiencia_ge1": 0.28484
+   },
+   ">1 ms": {
+    "frac": 0.015535330810921361,
+    "eficiencia_ge1": 0.0595
+   }
+  }
+ },
+ "nacl25": {
+  "N": 150000,
+  "capturas_total": 129793,
+  "capturas_en_agua": 129658,
+  "capturas_por_material": {
+   "SaltyWater_NaCl_2.5pct": 129658,
+   "G4_STAINLESS-STEEL": 127,
+   "Air": 6,
+   "Tyvek_HDPE": 2
+  },
+  "capturas_por_neutron_agua": 0.8643866666666666,
+  "P_al_menos_1_captura_agua": [
+   0.43299333333333334,
+   0.0012793490704839504
+  ],
+  "P_primario_capturado": [
+   0.008106666666666667,
+   0.00023153039573271616
+  ],
+  "capturas_agua_por_nucleo": {
+   "H": [
+    82373,
+    0.6353098150519058
+   ],
+   "Cl35": [
+    46355,
+    0.35751746903392
+   ],
+   "Na23": [
+    745,
+    0.005745885329096546
+   ],
+   "Cl37": [
+    141,
+    0.0010874762837618968
+   ],
+   "O16": [
+    44,
+    0.0003393543013157692
+   ]
+  },
+  "distancia_max_absorcion_cm": 45.333333333333556,
+  "distancia_media_cm": 47.26358492896507,
+  "distancia_mediana_cm": 47.0554587363,
+  "distancia3D_max_absorcion_cm": 59.791578947369054,
+  "d_vertice_max_cm": 9.960907127429895,
+  "d_vertice_mediana_cm": 14.805604322426696,
+  "d_inel_primario_max_cm": 11.25885057471268,
+  "d_inel_primario_mediana_cm": 22.737168503674667,
+  "tau_captura_us": 139.8689476708281,
+  "tiempo_captura_mediana_us": 96.68331559500001,
+  "E_captura_mediana_meV": 30.586477350000003,
+  "frac_captura_epitermica_gt_0.5eV": 0.010774499066775672,
+  "gamma_captura_por_neutron": 1.4368466666666666,
+  "E_gamma_captura_por_neutron_MeV": 4.393379148062596,
+  "lineas_captura_top": [
+   [
+    2.2244,
+    79616
+   ],
+   [
+    1.1649,
+    11958
+   ],
+   [
+    8.5798,
+    11290
+   ],
+   [
+    0.5171,
+    10718
+   ],
+   [
+    1.9511,
+    8455
+   ],
+   [
+    0.7884,
+    6896
+   ],
+   [
+    1.9594,
+    5435
+   ],
+   [
+    0.7863,
+    4583
+   ],
+   [
+    6.1108,
+    4437
+   ],
+   [
+    6.1109,
+    4430
+   ],
+   [
+    7.7903,
+    3752
+   ],
+   [
+    6.6196,
+    3326
+   ]
+  ],
+  "primario_primera_interaccion": {
+   "hadElastic": 42847,
+   "neutronInelastic": 75154
+  },
+  "primario_inelastica_en_agua": [
+   0.6256733333333333,
+   0.0012495498210392652
+  ],
+  "profundidad_inelastica_primario_media_cm": 40.11796982601807,
+  "gammas_creados_agua_por_neutron": 7.029626666666666,
+  "gammas_creados_por_proceso": {
+   "neutronInelastic": 2.70474,
+   "nCapture": 1.4345733333333333,
+   "eBrem": 1.42392,
+   "annihil": 0.7648533333333334,
+   "protonInelastic": 0.27143333333333336,
+   "hBertiniCaptureAtRest": 0.16611333333333334,
+   "Decay": 0.12266666666666666,
+   "phot": 0.08264666666666666
+  },
+  "e_de_gammas_por_neutron": 51.368966666666665,
+  "e_de_gammas_frac_sobre_umbral": 0.08306273113014408,
+  "e_de_gammas_por_proceso": {
+   "compt|e-": 41.4437,
+   "conv|e+": 0.13435333333333332,
+   "conv|e-": 0.13485333333333333,
+   "phot|e-": 9.573413333333333,
+   "phot|gamma": 0.08264666666666666
+  },
+  "fotones_cherenkov_por_neutron": [
+   1662.0046,
+   11.226054782752733
+  ],
+  "Q_media": [
+   11.381306666666667,
+   0.07987845652241238
+  ],
+  "eficiencia_Q_ge1": [
+   0.54942,
+   0.0012846728859908269
+  ],
+  "Q_sobre_fotones": 0.006847939329810921,
+  "carga_igual_json": null,
+  "carga_por_ventana": {
+   "<1 us": {
+    "frac": 0.7563068329588402,
+    "eficiencia_ge1": 0.47429333333333334
+   },
+   "1 us-1 ms": {
+    "frac": 0.22877748073449095,
+    "eficiencia_ge1": 0.32986
+   },
+   ">1 ms": {
+    "frac": 0.014915686306668946,
+    "eficiencia_ge1": 0.06475333333333333
+   }
+  }
+ },
+ "nacl5": {
+  "N": 150000,
+  "capturas_total": 135563,
+  "capturas_en_agua": 135432,
+  "capturas_por_material": {
+   "SaltyWater_NaCl_5.0pct": 135432,
+   "G4_STAINLESS-STEEL": 123,
+   "Air": 5,
+   "Tyvek_HDPE": 3
+  },
+  "capturas_por_neutron_agua": 0.90288,
+  "P_al_menos_1_captura_agua": [
+   0.4427066666666667,
+   0.0012824909979035736
+  ],
+  "P_primario_capturado": [
+   0.007826666666666666,
+   0.00022752889861225035
+  ],
+  "capturas_agua_por_nucleo": {
+   "Cl35": [
+    69702,
+    0.5146641857168173
+   ],
+   "H": [
+    64370,
+    0.4752938744166814
+   ],
+   "Na23": [
+    1087,
+    0.008026168113887412
+   ],
+   "Cl37": [
+    234,
+    0.0017278043593833069
+   ],
+   "O16": [
+    37,
+    0.00027319983460334337
+   ],
+   "O18": [
+    1,
+    7.383779313603875e-06
+   ],
+   "H2": [
+    1,
+    7.383779313603875e-06
+   ]
+  },
+  "distancia_max_absorcion_cm": 36.1281645569625,
+  "distancia_media_cm": 47.090024739446285,
+  "distancia_mediana_cm": 46.892666324000004,
+  "distancia3D_max_absorcion_cm": 58.77147540983516,
+  "d_vertice_max_cm": 9.787041036717133,
+  "d_vertice_mediana_cm": 14.244407722238787,
+  "d_inel_primario_max_cm": 11.21171875000004,
+  "d_inel_primario_mediana_cm": 22.372151439945384,
+  "tau_captura_us": 108.76782686628066,
+  "tiempo_captura_mediana_us": 74.95191386,
+  "E_captura_mediana_meV": 30.994556255,
+  "frac_captura_epitermica_gt_0.5eV": 0.0139110402268297,
+  "gamma_captura_por_neutron": 1.7596533333333333,
+  "E_gamma_captura_por_neutron_MeV": 5.71335403216427,
+  "lineas_captura_top": [
+   [
+    2.2244,
+    62314
+   ],
+   [
+    1.1649,
+    17673
+   ],
+   [
+    8.5798,
+    17058
+   ],
+   [
+    0.5171,
+    15773
+   ],
+   [
+    1.9511,
+    12753
+   ],
+   [
+    0.7884,
+    10544
+   ],
+   [
+    1.9594,
+    8268
+   ],
+   [
+    0.7863,
+    6806
+   ],
+   [
+    6.1109,
+    6805
+   ],
+   [
+    6.1108,
+    6751
+   ],
+   [
+    7.7903,
+    5440
+   ],
+   [
+    6.6196,
+    4931
+   ]
+  ],
+  "primario_primera_interaccion": {
+   "hadElastic": 43353,
+   "neutronInelastic": 75080
+  },
+  "primario_inelastica_en_agua": [
+   0.62892,
+   0.0012473428654544026
+  ],
+  "profundidad_inelastica_primario_media_cm": 39.95977193197253,
+  "gammas_creados_agua_por_neutron": 7.680253333333333,
+  "gammas_creados_por_proceso": {
+   "neutronInelastic": 2.77154,
+   "nCapture": 1.7580533333333332,
+   "eBrem": 1.56236,
+   "annihil": 0.8187466666666666,
+   "protonInelastic": 0.27541333333333334,
+   "hBertiniCaptureAtRest": 0.16685333333333333,
+   "phot": 0.13843333333333332,
+   "Decay": 0.12299333333333333
+  },
+  "e_de_gammas_por_neutron": 55.776873333333334,
+  "e_de_gammas_frac_sobre_umbral": 0.08480563808345418,
+  "e_de_gammas_por_proceso": {
+   "compt|e-": 43.575113333333334,
+   "conv|e+": 0.15981333333333334,
+   "conv|e-": 0.16082,
+   "phot|e-": 11.742693333333333,
+   "phot|gamma": 0.13843333333333332
+  },
+  "fotones_cherenkov_por_neutron": [
+   1806.2885066666668,
+   11.49753686358503
+  ],
+  "Q_media": [
+   12.420566666666666,
+   0.08204419059648144
+  ],
+  "eficiencia_Q_ge1": [
+   0.5595133333333333,
+   0.00128181684379518
+  ],
+  "Q_sobre_fotones": 0.0068762917002597995,
+  "carga_igual_json": true,
+  "carga_por_ventana": {
+   "<1 us": {
+    "frac": 0.7167729867397354,
+    "eficiencia_ge1": 0.48257333333333335
+   },
+   "1 us-1 ms": {
+    "frac": 0.26871667154209283,
+    "eficiencia_ge1": 0.3532666666666667
+   },
+   ">1 ms": {
+    "frac": 0.014510341718171742,
+    "eficiencia_ge1": 0.0678
+   }
+  }
+ },
+ "nacl10": {
+  "N": 150000,
+  "capturas_total": 145936,
+  "capturas_en_agua": 145853,
+  "capturas_por_material": {
+   "SaltyWater_NaCl_10.0pct": 145853,
+   "G4_STAINLESS-STEEL": 77,
+   "Air": 3,
+   "Tyvek_HDPE": 3
+  },
+  "capturas_por_neutron_agua": 0.9723533333333333,
+  "P_al_menos_1_captura_agua": [
+   0.4594533333333333,
+   0.0012867425741569867
+  ],
+  "P_primario_capturado": [
+   0.007613333333333333,
+   0.0002244306944083019
+  ],
+  "capturas_agua_por_nucleo": {
+   "Cl35": [
+    98691,
+    0.676647035028419
+   ],
+   "H": [
+    45147,
+    0.3095376852035954
+   ],
+   "Na23": [
+    1651,
+    0.01131961632602689
+   ],
+   "Cl37": [
+    332,
+    0.0022762644580502285
+   ],
+   "O16": [
+    32,
+    0.00021939898390845578
+   ]
+  },
+  "distancia_max_absorcion_cm": 47.820886075949794,
+  "distancia_media_cm": 47.116728827691986,
+  "distancia_mediana_cm": 46.921599491,
+  "distancia3D_max_absorcion_cm": 52.11118644067911,
+  "d_vertice_max_cm": 9.581333333333474,
+  "d_vertice_mediana_cm": 13.555706091764783,
+  "d_inel_primario_max_cm": 10.43574468085109,
+  "d_inel_primario_mediana_cm": 21.944803987153584,
+  "tau_captura_us": 74.77835773068685,
+  "tiempo_captura_mediana_us": 51.89617438,
+  "E_captura_mediana_meV": 31.749323169999997,
+  "frac_captura_epitermica_gt_0.5eV": 0.02039039306699211,
+  "gamma_captura_por_neutron": 2.1893,
+  "E_gamma_captura_por_neutron_MeV": 7.404142287193518,
+  "lineas_captura_top": [
+   [
+    2.2244,
+    43772
+   ],
+   [
+    1.1649,
+    25255
+   ],
+   [
+    8.5798,
+    23877
+   ],
+   [
+    0.5171,
+    22587
+   ],
+   [
+    1.9511,
+    17875
+   ],
+   [
+    0.7884,
+    15181
+   ],
+   [
+    1.9594,
+    11677
+   ],
+   [
+    0.7863,
+    9875
+   ],
+   [
+    6.1108,
+    9601
+   ],
+   [
+    6.1109,
+    9557
+   ],
+   [
+    7.7903,
+    7795
+   ],
+   [
+    6.6196,
+    6997
+   ]
+  ],
+  "primario_primera_interaccion": {
+   "hadElastic": 43480,
+   "neutronInelastic": 76480
+  },
+  "primario_inelastica_en_agua": [
+   0.6412533333333333,
+   0.0012384062225894007
+  ],
+  "profundidad_inelastica_primario_media_cm": 39.73951184030117,
+  "gammas_creados_agua_por_neutron": 8.651466666666666,
+  "gammas_creados_por_proceso": {
+   "neutronInelastic": 2.9328866666666666,
+   "nCapture": 2.1879733333333333,
+   "eBrem": 1.7435333333333334,
+   "annihil": 0.9017733333333333,
+   "protonInelastic": 0.28152666666666665,
+   "phot": 0.22946,
+   "hBertiniCaptureAtRest": 0.17317333333333335,
+   "Decay": 0.11909333333333333
+  },
+  "e_de_gammas_por_neutron": 62.213726666666666,
+  "e_de_gammas_frac_sobre_umbral": 0.0873888602718864,
+  "e_de_gammas_por_proceso": {
+   "compt|e-": 46.339106666666666,
+   "conv|e+": 0.19805333333333333,
+   "conv|e-": 0.19801333333333335,
+   "phot|e-": 15.249093333333333,
+   "phot|gamma": 0.22946
+  },
+  "fotones_cherenkov_por_neutron": [
+   1994.0021333333334,
+   11.817191149827849
+  ],
+  "Q_media": [
+   13.88526,
+   0.08512950167954401
+  ],
+  "eficiencia_Q_ge1": [
+   0.5809866666666667,
+   0.0012739470418669221
+  ],
+  "Q_sobre_fotones": 0.0069635131115874434,
+  "carga_igual_json": true,
+  "carga_por_ventana": {
+   "<1 us": {
+    "frac": 0.6735809532314603,
+    "eficiencia_ge1": 0.5032066666666667
+   },
+   "1 us-1 ms": {
+    "frac": 0.31143433156215056,
+    "eficiencia_ge1": 0.3851733333333333
+   },
+   ">1 ms": {
+    "frac": 0.014984715206389125,
+    "eficiencia_ge1": 0.07854
+   }
+  }
+ }
+}

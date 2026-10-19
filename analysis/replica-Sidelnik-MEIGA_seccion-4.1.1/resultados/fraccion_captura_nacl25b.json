@@ -1,0 +1,26 @@
+{
+ "N_primarios": 107351,
+ "neutrones_totales": 377576,
+ "neutrones_por_primario": 3.5172099002338126,
+ "neutrones_que_pasan_por_el_agua": 374574,
+ "capturas_en_agua": 92751,
+ "capturas_totales": 92846,
+ "P_a_capturas_sobre_primarios": 0.8639975407774497,
+ "P_b_capturas_sobre_todos_los_neutrones": 0.2456485581710702,
+ "P_c_capturas_sobre_neutrones_en_agua": 0.24761729324512646,
+ "creadores": {
+  "neutronInelastic": 249859,
+  "none": 107351,
+  "protonInelastic": 10667,
+  "hBertiniCaptureAtRest": 7615,
+  "pi-Inelastic": 1497,
+  "dInelastic": 249,
+  "pi+Inelastic": 213,
+  "RadioactiveDecayBase": 61,
+  "photonNuclear": 37,
+  "muMinusCaptureAtRest": 20,
+  "tInelastic": 6,
+  "ionInelastic": 1
+ },
+ "E_nacimiento_mediana_MeV": 99.560735295
+}

@@ -1,0 +1,80 @@
+% Informe del repositorio wcd-nacl-crns-simulations: analysis/replica-Sidelnik-MEIGA_seccion-4.1.1
+% Contenido identico a la Sec. 4.1.1 de la tesis (fuente comun: seccion_4_1_1.tex y apendice_procesos.tex);
+% scripts/construir_informe.py genera cuerpo_informe.tex y apendice_informe.tex con la jerarquia de titulos del informe.
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\decimalpoint
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[left=3cm,right=3cm,top=2.5cm,bottom=2.5cm,headheight=14pt]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{changepage}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{rotating}
+\usepackage[table]{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font=small,labelfont=bf}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={.}}
+\usepackage{enumitem}
+\usepackage[backend=biber,style=authoryear,natbib=true,maxcitenames=2,maxbibnames=99,uniquename=false,uniquelist=false]{biblatex}
+\addbibresource{bibliografia-1.bib}
+\DeclareDelimFormat{multicitedelim}{\addsemicolon\space}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\definecolor{colortitulo}{RGB}{0,70,140}
+\usepackage[colorlinks=true,linkcolor=colortitulo,citecolor={rgb:red,140;green,72;blue,20},urlcolor=colortitulo]{hyperref}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}\renewcommand{\listtablename}{Índice de tablas}}
+\setlength{\parskip}{0.25cm}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.07}\renewcommand{\floatpagefraction}{0.75}
+\titleformat{\section}{\normalfont\Large\bfseries\color{colortitulo}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{colortitulo}}{\thesubsection}{0.8em}{}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0em}{}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\graphicspath{{Figuras/}{../figuras/}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{colortitulo}{Réplica de Sidelnik et al.\ (2020) con MEIGA: neutrones de 500~MeV}}
+\fancyhead[R]{\small\textcolor{colortitulo}{\thepage}}
+\fancyfoot[C]{\footnotesize\textcolor{gray}{wcd-nacl-crns-simulations · analysis/replica-Sidelnik-MEIGA\_seccion-4.1.1}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+{\small\textcolor{gray}{Informe técnico del repositorio \texttt{wcd-nacl-crns-simulations} · \texttt{analysis/replica-Sidelnik-MEIGA\_seccion-4.1.1}}}\\[1.2cm]
+{\LARGE\bfseries\textcolor{colortitulo}{Validación numérica del modelo Monte Carlo de un detector Cherenkov de agua dopada con NaCl:\\[0.2cm] réplica con MEIGA de la simulación de Sidelnik et al.\ (2020) con neutrones de 500~MeV}}\\[1.0cm]
+{\large Jaime A. Betancourt}\\[0.2cm]
+{Doctorado en Ciencias Naturales -- Física, Universidad Industrial de Santander}\\[0.2cm]
+{19 de octubre de 2026}
+\end{center}
+\vspace{0.6cm}
+\begin{abstract}
+\noindent Se reprodujeron con el simulador MEIGA (\textsc{Geant4} 10.7.p04, \texttt{QGSP\_BERT\_HP\_NoThermal}, sin $S(\alpha,\beta)$) la geometría, los materiales y la irradiación del detector Cherenkov de agua dopada con NaCl de \citet{Sidelnik2020}, con $1.5\times10^{5}$ neutrones de 500~MeV en agua pura y en agua con 2.5, 5 y 10\,\% de NaCl. La validación sigue la cadena física completa: interacción del neutrón primario, moderación, captura, gammas de captura, electrones secundarios, luz Cherenkov y carga en el PMT. El modelo reproduce la moderación ($\xi_{\mathrm{H}}=1.000$, $\xi_{\mathrm{O}}=0.118$), la probabilidad de captura (24.08\,\% frente a 25.18\,\% en agua pura), el tiempo de captura y su reducción con la sal (de 192 a 75~µs), las líneas $\gamma$ de captura, el espectro de electrones en escala absoluta (dentro del 4--8\,\%) y la distribución de fotones Cherenkov aceptados entre 0 y 500 fotones sin reescalar; las curvas de razón NaCl/agua pura coinciden en forma con las del artículo ($r=0.88$--$0.91$). Las diferencias se atribuyen a la mayor producción de piones del modelo de Bertini, a un fondo de desexcitación nuclear mayor, a un aumento de la captura con la sal más débil y al modelo de captura de \textsc{Geant4}, que no conserva la energía en las cascadas del Cl. Este informe reproduce, con la misma redacción, figuras y tablas, la Sec.~4.1.1 de la tesis doctoral del autor.
+\end{abstract}
+\vspace{0.3cm}
+\tableofcontents
+\clearpage
+
+\input{cuerpo_informe}
+
+\appendix
+\input{apendice_informe}
+
+\printbibliography[heading=bibintoc,title={Referencias}]
+\end{document}

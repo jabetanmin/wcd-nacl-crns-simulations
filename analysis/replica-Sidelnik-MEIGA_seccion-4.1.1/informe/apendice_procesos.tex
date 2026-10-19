@@ -1,0 +1,210 @@
+% Apendice generado a partir de informe/Informe-Sidelnik-500MeV.tex (tablas de canales_reaccion.py), con punto decimal.
+\chapter{Ecuaciones, energías y porcentajes de los procesos de los neutrones de 500~MeV}
+\label{ap:procesos-neutrones}
+
+Las Tablas~\ref{tab:procesos_pura}--\ref{tab:procesos_nacl10} reúnen, para cada medio simulado en la Sec.~\ref{sec:Res-WCD-500MeV}, todas las reacciones de los neutrones en el volumen del detector (primario y secundarios): la ecuación de la reacción, el valor $Q$ del estado fundamental (calculado con los excesos de masa de la evaluación AME2020; $Q<0$ es la energía umbral que se gasta en romper el núcleo), la energía típica del neutrón incidente (mediana y, entre paréntesis, la fracción de reacciones por debajo de 20~MeV), el porcentaje dentro de cada tipo de proceso y los gammas que emite. El núcleo blanco de cada interacción inelástica se deduce por conservación de la carga y del número bariónico de los productos. En las inelásticas, las líneas $\gamma$ solo se atribuyen si pertenecen al núcleo residual o al blanco de esa misma reacción (ventana de $\pm10$~keV); se listan los canales con más del 0.4\,\% de las inelásticas y, en los medios con NaCl, también los del Na y el Cl.
+
+Estas tablas explican el origen de los gammas y, por tanto, de los electrones y de la luz Cherenkov: la dispersión elástica en $^{1}$H modera los neutrones ($\xi=1$); la captura en $^{1}$H y en $^{35}$Cl produce los gammas de captura; y las interacciones inelásticas en $^{16}$O producen el fondo de desexcitación nuclear (líneas de 4.44, 6.13, 6.92 y 7.12~MeV y un continuo) y los núcleos emisores $\beta^{+}$ ($^{15}$O, $^{13}$N, $^{11}$C) responsables de la línea de aniquilación de larga vida.
+
+\clearpage
+{\footnotesize\setlength{\tabcolsep}{4pt}\setlength{\LTpre}{0pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedleft\arraybackslash}p{1.35cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{\dimexpr\linewidth-9.35cm-8\tabcolsep\relax}@{}}
+\captionsetup{width=\linewidth}\caption[Procesos de los neutrones: Agua pura]{\textcolor{red}{Agua pura}: ecuaciones, energías y porcentajes de los procesos de los neutrones (150\,000 neutrones de 500\,MeV).}\label{tab:procesos_pura}\\\toprule
+Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endfirsthead
+\toprule Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endhead
+\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Dispersión elástica} (104 por neutrón incidente; \% de las colisiones con blanco reconstruido, $E>1$\,eV)}\\
+$^1$H(n,n)$^1$H & 0 & todas & 83.74\,\% & pierde 0--100\,\% de $E$; $\xi = 1.00$ \\
+$^{16}$O(n,n)$^{16}$O & 0 & todas & 15.95\,\% & pierde 0--22\,\%; $\xi = 0.12$ ($<$\,1\,MeV) \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Captura radiativa} (0.829 por neutrón incidente; \% de las capturas en el agua)}\\
+$^1$H(n,$\gamma$)$^2$H & +2.225 & térmica & 99.94\,\% & 2224 (MEIGA: 2224.4) \\
+$^{16}$O(n,$\gamma$)$^{17}$O & +4.143 & térmica & 0.06\,\% & 871, 1088, 2184; $\gamma$ único 4143 \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Inelástica} (1.29 por neutrón incidente; \% de las inelásticas; canales con más del 0.4\,\%)}\\
+$^{16}$O(n,np)$^{15}$N & -12.13 & 354\,MeV & 12.9\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n')$^{16}$O & 0.00 & 21\,MeV (48\,\% $<$\,20) & 11.3\,\% & 2.8 $\gamma$/reacc.; 6130 (14\,\%), 7117 (6\,\%), 2741 (4\,\%) \\
+$^{16}$O(n,n$\alpha$)$^{12}$C & -7.16 & 39\,MeV (16\,\% $<$\,20) & 9.5\,\% & 1.7 $\gamma$/reacc.; 4439 (6\,\%) \\
+$^{16}$O(n,2n)$^{15}$O & -15.66 & 500\,MeV & 9.4\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2np)$^{14}$N & -22.96 & 377\,MeV & 9.1\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p)$^{12}$C & -35.46 & 500\,MeV & 6.7\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n2p)$^{13}$C & -30.51 & 477\,MeV & 4.0\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,$\alpha$)$^{13}$C & -2.22 & 10\,MeV (100\,\% $<$\,20) & 3.1\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p)$^{14}$C & -22.33 & 384\,MeV & 2.9\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p$\alpha$)$^{8}$Be & -42.82 & 500\,MeV & 2.1\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd)$^{12}$C & -33.23 & 380\,MeV & 1.9\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p3$\alpha$) & -42.73 & 500\,MeV & 1.4\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3np)$^{13}$N & -33.51 & 500\,MeV & 1.1\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2$\alpha$)$^{8}$Be & -14.53 & 68\,MeV & 1.0\,\% & 1.5 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n3p)$^{11}$B & -51.41 & 500\,MeV & 0.8\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^-$)$^{15}$O & -154.45 & 500\,MeV & 0.7\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,p)$^{16}$N & -9.64 & 19\,MeV (54\,\% $<$\,20) & 0.7\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{1}$H(n,np$\pi^0$) & -134.98 & 500\,MeV & 0.7\,\% & 0.0 $\gamma$/reacc.; sin $\gamma$ directos \\
+$^{16}$O(n,2npd$\alpha$)$^{8}$Be & -40.60 & 500\,MeV & 0.7\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n)$^{14}$O & -28.89 & 500\,MeV & 0.7\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^0$)$^{15}$N & -147.10 & 500\,MeV & 0.6\,\% & 2.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3pd2$\alpha$) & -68.80 & 500\,MeV & 0.5\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3p)$^{10}$B & -62.87 & 500\,MeV & 0.5\,\% & 1.8 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,5n4p2$\alpha$) & -71.03 & 500\,MeV & 0.5\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n3p$\pi^-$)$^{12}$C & -174.25 & 500\,MeV & 0.5\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n2p)$^{11}$C & -54.18 & 500\,MeV & 0.5\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p$\pi^-$)$^{14}$N & -161.75 & 500\,MeV & 0.4\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd3$\alpha$) & -40.51 & 500\,MeV & 0.4\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p$\pi^0$)$^{12}$C & -170.43 & 500\,MeV & 0.4\,\% & 2.2 $\gamma$/reacc.; continuo \\
+\bottomrule\end{longtable}}
+\clearpage
+{\footnotesize\setlength{\tabcolsep}{4pt}\setlength{\LTpre}{0pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedleft\arraybackslash}p{1.35cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{\dimexpr\linewidth-9.35cm-8\tabcolsep\relax}@{}}
+\captionsetup{width=\linewidth}\caption[Procesos de los neutrones: 2.5\,\% NaCl]{\textcolor{green}{Agua + 2.5\,\% NaCl}: ecuaciones, energías y porcentajes de los procesos de los neutrones (150\,000 neutrones de 500\,MeV).}\label{tab:procesos_nacl25}\\\toprule
+Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endfirsthead
+\toprule Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endhead
+\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Dispersión elástica} (83 por neutrón incidente; \% de las colisiones con blanco reconstruido, $E>1$\,eV)}\\
+$^1$H(n,n)$^1$H & 0 & todas & 83.55\,\% & pierde 0--100\,\% de $E$; $\xi = 1.00$ \\
+$^{16}$O(n,n)$^{16}$O & 0 & todas & 15.82\,\% & pierde 0--22\,\%; $\xi = 0.12$ ($<$\,1\,MeV) \\
+$^{23}$Na(n,n)$^{23}$Na & 0 & todas & 0.47\,\% & pierde 0--16\,\% \\
+$^{35.37}$Cl(n,n)$^{35.37}$Cl & 0 & todas & 0.16\,\% & pierde 0--11\,\% \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Captura radiativa} (0.864 por neutrón incidente; \% de las capturas en el agua)}\\
+$^1$H(n,$\gamma$)$^2$H & +2.225 & térmica & 63.53\,\% & 2224 (MEIGA: 2224.4) \\
+$^{35}$Cl(n,$\gamma$)$^{36}$Cl & +8.580 & térmica & 35.75\,\% & 517, 788, 1165, 1951, 6111, 7414; $\gamma$ único 8580 \\
+$^{23}$Na(n,$\gamma$)$^{24}$Na & +6.959 & térmica & 0.57\,\% & 472 (0.9\,\%); $\gamma$ único 6959 \\
+$^{37}$Cl(n,$\gamma$)$^{38}$Cl & +6.108 & térmica & 0.11\,\% & 638, 755, 1692; $\gamma$ único 6108 \\
+$^{16}$O(n,$\gamma$)$^{17}$O & +4.143 & térmica & 0.03\,\% & 871, 1088, 2184; $\gamma$ único 4143 \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Inelástica} (1.33 por neutrón incidente; \% de las inelásticas; canales con más del 0.4\,\% y los del Na y el Cl)}\\
+$^{16}$O(n,np)$^{15}$N & -12.13 & 350\,MeV & 12.6\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n')$^{16}$O & 0.00 & 21\,MeV (49\,\% $<$\,20) & 11.0\,\% & 2.8 $\gamma$/reacc.; 6130 (14\,\%), 7117 (6\,\%), 6917 (4\,\%) \\
+$^{16}$O(n,n$\alpha$)$^{12}$C & -7.16 & 39\,MeV (16\,\% $<$\,20) & 9.3\,\% & 1.7 $\gamma$/reacc.; 4439 (6\,\%) \\
+$^{16}$O(n,2n)$^{15}$O & -15.66 & 500\,MeV & 9.0\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2np)$^{14}$N & -22.96 & 373\,MeV & 8.8\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p)$^{12}$C & -35.46 & 500\,MeV & 6.4\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n2p)$^{13}$C & -30.51 & 471\,MeV & 4.0\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,$\alpha$)$^{13}$C & -2.22 & 10\,MeV (100\,\% $<$\,20) & 3.1\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p)$^{14}$C & -22.33 & 406\,MeV & 2.8\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p$\alpha$)$^{8}$Be & -42.82 & 500\,MeV & 2.0\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd)$^{12}$C & -33.23 & 399\,MeV & 1.8\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p3$\alpha$) & -42.73 & 500\,MeV & 1.5\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3np)$^{13}$N & -33.51 & 500\,MeV & 1.1\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2$\alpha$)$^{8}$Be & -14.53 & 70\,MeV & 1.0\,\% & 1.5 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n3p)$^{11}$B & -51.41 & 500\,MeV & 0.8\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^-$)$^{15}$O & -154.45 & 500\,MeV & 0.7\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,p)$^{16}$N & -9.64 & 19\,MeV (54\,\% $<$\,20) & 0.7\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n)$^{14}$O & -28.89 & 500\,MeV & 0.6\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{1}$H(n,np$\pi^0$) & -134.98 & 500\,MeV & 0.6\,\% & 0.0 $\gamma$/reacc.; sin $\gamma$ directos \\
+$^{16}$O(n,2npd$\alpha$)$^{8}$Be & -40.60 & 472\,MeV & 0.6\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^0$)$^{15}$N & -147.10 & 500\,MeV & 0.6\,\% & 2.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3pd2$\alpha$) & -68.80 & 500\,MeV & 0.5\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3p)$^{10}$B & -62.87 & 500\,MeV & 0.5\,\% & 1.8 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n3p$\pi^-$)$^{12}$C & -174.25 & 500\,MeV & 0.5\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,5n4p2$\alpha$) & -71.03 & 500\,MeV & 0.5\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n2p)$^{11}$C & -54.18 & 500\,MeV & 0.5\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p$\pi^-$)$^{14}$N & -161.75 & 500\,MeV & 0.4\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,n')$^{23}$Na & 0.00 & 7\,MeV (85\,\% $<$\,20) & 0.3\,\% & 2.6 $\gamma$/reacc.; 440 (74\,\%) \\
+$^{35}$Cl(n,p)$^{35}$S & 0.62 & térmica (96\,\% $<$\,20) & 0.3\,\% & 0.4 $\gamma$/reacc.; continuo \\
+\bottomrule\end{longtable}}
+\clearpage
+{\footnotesize\setlength{\tabcolsep}{4pt}\setlength{\LTpre}{0pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedleft\arraybackslash}p{1.35cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{\dimexpr\linewidth-9.35cm-8\tabcolsep\relax}@{}}
+\captionsetup{width=\linewidth}\caption[Procesos de los neutrones: 5\,\% NaCl]{\textcolor{violet}{Agua + 5\,\% NaCl}: ecuaciones, energías y porcentajes de los procesos de los neutrones (150\,000 neutrones de 500\,MeV).}\label{tab:procesos_nacl5}\\\toprule
+Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endfirsthead
+\toprule Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endhead
+\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Dispersión elástica} (72 por neutrón incidente; \% de las colisiones con blanco reconstruido, $E>1$\,eV)}\\
+$^1$H(n,n)$^1$H & 0 & todas & 83.33\,\% & pierde 0--100\,\% de $E$; $\xi = 1.00$ \\
+$^{16}$O(n,n)$^{16}$O & 0 & todas & 15.71\,\% & pierde 0--22\,\%; $\xi = 0.12$ ($<$\,1\,MeV) \\
+$^{23}$Na(n,n)$^{23}$Na & 0 & todas & 0.68\,\% & pierde 0--16\,\% \\
+$^{35.37}$Cl(n,n)$^{35.37}$Cl & 0 & todas & 0.28\,\% & pierde 0--11\,\% \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Captura radiativa} (0.903 por neutrón incidente; \% de las capturas en el agua)}\\
+$^{35}$Cl(n,$\gamma$)$^{36}$Cl & +8.580 & térmica & 51.47\,\% & 517, 788, 1165, 1951, 6111, 7414; $\gamma$ único 8580 \\
+$^1$H(n,$\gamma$)$^2$H & +2.225 & térmica & 47.53\,\% & 2224 (MEIGA: 2224.4) \\
+$^{23}$Na(n,$\gamma$)$^{24}$Na & +6.959 & térmica & 0.80\,\% & 472 (0.9\,\%); $\gamma$ único 6959 \\
+$^{37}$Cl(n,$\gamma$)$^{38}$Cl & +6.108 & térmica & 0.17\,\% & 638, 755, 1692; $\gamma$ único 6108 \\
+$^{16}$O(n,$\gamma$)$^{17}$O & +4.143 & térmica & 0.03\,\% & 871, 1088, 2184; $\gamma$ único 4143 \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Inelástica} (1.36 por neutrón incidente; \% de las inelásticas; canales con más del 0.4\,\% y los del Na y el Cl)}\\
+$^{16}$O(n,np)$^{15}$N & -12.13 & 326\,MeV & 12.1\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n')$^{16}$O & 0.00 & 20\,MeV (50\,\% $<$\,20) & 10.8\,\% & 2.8 $\gamma$/reacc.; 6130 (14\,\%), 7117 (6\,\%), 6917 (4\,\%) \\
+$^{16}$O(n,n$\alpha$)$^{12}$C & -7.16 & 38\,MeV (16\,\% $<$\,20) & 9.2\,\% & 1.7 $\gamma$/reacc.; 4439 (6\,\%) \\
+$^{16}$O(n,2n)$^{15}$O & -15.66 & 500\,MeV & 8.7\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2np)$^{14}$N & -22.96 & 352\,MeV & 8.7\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p)$^{12}$C & -35.46 & 500\,MeV & 6.2\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n2p)$^{13}$C & -30.51 & 465\,MeV & 3.8\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,$\alpha$)$^{13}$C & -2.22 & 10\,MeV (100\,\% $<$\,20) & 3.0\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p)$^{14}$C & -22.33 & 354\,MeV & 2.7\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p$\alpha$)$^{8}$Be & -42.82 & 500\,MeV & 2.0\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd)$^{12}$C & -33.23 & 362\,MeV & 1.8\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p3$\alpha$) & -42.73 & 500\,MeV & 1.4\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3np)$^{13}$N & -33.51 & 500\,MeV & 1.1\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2$\alpha$)$^{8}$Be & -14.53 & 71\,MeV & 1.0\,\% & 1.5 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n3p)$^{11}$B & -51.41 & 500\,MeV & 0.7\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^-$)$^{15}$O & -154.45 & 500\,MeV & 0.6\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd$\alpha$)$^{8}$Be & -40.60 & 487\,MeV & 0.6\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,p)$^{16}$N & -9.64 & 18\,MeV (55\,\% $<$\,20) & 0.6\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{1}$H(n,np$\pi^0$) & -134.98 & 500\,MeV & 0.6\,\% & 0.0 $\gamma$/reacc.; sin $\gamma$ directos \\
+$^{16}$O(n,3n)$^{14}$O & -28.89 & 500\,MeV & 0.6\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^0$)$^{15}$N & -147.10 & 500\,MeV & 0.5\,\% & 2.6 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,n')$^{23}$Na & 0.00 & 7\,MeV (84\,\% $<$\,20) & 0.5\,\% & 2.5 $\gamma$/reacc.; 440 (72\,\%), 2076 (2\,\%) \\
+$^{16}$O(n,4n3pd2$\alpha$) & -68.80 & 500\,MeV & 0.5\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n2p)$^{11}$C & -54.18 & 500\,MeV & 0.5\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3p)$^{10}$B & -62.87 & 500\,MeV & 0.5\,\% & 1.8 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,p)$^{35}$S & 0.62 & térmica (96\,\% $<$\,20) & 0.5\,\% & 0.5 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,5n4p2$\alpha$) & -71.03 & 500\,MeV & 0.4\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n3p$\pi^-$)$^{12}$C & -174.25 & 500\,MeV & 0.4\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p$\pi^-$)$^{14}$N & -161.75 & 500\,MeV & 0.4\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,np)$^{22}$Ne & -8.79 & 155\,MeV & 0.3\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,np)$^{34}$S & -6.37 & 122\,MeV & 0.3\,\% & 2.5 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,n')$^{35}$Cl & 0.00 & 7\,MeV (77\,\% $<$\,20) & 0.3\,\% & 2.4 $\gamma$/reacc.; 1219 (18\,\%), 1763 (10\,\%) \\
+$^{23}$Na(n,2np)$^{21}$Ne & -19.16 & 211\,MeV & 0.2\,\% & 2.0 $\gamma$/reacc.; 440 (3\,\%) \\
+$^{35}$Cl(n,2np)$^{33}$S & -17.79 & 247\,MeV & 0.2\,\% & 2.1 $\gamma$/reacc.; continuo \\
+\bottomrule\end{longtable}}
+\clearpage
+{\footnotesize\setlength{\tabcolsep}{4pt}\setlength{\LTpre}{0pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedleft\arraybackslash}p{1.35cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{\dimexpr\linewidth-9.35cm-8\tabcolsep\relax}@{}}
+\captionsetup{width=\linewidth}\caption[Procesos de los neutrones: 10\,\% NaCl]{\textcolor{orange}{Agua + 10\,\% NaCl}: ecuaciones, energías y porcentajes de los procesos de los neutrones (150\,000 neutrones de 500\,MeV).}\label{tab:procesos_nacl10}\\\toprule
+Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endfirsthead
+\toprule Reacción & $Q$ (MeV) & $E_n$ típica & \% & Gammas emitidos (keV) \\\midrule\endhead
+\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Dispersión elástica} (59 por neutrón incidente; \% de las colisiones con blanco reconstruido, $E>1$\,eV)}\\
+$^1$H(n,n)$^1$H & 0 & todas & 82.90\,\% & pierde 0--100\,\% de $E$; $\xi = 1.00$ \\
+$^{16}$O(n,n)$^{16}$O & 0 & todas & 15.42\,\% & pierde 0--22\,\%; $\xi = 0.12$ ($<$\,1\,MeV) \\
+$^{23}$Na(n,n)$^{23}$Na & 0 & todas & 1.12\,\% & pierde 0--16\,\% \\
+$^{35.37}$Cl(n,n)$^{35.37}$Cl & 0 & todas & 0.55\,\% & pierde 0--11\,\% \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Captura radiativa} (0.972 por neutrón incidente; \% de las capturas en el agua)}\\
+$^{35}$Cl(n,$\gamma$)$^{36}$Cl & +8.580 & térmica & 67.66\,\% & 517, 788, 1165, 1951, 6111, 7414; $\gamma$ único 8580 \\
+$^1$H(n,$\gamma$)$^2$H & +2.225 & térmica & 30.95\,\% & 2224 (MEIGA: 2224.4) \\
+$^{23}$Na(n,$\gamma$)$^{24}$Na & +6.959 & térmica & 1.13\,\% & 472 (0.9\,\%); $\gamma$ único 6959 \\
+$^{37}$Cl(n,$\gamma$)$^{38}$Cl & +6.108 & térmica & 0.23\,\% & 638, 755, 1692; $\gamma$ único 6108 \\
+$^{16}$O(n,$\gamma$)$^{17}$O & +4.143 & térmica & 0.02\,\% & 871, 1088, 2184; $\gamma$ único 4143 \\
+\midrule\multicolumn{5}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}{\textbf{Inelástica} (1.43 por neutrón incidente; \% de las inelásticas; canales con más del 0.4\,\% y los del Na y el Cl)}\\
+$^{16}$O(n,np)$^{15}$N & -12.13 & 307\,MeV & 11.6\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n')$^{16}$O & 0.00 & 20\,MeV (50\,\% $<$\,20) & 10.5\,\% & 2.7 $\gamma$/reacc.; 6130 (15\,\%), 7117 (6\,\%), 2741 (4\,\%) \\
+$^{16}$O(n,n$\alpha$)$^{12}$C & -7.16 & 37\,MeV (17\,\% $<$\,20) & 8.7\,\% & 1.7 $\gamma$/reacc.; 4439 (6\,\%) \\
+$^{16}$O(n,2np)$^{14}$N & -22.96 & 343\,MeV & 8.2\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n)$^{15}$O & -15.66 & 500\,MeV & 8.2\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p)$^{12}$C & -35.46 & 500\,MeV & 5.8\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n2p)$^{13}$C & -30.51 & 460\,MeV & 3.5\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,$\alpha$)$^{13}$C & -2.22 & 10\,MeV (99\,\% $<$\,20) & 2.9\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2p)$^{14}$C & -22.33 & 326\,MeV & 2.5\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p$\alpha$)$^{8}$Be & -42.82 & 500\,MeV & 1.8\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2npd)$^{12}$C & -33.23 & 377\,MeV & 1.7\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n2p3$\alpha$) & -42.73 & 500\,MeV & 1.3\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,n')$^{23}$Na & 0.00 & 6\,MeV (85\,\% $<$\,20) & 1.2\,\% & 2.6 $\gamma$/reacc.; 440 (73\,\%) \\
+$^{16}$O(n,3np)$^{13}$N & -33.51 & 500\,MeV & 1.0\,\% & 1.7 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,n2$\alpha$)$^{8}$Be & -14.53 & 65\,MeV & 0.9\,\% & 1.5 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,p)$^{35}$S & 0.62 & térmica (96\,\% $<$\,20) & 0.7\,\% & 0.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,3n3p)$^{11}$B & -51.41 & 500\,MeV & 0.7\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,np)$^{22}$Ne & -8.79 & 129\,MeV & 0.6\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,np)$^{34}$S & -6.37 & 123\,MeV & 0.6\,\% & 2.4 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,p)$^{16}$N & -9.64 & 18\,MeV (56\,\% $<$\,20) & 0.6\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^-$)$^{15}$O & -154.45 & 500\,MeV & 0.6\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,n')$^{35}$Cl & 0.00 & 7\,MeV (79\,\% $<$\,20) & 0.6\,\% & 2.4 $\gamma$/reacc.; 1219 (16\,\%), 1763 (11\,\%) \\
+$^{16}$O(n,2npd$\alpha$)$^{8}$Be & -40.60 & 499\,MeV & 0.6\,\% & 1.6 $\gamma$/reacc.; continuo \\
+$^{1}$H(n,np$\pi^0$) & -134.98 & 500\,MeV & 0.6\,\% & 0.0 $\gamma$/reacc.; sin $\gamma$ directos \\
+$^{16}$O(n,3n)$^{14}$O & -28.89 & 500\,MeV & 0.6\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,np$\pi^0$)$^{15}$N & -147.10 & 500\,MeV & 0.5\,\% & 2.6 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3pd2$\alpha$) & -68.80 & 500\,MeV & 0.5\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n3p)$^{10}$B & -62.87 & 500\,MeV & 0.4\,\% & 1.8 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,4n2p)$^{11}$C & -54.18 & 500\,MeV & 0.4\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,5n4p2$\alpha$) & -71.03 & 500\,MeV & 0.4\,\% & 1.9 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,2np)$^{21}$Ne & -19.16 & 238\,MeV & 0.4\,\% & 2.0 $\gamma$/reacc.; continuo \\
+$^{16}$O(n,2n3p$\pi^-$)$^{12}$C & -174.25 & 500\,MeV & 0.4\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,2np)$^{33}$S & -17.79 & 157\,MeV & 0.4\,\% & 2.2 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,2n)$^{22}$Na & -12.42 & 494\,MeV & 0.4\,\% & 2.1 $\gamma$/reacc.; 440 (3\,\%) \\
+$^{23}$Na(n,3np)$^{20}$Ne & -25.92 & 349\,MeV & 0.3\,\% & 2.1 $\gamma$/reacc.; 440 (3\,\%) \\
+$^{35}$Cl(n,3np)$^{32}$S & -26.43 & 365\,MeV & 0.3\,\% & 2.3 $\gamma$/reacc.; continuo \\
+$^{35}$Cl(n,2n)$^{34}$Cl & -12.64 & 500\,MeV & 0.3\,\% & 2.1 $\gamma$/reacc.; continuo \\
+$^{37}$Cl(n,n')$^{37}$Cl & 0.00 & 8\,MeV (82\,\% $<$\,20) & 0.2\,\% & 2.6 $\gamma$/reacc.; continuo \\
+$^{23}$Na(n,3np$\alpha$)$^{16}$O & -30.65 & 455\,MeV & 0.2\,\% & 2.1 $\gamma$/reacc.; 440 (3\,\%) \\
+\bottomrule\end{longtable}}

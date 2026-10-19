@@ -1,0 +1,43 @@
+{
+ "medios": {
+  "pura": {
+   "frac_eventos_con_piones": 0.11876666666666667,
+   "cuentas_100_500_todos": 28902,
+   "cuentas_100_500_sin_piones": 24263,
+   "cuentas_100_500_con_piones": 4639
+  },
+  "nacl25": {
+   "frac_eventos_con_piones": 0.11928,
+   "cuentas_100_500_todos": 37592,
+   "cuentas_100_500_sin_piones": 32396,
+   "cuentas_100_500_con_piones": 5196,
+   "aumento_todos_pct": 30.06712338246489,
+   "aumento_sin_piones_pct": 33.52017475167952,
+   "aumento_Sidelnik_pct": 52.9,
+   "excedente_NaCl": 8690,
+   "excedente_NaCl_sin_piones": 8133
+  },
+  "nacl5": {
+   "frac_eventos_con_piones": 0.1206,
+   "cuentas_100_500_todos": 41283,
+   "cuentas_100_500_sin_piones": 36108,
+   "cuentas_100_500_con_piones": 5175,
+   "aumento_todos_pct": 42.83786589163378,
+   "aumento_sin_piones_pct": 48.819189712731315,
+   "aumento_Sidelnik_pct": 66.9,
+   "excedente_NaCl": 12381,
+   "excedente_NaCl_sin_piones": 11845
+  },
+  "nacl10": {
+   "frac_eventos_con_piones": 0.11976,
+   "cuentas_100_500_todos": 46013,
+   "cuentas_100_500_sin_piones": 40933,
+   "cuentas_100_500_con_piones": 5080,
+   "aumento_todos_pct": 59.203515327659,
+   "aumento_sin_piones_pct": 68.7054362609735,
+   "aumento_Sidelnik_pct": 53.9,
+   "excedente_NaCl": 17111,
+   "excedente_NaCl_sin_piones": 16670
+  }
+ }
+}

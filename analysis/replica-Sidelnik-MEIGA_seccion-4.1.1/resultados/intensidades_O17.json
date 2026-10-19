@@ -1,0 +1,39 @@
+{
+ "capturas_O16_MEIGA": 190,
+ "suma_media_keV": 5038.201968201052,
+ "frac_suma_igual_Sn": 0.2631578947368421,
+ "gamma_unico_Sn_por_100": 21.57894736842105,
+ "gamma_unico_Sn_error": 3.3700653881225517,
+ "transiciones": {
+  "4142.60": {
+   "referencia": 3.36,
+   "MEIGA": 0.0,
+   "MEIGA_error": 0.0,
+   "cuentas": 0
+  },
+  "3272.02": {
+   "referencia": 16.2,
+   "MEIGA": 15.789473684210526,
+   "MEIGA_error": 2.8827503026587693,
+   "cuentas": 30
+  },
+  "1087.89": {
+   "referencia": 80.4,
+   "MEIGA": 87.89473684210526,
+   "MEIGA_error": 6.8014989385895195,
+   "cuentas": 167
+  },
+  "2184.49": {
+   "referencia": 80.4,
+   "MEIGA": 84.21052631578948,
+   "MEIGA_error": 6.657426652986063,
+   "cuentas": 160
+  },
+  "870.76": {
+   "referencia": 96.6,
+   "MEIGA": 94.21052631578948,
+   "MEIGA_error": 7.0416253475050805,
+   "cuentas": 179
+  }
+ }
+}

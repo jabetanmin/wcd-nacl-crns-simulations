@@ -1,0 +1,630 @@
+{
+ "N": 150000,
+ "inelasticas": 204696,
+ "inelasticas_por_neutron_incidente": 1.36464,
+ "material": {
+  "SaltyWater_NaCl_5.0pct": 0.9881873607691406,
+  "G4_STAINLESS-STEEL": 0.006673310665572361,
+  "Air": 0.004670340407238051,
+  "Pyrex": 0.00028334701215460977,
+  "Tyvek_HDPE": 0.0001856411458943995
+ },
+ "blanco": {
+  "O16": 0.9204088013444327,
+  "Cl35": 0.024533943017938795,
+  "Na23": 0.022697072732246845,
+  "H1": 0.012613827334193145,
+  "Cl37": 0.006341110720287646,
+  "Fe56": 0.004538437487786767,
+  "N14": 0.0035467229452456326,
+  "O18": 0.0020322820182123733,
+  "Cr52": 0.0010112557157931762,
+  "incompleto": 0.0005862351975612616,
+  "O17": 0.00042502051823191465,
+  "Ni58": 0.0003028881854066518
+ },
+ "por_energia": {
+  "< 20 MeV": 0.1220737093055067,
+  "20-100 MeV": 0.21814788759917145,
+  "> 100 MeV": 0.6597784030953219
+ },
+ "canales": [
+  {
+   "canal": "O16(n,np)N15",
+   "frac": 0.12149724469457146,
+   "Q_MeV": -12.1274,
+   "E_n_mediana_MeV": 325.568238,
+   "frac_E_menor_20MeV": 0.0004020908725371934,
+   "gammas_por_reaccion": 2.211338962605549,
+   "E_gamma_por_reaccion_MeV": 4.282522444498236,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,n')O16",
+   "frac": 0.10817016453667878,
+   "Q_MeV": 0.0,
+   "E_n_mediana_MeV": 20.202141085,
+   "frac_E_menor_20MeV": 0.4968837503387228,
+   "gammas_por_reaccion": 2.756977689458947,
+   "E_gamma_por_reaccion_MeV": 7.038300520649933,
+   "lineas": [
+    [
+     "6130 (O16)",
+     0.14289585403305935
+    ],
+    [
+     "7117 (O16)",
+     0.06440249299972903
+    ],
+    [
+     "6917 (O16)",
+     0.0365820612410803
+    ],
+    [
+     "2741 (O16)",
+     0.03599494173968024
+    ]
+   ]
+  },
+  {
+   "canal": "O16(n,nα)C12",
+   "frac": 0.09225387892289053,
+   "Q_MeV": -7.161900000000001,
+   "E_n_mediana_MeV": 38.296555055,
+   "frac_E_menor_20MeV": 0.1624655793264139,
+   "gammas_por_reaccion": 1.744386782461343,
+   "E_gamma_por_reaccion_MeV": 3.209765370699015,
+   "lineas": [
+    [
+     "4439 (C12)",
+     0.06306926498623174
+    ]
+   ]
+  },
+  {
+   "canal": "O16(n,2n)O15",
+   "frac": 0.08705592683784734,
+   "Q_MeV": -15.663900000000002,
+   "E_n_mediana_MeV": 499.60117715,
+   "frac_E_menor_20MeV": 5.611672278338945e-05,
+   "gammas_por_reaccion": 2.0893939393939394,
+   "E_gamma_por_reaccion_MeV": 3.19061057393147,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2np)N14",
+   "frac": 0.0866651033728065,
+   "Q_MeV": -22.960700000000003,
+   "E_n_mediana_MeV": 352.40668489999996,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.9804960541149943,
+   "E_gamma_por_reaccion_MeV": 3.2186272011853054,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n2p)C12",
+   "frac": 0.06227283386094501,
+   "Q_MeV": -35.4576,
+   "E_n_mediana_MeV": 499.969214,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.0927277006354434,
+   "E_gamma_por_reaccion_MeV": 4.067129277690507,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2n2p)C13",
+   "frac": 0.03768026732325009,
+   "Q_MeV": -30.5113,
+   "E_n_mediana_MeV": 464.776752,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6874108647737587,
+   "E_gamma_por_reaccion_MeV": 1.7739565792241594,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,α)C13",
+   "frac": 0.029868683315746276,
+   "Q_MeV": -2.2155999999999993,
+   "E_n_mediana_MeV": 10.305535429999999,
+   "frac_E_menor_20MeV": 0.9952567877003599,
+   "gammas_por_reaccion": 2.363264638534511,
+   "E_gamma_por_reaccion_MeV": 2.8618213683423575,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,n2p)C14",
+   "frac": 0.027255051393285653,
+   "Q_MeV": -22.334899999999998,
+   "E_n_mediana_MeV": 354.0175415,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.050546692955727,
+   "E_gamma_por_reaccion_MeV": 3.3499457605566585,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n2pα)Be8",
+   "frac": 0.01950697619885098,
+   "Q_MeV": -42.8241,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.5817680941647885,
+   "E_gamma_por_reaccion_MeV": 1.4302994327896221,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2npd)C12",
+   "frac": 0.017943682338687615,
+   "Q_MeV": -33.233000000000004,
+   "E_n_mediana_MeV": 362.3472975,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.1677103185407023,
+   "E_gamma_por_reaccion_MeV": 4.446905093754223,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n2p3α)",
+   "frac": 0.014406729980068003,
+   "Q_MeV": -42.7323,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6771787046456426,
+   "E_gamma_por_reaccion_MeV": 2.663004036346555,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3np)N13",
+   "frac": 0.010723218822058076,
+   "Q_MeV": -33.514100000000006,
+   "E_n_mediana_MeV": 499.672169,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6323462414578587,
+   "E_gamma_por_reaccion_MeV": 1.3636480111273304,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,n2α)Be8",
+   "frac": 0.010000195411732521,
+   "Q_MeV": -14.528400000000001,
+   "E_n_mediana_MeV": 70.64424796,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.5227161700048852,
+   "E_gamma_por_reaccion_MeV": 1.2594109723372204,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n3p)B11",
+   "frac": 0.007093445890491265,
+   "Q_MeV": -51.4143,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.3388429752066116,
+   "E_gamma_por_reaccion_MeV": 5.234656294102472,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,npπ⁻)O15",
+   "frac": 0.006345996013600657,
+   "Q_MeV": -154.45159999999998,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.3010007698229407,
+   "E_gamma_por_reaccion_MeV": 4.326937472717121,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2npdα)Be8",
+   "frac": 0.006209207800836362,
+   "Q_MeV": -40.599500000000006,
+   "E_n_mediana_MeV": 486.8118555,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.5908733280881195,
+   "E_gamma_por_reaccion_MeV": 1.4351482019715736,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,p)N16",
+   "frac": 0.00609196076132411,
+   "Q_MeV": -9.638399999999999,
+   "E_n_mediana_MeV": 18.31218621,
+   "frac_E_menor_20MeV": 0.5549318364073778,
+   "gammas_por_reaccion": 1.9478748997594226,
+   "E_gamma_por_reaccion_MeV": 1.0873645847808855,
+   "lineas": []
+  },
+  {
+   "canal": "H1(n,npπ⁰)",
+   "frac": 0.006018681361628952,
+   "Q_MeV": -134.977,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 0.0,
+   "E_gamma_por_reaccion_MeV": 0.0,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n)O14",
+   "frac": 0.005920975495368742,
+   "Q_MeV": -28.8866,
+   "E_n_mediana_MeV": 499.97385640000005,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.1435643564356437,
+   "E_gamma_por_reaccion_MeV": 3.2362236244986717,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,npπ⁰)N15",
+   "frac": 0.0054910696838238165,
+   "Q_MeV": -147.1044,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.626334519572954,
+   "E_gamma_por_reaccion_MeV": 6.990101802171744,
+   "lineas": []
+  },
+  {
+   "canal": "Na23(n,n')Na23",
+   "frac": 0.005456872630632743,
+   "Q_MeV": 0.0,
+   "E_n_mediana_MeV": 6.549312777,
+   "frac_E_menor_20MeV": 0.8361683079677709,
+   "gammas_por_reaccion": 2.512085944494181,
+   "E_gamma_por_reaccion_MeV": 3.5492290130352506,
+   "lineas": [
+    [
+     "440 (Na23)",
+     0.7215756490599821
+    ],
+    [
+     "2076 (Na23)",
+     0.024171888988361683
+    ]
+   ]
+  },
+  {
+   "canal": "O16(n,4n3pd2α)",
+   "frac": 0.005295657951303396,
+   "Q_MeV": -68.8034,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.8892988929889298,
+   "E_gamma_por_reaccion_MeV": 3.8793419137688745,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,4n2p)C11",
+   "frac": 0.004699652167116114,
+   "Q_MeV": -54.17920000000001,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.225571725571726,
+   "E_gamma_por_reaccion_MeV": 4.646307731136248,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,4n3p)B10",
+   "frac": 0.004699652167116114,
+   "Q_MeV": -62.8685,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.7723492723492724,
+   "E_gamma_por_reaccion_MeV": 2.3711144844800627,
+   "lineas": []
+  },
+  {
+   "canal": "Cl35(n,p)S35",
+   "frac": 0.004557978661038809,
+   "Q_MeV": 0.615199999999998,
+   "E_n_mediana_MeV": 4.63919605e-08,
+   "frac_E_menor_20MeV": 0.962486602357985,
+   "gammas_por_reaccion": 0.5294748124330118,
+   "E_gamma_por_reaccion_MeV": 0.8368106859363237,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,5n4p2α)",
+   "frac": 0.004333255168640325,
+   "Q_MeV": -71.028,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.9098083427282977,
+   "E_gamma_por_reaccion_MeV": 3.566315393525727,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2n3pπ⁻)C12",
+   "frac": 0.004313713995388283,
+   "Q_MeV": -174.2453,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.160815402038505,
+   "E_gamma_por_reaccion_MeV": 4.341867876947305,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,n2pπ⁻)N14",
+   "frac": 0.004264861062258178,
+   "Q_MeV": -161.7484,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.0813287514318444,
+   "E_gamma_por_reaccion_MeV": 3.5030902915920277,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n2pπ⁰)C12",
+   "frac": 0.003947316996912495,
+   "Q_MeV": -170.4346,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.152227722772277,
+   "E_gamma_por_reaccion_MeV": 4.285045952827735,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2npd3α)",
+   "frac": 0.003825184664087232,
+   "Q_MeV": -40.5077,
+   "E_n_mediana_MeV": 499.6008676,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6475095785440612,
+   "E_gamma_por_reaccion_MeV": 2.467826720768876,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,npd)C13",
+   "frac": 0.0036053464650017586,
+   "Q_MeV": -28.286700000000003,
+   "E_n_mediana_MeV": 102.41898275,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.834688346883469,
+   "E_gamma_por_reaccion_MeV": 2.088972111833496,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,npα)B11",
+   "frac": 0.0034978700121155275,
+   "Q_MeV": -23.1186,
+   "E_n_mediana_MeV": 133.76221295,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.164804469273743,
+   "E_gamma_por_reaccion_MeV": 4.424695874382682,
+   "lineas": []
+  },
+  {
+   "canal": "Na23(n,np)Ne22",
+   "frac": 0.003439246492359401,
+   "Q_MeV": -8.7942,
+   "E_n_mediana_MeV": 155.04112364999997,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.21875,
+   "E_gamma_por_reaccion_MeV": 4.102616535269645,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,d)N15",
+   "frac": 0.0033366553327861806,
+   "Q_MeV": -9.9028,
+   "E_n_mediana_MeV": 19.65432619,
+   "frac_E_menor_20MeV": 0.5387994143484627,
+   "gammas_por_reaccion": 2.651537335285505,
+   "E_gamma_por_reaccion_MeV": 6.245174141554912,
+   "lineas": [
+    [
+     "5298 (N15)",
+     0.10102489019033675
+    ],
+    [
+     "5269 (N15)",
+     0.043923865300146414
+    ]
+   ]
+  },
+  {
+   "canal": "Cl35(n,np)S34",
+   "frac": 0.003321999452847149,
+   "Q_MeV": -6.370700000000003,
+   "E_n_mediana_MeV": 121.50832785,
+   "frac_E_menor_20MeV": 0.0014705882352941176,
+   "gammas_por_reaccion": 2.485294117647059,
+   "E_gamma_por_reaccion_MeV": 5.192787696563161,
+   "lineas": []
+  },
+  {
+   "canal": "H1(n,2nπ⁺)",
+   "frac": 0.0032633759330910226,
+   "Q_MeV": -140.35229999999999,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 0.0,
+   "E_gamma_por_reaccion_MeV": 0.0,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2npπ⁰)N14",
+   "frac": 0.0031656700668308124,
+   "Q_MeV": -157.9377,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.8981481481481481,
+   "E_gamma_por_reaccion_MeV": 2.8966832519709262,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,n4α)",
+   "frac": 0.0031461288935787706,
+   "Q_MeV": -14.4366,
+   "E_n_mediana_MeV": 83.958585925,
+   "frac_E_menor_20MeV": 0.003105590062111801,
+   "gammas_por_reaccion": 1.423913043478261,
+   "E_gamma_por_reaccion_MeV": 1.5780065570783388,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,npt)C12",
+   "frac": 0.003063078907257592,
+   "Q_MeV": -26.9758,
+   "E_n_mediana_MeV": 210.4434405,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.269537480063796,
+   "E_gamma_por_reaccion_MeV": 4.837808706596141,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,4n3pd)Be8",
+   "frac": 0.0030044553875014654,
+   "Q_MeV": -68.8952,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.5414634146341464,
+   "E_gamma_por_reaccion_MeV": 1.4199156921377887,
+   "lineas": []
+  },
+  {
+   "canal": "Cl35(n,n')Cl35",
+   "frac": 0.0029556024543713603,
+   "Q_MeV": 0.0,
+   "E_n_mediana_MeV": 7.038958256,
+   "frac_E_menor_20MeV": 0.7702479338842976,
+   "gammas_por_reaccion": 2.4082644628099175,
+   "E_gamma_por_reaccion_MeV": 3.9525325599113152,
+   "lineas": [
+    [
+     "1219 (Cl35)",
+     0.17851239669421487
+    ],
+    [
+     "1763 (Cl35)",
+     0.10082644628099173
+    ]
+   ]
+  },
+  {
+   "canal": "O16(n,5n4p)Be8",
+   "frac": 0.0029556024543713603,
+   "Q_MeV": -71.1198,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6,
+   "E_gamma_por_reaccion_MeV": 1.4201214230147603,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,nd)N14",
+   "frac": 0.002447531949818267,
+   "Q_MeV": -20.7361,
+   "E_n_mediana_MeV": 51.41932606,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.1956087824351296,
+   "E_gamma_por_reaccion_MeV": 4.085487111581517,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,3n3pt2α)",
+   "frac": 0.0024426466565052565,
+   "Q_MeV": -62.5462,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.756,
+   "E_gamma_por_reaccion_MeV": 3.4096334512969197,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,4npπ⁺)C12",
+   "frac": 0.0023889084300621408,
+   "Q_MeV": -175.8099,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.1370143149284253,
+   "E_gamma_por_reaccion_MeV": 4.312711763282065,
+   "lineas": []
+  },
+  {
+   "canal": "O16(n,2n2pπ⁰)C13",
+   "frac": 0.0022423496306718253,
+   "Q_MeV": -165.4883,
+   "E_n_mediana_MeV": 499.9985131,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.6884531590413943,
+   "E_gamma_por_reaccion_MeV": 1.8663104475210022,
+   "lineas": []
+  },
+  {
+   "canal": "H1(n,np)",
+   "frac": 0.0021202172978465627,
+   "Q_MeV": 0.0,
+   "E_n_mediana_MeV": 17.097272235,
+   "frac_E_menor_20MeV": 1.0,
+   "gammas_por_reaccion": 0.923963133640553,
+   "E_gamma_por_reaccion_MeV": 1.6518298623122118,
+   "lineas": []
+  },
+  {
+   "canal": "Na23(n,2np)Ne21",
+   "frac": 0.0021006761245945206,
+   "Q_MeV": -19.1585,
+   "E_n_mediana_MeV": 211.2712472,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 1.9604651162790698,
+   "E_gamma_por_reaccion_MeV": 2.727512523089372,
+   "lineas": [
+    [
+     "440 (Na23)",
+     0.02558139534883721
+    ]
+   ]
+  },
+  {
+   "canal": "Cl35(n,2np)S33",
+   "frac": 0.002027396724899363,
+   "Q_MeV": -17.787900000000004,
+   "E_n_mediana_MeV": 247.1387307,
+   "frac_E_menor_20MeV": 0.0,
+   "gammas_por_reaccion": 2.146987951807229,
+   "E_gamma_por_reaccion_MeV": 3.4948969681336384,
+   "lineas": []
+  }
+ ],
+ "gammas_4_7_MeV_por_inelastica": 0.24166568960800405,
+ "gammas_4_7_MeV_por_residual": {
+  "O16": 0.28022155737042126,
+  "C12": 0.20099862537397914,
+  "N15": 0.15539338562302904,
+  "N14": 0.0947279049082235,
+  "O15": 0.08162852753295059,
+  "C14": 0.033900703485081264,
+  "—": 0.027310584620360637,
+  "C13": 0.023368642354653513,
+  "B11": 0.021326918411902644,
+  "C11": 0.012270558745047302
+ },
+ "gammas_4_7_MeV_lineas": {
+  "continuo / otras": 0.8820449583569177,
+  "6130 (O16)": 0.06705344869410527,
+  "4439 (C12)": 0.024824128729683835,
+  "6917 (O16)": 0.018759602167057493,
+  "5298 (N15)": 0.0024460257135926256,
+  "5269 (N15)": 0.001637422171909113,
+  "6324 (N15)": 0.0007075280989730735,
+  "5106 (N14)": 0.0006670979218888979,
+  "5183 (O15)": 0.0006468828333468101,
+  "6176 (O15)": 0.00048516212501010755,
+  "5241 (O15)": 0.0004447319479259319,
+  "6094 (C14)": 0.00016172070833670252,
+  "4444 (B11)": 0.00012129053125252689
+ },
+ "gammas_4_7_MeV_por_canal": {
+  "O16(n,n')O16": 0.2769669281151451,
+  "O16(n,np)N15": 0.13046818145063474,
+  "O16(n,nα)C12": 0.09001778927791704,
+  "O16(n,2np)N14": 0.08156788226732434,
+  "O16(n,2n)O15": 0.06951968949623999,
+  "O16(n,3n2p)C12": 0.06430419665238134,
+  "O16(n,n2p)C14": 0.02775531656828657,
+  "O16(n,2npd)C12": 0.020134228187919462,
+  "O16(n,α)C13": 0.01433249777634026,
+  "O16(n,npπ⁰)N15": 0.0121088380367106
+ },
+ "gammas_4_7_MeV_frac_de_n_menor_20MeV": 0.22586318428074714,
+ "gammas_4_7_MeV_frac_lineas_si_En_menor_20": 0.46451266445896355,
+ "gammas_4_7_MeV_frac_lineas_si_En_mayor_20": 0.016842929886408148
+}

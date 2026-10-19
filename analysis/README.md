@@ -56,6 +56,16 @@ del volumen activo es marginal (inferior al 0.4 % de los neutrones incidentes).
 contiene los notebooks, los histogramas de carga y las figuras de la validación con el prototipo
 irradiado con ²⁴¹AmBe. Los datos crudos (1.9 GB, formato LAGO) están fuera del repositorio.
 
+## Réplica de Sidelnik et al. (2020) con MEIGA (Sección 4.1.1, octubre de 2026)
+
+[`replica-Sidelnik-MEIGA_seccion-4.1.1/`](replica-Sidelnik-MEIGA_seccion-4.1.1/) analiza las corridas de MEIGA con
+150 000 neutrones de 500 MeV en la configuración de Sidelnik et al. (2020): captura, espectros gamma y de electrones,
+luz Cherenkov y carga en el PMT, en agua pura y con 2.5, 5 y 10 % de NaCl, con un notebook generado a partir de los
+scripts y un informe técnico de 49 páginas cuyo contenido es el de la Sec. 4.1.1 de la tesis. Sustituye, como base de la
+sección, al estudio anterior.
+A diferencia de [`validacion-numerica-Sidelnik_seccion-4.1.1/`](validacion-numerica-Sidelnik_seccion-4.1.1/), estas
+corridas usan la geometría del tanque de acero con el PMT en la tapa, como en el artículo.
+
 ## Estudio del efecto de S(α,β) (septiembre de 2026)
 
 [`efecto-SalphaBeta_barrido-energia/`](efecto-SalphaBeta_barrido-energia/) compara, con el mismo
