@@ -95,3 +95,4 @@ else:
 
 print("\nRESULTADO: " + ("TODO CORRECTO, puede lanzar la corrida completa." if ok else "HAY FALLAS: no lance la corrida completa."))
 sys.exit(0 if ok else 1)
+
