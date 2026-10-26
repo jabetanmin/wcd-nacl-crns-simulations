@@ -55,6 +55,14 @@ del volumen activo es marginal (inferior al 0.4 % de los neutrones incidentes).
 [`validacion-experimental-prototipo-AmBe_seccion-4.1.2/`](validacion-experimental-prototipo-AmBe_seccion-4.1.2/)
 contiene los notebooks, los histogramas de carga y las figuras de la validación con el prototipo
 irradiado con ²⁴¹AmBe. Los datos crudos (1.9 GB, formato LAGO) están fuera del repositorio.
+Desde la v0.8.0 incluye también las simulaciones MEIGA del montaje real: la fuente revisada (ISO 8529), las corridas
+por la tapa, la entrada lateral con 10⁶ neutrones, la calibración con muones y el haz moderado con el PMT bajado.
+Todas se comparan con el prototipo por factores comunes.
+
+## Albedo del suelo húmedo (Etapa III, en curso)
+
+[`albedo-suelo-humedo_seccion-4.6/`](albedo-suelo-humedo_seccion-4.6/) contiene el generador de los neutrones que bajan
+sobre el suelo SoilBS y el análisis del espectro que sube y de su origen, para humedades de 5 a 30 %.
 
 ## Réplica de Sidelnik et al. (2020) con MEIGA (Sección 4.1.1, octubre de 2026)
 

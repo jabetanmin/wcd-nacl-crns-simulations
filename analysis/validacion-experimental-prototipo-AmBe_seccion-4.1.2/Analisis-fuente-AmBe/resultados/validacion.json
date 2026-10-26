@@ -1,0 +1,16 @@
+{
+  "archivo": "Fuente-AmBe241-corregida-1637458n.txt",
+  "neutrones": 1637458,
+  "ids": [
+    13
+  ],
+  "E_media_MeV": 4.151099567259839,
+  "E_media_esperada_MeV": 4.152336527503975,
+  "E_media_original_MeV": 4.0642774652529265,
+  "chi2": 218.04748793407742,
+  "ndf": 214,
+  "chi2_ndf": 1.0189134950190535,
+  "energias_distintas": 1311568,
+  "E_media_primer_1pct": 4.171397844836036,
+  "E_media_primer_10pct": 4.140629524754865
+}

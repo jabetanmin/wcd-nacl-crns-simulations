@@ -1,0 +1,34 @@
+{
+  "E_media_ISO_digitalizado_MeV": 4.2108641103402205,
+  "E_media_ISO_8529_1_2001_MeV": 4.16,
+  "E_media_ISO_8529_1_2021_pequena_MeV": 4.17,
+  "E_media_ISO_8529_1_2021_grande_MeV": 4.05,
+  "E_media_digitalizacion_previa_limpia_MeV": 4.152336527503975,
+  "grupos": 47,
+  "fraccion_bandas_pct": {
+    "0.1-1": {
+      "ISO": 12.57,
+      "previa": 12.08
+    },
+    "1-2": {
+      "ISO": 9.4,
+      "previa": 9.6
+    },
+    "2-4": {
+      "ISO": 27.4,
+      "previa": 28.51
+    },
+    "4-6": {
+      "ISO": 26.09,
+      "previa": 26.23
+    },
+    "6-8": {
+      "ISO": 16.87,
+      "previa": 16.89
+    },
+    "8-11": {
+      "ISO": 7.66,
+      "previa": 6.69
+    }
+  }
+}

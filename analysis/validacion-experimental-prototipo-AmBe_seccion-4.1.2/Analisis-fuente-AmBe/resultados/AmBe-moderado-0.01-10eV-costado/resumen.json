@@ -1,0 +1,19 @@
+{
+  "archivo": "207969N-AmBe-moderado-0.01-10eV-costado.txt",
+  "N": 207969,
+  "E_min_eV": 0.01,
+  "E_max_eV": 10.0,
+  "semilla": 20261023,
+  "componente_origen": 1,
+  "aceptacion_geometrica": 0.7559696397059177,
+  "E_media_eV": 0.2295104836828854,
+  "E_mediana_eV": 0.048624580247702394,
+  "fraccion_por_decada": {
+    "0.01-0.1 eV": 0.8235554337425289,
+    "0.1-1 eV": 0.13460179161317312,
+    "1-10 eV": 0.04184277464429795
+  },
+  "fraccion_del_flujo_en_rango": 0.8897693544586404,
+  "geometria": "plano x=-48.162 cm, |y|<=48.062, 0<=z<=133.124; direcciones ley del coseno hacia +x",
+  "injectionMode": "eFromFile"
+}

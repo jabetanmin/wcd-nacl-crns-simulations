@@ -1,0 +1,15 @@
+# Archivos de flujo de entrada que no se versionan: se regeneran byte a byte con el comando indicado (verificado 2026-10-23).
+# sha256  archivo
+#   <- comando (desde la carpeta indicada)
+1960b5be4f4a980c2909445bdf39106107b5b84067a26ca294d82476d760d7a3  simulations/montaje-AmBe-lateral/<medio>/flujos/1000000N-AmBe-montaje-haz-halo-fondo.txt
+#   <- analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/Analisis-fuente-AmBe: python3 scripts/generar_irradiacion_compuesta.py --N-total 1000000 --semilla 20261021 --salida <flujos>
+966901f67a974a09ff120e6e8c23b6a81032fa0ae7d65d19e91ef117539be038  simulations/montaje-AmBe-lateral/<medio>/flujos/1000000N-AmBe-montaje-haz-halo-fondo-componentes.txt
+#   <- (mismo comando)
+5b407cf9a7fade5901e134d53e41d0d7d2168bd46ce6fdd8e3de5c8dfa77766a  simulations/AmBe-horizontal-PMT-bajo/flujos/500000N-AmBe-moderado-0.01-10eV-horizontal-mitad-r2cm.txt
+#   <- analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/Analisis-fuente-AmBe: python3 scripts/generar_ambe_moderado.py resultados/AmBe-moderado-MEIGA/flujo_pura.tsv --N 500000 --semilla 20261025 --horizontal --radio-haz 2 --salida <flujos>
+717cfa704648e17387443ceecc3cb0039ba8158f4d8be2cb8a5ee1416fc870da  simulations/AmBe-horizontal-PMT-bajo/flujos/500000N-AmBe-moderado-0.01-10eV-horizontal-mitad-r2cm-componentes.txt
+#   <- (mismo comando)
+7fceb17953c763572b15701932b98e9bb472655e4c59d76ac13a53cb1b4b1012  simulations/albedo-suelo/flujos/200000N-Bga-baja-sobre-suelo.txt
+#   <- analysis/albedo-suelo-humedo_seccion-4.6: python3 scripts/generar_incidencia_suelo.py <all_bga_neutron_35.shw> --salida <flujos>   (semilla por defecto 20261023; sha256 del .shw: 7206fd94c7cb6624cb5401a7b1bc72c581077364b54731bf6efe00c9b0dbf1ca)
+06fc6d9e74cff2ca5e0679196f5acc728ebfd877b8530892af3717cbc1f43b4b  simulations/albedo-suelo/flujos/200000N-Bga-baja-sobre-suelo-componentes.txt
+#   <- (mismo comando)

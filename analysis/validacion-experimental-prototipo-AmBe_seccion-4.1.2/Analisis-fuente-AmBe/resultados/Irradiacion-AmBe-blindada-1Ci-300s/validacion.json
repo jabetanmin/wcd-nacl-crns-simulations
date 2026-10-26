@@ -1,0 +1,31 @@
+{
+  "archivo": "373272N-Irradiacion-AmBe-blindada-1Ci-300s.txt",
+  "neutrones": 373272,
+  "todos_entran": true,
+  "componentes_coinciden": true,
+  "energia_coincide_rel": 1.1671892584934683e-06,
+  "haz (ISO 8529)": {
+    "n": 130711,
+    "pct": 35.01762789601149,
+    "E_media_eV": 4208540.683064406,
+    "E_min_eV": 100023.33387318783,
+    "E_max_eV": 10838906.468247522,
+    "angulo_medio_eje_x_deg": 1.9084078394743131
+  },
+  "halo (0.5 eV–100 keV)": {
+    "n": 167963,
+    "pct": 44.997481729141214,
+    "E_media_eV": 8147.421131748563,
+    "E_min_eV": 0.5000427892936377,
+    "E_max_eV": 99996.96468283045,
+    "angulo_medio_eje_x_deg": 42.999886984538676
+  },
+  "fondo (1e-4–0.5 eV)": {
+    "n": 74598,
+    "pct": 19.984890374847296,
+    "E_media_eV": 0.05045038422893046,
+    "E_min_eV": 0.00024401716814116128,
+    "E_max_eV": 0.36220772087889047,
+    "angulo_medio_eje_x_deg": 52.91824881706471
+  }
+}

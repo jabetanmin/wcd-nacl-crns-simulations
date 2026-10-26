@@ -29,6 +29,29 @@ son fotografías o diagramas, no productos de análisis.
 | `datos-crudos.sha256` | Sumas SHA-256 de los seis archivos de datos crudos. |
 | `razones/` | Origen de las razones de mejora (procedimiento de Bariloche, arXiv:2601.17595) y cálculo independiente desde los datos crudos, con los tiempos de adquisición. |
 | `fuente-AmBe/` | Construcción del espectro de la fuente de ²⁴¹AmBe inyectado en Geant4 y su comparación con la referencia. |
+| `Analisis-fuente-AmBe/` | Revisión de esa fuente (sesgos de la digitalización), espectro ISO 8529, fuente corregida y generadores de las entradas de MEIGA de octubre de 2026: montaje blindado (haz, halo y fondo) y espectro moderado. |
+| `Analisis-corridas-AmBe/` | Corridas MEIGA con la fuente inyectada por la tapa (agua pura, 2.5 y 10 % NaCl) y cargas de los pulsos del experimento usadas en las comparaciones. |
+| `Analisis-montaje-MEIGA/` | Montaje real en MEIGA (entrada lateral, 10⁶ neutrones por medio), calibración con muones y comparación con el prototipo por factores comunes. |
+| `Analisis-PMT-bajo-horizontal/` | Am-Be moderado con haz horizontal y PMT bajado (5×10⁵ neutrones por medio): respuesta y factores comunes; la calibración con muones no pasa el criterio de acuerdo. |
+
+## Simulaciones MEIGA del montaje (octubre de 2026)
+
+Las cuatro carpetas `Analisis-*` comparan el experimento con simulaciones nuevas, hechas con el montaje real
+(fuente al costado del tanque). Se leen en este orden:
+
+1. [`Analisis-fuente-AmBe/`](Analisis-fuente-AmBe/README.md): la fuente;
+2. [`Analisis-corridas-AmBe/`](Analisis-corridas-AmBe/README.md): las corridas antiguas por la tapa;
+3. [`Analisis-montaje-MEIGA/`](Analisis-montaje-MEIGA/README.md): el montaje lateral con el PMT en la tapa;
+4. [`Analisis-PMT-bajo-horizontal/`](Analisis-PMT-bajo-horizontal/README.md): el haz moderado con el PMT bajado.
+
+Las configuraciones de las corridas están en [`simulations/montaje-AmBe-lateral/`](../../simulations/montaje-AmBe-lateral/),
+[`simulations/muones-VEM-agua-pura/`](../../simulations/muones-VEM-agua-pura/) y
+[`simulations/AmBe-horizontal-PMT-bajo/`](../../simulations/AmBe-horizontal-PMT-bajo/).
+
+La conclusión común es la siguiente. Con un factor horizontal (ADC/p.e.) y uno vertical (neutrones en 300 s),
+comunes a los tres medios, la simulación sigue la forma del exceso medido, dentro de un factor 2 entre medios. El
+factor horizontal, sin embargo, es 7.7–9.8 veces el que dan los muones simulados en el mismo detector, con el PMT en
+la tapa o bajado. Calibrada con muones, la simulación predice 10³–10⁴ veces menos señal que la medida.
 
 ## Datos crudos (no incluidos en git)
 

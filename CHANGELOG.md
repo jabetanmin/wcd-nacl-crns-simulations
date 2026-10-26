@@ -4,6 +4,56 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.8.0] - 2026-10-23
+
+### Añadido
+
+- `analysis/validacion-experimental-prototipo-AmBe_seccion-4.1.2/`: simulaciones MEIGA del montaje con la fuente de
+  ²⁴¹AmBe (Sec. 4.1.2), en cuatro carpetas:
+  - `Analisis-fuente-AmBe/`: revisión de la fuente usada hasta ahora (la digitalización sesga el número de neutrones
+    por intervalo entre −46 % y +35 %; peine de 437 energías; archivo ordenado), espectro ISO 8529 digitalizado,
+    fuente corregida (χ²/ndf = 218/214), modelo del montaje blindado (haz 35 %, halo 45 %, fondo 20 %) y espectro
+    Am-Be moderado en agua (10 meV – 10 eV); informe `Informe-fuente-AmBe241.pdf`;
+  - `Analisis-corridas-AmBe/`: corridas antiguas con la fuente inyectada por la tapa, reponderadas al espectro
+    ISO 8529, y cargas de los pulsos de las seis tomas del prototipo; informe `Informe-corridas-AmBe.pdf`;
+  - `Analisis-montaje-MEIGA/`: montaje con entrada lateral (10⁶ neutrones por medio, agua pura y 2.5 y 10 % NaCl,
+    PMT de Sidelnik en la tapa), calibración p.e./ADC con 2000 muones VEM (7.9 p.e./kADC), modelo de la electrónica
+    del prototipo (resolución de 1 p.e., cociente Q/A, recorte del ADC en 8040, disparo) y comparación por factores
+    comunes a los tres medios (≈1000 ADC/p.e.); informe `Informe-montaje-MEIGA.pdf`;
+  - `Analisis-PMT-bajo-horizontal/`: Am-Be moderado con haz horizontal a media altura y PMT bajado (5×10⁵
+    neutrones por medio): eficiencia 16.3/21.2/29.3 %, factores comunes k = 625–650 ADC/p.e. y
+    N = 6.1–7.6×10⁶ en 300 s. La calibración con muones del PMT bajado (68–70 ADC/p.e.) se probó con un criterio
+    fijado de antemano y no se usa (k/k_μ = 9.4–9.8). Informe `Informe-PMT-bajo-horizontal.pdf` y cuaderno.
+- `simulations/montaje-AmBe-lateral/`, `simulations/muones-VEM-agua-pura/` y `simulations/AmBe-horizontal-PMT-bajo/`:
+  paquetes de corrida (configuración, scripts de ejecución y de verificación, pruebas). `bajar_pmt.py` deja el PMT
+  en `zPMT = 0.3*fWaterHalfHeight` con la forma de Sidelnik.
+- `simulations/suelo-SoilBS/`: parche reversible de `G4WCDConstruction.cc` con el suelo SoilBS de la tesis (2.7 g/cm³,
+  14 elementos), seco o húmedo (volúmenes aditivos). Se activa con `MEIGA_SUELO_W`; `MEIGA_SIN_TANQUE` y
+  `MEIGA_SUELO_SEPARACION` permiten estudiar el suelo sin tanque o con el tanque a 2 m, como en los experimentos.
+- `simulations/albedo-suelo/` y `analysis/albedo-suelo-humedo_seccion-4.6/`: albedo del suelo según la humedad,
+  con 200 000 neutrones que bajan en `all_bga_neutron_35.shw`, un plano contador a 5 cm y el origen de cada neutrón
+  que sube; el modo `validacion` corre el suelo seco con los mismos 50 000 neutrones que la parte 1 de cada humedad,
+  para validarlo frente a la curva "Sube" de la tesis. Las corridas están en curso.
+- `docs/ESTADO_MEIGA_CONTENEDOR.md` y `docs/technical-reports/diffs/parches-contenedor-v0.8.0/`: parches aplicados
+  en el contenedor, en orden, con los md5 esperados y los diffs.
+- `data/manifiestos/`: manifiestos de las 12 corridas (archivos, bytes, md5 del listado), sha256 de los flujos
+  regenerables y de los archivos que se dejan fuera de git. `tools/manifiesto.sh` y `tools/comprimir_carpeta.sh`
+  (tar + zstd con verificación).
+
+### Cambiado
+
+- La posición del PMT del contenedor pasa a ser, de forma definitiva, `0.3*fWaterHalfHeight` (cara plana a 46.55 cm
+  bajo la tapa), con la forma de Sidelnik.
+- Los scripts de análisis toman las rutas de los discos y de los datos de variables de entorno (`ADATA`, `TOSHIBA`,
+  `REPO_TESIS`, `ALL_BGA_SHW`, `FUENTE_AMBE_DATOS`, …) en lugar de rutas personales fijas.
+
+### Notas
+
+- Los archivos de flujo grandes (montaje: semilla 20261021; moderado: 20261025; albedo: 20261023) no se versionan:
+  se regeneran byte a byte, comprobado con sha256.
+- No se versionan las salidas de las corridas (23–150 GB cada una), las tablas por evento de más de 5 MB, la figura
+  ISO 8529 del IAEA ni artículos de terceros.
+
 ## [0.7.0] - 2026-10-19
 
 ### Añadido

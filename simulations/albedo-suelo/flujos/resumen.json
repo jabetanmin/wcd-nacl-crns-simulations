@@ -1,0 +1,19 @@
+{
+  "archivo": "200000N-Bga-baja-sobre-suelo.txt",
+  "N": 200000,
+  "de_los_que_bajan": 1111010,
+  "semilla": 20261023,
+  "z_plano_cm": 5.0,
+  "z_inyeccion_cm": 6.0,
+  "region_inyeccion_cm": "x -850..850, y -850..850",
+  "tanque": false,
+  "E_min_MeV": 9.288229515892993e-11,
+  "E_max_MeV": 123070.89855301526,
+  "fracciones": {
+    "termico <0.5 eV": 0.0622,
+    "epitermico 0.5 eV-0.1 MeV": 0.15602,
+    "evaporacion 0.1-20 MeV": 0.19952,
+    "cascada >20 MeV": 0.58226
+  },
+  "cos_theta_medio": 0.8143464548130682
+}

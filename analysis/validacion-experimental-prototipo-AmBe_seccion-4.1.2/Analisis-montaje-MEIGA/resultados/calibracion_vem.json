@@ -1,0 +1,74 @@
+{
+  "simulacion": {
+    "muones": 2000,
+    "Q_media": 324.915,
+    "Q_mediana": 313.0,
+    "Q_pico": 304.6617647058815,
+    "Q_p16": 284.0,
+    "Q_p84": 362.0
+  },
+  "experimento_fondo": {
+    "ventana_trigger_pura": {
+      "pico_ADC": 40357.56154747949,
+      "mediana_ADC": 38879.0
+    },
+    "ventana_trigger_2.5": {
+      "pico_ADC": 38034.53545232279,
+      "mediana_ADC": 35712.5
+    },
+    "ventana_trigger_10": {
+      "pico_ADC": 40183.884936591414,
+      "mediana_ADC": 37922.0
+    },
+    "robusto_pura": {
+      "pico_ADC": 39458.04749340368,
+      "mediana_ADC": 34866.0
+    },
+    "robusto_2.5": {
+      "pico_ADC": 35441.955909943754,
+      "mediana_ADC": 32839.0
+    },
+    "robusto_10": {
+      "pico_ADC": 38178.145336225454,
+      "mediana_ADC": 34825.0
+    }
+  },
+  "calibracion": {
+    "ventana_trigger_pura": {
+      "ADC_por_pe": 132.4667753646094,
+      "pe_por_1000ADC": 7.54906275364174
+    },
+    "ventana_trigger_2.5": {
+      "ADC_por_pe": 124.84184055403566,
+      "pe_por_1000ADC": 8.010135028145209
+    },
+    "ventana_trigger_10": {
+      "ADC_por_pe": 131.89671167100562,
+      "pe_por_1000ADC": 7.581690152324142
+    },
+    "robusto_pura": {
+      "ADC_por_pe": 129.51427472855423,
+      "pe_por_1000ADC": 7.721156622278706
+    },
+    "robusto_2.5": {
+      "ADC_por_pe": 116.33214277531408,
+      "pe_por_1000ADC": 8.59607651112743
+    },
+    "robusto_10": {
+      "ADC_por_pe": 125.3132153720779,
+      "pe_por_1000ADC": 7.980004319822269
+    }
+  },
+  "resumen": {
+    "pe_por_1000ADC_media": 7.90635423122325,
+    "rango": [
+      7.54906275364174,
+      8.59607651112743
+    ],
+    "umbral_disparo_ADC": 3000,
+    "umbral_disparo_pe_nueva_cal": 23.7,
+    "umbral_disparo_pe_cal_3.95": 11.9
+  },
+  "calibracion_usada_hasta_ahora_pe_por_1000ADC": 3.95,
+  "nota": "fondo = muones de todas las direcciones; simulación = verticales (VEM). La diferencia de longitud media de traza da una incertidumbre de ~10 %."
+}

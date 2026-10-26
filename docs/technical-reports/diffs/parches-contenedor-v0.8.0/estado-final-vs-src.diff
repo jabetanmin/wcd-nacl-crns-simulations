@@ -1,0 +1,146 @@
+--- a/src/G4Models/SaltyWCD.cc
++++ b/src/G4Models/SaltyWCD.cc
+@@ -418,7 +418,8 @@
+     // The ellipsoid is truncated between -fPMTSemiZ and 0.
+     // Therefore, its flat face is located at z = zPMT.
+     // A small offset avoids numerical problems due to exact boundary contact.
+-    const G4double zPMT = 0.3 * fWaterHalfHeight;
++    // SIDELNIK: original: const G4double zPMT = 0.3 * fWaterHalfHeight;
++    const G4double zPMT = 0.3*fWaterHalfHeight;  // PMT-BAJO: cara plana a 86.45 cm del fondo, 46.55 cm bajo la tapa
+ 
+     new G4PVPlacement(nullptr,
+                       G4ThreeVector(0.0, 0.0, zPMT),
+--- a/src/Framework/Detector/OptDevice.cc
++++ b/src/Framework/Detector/OptDevice.cc
+@@ -53,9 +53,9 @@
+ 
+ 		case ePMT:
+                         // represented in G4Models as a G4Ellipsoid
+-                        SetSemiAxisX(10.1);
+-                        SetSemiAxisY(10.1);
+-                        SetSemiAxisZ(6.5);
++                        SetSemiAxisX(10.16);  // SIDELNIK: original: SetSemiAxisX(10.1);
++                        SetSemiAxisY(10.16);  // SIDELNIK: original: SetSemiAxisY(10.1);
++                        SetSemiAxisZ(5.0);  // SIDELNIK: original: SetSemiAxisZ(6.5);
+                         SetName("PMT");
+ 
+                //case ePMT:
+--- a/src/Applications/G4WCDSimulator/G4WCDConstruction.cc
++++ b/src/Applications/G4WCDSimulator/G4WCDConstruction.cc
+@@ -6,9 +6,19 @@
+ 
+ #include "G4SDManager.hh"
+ #include "G4UnitsTable.hh"
++#include <cstdio>    // SUELO-SoilBS
++#include <cstdlib>
++#include <algorithm>
+ 
+ using namespace std;
+ 
++// SUELO-SoilBS: configuracion del suelo (variables de entorno MEIGA_SUELO_W, MEIGA_SUELO_XY, MEIGA_SUELO_Z)
++namespace {
++	bool gSueloActivo = false;
++	G4double gSueloW = 0.;
++	G4double gSueloSep = 0.;   // distancia entre la superficie del suelo y el fondo exterior del tanque (z = 0)
++}
++
+ G4WCDConstruction::G4WCDConstruction(Event& theEvent) : 
+ 	G4VUserDetectorConstruction(),
+ 	fEvent(theEvent)
+@@ -27,9 +37,42 @@
+ G4WCDConstruction::CreateDetector()
+ {
+ 
++	// SUELO-SoilBS: suelo bajo el tanque solo si esta definida la variable de entorno MEIGA_SUELO_W
++	if (const char* sw = std::getenv("MEIGA_SUELO_W")) {
++		char* fin = nullptr;
++		gSueloW = std::strtod(sw, &fin);
++		if (fin == sw || gSueloW < 0. || gSueloW > 0.5) {
++			G4cerr << "[ERROR] MEIGA_SUELO_W = '" << sw << "' no es una fraccion masica de agua valida (0 a 0.5)" << G4endl;
++			std::exit(1);
++		}
++		gSueloActivo = true;
++		const G4double gx = fEvent.GetDetector(0).GetGroundSizeX();
++		const G4double gy = fEvent.GetDetector(0).GetGroundSizeY();
++		const G4double gz = fEvent.GetDetector(0).GetGroundSizeZ();
++		if (gx > 0.) fGroundSizeX = gx;
++		if (gy > 0.) fGroundSizeY = gy;
++		if (gz > 0.) fGroundSizeZ = gz;
++		if (const char* sxy = std::getenv("MEIGA_SUELO_XY")) fGroundSizeX = fGroundSizeY = std::atof(sxy) * CLHEP::m;
++		if (const char* sz = std::getenv("MEIGA_SUELO_Z")) fGroundSizeZ = std::atof(sz) * CLHEP::m;
++		if (const char* ss = std::getenv("MEIGA_SUELO_SEPARACION")) {   // altura del fondo del tanque sobre el suelo
++			char* fin2 = nullptr;
++			gSueloSep = std::strtod(ss, &fin2) * CLHEP::m;
++			if (fin2 == ss || gSueloSep < 0. || gSueloSep > 50. * CLHEP::m) {
++				G4cerr << "[ERROR] MEIGA_SUELO_SEPARACION = '" << ss << "' no es una altura valida en m (0 a 50)" << G4endl;
++				std::exit(1);
++			}
++		}
++		fWorldSizeX = std::max(fWorldSizeX, fGroundSizeX + 0.5 * CLHEP::m);
++		fWorldSizeY = std::max(fWorldSizeY, fGroundSizeY + 0.5 * CLHEP::m);
++		fWorldSizeZ = std::max(fWorldSizeZ, 2. * (gSueloSep + fGroundSizeZ + 0.5 * CLHEP::m));
++	}
+ 	CreateWorld();
+-	//CreateGround();
+-	PlaceDetector(fEvent);
++	if (gSueloActivo) CreateGround();   // SUELO-SoilBS
++	if (std::getenv("MEIGA_SIN_TANQUE")) {   // SUELO-SoilBS: solo el suelo, sin construir el tanque
++		G4cout << "[INFO] Suelo SoilBS: SIN TANQUE (MEIGA_SIN_TANQUE definida): no se construye ningun detector" << G4endl;
++	} else {
++		PlaceDetector(fEvent);
++	}
+ 	return physWorld;
+ }
+ 
+@@ -47,11 +90,49 @@
+ void
+ G4WCDConstruction::CreateGround()
+ {
++	// SUELO-SoilBS: suelo seco modelo de la tesis (cap. 3, Etapa III; Ariza Gomez y Carrillo Moreno 2020, Tabla 3,
++	// a partir de Juarez Sanz et al. 2006), 2.7 g/cm3; suelo humedo = SoilBS (1-w) + agua (w), volumenes aditivos.
++	G4NistManager* nist = G4NistManager::Instance();
++	G4Material* seco = G4Material::GetMaterial("SoilBS", false);
++	if (!seco) {
++		const char* el[14] = {"O", "Si", "Al", "Na", "K", "Ca", "Fe", "Mg", "C", "S", "N", "P", "Ti", "H"};
++		const G4double fr[14] = {0.4900, 0.3300, 0.0713, 0.0063, 0.0136, 0.0137, 0.0380,
++		                          0.0060, 0.0200, 0.0008, 0.0010, 0.0009, 0.0046, 0.0038};
++		seco = new G4Material("SoilBS", 2.7 * CLHEP::g / CLHEP::cm3, 14);
++		for (int k = 0; k < 14; k++) seco->AddElement(nist->FindOrBuildElement(el[k]), fr[k]);
++	}
++	G4Material* suelo = seco;
++	if (gSueloW > 0.) {
++		char nombre[64];
++		std::snprintf(nombre, sizeof(nombre), "SoilBS_agua%.3f", gSueloW);
++		suelo = G4Material::GetMaterial(nombre, false);
++		if (!suelo) {
++			G4Element* hAgua = G4Element::GetElement("TS_H_of_Water", false);
++			if (!hAgua) hAgua = nist->FindOrBuildElement("H");
++			G4Material* agua = G4Material::GetMaterial("AguaSuelo", false);
++			if (!agua) {
++				agua = new G4Material("AguaSuelo", 1.0 * CLHEP::g / CLHEP::cm3, 2);
++				agua->AddElement(hAgua, 2);
++				agua->AddElement(nist->FindOrBuildElement("O"), 1);
++			}
++			const G4double rho = 1. / (gSueloW / (1.0 * CLHEP::g / CLHEP::cm3) + (1. - gSueloW) / (2.7 * CLHEP::g / CLHEP::cm3));
++			suelo = new G4Material(nombre, rho, 2);
++			suelo->AddMaterial(seco, 1. - gSueloW);
++			suelo->AddMaterial(agua, gSueloW);
++		}
++	}
++	G4cout << "[INFO] Suelo SoilBS: material = " << suelo->GetName()
++	       << ", fraccion masica de agua = " << gSueloW
++	       << ", densidad = " << suelo->GetDensity() / (CLHEP::g / CLHEP::cm3) << " g/cm3"
++	       << ", tamano = (" << fGroundSizeX / CLHEP::m << ", " << fGroundSizeY / CLHEP::m << ", " << fGroundSizeZ / CLHEP::m << ") m"
++	       << ", superficie en z = " << (gSueloSep > 0. ? -gSueloSep / CLHEP::m : 0.) << " m (tanque a " << gSueloSep / CLHEP::m << " m sobre el suelo)"
++	       << ", mundo = (" << fWorldSizeX / CLHEP::m << ", " << fWorldSizeY / CLHEP::m
++	       << ", " << fWorldSizeZ / CLHEP::m << ") m" << G4endl;
+ 	solidGround = new G4Box("Ground", fGroundSizeX/2, fGroundSizeY/2, fGroundSizeZ/2);
+ 	G4VisAttributes brown(G4Colour::Brown());
+-	logicGround = new G4LogicalVolume(solidGround, Materials().StdRock, "Ground");
++	logicGround = new G4LogicalVolume(solidGround, suelo, "Ground");
+ 	logicGround->SetVisAttributes(brown);
+-	physGround  =  new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -fWorldSizeZ/2 + fGroundSizeZ/2), logicGround, "Ground", logicWorld, false, 0, fCheckOverlaps);
++	physGround  = new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -gSueloSep - fGroundSizeZ/2), logicGround, "Ground", logicWorld, false, 0, fCheckOverlaps);
+ }
+ 
+ 

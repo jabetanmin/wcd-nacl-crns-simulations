@@ -1,0 +1,95 @@
+  emitidos     10000000 / 665980683, al tanque     3039843, archivos 3,     6.8 s
+  emitidos     20000000 / 665980683, al tanque     6078760, archivos 6,    13.5 s
+  emitidos     30000000 / 665980683, al tanque     9117433, archivos 9,    20.2 s
+  emitidos     40000000 / 665980683, al tanque    12156569, archivos 12,    27.0 s
+  emitidos     50000000 / 665980683, al tanque    15195914, archivos 15,    33.7 s
+  emitidos     60000000 / 665980683, al tanque    18233744, archivos 18,    40.4 s
+  emitidos     70000000 / 665980683, al tanque    21273633, archivos 21,    47.2 s
+  emitidos     80000000 / 665980683, al tanque    24312845, archivos 24,    53.9 s
+  emitidos     90000000 / 665980683, al tanque    27351985, archivos 27,    60.4 s
+  emitidos    100000000 / 665980683, al tanque    30387849, archivos 30,    67.2 s
+  emitidos    110000000 / 665980683, al tanque    33425534, archivos 33,    74.0 s
+  emitidos    120000000 / 665980683, al tanque    36465389, archivos 36,    80.7 s
+  emitidos    130000000 / 665980683, al tanque    39504026, archivos 39,    87.5 s
+  emitidos    140000000 / 665980683, al tanque    42544510, archivos 42,    94.3 s
+  emitidos    150000000 / 665980683, al tanque    45581888, archivos 45,   101.0 s
+  emitidos    160000000 / 665980683, al tanque    48622551, archivos 48,   107.7 s
+  emitidos    170000000 / 665980683, al tanque    51661744, archivos 51,   114.5 s
+  emitidos    180000000 / 665980683, al tanque    54701327, archivos 54,   121.1 s
+  emitidos    190000000 / 665980683, al tanque    57741019, archivos 57,   127.6 s
+  emitidos    200000000 / 665980683, al tanque    60780409, archivos 60,   134.4 s
+  emitidos    210000000 / 665980683, al tanque    63820009, archivos 63,   141.2 s
+  emitidos    220000000 / 665980683, al tanque    66858697, archivos 66,   147.9 s
+  emitidos    230000000 / 665980683, al tanque    69897518, archivos 69,   154.5 s
+  emitidos    240000000 / 665980683, al tanque    72936449, archivos 72,   161.1 s
+  emitidos    250000000 / 665980683, al tanque    75976693, archivos 75,   168.0 s
+  emitidos    260000000 / 665980683, al tanque    79016452, archivos 79,   176.4 s
+  emitidos    270000000 / 665980683, al tanque    82057256, archivos 82,   183.3 s
+  emitidos    280000000 / 665980683, al tanque    85096408, archivos 85,   190.0 s
+  emitidos    290000000 / 665980683, al tanque    88135815, archivos 88,   196.9 s
+  emitidos    300000000 / 665980683, al tanque    91174365, archivos 91,   203.7 s
+  emitidos    310000000 / 665980683, al tanque    94213205, archivos 94,   210.5 s
+  emitidos    320000000 / 665980683, al tanque    97250916, archivos 97,   217.2 s
+  emitidos    330000000 / 665980683, al tanque   100288982, archivos 100,   224.0 s
+  emitidos    340000000 / 665980683, al tanque   103324151, archivos 103,   230.7 s
+  emitidos    350000000 / 665980683, al tanque   106363534, archivos 106,   237.4 s
+  emitidos    360000000 / 665980683, al tanque   109400575, archivos 109,   244.0 s
+  emitidos    370000000 / 665980683, al tanque   112439312, archivos 112,   250.7 s
+  emitidos    380000000 / 665980683, al tanque   115477701, archivos 115,   257.3 s
+  emitidos    390000000 / 665980683, al tanque   118514732, archivos 118,   264.1 s
+  emitidos    400000000 / 665980683, al tanque   121553128, archivos 121,   270.7 s
+  emitidos    410000000 / 665980683, al tanque   124591577, archivos 124,   277.3 s
+  emitidos    420000000 / 665980683, al tanque   127627171, archivos 127,   283.9 s
+  emitidos    430000000 / 665980683, al tanque   130665680, archivos 130,   290.6 s
+  emitidos    440000000 / 665980683, al tanque   133703773, archivos 133,   297.1 s
+  emitidos    450000000 / 665980683, al tanque   136743103, archivos 136,   303.8 s
+  emitidos    460000000 / 665980683, al tanque   139781409, archivos 139,   310.6 s
+  emitidos    470000000 / 665980683, al tanque   142821539, archivos 142,   317.4 s
+  emitidos    480000000 / 665980683, al tanque   145860040, archivos 145,   324.2 s
+  emitidos    490000000 / 665980683, al tanque   148898895, archivos 148,   331.0 s
+  emitidos    500000000 / 665980683, al tanque   151939049, archivos 151,   337.6 s
+  emitidos    510000000 / 665980683, al tanque   154979598, archivos 154,   344.4 s
+  emitidos    520000000 / 665980683, al tanque   158018127, archivos 158,   352.8 s
+  emitidos    530000000 / 665980683, al tanque   161054409, archivos 161,   359.5 s
+  emitidos    540000000 / 665980683, al tanque   164093478, archivos 164,   366.3 s
+  emitidos    550000000 / 665980683, al tanque   167130531, archivos 167,   373.0 s
+  emitidos    560000000 / 665980683, al tanque   170167829, archivos 170,   379.8 s
+  emitidos    570000000 / 665980683, al tanque   173203890, archivos 173,   386.5 s
+  emitidos    580000000 / 665980683, al tanque   176240841, archivos 176,   393.3 s
+  emitidos    590000000 / 665980683, al tanque   179281575, archivos 179,   400.0 s
+  emitidos    600000000 / 665980683, al tanque   182320287, archivos 182,   406.6 s
+  emitidos    610000000 / 665980683, al tanque   185359153, archivos 185,   413.3 s
+  emitidos    620000000 / 665980683, al tanque   188397534, archivos 188,   420.1 s
+  emitidos    630000000 / 665980683, al tanque   191434918, archivos 191,   426.9 s
+  emitidos    640000000 / 665980683, al tanque   194472353, archivos 194,   433.6 s
+  emitidos    650000000 / 665980683, al tanque   197511677, archivos 197,   440.4 s
+  emitidos    660000000 / 665980683, al tanque   200548530, archivos 200,   447.2 s
+  emitidos    665980683 / 665980683, al tanque   202363865, archivos 202,   451.6 s
+{
+ "actividad_Ci": 1.0,
+ "actividad_Bq": 37000000000.0,
+ "rendimiento_n_por_s_Bq": 6e-05,
+ "Q_n_por_s": 2220000.0,
+ "tiempo_s": 300.0,
+ "neutrones_emitidos_4pi": 665980683,
+ "neutrones_hacia_el_tanque": 202363865,
+ "fraccion_geometrica": 0.3038584604112309,
+ "error_fraccion": 1.7821884508233737e-05,
+ "tasa_al_tanque_n_por_s": 674546.2166666667,
+ "fuente_cm": [
+  -58.062,
+  0.0,
+  66.562
+ ],
+ "d_pared_cm": 10.0,
+ "R_ext_cm": 48.062,
+ "H_ext_cm": 133.124,
+ "E_media_MeV": 4.210532876998356,
+ "E_rms_MeV": 4.902054599695749,
+ "archivos": 203,
+ "neutrones_por_archivo": 1000000,
+ "semilla": 20261019,
+ "formato": "13 px py pz x y z 0 0 0 0 0 (GeV/c, cm); pz escrito con signo invertido (MEIGA usa -pz)",
+ "injectionMode": "eFromFile",
+ "tiempo_generacion_s": 452.3
+}

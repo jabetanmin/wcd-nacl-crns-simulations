@@ -1,0 +1,11 @@
+--- a/src/G4Models/SaltyWCD.cc
++++ b/src/G4Models/SaltyWCD.cc
+@@ -419,7 +419,7 @@
+     // Therefore, its flat face is located at z = zPMT.
+     // A small offset avoids numerical problems due to exact boundary contact.
+     // SIDELNIK: original: const G4double zPMT = 0.3 * fWaterHalfHeight;
+-    const G4double zPMT = fWaterHalfHeight - 0.1*mm;  // SIDELNIK: PMT en la tapa
++    const G4double zPMT = 0.3*fWaterHalfHeight;  // PMT-BAJO: cara plana a 86.45 cm del fondo, 46.55 cm bajo la tapa
+ 
+     new G4PVPlacement(nullptr,
+                       G4ThreeVector(0.0, 0.0, zPMT),

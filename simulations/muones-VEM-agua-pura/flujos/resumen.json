@@ -1,0 +1,20 @@
+{
+  "completa": {
+    "N": 2000,
+    "particula": "mu- (CORSIKA 6)",
+    "p_GeV": 4.0,
+    "direccion_Geant4": "-z (vertical hacia abajo)",
+    "z_inyeccion_cm": 140.0,
+    "radio_disco_cm": 45.0,
+    "semilla": 20261021
+  },
+  "prueba": {
+    "N": 5,
+    "particula": "mu- (CORSIKA 6)",
+    "p_GeV": 4.0,
+    "direccion_Geant4": "-z (vertical hacia abajo)",
+    "z_inyeccion_cm": 140.0,
+    "radio_disco_cm": 45.0,
+    "semilla": 7
+  }
+}

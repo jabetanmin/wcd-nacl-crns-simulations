@@ -1,0 +1,30 @@
+{
+  "partes": {
+    "parte1": {
+      "eventos": 124998,
+      "desde_linea": 0,
+      "con_paso_1": 124998,
+      "max_dif_rel_energia": 8.31192880220424e-06
+    },
+    "parte2": {
+      "eventos": 124999,
+      "desde_linea": 124998,
+      "con_paso_1": 124999,
+      "max_dif_rel_energia": 8.319069131204394e-06
+    },
+    "parte3": {
+      "eventos": 125002,
+      "desde_linea": 249997,
+      "con_paso_1": 125002,
+      "max_dif_rel_energia": 8.423718664595062e-06
+    },
+    "parte4": {
+      "eventos": 125001,
+      "desde_linea": 374999,
+      "con_paso_1": 125001,
+      "max_dif_rel_energia": 8.403757909194855e-06
+    }
+  },
+  "eventos_total": 500000,
+  "lineas_archivo": 500000
+}

@@ -1,0 +1,21 @@
+{
+  "partes_leidas": [
+    "Irradiacion-AmBe-1Ci-300s-d10cm_parte0104.txt",
+    "Irradiacion-AmBe-1Ci-300s-d10cm_parte0129.txt",
+    "Irradiacion-AmBe-1Ci-300s-d10cm_parte0171.txt"
+  ],
+  "neutrones_leidos": 3000000,
+  "ids": [
+    13
+  ],
+  "posicion_unica": true,
+  "todos_entran_al_tanque": true,
+  "fraccion_que_entra": 1.0,
+  "E_media_MeV": 4.2101955018108494,
+  "E_media_esperada_MeV": 4.2108641103402205,
+  "chi2_grupos": 46.85874976573139,
+  "ndf": 47,
+  "ux_media": 0.6786240907537466,
+  "entrada_z_media_cm": 66.56324264400908,
+  "angulo_incidencia_medio_deg": 50.40552104199385
+}

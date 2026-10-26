@@ -1,0 +1,143 @@
+{
+  "digitalizacion": {
+    "puntos": 667,
+    "energias_distintas": 437,
+    "pasos_hacia_atras_en_E": 193,
+    "pares_repetidos_exactos": 4,
+    "valores_negativos": 3,
+    "E_min": 0.10327022375215167,
+    "E_max": 10.895008605851979,
+    "puntos_espurios": 28,
+    "peso_espurio_pct": 6.174207848251923,
+    "indices_espurios": [
+      0,
+      146,
+      148,
+      149,
+      154,
+      179,
+      180,
+      182,
+      184,
+      235,
+      296,
+      298,
+      299,
+      327,
+      363,
+      364,
+      450,
+      451,
+      452,
+      453,
+      484,
+      485,
+      486,
+      650,
+      651,
+      652,
+      653,
+      654
+    ]
+  },
+  "espectro_limpio": {
+    "E_media_MeV": 4.152336522574526,
+    "E_mediana_MeV": 3.985789908007624,
+    "E_moda_MeV": 3.0250000000000004,
+    "E_rms_MeV": 4.819759502170633,
+    "picos_MeV": [
+      3.03,
+      4.88,
+      6.33,
+      7.47,
+      9.53
+    ],
+    "fraccion_bandas_pct": {
+      "0.1-1": 12.08,
+      "1-2": 9.6,
+      "2-4": 28.51,
+      "4-6": 26.23,
+      "6-8": 16.89,
+      "8-11": 6.69
+    }
+  },
+  "fuente_meiga": {
+    "archivo": "Espectro-completo-neutrones-fuente-AmBe241.txt",
+    "neutrones": 1637458,
+    "id_corsika_unicos": [
+      13
+    ],
+    "todas_las_demas_columnas_cero_salvo_id": true,
+    "direccion": "+z (px = py = 0)",
+    "energias_distintas": 437,
+    "E_media_MeV": 4.0642774652529265,
+    "E_min_MeV": 0.10327082742878702,
+    "E_max_MeV": 10.89507397786042,
+    "max_dif_T_vs_archivo_energias_keV": 0.07121162438572526,
+    "neutrones_de_puntos_espurios": 101100,
+    "neutrones_de_valores_negativos_abs": 55,
+    "primeras_lineas": {
+      "1%": {
+        "E_media": 0.123,
+        "E_max": 0.138
+      },
+      "10%": {
+        "E_media": 0.642,
+        "E_max": 1.343
+      },
+      "25%": {
+        "E_media": 1.437,
+        "E_max": 2.616
+      },
+      "50%": {
+        "E_media": 2.315,
+        "E_max": 4.165
+      }
+    }
+  },
+  "sesgo_bins_0.25MeV": {
+    "razon_fuente/limpio_min": 0.542793740867357,
+    "razon_fuente/limpio_max": 1.3471215295081,
+    "correlacion_razon_vs_puntos_por_bin": 0.9728720319122294
+  },
+  "segunda_digitalizacion": {
+    "puntos": 472,
+    "correlacion_original_vs_limpio": -0.9967734701096889,
+    "ajuste_y=a+b*S": {
+      "a": 0.001963757628064046,
+      "b": -0.009692923129660984
+    },
+    "correlacion_columna_invertida_(notebook)_vs_limpio": 0.321201178623316,
+    "C=ymax+ymin": 0.002169860031663789,
+    "correlacion_(C-y)_vs_limpio": 0.9967734701096889
+  },
+  "referencias": {
+    "AmBe_IAEA.txt": {
+      "puntos": 45,
+      "paso_E_MeV": [
+        0.25
+      ],
+      "E_media_MeV": 4.241050916592432,
+      "maximos_locales": 1,
+      "valor_en_Emax": 0.0
+    },
+    "AmBe_ISO8529_spectrum.txt": {
+      "puntos": 100,
+      "paso_E_MeV": [
+        0.111
+      ],
+      "E_media_MeV": 3.4699947049328457,
+      "maximos_locales": 1,
+      "valor_en_Emax": 0.022997017532276343
+    },
+    "AmBe_neutron_spectrum.txt": {
+      "puntos": 100,
+      "paso_E_MeV": [
+        0.111
+      ],
+      "E_media_MeV": 2.2153881372684068,
+      "maximos_locales": 1,
+      "valor_en_Emax": 0.0006334493722370174
+    }
+  }
+}

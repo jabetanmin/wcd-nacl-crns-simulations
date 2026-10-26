@@ -1,0 +1,15 @@
+# Corridas MEIGA de la v0.8.0 (salidas fuera de git; copia de trabajo en el disco ADATA HD330, verificada 2026-10-23).
+# manifiesto = md5 de la salida de: find . -type f -printf '%s %p\n' | LC_ALL=C sort -k2 | md5sum   (dentro de la carpeta; ver tools/manifiesto.sh)
+carpeta_en_disco	corrida	archivos	bytes	manifiesto_md5
+Corrida-AmBe-montaje-agua-pura-resultados	1000000N-AmBe-montaje-H2O-pura-sinSab-20261021-010938	78	62331349168	1afe239a80f152b19a4ff52aa64fc668
+Corrida-AmBe-montaje-agua-pura-resultados	30N-AmBe-montaje-H2O-pura-sinSab-20261021-010346	20	1537869	84db655e85e26a1ff5631a265c573147
+Corrida-AmBe-montaje-nacl-2.5-resultados	1000000N-AmBe-montaje-H2O-2.5NaCl-sinSab-20261021-052856	78	102067864929	6d3162ef97bdfd1981237c4bbbb38fa5
+Corrida-AmBe-montaje-nacl-2.5-resultados	30N-AmBe-montaje-H2O-2.5NaCl-sinSab-20261021-052050	20	3255634	8be5e6a04b89e78b867a39bfa32d2bd2
+Corrida-AmBe-montaje-nacl-10-resultados	1000000N-AmBe-montaje-H2O-10NaCl-sinSab-20261021-131514	78	149557611356	4f8a7ad0f0937764b371db3ffb5b468b
+Corrida-AmBe-montaje-nacl-10-resultados	30N-AmBe-montaje-H2O-10NaCl-sinSab-20261021-131123	21	7094915	15c61c1a76a3966ffb53cd9f8efd7ec2
+Corrida-muones-VEM-agua-pura-resultados	2000N-muones-VEM-H2O-pura-sinSab-20261021-110157	56	53568849731	904e6b57b311c5d3aff74490ca19545a
+Corrida-muones-VEM-agua-pura-resultados	5N-muones-VEM-H2O-pura-sinSab-20261021-105637	14	140237475	e46d50d908ab8c4b225ed695d6fdc124
+Corrida-AmBe-horizontal-PMT-bajo-resultados	2000N-muones-VEM-PMTbajo-H2O-pura-sinSab-20261023-040805	61	51338335186	02417edba000781e0abe4b9eb654e800
+Corrida-AmBe-horizontal-PMT-bajo-resultados	500000N-AmBe-moderado-horizontal-PMTbajo-H2O-pura-sinSab-20261023-081659	78	22950192910	7baf073b688755c602d37b431c25378c
+Corrida-AmBe-horizontal-PMT-bajo-resultados	500000N-AmBe-moderado-horizontal-PMTbajo-H2O-2.5NaCl-sinSab-20261023-101321	78	38920655484	fff747a93850ca69c0d5b81631f5f7bd
+Corrida-AmBe-horizontal-PMT-bajo-resultados	500000N-AmBe-moderado-horizontal-PMTbajo-H2O-10NaCl-sinSab-20261023-132027	78	61126996346	d53f05fb62c20c38686df879d20f8fb0

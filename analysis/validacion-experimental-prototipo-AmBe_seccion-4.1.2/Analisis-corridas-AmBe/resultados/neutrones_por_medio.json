@@ -1,0 +1,222 @@
+{
+  "pura": {
+    "duracion_fuente_s": 300,
+    "duracion_fondo_s": 300,
+    "pulsos_fuente": 194459,
+    "pulsos_fondo": 79682,
+    "netos_toma": 114777.0,
+    "netos_300s": 114777.00000000001,
+    "tasa_neta_s": 382.59000000000003,
+    "umbrales": {
+      "12": {
+        "netos_300s": 112925.0,
+        "u_netos": 521.0095968405957,
+        "eff_sim_montaje": 0.007076698225422748,
+        "N_inc_montaje": 15957300.481504435,
+        "u_N_inc_montaje": 73623.26048734,
+        "eff_sim_rapidos": 0.013041555875020917,
+        "N_inc_rapidos": 8658859.501287755,
+        "carga_media_exp_netos_pe": 23.21722559574938,
+        "carga_media_sim_pe": 16.97676936346023
+      },
+      "15": {
+        "netos_300s": 94484.99999999999,
+        "u_netos": 494.58972896735327,
+        "eff_sim_montaje": 0.0038305766304464303,
+        "N_inc_montaje": 24665999.173338123,
+        "u_N_inc_montaje": 129116.26020903069,
+        "eff_sim_rapidos": 0.007377288455642832,
+        "N_inc_rapidos": 12807551.252483442,
+        "carga_media_exp_netos_pe": 25.06417260200032,
+        "carga_media_sim_pe": 20.464588029348597
+      },
+      "20": {
+        "netos_300s": 52234.0,
+        "u_netos": 431.6595881015502,
+        "eff_sim_montaje": 0.0012945479435907327,
+        "N_inc_montaje": 40349220.172654815,
+        "u_N_inc_montaje": 333444.2654199743,
+        "eff_sim_rapidos": 0.002691366740398838,
+        "N_inc_rapidos": 19407983.020648967,
+        "carga_media_exp_netos_pe": 31.26223401328637,
+        "carga_media_sim_pe": 28.030875266571957
+      },
+      "30": {
+        "netos_300s": 13648.000000000002,
+        "u_netos": 356.64267832103326,
+        "eff_sim_montaje": 0.00030930286761396517,
+        "N_inc_montaje": 44125035.45564861,
+        "u_N_inc_montaje": 1153053.2551225873,
+        "eff_sim_rapidos": 0.0007255147918297752,
+        "N_inc_rapidos": 18811470.35690236,
+        "carga_media_exp_netos_pe": 52.349266357708196,
+        "carga_media_sim_pe": 45.320691079831725
+      },
+      "40": {
+        "netos_300s": 5550.999999999999,
+        "u_netos": 328.3275803218487,
+        "eff_sim_montaje": 0.00017911683705180135,
+        "N_inc_montaje": 30990944.745158862,
+        "u_N_inc_montaje": 1833035.831393645,
+        "eff_sim_rapidos": 0.0004207741511538006,
+        "N_inc_rapidos": 13192350.30188679,
+        "carga_media_exp_netos_pe": 79.31748294001073,
+        "carga_media_sim_pe": 53.77561386374074
+      }
+    }
+  },
+  "nacl25": {
+    "duracion_fuente_s": 300,
+    "duracion_fondo_s": 299,
+    "pulsos_fuente": 663709,
+    "pulsos_fondo": 88827,
+    "netos_toma": 574584.9197324414,
+    "netos_300s": 574584.9197324414,
+    "tasa_neta_s": 1915.2830657748048,
+    "umbrales": {
+      "12": {
+        "netos_300s": 569318.8394648829,
+        "u_netos": 864.1245906865598,
+        "eff_sim_montaje": 0.060660580756124224,
+        "N_inc_montaje": 9385317.983580384,
+        "u_N_inc_montaje": 14245.240977178062,
+        "eff_sim_rapidos": 0.09076935103068293,
+        "N_inc_rapidos": 6272148.395909925,
+        "carga_media_exp_netos_pe": 23.44227388278522,
+        "carga_media_sim_pe": 22.49804748697277
+      },
+      "15": {
+        "netos_300s": 491144.47826086957,
+        "u_netos": 810.3912419045811,
+        "eff_sim_montaje": 0.044778401273066294,
+        "N_inc_montaje": 10968334.382145248,
+        "u_N_inc_montaje": 18097.815439248883,
+        "eff_sim_rapidos": 0.06698675630153568,
+        "N_inc_rapidos": 7331963.8892503,
+        "carga_media_exp_netos_pe": 24.975766999275578,
+        "carga_media_sim_pe": 25.880511962429026
+      },
+      "20": {
+        "netos_300s": 282272.2642140469,
+        "u_netos": 651.5759843106465,
+        "eff_sim_montaje": 0.02592313996227952,
+        "N_inc_montaje": 10888814.573573193,
+        "u_N_inc_montaje": 25134.917500686555,
+        "eff_sim_rapidos": 0.039124667625062746,
+        "N_inc_rapidos": 7214687.851641377,
+        "carga_media_exp_netos_pe": 30.550119605907284,
+        "carga_media_sim_pe": 32.50590969312984
+      },
+      "30": {
+        "netos_300s": 85647.71571906355,
+        "u_netos": 448.56572723862166,
+        "eff_sim_montaje": 0.010612732270301548,
+        "N_inc_montaje": 8070279.503680533,
+        "u_N_inc_montaje": 42266.75240775448,
+        "eff_sim_rapidos": 0.016111558281189504,
+        "N_inc_rapidos": 5315917.568262693,
+        "carga_media_exp_netos_pe": 46.00937227257479,
+        "carga_media_sim_pe": 45.49429921343165
+      },
+      "40": {
+        "netos_300s": 37435.87290969901,
+        "u_netos": 374.54482577123895,
+        "eff_sim_montaje": 0.005344158951113397,
+        "N_inc_montaje": 7005007.383229058,
+        "u_N_inc_montaje": 70084.89627599991,
+        "eff_sim_rapidos": 0.00823532573049202,
+        "N_inc_rapidos": 4545767.117758243,
+        "carga_media_exp_netos_pe": 61.4720492194634,
+        "carga_media_sim_pe": 57.09213445250258
+      }
+    }
+  },
+  "nacl10": {
+    "duracion_fuente_s": 240,
+    "duracion_fondo_s": 299,
+    "pulsos_fuente": 1875731,
+    "pulsos_fondo": 145522,
+    "netos_toma": 1758924.0434782607,
+    "netos_300s": 2198655.054347826,
+    "tasa_neta_s": 7328.850181159421,
+    "umbrales": {
+      "12": {
+        "netos_300s": 2159805.0961538465,
+        "u_netos": 1737.3134276686171,
+        "eff_sim_montaje": 0.1262495378705073,
+        "N_inc_montaje": 17107429.71882506,
+        "u_N_inc_montaje": 13760.948807991357,
+        "eff_sim_rapidos": 0.17583962458884442,
+        "N_inc_rapidos": 12282812.256930105,
+        "carga_media_exp_netos_pe": 24.86523005315114,
+        "carga_media_sim_pe": 22.960242580344246
+      },
+      "15": {
+        "netos_300s": 1856167.378762542,
+        "u_netos": 1613.3907087899768,
+        "eff_sim_montaje": 0.09485884823935362,
+        "N_inc_montaje": 19567677.79932292,
+        "u_N_inc_montaje": 17008.331207216128,
+        "eff_sim_rapidos": 0.132777756742463,
+        "N_inc_rapidos": 13979505.485717626,
+        "carga_media_exp_netos_pe": 26.688199300878647,
+        "carga_media_sim_pe": 26.26543732358582
+      },
+      "20": {
+        "netos_300s": 1171881.2374581941,
+        "u_netos": 1301.7419719027205,
+        "eff_sim_montaje": 0.0565862446151868,
+        "N_inc_montaje": 20709648.52726206,
+        "u_N_inc_montaje": 23004.565522154386,
+        "eff_sim_rapidos": 0.0803245029796184,
+        "N_inc_rapidos": 14589336.92693434,
+        "carga_media_exp_netos_pe": 32.087807593798054,
+        "carga_media_sim_pe": 32.67593978176569
+      },
+      "30": {
+        "netos_300s": 420798.8461538461,
+        "u_netos": 833.7286095170566,
+        "eff_sim_montaje": 0.02354480084228123,
+        "N_inc_montaje": 17872261.862507876,
+        "u_N_inc_montaje": 35410.3062965759,
+        "eff_sim_rapidos": 0.03390743457236766,
+        "N_inc_rapidos": 12410223.641536409,
+        "carga_media_exp_netos_pe": 46.39370436397978,
+        "carga_media_sim_pe": 45.456978527981704
+      },
+      "40": {
+        "netos_300s": 184908.15217391305,
+        "u_netos": 608.2359800556038,
+        "eff_sim_montaje": 0.01183976054994749,
+        "N_inc_montaje": 15617558.428977951,
+        "u_N_inc_montaje": 51372.32104396752,
+        "eff_sim_rapidos": 0.01728838235850935,
+        "N_inc_rapidos": 10695514.961404193,
+        "carga_media_exp_netos_pe": 62.08155536224147,
+        "carga_media_sim_pe": 56.97794124252218
+      }
+    }
+  },
+  "consistencia_entre_medios": {
+    "12": {
+      "N_inc_montaje_max/min": 1.8227863721564377,
+      "N_inc_rapidos_max/min": 1.958310212325292
+    },
+    "15": {
+      "N_inc_montaje_max/min": 2.248837272274499,
+      "N_inc_rapidos_max/min": 1.9066522553682468
+    },
+    "20": {
+      "N_inc_montaje_max/min": 3.705565918128599,
+      "N_inc_rapidos_max/min": 2.690065519083207
+    },
+    "30": {
+      "N_inc_montaje_max/min": 5.46759693211678,
+      "N_inc_rapidos_max/min": 3.5387061810761264
+    },
+    "40": {
+      "N_inc_montaje_max/min": 4.424113073650059,
+      "N_inc_rapidos_max/min": 2.9021174996735493
+    }
+  }
+}

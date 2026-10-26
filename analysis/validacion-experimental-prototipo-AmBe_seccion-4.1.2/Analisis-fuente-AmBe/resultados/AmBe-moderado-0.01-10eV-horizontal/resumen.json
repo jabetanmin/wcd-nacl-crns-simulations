@@ -1,0 +1,19 @@
+{
+  "archivo": "50000N-AmBe-moderado-0.01-10eV-horizontal.txt",
+  "N": 50000,
+  "E_min_eV": 0.01,
+  "E_max_eV": 10.0,
+  "semilla": 20261024,
+  "componente_origen": 1,
+  "aceptacion_geometrica": 1.0,
+  "E_media_eV": 0.23032840812689792,
+  "E_mediana_eV": 0.049072352263118166,
+  "fraccion_por_decada": {
+    "0.01-0.1 eV": 0.82612,
+    "0.1-1 eV": 0.13188,
+    "1-10 eV": 0.042
+  },
+  "fraccion_del_flujo_en_rango": 0.8897693544586404,
+  "geometria": "plano x=-48.162 cm, |y|<=48.062, 0<=z<=133.124; haz paralelo horizontal (+x)",
+  "injectionMode": "eFromFile"
+}

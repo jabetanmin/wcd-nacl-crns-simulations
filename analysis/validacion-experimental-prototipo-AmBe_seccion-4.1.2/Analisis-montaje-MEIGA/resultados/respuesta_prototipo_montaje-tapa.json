@@ -1,0 +1,53 @@
+{
+  "etiqueta": "montaje-tapa",
+  "calibracion": {
+    "ventana_trigger": {
+      "ADC_por_pe": 137.5,
+      "pe_por_1000ADC": 7.2727272727272725,
+      "VEM_sim_pe": 304.6617647058815
+    },
+    "robusto": {
+      "ADC_por_pe": 134.0,
+      "pe_por_1000ADC": 7.462686567164179,
+      "VEM_sim_pe": 304.6617647058815
+    }
+  },
+  "corridas": {
+    "pura": "resultados/eventos_pura.npz",
+    "2.5": "resultados/eventos_nacl25.npz",
+    "10": "resultados/eventos_nacl10.npz"
+  },
+  "muones": "ADATA HD330/Corrida-muones-VEM-agua-pura-resultados/2000N-muones-VEM-H2O-pura-sinSab-20261021-110157",
+  "metodos": {
+    "ventana_trigger": {
+      "k_ADC_por_pe": 137.5,
+      "N_inc_300s": 1025051962.8471707,
+      "rms_ln": 1.6998598842984598,
+      "fraccion_disparo": {
+        "pura": 1.4e-05,
+        "2.5": 0.00044,
+        "10": 0.000971
+      },
+      "k_libre": {
+        "k_ADC_por_pe": 1100.0,
+        "N_inc_300s": 4099949.3876981875,
+        "rms_ln": 0.8277603094437047
+      }
+    },
+    "robusto": {
+      "k_ADC_por_pe": 134.0,
+      "N_inc_300s": 1044042683.8352561,
+      "rms_ln": 1.766632479821886,
+      "fraccion_disparo": {
+        "pura": 1e-05,
+        "2.5": 0.000372,
+        "10": 0.000849
+      },
+      "k_libre": {
+        "k_ADC_por_pe": 850.0,
+        "N_inc_300s": 10499897.216228023,
+        "rms_ln": 0.8526703267659658
+      }
+    }
+  }
+}

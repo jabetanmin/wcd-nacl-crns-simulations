@@ -7,6 +7,10 @@
 - Propiedades del detector: el simulador lee `build/Framework/ConfigManager/DetectorProperties.xml`, que CMake sobrescribe con la copia de `src/` al reconfigurar; ambas deben coincidir. Ver [`GEOMETRIA_Y_FISICA_CAMPANAS.md`](GEOMETRIA_Y_FISICA_CAMPANAS.md).
 - `docker exec` requiere `bash -ic` (o cargar `geant4.sh`) para que el ejecutable encuentre las bibliotecas de Geant4.
 - Procesos ópticos: Cherenkov, absorción, Rayleigh, Mie y procesos de frontera, según la configuración empleada.
+- Parches en el contenedor: desde la v0.8.0, el MEIGA del contenedor tiene aplicados sobre `src/` los parches del PMT de Sidelnik, del PMT bajado (`zPMT = 0.3*fWaterHalfHeight`, posición definitiva) y del suelo SoilBS, este último activo solo con `MEIGA_SUELO_W`. Orden, md5 esperados y diffs en [`ESTADO_MEIGA_CONTENEDOR.md`](ESTADO_MEIGA_CONTENEDOR.md).
+- Archivos de entrada: los flujos grandes no se versionan; se regeneran byte a byte con semilla fija ([`../data/manifiestos/flujos-regenerables.sha256`](../data/manifiestos/flujos-regenerables.sha256)).
+- Copias de las corridas: se verifican con [`../tools/manifiesto.sh`](../tools/manifiesto.sh) (archivos, bytes y md5 del listado) frente a [`../data/manifiestos/corridas-v0.8.0.tsv`](../data/manifiestos/corridas-v0.8.0.tsv).
+- Rutas de los datos: los scripts las toman de variables de entorno (`ADATA`, `TOSHIBA`, `REPO_TESIS`, `ALL_BGA_SHW`, `FUENTE_AMBE_DATOS`, `SIM_CUADERNO`, `CARGA_CAMPANA1`, `FLUJO_TERMICO_SHW`); por defecto, los discos externos en `/media/$USER/` y la carpeta personal.
 - Semillas aleatorias: el simulador usa `time(NULL)` y no la registra; debe anotarse la hora de inicio de cada corrida y, a futuro, guardar la semilla en la salida.
 
 ## Información mínima por campaña

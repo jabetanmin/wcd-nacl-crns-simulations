@@ -1,0 +1,41 @@
+{
+  "supuestos": "  * Fuente puntual dentro de una caja de polietileno/parafina, al fondo de un canal cilíndrico\n    de 3 cm de diámetro y 30 cm de largo que apunta al tanque.\n  * Entre la cara exterior de la caja y el tanque hay 10 cm, ocupados por bloques de plomo de\n    10 cm de espesor, 40 cm de alto y 120 cm de largo (plomo pegado al tanque, centrado a la\n    altura de la fuente). El canal NO atraviesa el plomo: el haz cruza los 10 cm de plomo.\n  * Caja a media altura del tanque (z = 66.562 cm). Mesa debajo (no se modela).\n  * Supuesto: la caja es un cubo de polietileno de 60 cm de lado con la fuente en el centro\n    (30 cm hasta cada cara, igual al largo del canal); no se conocen sus medidas exteriores.",
+  "Q_n_s": 2220000.0,
+  "tiempo_s": 300.0,
+  "fraccion_geom_hacia_tanque": 0.1511166,
+  "fraccion_4pi_por_camino": {
+    "canal": 0.00062105,
+    "PE+Pb": 0.097256475,
+    "solo_PE": 0.053239075
+  },
+  "no_colisionados": {
+    "canal": {
+      "n_por_s": 112.99656820473197,
+      "n_5min": 33898.970461419594
+    },
+    "PE+Pb": {
+      "n_por_s": 14.189627866568872,
+      "n_5min": 4256.888359970661
+    },
+    "solo_PE": {
+      "n_por_s": 20.19045071729509,
+      "n_5min": 6057.135215188527
+    },
+    "total_n_5min": 44212.994036578784
+  },
+  "remocion": {
+    "canal": {
+      "n_por_s": 431.9000629987584,
+      "n_5min": 129570.01889962752
+    },
+    "PE+Pb": {
+      "n_por_s": 1170.7253949580675,
+      "n_5min": 351217.61848742026
+    },
+    "solo_PE": {
+      "n_por_s": 896.4138712404978,
+      "n_5min": 268924.1613721493
+    },
+    "total_n_5min": 749711.7987591971
+  }
+}

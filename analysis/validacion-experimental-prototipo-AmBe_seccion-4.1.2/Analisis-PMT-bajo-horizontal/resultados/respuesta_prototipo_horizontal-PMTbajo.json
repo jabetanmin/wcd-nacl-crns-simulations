@@ -1,0 +1,63 @@
+{
+  "etiqueta": "horizontal-PMTbajo",
+  "calibracion": {
+    "ventana_trigger": {
+      "ADC_por_pe": 70.0,
+      "pe_por_1000ADC": 14.285714285714286,
+      "VEM_sim_pe": 581.3942307692388
+    },
+    "robusto": {
+      "ADC_por_pe": 68.0,
+      "pe_por_1000ADC": 14.705882352941176,
+      "VEM_sim_pe": 581.3942307692388
+    }
+  },
+  "corridas": {
+    "pura": "resultados/eventos_pura_horiz.npz",
+    "2.5": "resultados/eventos_nacl25_horiz.npz",
+    "10": "resultados/eventos_nacl10_horiz.npz"
+  },
+  "muones": "ADATA HD330/Corrida-AmBe-horizontal-PMT-bajo-resultados/2000N-muones-VEM-PMTbajo-H2O-pura-sinSab-20261023-040805",
+  "metodos": {
+    "ventana_trigger": {
+      "k_ADC_por_pe": 70.0,
+      "N_inc_300s": 664698958.6097223,
+      "rms_ln": 2.0256907792271184,
+      "fraccion_disparo": {
+        "pura": 2e-06,
+        "2.5": 8.4e-05,
+        "10": 0.000162
+      },
+      "k_libre": {
+        "k_ADC_por_pe": 650.0,
+        "N_inc_300s": 6170644.58598144,
+        "rms_ln": 0.8200193070735405,
+        "fraccion_disparo": {
+          "pura": 0.013096,
+          "2.5": 0.068518,
+          "10": 0.145522
+        }
+      }
+    },
+    "robusto": {
+      "k_ADC_por_pe": 68.0,
+      "N_inc_300s": 668216665.8774618,
+      "rms_ln": 2.0917004499960115,
+      "fraccion_disparo": {
+        "pura": 2e-06,
+        "2.5": 7.4e-05,
+        "10": 0.000138
+      },
+      "k_libre": {
+        "k_ADC_por_pe": 650.0,
+        "N_inc_300s": 6678553.794125614,
+        "rms_ln": 0.8238546319675072,
+        "fraccion_disparo": {
+          "pura": 0.013096,
+          "2.5": 0.068518,
+          "10": 0.145522
+        }
+      }
+    }
+  }
+}

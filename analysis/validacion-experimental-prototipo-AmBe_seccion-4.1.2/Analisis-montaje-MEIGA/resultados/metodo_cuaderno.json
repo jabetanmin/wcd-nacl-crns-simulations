@@ -1,0 +1,33 @@
+{
+  "factores_cuaderno": {
+    "ADC_por_pe": 253.1645569620253,
+    "altura": 10.0,
+    "desplazamiento_pura_ADC": 1500.0
+  },
+  "pura": {
+    "exp_neto_total_cuentas": 114435,
+    "sim_montaje_Qmedia": 1.9514408661219071
+  },
+  "2.5": {
+    "exp_neto_total_cuentas": 574844,
+    "sim_montaje_Qmedia": 3.9324134034316387
+  },
+  "10": {
+    "exp_neto_total_cuentas": 1730564,
+    "sim_montaje_Qmedia": 5.297350267595406
+  },
+  "sim_cuaderno": {
+    "Agua pura": {
+      "N_Q_ge_1": 23418.0,
+      "Q_media": 3.694722008711248
+    },
+    "Agua + 2.5 % NaCl": {
+      "N_Q_ge_1": 30722.0,
+      "Q_media": 7.714992513508236
+    },
+    "Agua + 10 % NaCl": {
+      "N_Q_ge_1": 44021.0,
+      "Q_media": 10.576372640330751
+    }
+  }
+}

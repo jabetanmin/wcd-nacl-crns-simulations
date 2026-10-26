@@ -1,0 +1,131 @@
+{
+  "criterio": {
+    "cociente_k": [
+      0.67,
+      1.5
+    ],
+    "rms_max_relativo": 1.25,
+    "fraccion_bins_min": 0.8
+  },
+  "metodos": {
+    "ventana_trigger": {
+      "k_libre_ADC_por_pe": 650.0,
+      "k_muones_ADC_por_pe": 66.27823996982079,
+      "cociente_k_libre_sobre_muones": 9.807140326839876,
+      "rms_muones_sobre_libre": 2.540397920627519,
+      "fraccion_bins_min_con_muones": 0.0,
+      "rms_ln": {
+        "libre": 0.8083558674474267,
+        "muones": 2.053545564790497
+      },
+      "N_inc_300s": {
+        "libre": 6145106.237436517,
+        "muones": 674466998.3648281
+      },
+      "ks_forma": {
+        "libre": {
+          "pura": 0.18062467670646742,
+          "2.5": 0.34887092712767015,
+          "10": 0.30166525976945935
+        },
+        "muones": {
+          "pura": 1.0,
+          "2.5": 0.36810772735554353,
+          "10": 0.4879747015784562
+        }
+      },
+      "electronica_completa": {
+        "k_muones": 70.0,
+        "rms_muones": 2.0256907792271184,
+        "k_libre": 650.0,
+        "rms_libre": 0.8200193070735405,
+        "N_libre": 6170644.58598144,
+        "fraccion_disparo_muones": {
+          "pura": 2e-06,
+          "2.5": 8.4e-05,
+          "10": 0.000162
+        }
+      },
+      "pasa": false
+    },
+    "robusto": {
+      "k_libre_ADC_por_pe": 625.0,
+      "k_muones_ADC_por_pe": 66.27823996982079,
+      "cociente_k_libre_sobre_muones": 9.42994262196142,
+      "rms_muones_sobre_libre": 2.5419299372571156,
+      "fraccion_bins_min_con_muones": 0.0,
+      "rms_ln": {
+        "libre": 0.830002922767545,
+        "muones": 2.1098092773937283
+      },
+      "N_inc_300s": {
+        "libre": 7602686.015303595,
+        "muones": 673712330.3353671
+      },
+      "ks_forma": {
+        "libre": {
+          "pura": 0.22847592700514147,
+          "2.5": 0.3615285400817608,
+          "10": 0.3031257572884447
+        },
+        "muones": {
+          "pura": 1.0,
+          "2.5": 0.3339572041148198,
+          "10": 0.46580677196164033
+        }
+      },
+      "electronica_completa": {
+        "k_muones": 68.0,
+        "rms_muones": 2.0917004499960115,
+        "k_libre": 650.0,
+        "rms_libre": 0.8238546319675072,
+        "N_libre": 6678553.794125614,
+        "fraccion_disparo_muones": {
+          "pura": 2e-06,
+          "2.5": 7.4e-05,
+          "10": 0.000138
+        }
+      },
+      "pasa": false
+    }
+  },
+  "implementar_calibracion_muones": false,
+  "comparacion_PMT_tapa": {
+    "ventana_trigger": {
+      "tapa": {
+        "k_libre": 1050.0,
+        "N_inc_300s": 4722126.742368431,
+        "rms_ln": 0.8185556767032507,
+        "k_muones": 126.48054599563302,
+        "k_libre_electronica": 1100.0,
+        "rms_libre_electronica": 0.8277603094437047
+      },
+      "bajado": {
+        "k_libre": 650.0,
+        "N_inc_300s": 6145106.237436517,
+        "rms_ln": 0.8083558674474267,
+        "k_muones": 66.27823996982079,
+        "k_libre_electronica": 650.0,
+        "rms_libre_electronica": 0.8200193070735405
+      }
+    },
+    "robusto": {
+      "tapa": {
+        "k_libre": 975.0,
+        "N_inc_300s": 6593689.740818936,
+        "rms_ln": 0.8704481008503866,
+        "k_muones": 126.48054599563302,
+        "k_libre_electronica": 850.0,
+        "rms_libre_electronica": 0.8526703267659658
+      },
+      "bajado": {
+        "k_libre": 625.0,
+        "N_inc_300s": 7602686.015303595,
+        "rms_ln": 0.830002922767545,
+        "k_muones": 66.27823996982079,
+        "k_libre_electronica": 650.0,
+        "rms_libre_electronica": 0.8238546319675072
+      }
+    }
+  }
+}

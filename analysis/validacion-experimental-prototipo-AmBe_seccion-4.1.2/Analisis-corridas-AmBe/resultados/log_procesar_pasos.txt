@@ -1,0 +1,5 @@
+[14:55:03] nacl25: eventos
+[14:56:16] nacl25: capturas
+[14:56:18] nacl10: eventos
+[14:57:01] nacl10: capturas
+[14:57:03] FIN

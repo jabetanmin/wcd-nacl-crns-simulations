@@ -1,0 +1,96 @@
+{
+  "medios": {
+    "pura": {
+      "duracion_fuente_s": 300,
+      "duracion_fondo_s": 300,
+      "disparos_fuente": 563961,
+      "disparos_fondo": 125401,
+      "reproduce_archivo_original": true,
+      "max_dif_vs_original": 0,
+      "netos_todos_300s": 438559.99999999994,
+      "netos_sin_normalizar_notebook": 438542,
+      "pico_muones_fondo_pe": 154.05,
+      "umbral_pe": 12,
+      "detectados_300s": 258816.99999999997,
+      "u_detectados": 676.7237250163466,
+      "tasa_detectados_s": 862.7233333333332,
+      "eficiencia_sim_por_neutron": 0.007076698225422748,
+      "neutrones_incidentes_300s": 36573129.410861485,
+      "u_neutrones_incidentes": 95627.04293158134,
+      "pct_de_emitidos_1Ci": 5.491460872501724,
+      "capturas_por_neutron_sim": 0.4149177208936334,
+      "neutrones_capturados_300s": 15174839.50110256,
+      "P_captura_dado_detectado": 0.8963591341102304,
+      "detectados_con_captura_300s": 231992.98201300748,
+      "detectados_sin_captura_300s": 26824.0179869925,
+      "carga_media_detectados_pe": 18.191958565801322,
+      "carga_media_sim_pe": 16.97676936346023
+    },
+    "nacl25": {
+      "duracion_fuente_s": 300,
+      "duracion_fondo_s": 299,
+      "disparos_fuente": 1099688,
+      "disparos_fondo": 114227,
+      "reproduce_archivo_original": true,
+      "max_dif_vs_original": 0,
+      "netos_todos_300s": 985078.9698996656,
+      "netos_sin_normalizar_notebook": 985467,
+      "pico_muones_fondo_pe": 138.25,
+      "umbral_pe": 12,
+      "detectados_300s": 895347.0568561873,
+      "u_detectados": 1054.0745167047571,
+      "tasa_detectados_s": 2984.4901895206244,
+      "eficiencia_sim_por_neutron": 0.060660580756124224,
+      "neutrones_incidentes_300s": 14759948.646976877,
+      "u_neutrones_incidentes": 17376.597842715822,
+      "pct_de_emitidos_1Ci": 2.2162085055520837,
+      "capturas_por_neutron_sim": 0.4599621323055305,
+      "neutrones_capturados_300s": 6789017.452383614,
+      "P_captura_dado_detectado": 0.9886430722964946,
+      "detectados_con_captura_300s": 885178.6650619253,
+      "detectados_sin_captura_300s": 10168.391794262041,
+      "carga_media_detectados_pe": 20.64889994062886,
+      "carga_media_sim_pe": 22.49804748697277
+    },
+    "nacl10": {
+      "duracion_fuente_s": 240,
+      "duracion_fondo_s": 299,
+      "disparos_fuente": 2488416,
+      "disparos_fondo": 185751,
+      "reproduce_archivo_original": true,
+      "max_dif_vs_original": 0,
+      "netos_todos_300s": 2924147.759197324,
+      "netos_sin_normalizar_notebook": 2302775,
+      "pico_muones_fondo_pe": 146.15,
+      "umbral_pe": 12,
+      "detectados_300s": 2763179.5819397992,
+      "u_detectados": 1957.2406470321553,
+      "tasa_detectados_s": 9210.598606465997,
+      "eficiencia_sim_por_neutron": 0.1262495378705073,
+      "neutrones_incidentes_300s": 21886651.060647532,
+      "u_neutrones_incidentes": 15502.952961615389,
+      "pct_de_emitidos_1Ci": 3.2862839430401696,
+      "capturas_por_neutron_sim": 0.5385987665090035,
+      "neutrones_capturados_300s": 11788123.264277734,
+      "P_captura_dado_detectado": 0.9948689892572724,
+      "detectados_con_captura_300s": 2749001.677820781,
+      "detectados_sin_captura_300s": 14177.904119018649,
+      "carga_media_detectados_pe": 23.20698016421144,
+      "carga_media_sim_pe": 22.960242580344246
+    }
+  },
+  "P_cap_haz": {
+    "nacl25": [
+      0.9785845483109177,
+      0.0019438666518469482
+    ],
+    "nacl10": [
+      0.9895321779599208,
+      0.0018406578977903556
+    ],
+    "pura": [
+      0.8509482556778272,
+      0.0019438666518469482
+    ]
+  }
+}

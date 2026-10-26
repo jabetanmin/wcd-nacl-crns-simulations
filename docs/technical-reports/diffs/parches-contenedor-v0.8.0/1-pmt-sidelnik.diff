@@ -1,0 +1,27 @@
+--- a/src/G4Models/SaltyWCD.cc
++++ b/src/G4Models/SaltyWCD.cc
+@@ -418,7 +418,8 @@
+     // The ellipsoid is truncated between -fPMTSemiZ and 0.
+     // Therefore, its flat face is located at z = zPMT.
+     // A small offset avoids numerical problems due to exact boundary contact.
+-    const G4double zPMT = 0.3 * fWaterHalfHeight;
++    // SIDELNIK: original: const G4double zPMT = 0.3 * fWaterHalfHeight;
++    const G4double zPMT = fWaterHalfHeight - 0.1*mm;  // SIDELNIK: PMT en la tapa
+ 
+     new G4PVPlacement(nullptr,
+                       G4ThreeVector(0.0, 0.0, zPMT),
+--- a/src/Framework/Detector/OptDevice.cc
++++ b/src/Framework/Detector/OptDevice.cc
+@@ -53,9 +53,9 @@
+ 
+ 		case ePMT:
+                         // represented in G4Models as a G4Ellipsoid
+-                        SetSemiAxisX(10.1);
+-                        SetSemiAxisY(10.1);
+-                        SetSemiAxisZ(6.5);
++                        SetSemiAxisX(10.16);  // SIDELNIK: original: SetSemiAxisX(10.1);
++                        SetSemiAxisY(10.16);  // SIDELNIK: original: SetSemiAxisY(10.1);
++                        SetSemiAxisZ(5.0);  // SIDELNIK: original: SetSemiAxisZ(6.5);
+                         SetName("PMT");
+ 
+                //case ePMT:

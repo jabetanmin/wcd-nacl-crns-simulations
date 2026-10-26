@@ -1,0 +1,56 @@
+{
+  "Q_n_s": 2220000.0,
+  "tiempo_s": 300.0,
+  "emitidos_4pi": 666000000.0,
+  "semiangulo_canal_deg": 2.862405226111748,
+  "fraccion_4pi_canal": 0.0006238305610776762,
+  "T_plomo_haz": 0.31348618088260527,
+  "haz_esperado": 130244.4652333223,
+  "N_total_esperado": 1000000,
+  "N_total_generado": 1000000,
+  "pct_de_lo_emitido": 0.15015015015015015,
+  "tasa_al_tanque_n_s": 3333.3333333333335,
+  "componentes": {
+    "haz": {
+      "neutrones": 350000,
+      "fraccion": 0.35,
+      "aceptacion_geometrica": 1.0,
+      "E_media_MeV": 4.217384151309799,
+      "E_mediana_MeV": 4.052387293769647,
+      "E_min_MeV": 0.10002616392406133,
+      "E_max_MeV": 10.839358767875671
+    },
+    "halo": {
+      "neutrones": 450000,
+      "fraccion": 0.45,
+      "aceptacion_geometrica": 0.7116816666666667,
+      "E_media_MeV": 0.00820192022451083,
+      "E_mediana_MeV": 0.00022452378339092886,
+      "E_min_MeV": 5.000021295813274e-07,
+      "E_max_MeV": 0.09999999942273466
+    },
+    "fondo": {
+      "neutrones": 200000,
+      "fraccion": 0.2,
+      "aceptacion_geometrica": 0.6737375,
+      "E_media_MeV": 5.065353648062663e-08,
+      "E_mediana_MeV": 4.256012982147755e-08,
+      "E_min_MeV": 1.1248141547251435e-10,
+      "E_max_MeV": 3.5500942473652874e-07
+    }
+  },
+  "fondo_fraccion_1e-4_a_0.025eV": 0.25802,
+  "fondo_fraccion_0.025_a_0.5eV": 0.74198,
+  "archivo": "1000000N-AmBe-montaje-haz-halo-fondo.txt",
+  "semilla": 20261021,
+  "injectionMode": "eFromFile",
+  "geometria": {
+    "fuente_cm": [
+      -88.062,
+      0.0,
+      66.562
+    ],
+    "cara_plomo": "x=-48.162, |y|<=60, |z-66.562|<=20",
+    "plano_fondo": "x=-48.162, |y|<=48.062, 0<=z<=133.124"
+  }
+}
