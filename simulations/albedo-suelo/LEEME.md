@@ -82,7 +82,7 @@ sudo docker cp silly_roentgen:/opt/Corrida-suelo-albedo/resultados "/media/jaime
 
 ## Análisis (PC de análisis)
 
-`analysis/albedo-suelo-humedo_seccion-4.6/scripts/analizar_albedo.py`:
+`analysis/suelo-humedo-calibracion_seccion-4.7/scripts/analizar_albedo.py`:
 
 ```bash
 python3 scripts/analizar_albedo.py --corrida seco=<…>/200000N-Bga-sobre-SoilBS-seco-… --corrida humedo-25=<…>/200000N-Bga-sobre-SoilBS-agua25-… [--corrida humedo-10=<…> …]

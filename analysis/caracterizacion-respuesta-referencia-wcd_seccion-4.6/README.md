@@ -10,6 +10,12 @@ Informe corto: [`informe/Informe-tecnico-Respuesta-Referencia-WCD-Suelo-Seco-Sec
 ε_j(E) en 4 medios. El resto de 4.6.0.1 es metodología propuesta: humedades θ_v > 0, R_j(θ_v), ajuste de la
 función de calibración, sensibilidad S_j y calibración de campo. Nada de eso está simulado.
 
+> **Actualización v0.9.0.** Las humedades θ_v > 0, las curvas R_j(θ_v), el ajuste de la función de calibración y la
+> sensibilidad S_j (Ec. 4.130) ya están simulados y evaluados en la Sección 4.7 de la tesis:
+> [`../suelo-humedo-calibracion_seccion-4.7/`](../suelo-humedo-calibracion_seccion-4.7/) (curva por plegado y por
+> simulación directa en el tanque, cuatro medios; S_j en `scripts/sensibilidad.py`). La calibración de campo sigue
+> pendiente. Las cifras de esta carpeta corresponden solo a la ventana de 10 meV a 10 eV y a incidencia vertical.
+
 | Medio | N_0,j (detectados, suelo seco) | ε efectiva | Δ vs agua |
 |---|---|---|---|
 | Agua pura | 32 931 | 15.8 % | — |

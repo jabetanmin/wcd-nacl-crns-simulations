@@ -1,0 +1,4 @@
+ARTI 300 s, 1 m²: 3923 neutrones que bajan; all_bga: 1111010 neutrones que bajan
+E >     50 MeV: ARTI  3923 ( 13.08 n m⁻² s⁻¹, ±1.6 %), all_bga  569038  ->  T =    43516 s = 12.09 h
+E >    100 MeV: ARTI  2589 (  8.63 n m⁻² s⁻¹, ±2.0 %), all_bga  418466  ->  T =    48490 s = 13.47 h
+E >   1000 MeV: ARTI   176 (  0.59 n m⁻² s⁻¹, ±7.5 %), all_bga   25545  ->  T =    43543 s = 12.10 h

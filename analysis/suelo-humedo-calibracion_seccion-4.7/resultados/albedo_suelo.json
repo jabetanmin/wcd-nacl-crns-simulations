@@ -1,0 +1,343 @@
+{
+  "plano_cm": 5.0,
+  "exclusion_tanque_cm": 0.0,
+  "J_baja_tesis_n_m2_s": 25.717824074074073,
+  "tesis": {
+    "baja": 1111010,
+    "sube": 780114,
+    "albedo_por_incidente": 0.7021664971512408
+  },
+  "corridas": {
+    "seco (5e4)": {
+      "carpeta": "Corrida-suelo-albedo-resultados/50000N-Bga-sobre-SoilBS-seco-sinSab-20261024-081554",
+      "partes": "todas",
+      "N_incidentes": 49995,
+      "cruces_sube": 32268,
+      "neutrones_que_emergen": 31229,
+      "albedo_por_incidente": 0.6454245424542454,
+      "J_sube_n_m2_s": 16.598914835928035,
+      "cruces_baja_no_incidentes": 651,
+      "origen_de_los_que_suben": {
+        "creado: neutronInelastic": 17413,
+        "incidente reflejado": 14347,
+        "creado: protonInelastic": 183,
+        "creado: hBertiniCaptureAtRest": 160,
+        "creado: pi-Inelastic": 110,
+        "creado: pi+Inelastic": 33,
+        "creado: dInelastic": 8,
+        "creado: RadioactiveDecayBase": 5,
+        "creado: photonNuclear": 4,
+        "creado: muMinusCaptureAtRest": 3,
+        "creado: tInelastic": 2
+      },
+      "fraccion_creados_en_el_suelo": 0.5553799429775629,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.0,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.30401508206376193,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 2.6034184946272405,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 1.0627667674174825,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 4.00415126697855,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 8.024249179547583,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.6003140452934183,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    },
+    "humedo-5": {
+      "carpeta": "Corrida-suelo-albedo-resultados/200000N-Bga-sobre-SoilBS-agua05-sinSab-20261024-024229",
+      "partes": "todas",
+      "N_incidentes": 199972,
+      "cruces_sube": 113042,
+      "neutrones_que_emergen": 109226,
+      "albedo_por_incidente": 0.5652891404796672,
+      "J_sube_n_m2_s": 14.538006665840623,
+      "cruces_baja_no_incidentes": 2093,
+      "origen_de_los_que_suben": {
+        "incidente reflejado": 56735,
+        "creado: neutronInelastic": 54431,
+        "creado: protonInelastic": 646,
+        "creado: hBertiniCaptureAtRest": 639,
+        "creado: pi-Inelastic": 406,
+        "creado: pi+Inelastic": 125,
+        "creado: dInelastic": 24,
+        "creado: RadioactiveDecayBase": 14,
+        "creado: photonNuclear": 12,
+        "creado: tInelastic": 5,
+        "creado: muMinusCaptureAtRest": 3,
+        "creado: He3Inelastic": 1,
+        "creado: lambdaInelastic": 1
+      },
+      "fraccion_creados_en_el_suelo": 0.49810689832097804,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.0005144285014716875,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.3204889564168613,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 3.2153067413234147,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 1.0202403255437242,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 3.1854698882380568,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 6.1953910503489,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.6005952754681951,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    },
+    "humedo-10": {
+      "carpeta": "Corrida-suelo-albedo-resultados/200000N-Bga-sobre-SoilBS-agua10-sinSab-20261024-182242",
+      "partes": "todas",
+      "N_incidentes": 199974,
+      "cruces_sube": 103716,
+      "neutrones_que_emergen": 99996,
+      "albedo_por_incidente": 0.5186474241651414,
+      "J_sube_n_m2_s": 13.338483211150782,
+      "cruces_baja_no_incidentes": 1662,
+      "origen_de_los_que_suben": {
+        "incidente reflejado": 56539,
+        "creado: neutronInelastic": 45533,
+        "creado: hBertiniCaptureAtRest": 599,
+        "creado: protonInelastic": 539,
+        "creado: pi-Inelastic": 346,
+        "creado: pi+Inelastic": 109,
+        "creado: dInelastic": 26,
+        "creado: RadioactiveDecayBase": 10,
+        "creado: photonNuclear": 8,
+        "creado: muMinusCaptureAtRest": 4,
+        "creado: tInelastic": 2,
+        "creado: kaon-Inelastic": 1
+      },
+      "fraccion_creados_en_el_suelo": 0.45486713718230554,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.0001286058391294572,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.3240867146062321,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 3.4552530798911265,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 0.9668586985752592,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 2.8100375849786396,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 5.203135039499579,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.5789834877608163,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    },
+    "humedo-15": {
+      "carpeta": "Corrida-suelo-albedo-resultados/200000N-Bga-sobre-SoilBS-agua15-sinSab-20261025-025621",
+      "partes": "todas",
+      "N_incidentes": 199982,
+      "cruces_sube": 97187,
+      "neutrones_que_emergen": 93619,
+      "albedo_por_incidente": 0.4859787380864278,
+      "J_sube_n_m2_s": 12.49831568984727,
+      "cruces_baja_no_incidentes": 1407,
+      "origen_de_los_que_suben": {
+        "incidente reflejado": 56466,
+        "creado: neutronInelastic": 39263,
+        "creado: hBertiniCaptureAtRest": 595,
+        "creado: protonInelastic": 438,
+        "creado: pi-Inelastic": 283,
+        "creado: pi+Inelastic": 90,
+        "creado: dInelastic": 24,
+        "creado: RadioactiveDecayBase": 19,
+        "creado: photonNuclear": 4,
+        "creado: tInelastic": 2,
+        "creado: muMinusCaptureAtRest": 2,
+        "creado: He3Inelastic": 1
+      },
+      "fraccion_creados_en_el_suelo": 0.41899636782697275,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.0,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.3348762083031917,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 3.5654542531513016,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 0.929011416583048,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 2.536905899077213,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 4.581528339865402,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.5505395728671135,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    },
+    "humedo-25": {
+      "carpeta": "Corrida-suelo-albedo-resultados/200000N-Bga-sobre-SoilBS-agua25-sinSab-20261023-191301",
+      "partes": "todas",
+      "N_incidentes": 199977,
+      "cruces_sube": 88643,
+      "neutrones_que_emergen": 85141,
+      "albedo_por_incidente": 0.44326597558719255,
+      "J_sube_n_m2_s": 11.39983637817423,
+      "cruces_baja_no_incidentes": 1187,
+      "origen_de_los_que_suben": {
+        "incidente reflejado": 56218,
+        "creado: neutronInelastic": 31129,
+        "creado: hBertiniCaptureAtRest": 514,
+        "creado: protonInelastic": 358,
+        "creado: pi-Inelastic": 283,
+        "creado: pi+Inelastic": 96,
+        "creado: dInelastic": 21,
+        "creado: RadioactiveDecayBase": 15,
+        "creado: photonNuclear": 5,
+        "creado: tInelastic": 2,
+        "creado: kaon0SInelastic": 1,
+        "creado: lambdaInelastic": 1
+      },
+      "fraccion_creados_en_el_suelo": 0.3657931252326749,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.00012860390981999967,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.3244676644758592,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 3.641162498733651,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 0.8796507431687978,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 2.311012259465394,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 3.7169102016176305,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.5265044068030786,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    },
+    "humedo-30": {
+      "carpeta": "Corrida-suelo-albedo-resultados/200000N-Bga-sobre-SoilBS-agua30-sinSab-20261024-105307",
+      "partes": "todas",
+      "N_incidentes": 199983,
+      "cruces_sube": 85421,
+      "neutrones_que_emergen": 82106,
+      "albedo_por_incidente": 0.4271413070110959,
+      "J_sube_n_m2_s": 10.985144988481427,
+      "cruces_baja_no_incidentes": 1045,
+      "origen_de_los_que_suben": {
+        "incidente reflejado": 56179,
+        "creado: neutronInelastic": 28090,
+        "creado: hBertiniCaptureAtRest": 468,
+        "creado: protonInelastic": 299,
+        "creado: pi-Inelastic": 263,
+        "creado: pi+Inelastic": 81,
+        "creado: dInelastic": 16,
+        "creado: RadioactiveDecayBase": 12,
+        "creado: tInelastic": 6,
+        "creado: photonNuclear": 3,
+        "creado: kaon+Inelastic": 2,
+        "creado: muMinusCaptureAtRest": 1,
+        "creado: kaon0SInelastic": 1
+      },
+      "fraccion_creados_en_el_suelo": 0.34232799896980837,
+      "por_region": {
+        "Ultrafríos": {
+          "sube_n_m2_s": 0.0001286000513747372,
+          "sube_tesis_seco_n_m2_s": 0.0001388888888888889
+        },
+        "Fríos": {
+          "sube_n_m2_s": 0.3172563267414767,
+          "sube_tesis_seco_n_m2_s": 0.30796296296296294
+        },
+        "Térmicos": {
+          "sube_n_m2_s": 3.6674162651047557,
+          "sube_tesis_seco_n_m2_s": 2.6769907407407407
+        },
+        "Epitérmicos": {
+          "sube_n_m2_s": 0.8577623426694971,
+          "sube_tesis_seco_n_m2_s": 1.150925925925926
+        },
+        "Intermedios": {
+          "sube_n_m2_s": 2.200218278970379,
+          "sube_tesis_seco_n_m2_s": 4.207569444444444
+        },
+        "Rápidos": {
+          "sube_n_m2_s": 3.4210185666707593,
+          "sube_tesis_seco_n_m2_s": 8.911875
+        },
+        "Alta energía": {
+          "sube_n_m2_s": 0.5213446082731846,
+          "sube_tesis_seco_n_m2_s": 0.8027314814814814
+        }
+      }
+    }
+  }
+}

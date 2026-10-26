@@ -1,0 +1,18 @@
+# Archivos que NO se versionan en git (v0.9.0): sha256, bytes, motivo, nombre
+06fc6d9e74cff2ca5e0679196f5acc728ebfd877b8530892af3717cbc1f43b4b       4084271  flujo regenerable con su semilla (ver README)  analysis/suelo-humedo-calibracion_seccion-4.7/flujos/200000N-Bga-baja-sobre-suelo-componentes.txt
+7fceb17953c763572b15701932b98e9bb472655e4c59d76ac13a53cb1b4b1012      15748098  flujo regenerable con su semilla (ver README)  analysis/suelo-humedo-calibracion_seccion-4.7/flujos/200000N-Bga-baja-sobre-suelo.txt
+88cfddce7c5644e3f1c32ad05abba65853f1c24956a01ae4966d3508d3c5f2f0       3045291  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/agua05.npz
+6562b3833b0dcd80f3b86d3af1a43312f474f395e9e877ecef634cafc6b8951b       2793058  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/agua10.npz
+09496594a3c45db255d2aa92bf4833b691861a9619eb682441498348a8489af4       2617742  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/agua15.npz
+bb2742e66be177cf15511d5a6ca6fcbe7d90be99a2019fd4a713d689f8385952       2383877  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/agua25.npz
+1cd2a3563e331a4c5d4336703d2aa66fcc5889e0745edce7e93cc005b691371d       2298507  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/agua30.npz
+61c92b9b23a61dbc9103f0de24f54fa8eb3b094b9ec626f0be93c6d88d3984d3        876193  caché regenerable con generar_entrada_tanque.py  analysis/suelo-humedo-calibracion_seccion-4.7/resultados/neutrones_que_suben/seco.npz
+77ccf0f10dd3c3f46c9bfd7fc33858a2fe8354d8a03a2d71b41295c37ea23d89       8479509  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-agua05.txt
+31a808fc7df2a61f3568c21ef5aad57a0fc1022b65de0a242ba617ea6b727699       8478932  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-agua10.txt
+4be3c8827f9feba01dd8e8e6978c9c94bab24da2b20baf12894ce42efbd44605       8479137  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-agua15.txt
+6e0fa5f9dfa151c775725a7b453331d0fbba70fd9cf29a486bb65e2481accdab       8479555  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-agua25.txt
+cf026d713ef38a77a63c77fa78e3f3c59163829cd62a0452a8b93b21c32032cc       8479648  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-agua30.txt
+42b85730f55c6171393cd83f1a2ab4e9d04e23e3aabd0696794124824680e831       8479422  flujo regenerable con su semilla (ver README)  simulations/tanque-albedo/flujos/100000N-sube-seco.txt
+06fc6d9e74cff2ca5e0679196f5acc728ebfd877b8530892af3717cbc1f43b4b       4084271  flujo regenerable con su semilla (ver README)  simulations/albedo-suelo/flujos/200000N-Bga-baja-sobre-suelo-componentes.txt
+7fceb17953c763572b15701932b98e9bb472655e4c59d76ac13a53cb1b4b1012      15748098  flujo regenerable con su semilla (ver README)  simulations/albedo-suelo/flujos/200000N-Bga-baja-sobre-suelo.txt
+7206fd94c7cb6624cb5401a7b1bc72c581077364b54731bf6efe00c9b0dbf1ca     130468465  campo de Bucaramanga (ALL_BGA_SHW)  all_bga_neutron_35.shw

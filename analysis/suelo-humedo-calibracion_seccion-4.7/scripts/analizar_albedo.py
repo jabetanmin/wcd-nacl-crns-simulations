@@ -8,13 +8,13 @@ los cruces a menos de R cm del eje x = y = 0.
 Para cada neutrón que sube se guarda su energía, si es el neutrón incidente (traza 1) o uno creado en el suelo, y el
 proceso que lo creó (p. ej. neutronInelastic: dispersión inelástica / (n,xn)).
 Normalización: igual que la figura de la tesis, el flujo que baja del archivo all_bga (1 111 010 neutrones en 1 m² y
-3600 s, 308.6 n m⁻² s⁻¹); el que sube en la simulación = (cruces hacia arriba / neutrones incidentes) × ese flujo.
+12 h, 25.7 n m⁻² s⁻¹; verificado con ARTI, ver normalizacion.py); el que sube en la simulación = (cruces hacia arriba / neutrones incidentes) × ese flujo.
 Uso: analizar_albedo.py --corrida seco=<carpeta> --corrida humedo-25=<carpeta> [--corrida humedo-10=…] [--shw …]
      <carpeta>@1 (o @1,2): solo esas partes; p. ej. la parte 1 de una corrida completa en 4 partes tiene los mismos
      50 000 neutrones que la validación (ejecutar_suelo.sh <suelo> validacion)
 -> resultados/albedo_suelo.json, resultados/espectros_albedo.tsv, figuras/fig01_albedo_espectros, fig02_origen_albedo
 """
-import argparse, glob, json, os, subprocess
+import argparse, glob, json, os, subprocess, sys
 from collections import Counter
 import numpy as np
 import matplotlib
@@ -24,13 +24,15 @@ import matplotlib.pyplot as plt
 BASE = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 RES, FIG = os.path.join(BASE, "resultados"), os.path.join(BASE, "figuras")
 os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
-SHW = os.environ.get("ALL_BGA_SHW", os.path.join(os.path.expanduser("~"), "Documentos", "Documetos-Jaime-Betancourt",
-                   "Flujo-sobre-Bucaramnga", "Flujo-completo-Bga", "Grafica-flujo-Bga", "all_bga_neutron_35.shw"))
+SHW = os.environ.get("ALL_BGA_SHW", "all_bga_neutron_35.shw")   # campo de Bucaramanga (fuera de git)
 ZP = 5.0
 M_N = 939.565
 B = np.logspace(-11, 6, 171)                                # 10 bins por década, en MeV (como la figura de la tesis)
 DU = np.log(B[1:] / B[:-1]); XC = np.sqrt(B[1:] * B[:-1])
-REG = [("Térmico", 1e-11, 5e-7), ("Epitérmico", 5e-7, 0.1), ("Evaporación", 0.1, 20), ("Cascada", 20, 1e6)]
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from regiones import REGIONES
+from normalizacion import T_EXPOSICION_S
+REG = [(r[0], r[1], r[2]) for r in REGIONES]                # Tabla 2.2 de la tesis (regiones.py)
 AWK = r'''BEGIN{FS="\t"} /^#/{next} {z1=$12+0; z2=$15+0; if((z1>ZP && z2<=ZP)||(z1<ZP && z2>=ZP)){
  x=$10+0; y=$11+0; t=(ZP-z1)/(z2-z1); xc=x+t*($13-x); yc=y+t*($14-y); if(xc*xc+yc*yc<RE*RE) next;
  print $1"\t"$4"\t"$5"\t"$6"\t"$7"\t"$16"\t"(z2>z1?1:-1)}}'''
@@ -38,6 +40,7 @@ AWK = r'''BEGIN{FS="\t"} /^#/{next} {z1=$12+0; z2=$15+0; if((z1>ZP && z2<=ZP)||(
 ap = argparse.ArgumentParser()
 ap.add_argument("--corrida", action="append", required=True, metavar="ETIQUETA=CARPETA")
 ap.add_argument("--shw", default=SHW)
+ap.add_argument("--sufijo", default="", help="se agrega al nombre de las salidas (p. ej. _validacion)")
 ap.add_argument("--excluir-tanque", type=float, default=0.0, help="cm; radio alrededor del eje del tanque que se descarta (0 = sin tanque)")
 a = ap.parse_args()
 R_EXCL = a.excluir_tanque
@@ -47,14 +50,14 @@ def tesis():
     p = np.linalg.norm(d, axis=1); E = np.where(p < 1e-2, p ** 2 / (2 * M_N), np.sqrt(p ** 2 + M_N ** 2) - M_N)
     return E[d[:, 2] < 0], E[d[:, 2] > 0]
 E_baja, E_sube = tesis()
-J_BAJA = len(E_baja) / 3600.0                               # n m⁻² s⁻¹ (1 m², 3600 s, como la figura de la tesis)
+J_BAJA = len(E_baja) / T_EXPOSICION_S                       # n m⁻² s⁻¹ (1 m², 12 h, como la tesis)
 letargia = lambda h, norm: h * norm / DU                    # E dΦ/dE por bin
 
 out = {"plano_cm": ZP, "exclusion_tanque_cm": R_EXCL, "J_baja_tesis_n_m2_s": J_BAJA,
        "tesis": {"baja": int(len(E_baja)), "sube": int(len(E_sube)), "albedo_por_incidente": len(E_sube) / len(E_baja)},
        "corridas": {}}
-curvas = {"Baja (tesis)": letargia(np.histogram(E_baja, B)[0], 1 / 3600.0),
-          "Sube, suelo seco (tesis)": letargia(np.histogram(E_sube, B)[0], 1 / 3600.0)}
+curvas = {"Baja (tesis)": letargia(np.histogram(E_baja, B)[0], 1 / T_EXPOSICION_S),
+          "Sube, suelo seco (tesis)": letargia(np.histogram(E_sube, B)[0], 1 / T_EXPOSICION_S)}
 origen = {}
 for item in a.corrida:
     etq, carpeta = item.split("=", 1)
@@ -86,32 +89,33 @@ for item in a.corrida:
     curvas[f"Sube, {etq} (MEIGA)"] = letargia(np.histogram(E[sube], B)[0], norm)
     origen[etq] = {t: letargia(np.histogram(E[sube & (tipo_fig == t)], B)[0], norm) for t in sorted(set(tipo_fig[sube]))}
     reg = {n: {"sube_n_m2_s": float(np.sum((E[sube] >= lo) & (E[sube] < hi)) * norm),
-               "sube_tesis_seco_n_m2_s": float(np.sum((E_sube >= lo) & (E_sube < hi)) / 3600.0)} for n, lo, hi in REG}
+               "sube_tesis_seco_n_m2_s": float(np.sum((E_sube >= lo) & (E_sube < hi)) / T_EXPOSICION_S)} for n, lo, hi in REG}
     out["corridas"][etq] = {"carpeta": carpeta, "partes": sorted(partes) if partes else "todas", "N_incidentes": N_inc, "cruces_sube": int(sube.sum()),
                             "neutrones_que_emergen": int(primero.sum()), "albedo_por_incidente": float(sube.sum() / N_inc),
                             "J_sube_n_m2_s": float(sube.sum() * norm), "cruces_baja_no_incidentes": int(((sen < 0) & ~baja_inc).sum()),
                             "origen_de_los_que_suben": dict(Counter(tipo[sube]).most_common()),
                             "fraccion_creados_en_el_suelo": float(np.mean(trk[sube] != 1)), "por_region": reg}
-json.dump(out, open(os.path.join(RES, "albedo_suelo.json"), "w"), indent=2, ensure_ascii=False)
-with open(os.path.join(RES, "espectros_albedo.tsv"), "w") as fo:
+json.dump(out, open(os.path.join(RES, f"albedo_suelo{a.sufijo}.json"), "w"), indent=2, ensure_ascii=False)
+with open(os.path.join(RES, f"espectros_albedo{a.sufijo}.tsv"), "w") as fo:
     fo.write("E_min_MeV\tE_max_MeV\t" + "\t".join(curvas) + "\n")
     for i in range(len(XC)):
         fo.write(f"{B[i]:.4e}\t{B[i+1]:.4e}\t" + "\t".join(f"{v[i]:.5g}" for v in curvas.values()) + "\n")
 
 def bandas(ax):
-    for (n, lo, hi), col in zip(REG, ("#e8f0ff", "#e8f7f0", "#fff6e0", "#ffeef4")):
-        ax.axvspan(lo, hi, color=col, zorder=0); ax.text(np.sqrt(lo * hi), 1.6e2, n, ha="center", fontsize=9, color="0.35")
+    for n, lo, hi, _, _, col in REGIONES:
+        lo = max(lo, 1e-11); ax.axvspan(lo, hi, color=col, zorder=0)
+        ax.text(np.sqrt(lo * hi), 0.97, n, ha="center", va="top", fontsize=8, color="0.35", rotation=90, transform=ax.get_xaxis_transform())
 estilo = {"Baja (tesis)": ("#2b6cd4", "-"), "Sube, suelo seco (tesis)": ("#e8603c", "-")}
-otros = iter([("#8a2be2", "--"), ("#1a9e5f", "--"), ("k", ":")])
+otros = iter([("#8a2be2", "--"), ("#1a9e5f", "--"), ("#c08a00", "--"), ("k", ":"), ("#d6336c", "-."), ("#0b7fab", "-."), ("0.45", ":")])
 fig, ax = plt.subplots(figsize=(11, 6)); bandas(ax)
 for nom, y in curvas.items():
     c, ls = estilo.get(nom) or next(otros)
     ax.stairs(np.clip(y, 1e-4, None), B, color=c, ls=ls, lw=1.6, label=nom)
 ax.set_xscale("log"); ax.set_yscale("log"); ax.set_ylim(1e-1, 4e2); ax.set_xlim(1e-11, 1e6)
 ax.set_xlabel("Energía cinética $E_n$ [MeV]"); ax.set_ylabel("$E\\,d\\Phi/dE$ [n m$^{-2}$ s$^{-1}$]")
-ax.set_title("Neutrones que emergen del suelo: " + ", ".join(e for e in origen)); ax.legend(fontsize=9, loc="lower center", ncol=2)
+ax.set_title("Neutrones que emergen del suelo según la humedad" + (" (mismos neutrones de entrada)" if a.sufijo else "")); ax.legend(fontsize=9, loc="lower center", ncol=2)
 ax.grid(alpha=0.3, ls=":", which="both"); fig.tight_layout()
-for e in ("png", "pdf"): fig.savefig(os.path.join(FIG, f"fig01_albedo_espectros.{e}"), dpi=170)
+for e in ("png", "pdf"): fig.savefig(os.path.join(FIG, f"fig01_albedo_espectros{a.sufijo}.{e}"), dpi=170)
 plt.close(fig)
 fig, axs = plt.subplots(1, len(origen), figsize=(7.5 * len(origen), 5.5), squeeze=False, sharey=True)
 for ax, (etq, d) in zip(axs[0], origen.items()):
@@ -122,6 +126,6 @@ for ax, (etq, d) in zip(axs[0], origen.items()):
     ax.set_xlabel("Energía cinética $E_n$ [MeV]"); ax.set_title(f"Origen de los neutrones que suben: {etq}", fontsize=10)
     ax.grid(alpha=0.3, ls=":", which="both"); ax.legend(fontsize=8, loc="lower center")
 axs[0][0].set_ylabel("$E\\,d\\Phi/dE$ [n m$^{-2}$ s$^{-1}$]"); fig.tight_layout()
-for e in ("png", "pdf"): fig.savefig(os.path.join(FIG, f"fig02_origen_albedo.{e}"), dpi=170)
+for e in ("png", "pdf"): fig.savefig(os.path.join(FIG, f"fig02_origen_albedo{a.sufijo}.{e}"), dpi=170)
 print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk not in ("por_region",)} for k, v in out["corridas"].items()}, indent=1, ensure_ascii=False))
 print("tesis:", out["tesis"])

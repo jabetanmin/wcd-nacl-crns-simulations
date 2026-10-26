@@ -4,6 +4,40 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.9.0] - 2026-10-26
+
+### Añadido
+
+- `analysis/suelo-humedo-calibracion_seccion-4.7/`: análisis e informe técnico de la Sec. 4.7 (37 páginas).
+  - Flujo que sube de suelos SoilBS con 0 a 30 % de agua, con las regiones de la Tabla 2.2 y su correspondencia con
+    las de CRNS. Con 30 % de agua, los intermedios bajan a 0.550 del seco y los rápidos a 0.423; los térmicos suben
+    un 42 %. La forma de Desilets se ajusta con parámetros propios; la banda más sensible es 0.1–3 MeV.
+  - Coeficientes de captura, reflexión, transmisión y otros destinos de 1 meV a 1 GeV en los cuatro medios (Campaña 1
+    hasta 1 keV y barrido rápido por encima), con su incertidumbre y la ganancia relativa del NaCl; cuatro
+    definiciones de la captura, que explican el 25 % de Sidelnik et al. (2020) como capturas por traza.
+  - Fotones Cherenkov aceptados y fotoelectrones por neutrón de 1 keV a 1 GeV.
+  - Curva de calibración por plegado y por simulación directa en el tanque (cuatro medios): caída de seco a 30 % de
+    agua de 10.0, 10.9, 11.3 y 11.6 % en la simulación directa (8.6–10.4 % por plegado), hasta 13.2 % con la ventana
+    de carga 1 ≤ Q < 20 p.e.
+  - Sensibilidad $S_j(\theta_v)$ (Ec. 4.130) y resolución estadística en humedad.
+  - `scripts/actualizar_informe.sh` rehace resultados, figuras, tablas e informe a partir de las corridas.
+- `simulations/barrido-rapidos-WCD/`: neutrones monoenergéticos de 1 keV a 1 GeV, cuatro medios.
+- `simulations/tanque-albedo/`: los neutrones que suben de cada suelo inyectados en el WCD por la base y el costado.
+- `analysis/flujo-bucaramanga_secciones-4.3-4.5/scripts/verificar_tiempo_exposicion.py`: fija en 12 h (12.09 h con
+  E > 50 MeV) el tiempo del campo `all_bga_neutron_35.shw` con una corrida pública de ARTI de 300 s a 956 m.
+- `data/manifiestos/corridas-v0.9.0.tsv` y `excluidos-v0.9.0.sha256`: manifiestos de las 79 corridas de la Sec. 4.7 y
+  sha256 de los archivos que no se versionan.
+
+### Cambiado
+
+- `analysis/albedo-suelo-humedo_seccion-4.6/` (v0.8.0) pasa a `analysis/suelo-humedo-calibracion_seccion-4.7/`, con la
+  numeración final de la tesis, y la normalización del albedo pasa de 3600 s a 12 h (las tasas absolutas se dividen
+  entre 12; las razones $N/N_0$ no cambian).
+- README de las Secs. 4.3–4.5: tiempo de exposición verificado y definición del albedo de la Sec. 4.5 como corriente
+  que sube (44.5 % reflejado, 55.5 % creado en el suelo).
+- README de la Sec. 4.6: la curva R_j(θ_v) y la sensibilidad S_j ya están simuladas (Sec. 4.7).
+- `simulations/albedo-suelo/`: corridas completas (seco de validación y 5, 10, 15, 25 y 30 %).
+
 ## [0.8.0] - 2026-10-23
 
 ### Añadido

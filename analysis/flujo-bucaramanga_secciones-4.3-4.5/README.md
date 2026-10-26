@@ -35,8 +35,36 @@ Rutas de origen relativas a `Documetos-Jaime-Betancourt/`.
 | Reanálisis de verificación (grupos de energía, sentidos, ajuste maxwelliano, comparación con ARTI S3) | `analisis_flujo_superficie_bga.ipynb` / `.py` | `Flujo-sobre-Bucaramnga/Flujo-completo-Bga/Analisis-flujo-superficie-Bga/` |
 
 > `resultados/4.3/resumen_flujo_superficie_bga.txt` y los CSV que lo acompañan vienen del reanálisis.
-> Están normalizados con **t = 3600 s**, un supuesto de trabajo y no un valor confirmado. La tesis
-> usa 12 h. Véase el informe, §4.3.1.
+> Están normalizados con **t = 3600 s**, un supuesto de trabajo de septiembre de 2026. El tiempo correcto
+> es **12 h**, como usa la tesis: para pasar esas cifras a 12 h hay que dividir las tasas entre 12.
+
+### Tiempo de exposición del campo en superficie (v0.9.0)
+
+`all_bga_neutron_35.shw` no guarda su tiempo de exposición. `scripts/verificar_tiempo_exposicion.py` lo fija comparando
+los neutrones que bajan por encima de 50 MeV (el corte de neutrones de CORSIKA) con una corrida de ARTI de referencia
+en el mismo sitio: `Salida_BGA_300.shw` del repositorio público
+[csarmiento03/ReunionLAGO2025_ARTI](https://github.com/csarmiento03/ReunionLAGO2025_ARTI) (commit `9ad4c23`; ARTI v1r9,
+956 m, 1 m², 300 s). Ese archivo no se copia aquí; se obtiene del repositorio original. En ARTI el número del nombre es
+el argumento `-t` en segundos, y el número de primarios es π ΔS Δt ∫ j(E) dE con ΔS = 1 m² (Asorey et al. 2018,
+ecs. 13–14).
+
+```bash
+python3 scripts/verificar_tiempo_exposicion.py <ruta>/all_bga_neutron_35.shw <ruta>/Salida_BGA_300.shw
+```
+
+Resultado (`resultados/4.3/verificacion_tiempo_exposicion.txt`): ARTI da 13.08 n m⁻² s⁻¹ por encima de 50 MeV
+(3923 neutrones, ±1.6 %), y `all_bga` tiene 569 038 → **T = 12.09 h**; por encima de 1 GeV, 12.10 h. El campo
+corresponde a 12 h sobre 1 m², y la corriente que baja es J↓ = 1 111 010 / 43 200 s = 25.7 n m⁻² s⁻¹.
+
+### Albedo del suelo seco (Sec. 4.5, v0.9.0)
+
+En la Sec. 4.5 el flujo de albedo (Ec. 4.73) es la **corriente que sube** a través de un plano horizontal sobre el suelo,
+por unidad de área, tiempo y energía: Φ_albedo(E) = (1/(A t)) dN↑/dE = Φ_reflejado(E) + Φ_creado(E). No es la tasa de
+fluencia que mide una esfera de Bonner. En el suelo seco, el 44.5 % de los neutrones que suben son incidentes
+reflejados y el 55.5 % se crean en el suelo (54.0 % por `neutronInelastic`); las cifras salen de
+`analysis/suelo-humedo-calibracion_seccion-4.7/` (`scripts/procesos_neutrones.py`). La ventana de 10 meV a 10 eV de la
+Fig. 4.82 tiene 207 967 de los 780 114 neutrones que suben (26.7 %), cambia solo un 12 % con la humedad y no sirve
+como entrada de la curva de calibración (Sec. 4.7).
 
 ### 4.4 — `notebooks/4.4_flujo-rapido-alta-energia/`
 

@@ -59,10 +59,23 @@ Desde la v0.8.0 incluye también las simulaciones MEIGA del montaje real: la fue
 por la tapa, la entrada lateral con 10⁶ neutrones, la calibración con muones y el haz moderado con el PMT bajado.
 Todas se comparan con el prototipo por factores comunes.
 
-## Albedo del suelo húmedo (Etapa III, en curso)
+## Suelos húmedos y curva de calibración del WCD (Sección 4.7, octubre de 2026)
 
-[`albedo-suelo-humedo_seccion-4.6/`](albedo-suelo-humedo_seccion-4.6/) contiene el generador de los neutrones que bajan
-sobre el suelo SoilBS y el análisis del espectro que sube y de su origen, para humedades de 5 a 30 %.
+[`suelo-humedo-calibracion_seccion-4.7/`](suelo-humedo-calibracion_seccion-4.7/) contiene el análisis completo de la
+Sección 4.7 y su informe técnico (`informe/Informe-albedo-suelo.pdf`): el flujo que sube de suelos SoilBS con 0 a 30 %
+de agua, clasificado con las regiones de la Tabla 2.2; el ajuste de Desilets; los coeficientes de captura, reflexión,
+transmisión y otros destinos de 1 meV a 1 GeV; los fotones Cherenkov y fotoelectrones de 1 keV a 1 GeV; la curva de
+calibración por plegado y por simulación directa en el tanque, para agua pura y 2.5, 5 y 10 % de NaCl; y la
+sensibilidad $S_j$ con su resolución estadística. `scripts/actualizar_informe.sh` rehace todo a partir de las corridas
+(ver su README). Sustituye a la carpeta `albedo-suelo-humedo_seccion-4.6/` de la v0.8.0: con la numeración final de la
+tesis este material es la Sección 4.7.
+
+## Flujo de Bucaramanga (Secciones 4.3–4.5) y respuesta de referencia (Sección 4.6)
+
+En la v0.9.0, [`flujo-bucaramanga_secciones-4.3-4.5/`](flujo-bucaramanga_secciones-4.3-4.5/) agrega
+`scripts/verificar_tiempo_exposicion.py`: fija en 12 h el tiempo del campo `all_bga_neutron_35.shw` comparándolo con
+una corrida pública de ARTI de 300 s a 956 m. Su README recoge también la definición del albedo de la Sec. 4.5 como
+corriente que sube.
 
 ## Réplica de Sidelnik et al. (2020) con MEIGA (Sección 4.1.1, octubre de 2026)
 

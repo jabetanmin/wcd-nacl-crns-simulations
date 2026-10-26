@@ -1,0 +1,80 @@
+{
+  "seco (5e4)": {
+    "carpeta": "50000N-Bga-sobre-SoilBS-seco-sinSab-20261024-081554",
+    "archivos": 66,
+    "bytes": 12170602629,
+    "manifiesto": "0e5fec455850874d035164fe4a7fc8ea",
+    "partes": 4,
+    "tiempo_parte_s": [
+      4719.0,
+      4834.0,
+      4814.0,
+      4822.0
+    ]
+  },
+  "humedo-5": {
+    "carpeta": "200000N-Bga-sobre-SoilBS-agua05-sinSab-20261024-024229",
+    "archivos": 66,
+    "bytes": 49971559336,
+    "manifiesto": "f8e0c0d81a4ee0e1fe4ef98b7fd8af4c",
+    "partes": 4,
+    "tiempo_parte_s": [
+      18201.0,
+      18475.0,
+      18450.0,
+      18598.0
+    ]
+  },
+  "humedo-10": {
+    "carpeta": "200000N-Bga-sobre-SoilBS-agua10-sinSab-20261024-182242",
+    "archivos": 66,
+    "bytes": 48054395173,
+    "manifiesto": "b923d67ec9b97f6a950430de1cdad2f2",
+    "partes": 4,
+    "tiempo_parte_s": [
+      17897.0,
+      18120.0,
+      18330.0,
+      18097.0
+    ]
+  },
+  "humedo-25": {
+    "carpeta": "200000N-Bga-sobre-SoilBS-agua25-sinSab-20261023-191301",
+    "archivos": 66,
+    "bytes": 41693426381,
+    "manifiesto": "1c46451b94808a81cad4946391f8290d",
+    "partes": 4,
+    "tiempo_parte_s": [
+      17385.0,
+      17595.0,
+      17405.0,
+      17421.0
+    ]
+  },
+  "humedo-30": {
+    "carpeta": "200000N-Bga-sobre-SoilBS-agua30-sinSab-20261024-105307",
+    "archivos": 66,
+    "bytes": 39979492522,
+    "manifiesto": "3367ec21ad0aa7a402f2c26e2c6be0c7",
+    "partes": 4,
+    "tiempo_parte_s": [
+      16816.0,
+      17178.0,
+      17130.0,
+      17083.0
+    ]
+  },
+  "humedo-15": {
+    "carpeta": "200000N-Bga-sobre-SoilBS-agua15-sinSab-20261025-025621",
+    "archivos": 66,
+    "bytes": 45874701023,
+    "manifiesto": "26ca186fbb46e65da944935519afb701",
+    "partes": 4,
+    "tiempo_parte_s": [
+      17568.0,
+      18058.0,
+      18054.0,
+      17788.0
+    ]
+  }
+}

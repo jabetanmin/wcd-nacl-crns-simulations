@@ -1,0 +1,185 @@
+{
+  "corte_grados": 85.0,
+  "cilindro": {
+    "R_cm": 48.5,
+    "z_min_cm": -0.5,
+    "z_max_cm": 134.5
+  },
+  "semilla": 20261026,
+  "suelos": {
+    "seco": {
+      "w": 0.0,
+      "cruces": 32268,
+      "J_sube_n_m2_s": 199.18697803113645,
+      "E_media_MeV": 2.9960063018487086,
+      "tasa_base_n_s": 147.1954184932884,
+      "tasa_costado_n_s": 355.0716423789114,
+      "tasa_costado_n_s_por_corte": {
+        "80": 314.06693296387556,
+        "85": 355.0716423789114,
+        "90": 390.7252985877021
+      },
+      "tan_medio": 1.3612865183596394,
+      "tasa_al_tanque_n_s": 502.2670608721998,
+      "completa": {
+        "archivo": "100000N-sube-seco.txt",
+        "N": 100000,
+        "por_la_base": 29148,
+        "por_el_costado": 70852,
+        "E_media_MeV": 3.424404888927801
+      },
+      "prueba": {
+        "archivo": "2000N-sube-seco.txt",
+        "N": 2000,
+        "por_la_base": 612,
+        "por_el_costado": 1388,
+        "E_media_MeV": 4.033464161572496
+      }
+    },
+    "agua05": {
+      "w": 0.05,
+      "cruces": 113042,
+      "J_sube_n_m2_s": 174.45607999008752,
+      "E_media_MeV": 3.2332290223306424,
+      "tasa_base_n_s": 128.91975146500502,
+      "tasa_costado_n_s": 317.2386846808754,
+      "tasa_costado_n_s_por_corte": {
+        "80": 278.66777850453917,
+        "85": 317.2386846808754,
+        "90": 353.3507435144841
+      },
+      "tan_medio": 1.388655530404103,
+      "tasa_al_tanque_n_s": 446.1584361458804,
+      "completa": {
+        "archivo": "100000N-sube-agua05.txt",
+        "N": 100000,
+        "por_la_base": 28810,
+        "por_el_costado": 71190,
+        "E_media_MeV": 3.7880789388860556
+      },
+      "prueba": {
+        "archivo": "2000N-sube-agua05.txt",
+        "N": 2000,
+        "por_la_base": 552,
+        "por_el_costado": 1448,
+        "E_media_MeV": 4.2315913853812255
+      }
+    },
+    "agua10": {
+      "w": 0.1,
+      "cruces": 103716,
+      "J_sube_n_m2_s": 160.06179853380937,
+      "E_media_MeV": 3.26868070719901,
+      "tasa_base_n_s": 118.28264906097216,
+      "tasa_costado_n_s": 295.8553536758789,
+      "tasa_costado_n_s_por_corte": {
+        "80": 258.42510485800904,
+        "85": 295.8553536758789,
+        "90": 326.37505617718494
+      },
+      "tan_medio": 1.4115174034741156,
+      "tasa_al_tanque_n_s": 414.1380027368511,
+      "completa": {
+        "archivo": "100000N-sube-agua10.txt",
+        "N": 100000,
+        "por_la_base": 28669,
+        "por_el_costado": 71331,
+        "E_media_MeV": 3.8549978207806057
+      },
+      "prueba": {
+        "archivo": "2000N-sube-agua10.txt",
+        "N": 2000,
+        "por_la_base": 555,
+        "por_el_costado": 1445,
+        "E_media_MeV": 3.5862194903852886
+      }
+    },
+    "agua15": {
+      "w": 0.15,
+      "cruces": 97187,
+      "J_sube_n_m2_s": 149.97978827816723,
+      "E_media_MeV": 3.3230713288981755,
+      "tasa_base_n_s": 110.83223371002042,
+      "tasa_costado_n_s": 277.6467038530445,
+      "tasa_costado_n_s_por_corte": {
+        "80": 242.73496616366137,
+        "85": 277.6467038530445,
+        "90": 310.30381548687166
+      },
+      "tan_medio": 1.4136903161394772,
+      "tasa_al_tanque_n_s": 388.47893756306496,
+      "completa": {
+        "archivo": "100000N-sube-agua15.txt",
+        "N": 100000,
+        "por_la_base": 28651,
+        "por_el_costado": 71349,
+        "E_media_MeV": 4.041419928197914
+      },
+      "prueba": {
+        "archivo": "2000N-sube-agua15.txt",
+        "N": 2000,
+        "por_la_base": 567,
+        "por_el_costado": 1433,
+        "E_media_MeV": 4.2690153608275905
+      }
+    },
+    "agua25": {
+      "w": 0.25,
+      "cruces": 88643,
+      "J_sube_n_m2_s": 136.79803653809077,
+      "E_media_MeV": 3.3331770650418937,
+      "tasa_base_n_s": 101.09116788817796,
+      "tasa_costado_n_s": 258.0874575465972,
+      "tasa_costado_n_s_por_corte": {
+        "80": 224.43956744782108,
+        "85": 258.0874575465972,
+        "90": 284.1435777460561
+      },
+      "tan_medio": 1.4407264606781078,
+      "tasa_al_tanque_n_s": 359.17862543477514,
+      "completa": {
+        "archivo": "100000N-sube-agua25.txt",
+        "N": 100000,
+        "por_la_base": 28163,
+        "por_el_costado": 71837,
+        "E_media_MeV": 4.02127774182009
+      },
+      "prueba": {
+        "archivo": "2000N-sube-agua25.txt",
+        "N": 2000,
+        "por_la_base": 567,
+        "por_el_costado": 1433,
+        "E_media_MeV": 4.080347600081608
+      }
+    },
+    "agua30": {
+      "w": 0.3,
+      "cruces": 85421,
+      "J_sube_n_m2_s": 131.82173986177713,
+      "E_media_MeV": 3.431099461842065,
+      "tasa_base_n_s": 97.41377853744315,
+      "tasa_costado_n_s": 247.6340371219368,
+      "tasa_costado_n_s_por_corte": {
+        "80": 216.6785223871298,
+        "85": 247.6340371219368,
+        "90": 276.8512432258324
+      },
+      "tan_medio": 1.4345569562792801,
+      "tasa_al_tanque_n_s": 345.04781565938,
+      "completa": {
+        "archivo": "100000N-sube-agua30.txt",
+        "N": 100000,
+        "por_la_base": 28060,
+        "por_el_costado": 71940,
+        "E_media_MeV": 3.97978270077297
+      },
+      "prueba": {
+        "archivo": "2000N-sube-agua30.txt",
+        "N": 2000,
+        "por_la_base": 600,
+        "por_el_costado": 1400,
+        "E_media_MeV": 4.077977511077228
+      }
+    }
+  }
+}

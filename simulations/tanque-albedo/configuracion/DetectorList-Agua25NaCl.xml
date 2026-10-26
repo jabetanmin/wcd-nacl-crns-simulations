@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!--
+  WCD iluminado por los neutrones que suben del suelo (Corrida-tanque-albedo). injectionMode eFromFile: MEIGA toma
+  la posición (cm) y el momento de cada neutrón del archivo; los neutrones entran 1 mm fuera de la base o del costado.
+  Geometría: SaltyWCD, agua R = 48 cm, H = 133 cm, Tyvek 0.12 mm + acero 0.5 mm; fondo exterior en z = 0; eje en
+  x = y = 0. Sin suelo (el suelo ya está en el espectro). Fracción másica de NaCl: 0.025.
+-->
+<detectorList>
+
+	<injectionMode type="eFromFile">
+		<x unit="cm"> 0 </x>
+		<y unit="cm"> 0 </y>
+		<z unit="cm"> 0 </z>
+	</injectionMode>
+
+	<detector id="0" type="eSaltyWCD">
+		<x unit="cm"> 0.0 </x>
+		<y unit="cm"> 0.0 </y>
+		<z unit="cm"> 0.0 </z>
+		<tankRadius unit="cm"> 48 </tankRadius>
+		<tankHeight unit="cm"> 133 </tankHeight>
+		<tankThickness unit="mm"> 0.5 </tankThickness>
+		<impuritiesFraction> 0.025 </impuritiesFraction>
+	</detector>
+
+</detectorList>
