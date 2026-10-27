@@ -59,6 +59,11 @@ Desde la v0.8.0 incluye también las simulaciones MEIGA del montaje real: la fue
 por la tapa, la entrada lateral con 10⁶ neutrones, la calibración con muones y el haz moderado con el PMT bajado.
 Todas se comparan con el prototipo por factores comunes.
 
+## Apéndices de la tesis (v0.9.1)
+
+[`apendices-tesis/`](apendices-tesis/) relaciona cada apéndice (A–K) con la carpeta que lo produce y contiene el
+cálculo del Apéndice B (átomos de hidrógeno en agua con NaCl).
+
 ## Suelos húmedos y curva de calibración del WCD (Sección 4.7, octubre de 2026)
 
 [`suelo-humedo-calibracion_seccion-4.7/`](suelo-humedo-calibracion_seccion-4.7/) contiene el análisis completo de la

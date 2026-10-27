@@ -4,6 +4,19 @@ Todas las modificaciones relevantes del repositorio se documentarán en este arc
 
 ## [Sin publicar]
 
+## [0.9.1] - 2026-10-26
+
+### Añadido
+
+- `analysis/apendices-tesis/`: mapa de los apéndices A–K de la tesis (versión del 26 de octubre de 2026) a los archivos
+  que los producen, y `scripts/apendice_B_atomos_hidrogeno.py`, que reproduce el cálculo del Apéndice B.
+
+### Cambiado
+
+- `docs/CONTRIBUTIONS.md`: contribuciones de octubre de 2026 (física seleccionable, PMT de Sidelnik bajado, suelo
+  SoilBS con plano contador, fuentes de 1 keV a 1 GeV, Am-Be lateral e inyección por la base y el costado del tanque).
+- README raíz: el apéndice de contribuciones es el K (antes H.0.5) y se agrega la fila de los apéndices.
+
 ## [0.9.0] - 2026-10-26
 
 ### Añadido

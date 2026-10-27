@@ -26,6 +26,22 @@ La investigación extendió y adaptó MEIGA para estudiar un detector Cherenkov 
 - configuraciones para fuentes monocromáticas, espectros atmosféricos, albedo del suelo y validación Am-Be;
 - programas Python para normalización, eficiencia, incertidumbres, tablas y figuras.
 
+Contribuciones agregadas en octubre de 2026 (Apéndice K de la tesis, versión del 26 de octubre de 2026). Se aplicaron
+en el contenedor como parches reversibles; `src/` conserva el código sin parchear y los parches, en orden y con sus
+md5, están en [`ESTADO_MEIGA_CONTENEDOR.md`](ESTADO_MEIGA_CONTENEDOR.md):
+
+- lista de física elegida en la configuración (`PhysicsName`): `QGSP_BERT_HP` con el tratamiento térmico S(α,β) del
+  agua o `QGSP_BERT_HP_NoThermal` sin él (Sec. 4.2.4);
+- PMT con la forma del de Sidelnik et al. (2020) y en `zPMT = 0.3*fWaterHalfHeight` (`simulations/AmBe-horizontal-PMT-bajo/bajar_pmt.py`);
+- suelo SoilBS (2.7 g/cm³, 14 elementos) seco o húmedo en la geometría, con plano contador de los neutrones que suben
+  y seguimiento de su origen (incidente reflejado o creado en el suelo) (`simulations/suelo-SoilBS/`; Secs. 3.4.1 y 4.7);
+- fuentes monocromáticas de 1 keV a 1 GeV (`simulations/barrido-rapidos-WCD/`) y de 500 MeV
+  (`simulations/replica-Sidelnik-500MeV/`), fuente ²⁴¹AmBe lateral (`simulations/montaje-AmBe-lateral/`) e inyección de
+  los neutrones que suben del suelo por la base y el costado del tanque (`simulations/tanque-albedo/`, Sec. 4.7.8);
+- cadena de análisis de la Sec. 4.7: balance de destinos de 1 meV a 1 GeV, luz Cherenkov y fotoelectrones, curva de
+  calibración por plegado y por simulación directa, sensibilidad S_j
+  (`analysis/suelo-humedo-calibracion_seccion-4.7/`).
+
 ## Registro preliminar de archivos modificados
 
 La comparación de la carpeta recibida con el commit base `39b950e` detectó 18 archivos versionados con cambios locales:

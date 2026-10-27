@@ -15,7 +15,7 @@ Este repositorio reúne y continuará incorporando:
 
 ## Estado
 
-**Versión 0.9.0 (26 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis. La versión 0.5.0 completó la Sección 4.2 (Campaña 1); la 0.7.0, la validación numérica de la Sección 4.1.1; la 0.8.0, las simulaciones del montaje con ²⁴¹AmBe (Sec. 4.1.2) y el suelo SoilBS en MEIGA, y la 0.9.0, las Secciones 4.3, 4.5, 4.6 y 4.7: la verificación del tiempo de exposición del campo de Bucaramanga (12 h), la definición del albedo como corriente que sube, y el flujo de neutrones de suelos húmedos con la curva de calibración del WCD en los cuatro medios.
+**Versión 0.9.1 (26 de octubre de 2026).** La rama `main` reúne el código de las dos campañas de simulación de la tesis, los análisis por sección, los informes técnicos y los scripts que respaldan las correcciones de la revisión final de la tesis. La versión 0.5.0 completó la Sección 4.2 (Campaña 1); la 0.7.0, la validación numérica de la Sección 4.1.1; la 0.8.0, las simulaciones del montaje con ²⁴¹AmBe (Sec. 4.1.2) y el suelo SoilBS en MEIGA, y la 0.9.0, las Secciones 4.3, 4.5, 4.6 y 4.7: la verificación del tiempo de exposición del campo de Bucaramanga (12 h), la definición del albedo como corriente que sube, y el flujo de neutrones de suelos húmedos con la curva de calibración del WCD en los cuatro medios. La 0.9.1 agrega el mapa de los apéndices A–K de la tesis ([`analysis/apendices-tesis/`](analysis/apendices-tesis/)).
 
 | Componente | Dónde |
 |---|---|
@@ -45,8 +45,9 @@ Pendientes para la versión 1.0.0 (ver [`CHANGELOG.md`](CHANGELOG.md)): trazabil
 | Revisión final (Tablas 3.2, 4.8, 4.13, 4.16, 4.18, 4.19, C.3–C.5; Secs. 4.3–4.4; Ap. E) | Scripts que respaldan las correcciones numéricas de octubre de 2026 | [`analysis/revision-tesis_2026-10/`](analysis/revision-tesis_2026-10/) |
 | Figuras regeneradas | Generadores de las figuras de `Figuras-corregidas/` | [`analysis/figuras-tesis/`](analysis/figuras-tesis/) |
 | Campaña 2 (25 meV) | Moderación y captura con S(α,β), cuatro medios | [`analysis/notebooks/campana-2_con-S-alpha-beta_25meV/`](analysis/notebooks/campana-2_con-S-alpha-beta_25meV/), [`docs/technical-reports/campana-2_con-S-alpha-beta_25meV/`](docs/technical-reports/campana-2_con-S-alpha-beta_25meV/) |
+| Apéndices A–K | Mapa de cada apéndice a los archivos que lo producen; cálculo del Apéndice B | [`analysis/apendices-tesis/`](analysis/apendices-tesis/) |
 | Apéndice A | Framework MEIGA | [`docs/MEIGA_UPSTREAM_README.md`](docs/MEIGA_UPSTREAM_README.md) |
-| Apéndice H.0.5 | Contribuciones computacionales a MEIGA | [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md), diferencias de código en [`docs/technical-reports/diffs/`](docs/technical-reports/diffs/) |
+| Apéndice K | Contribuciones computacionales a MEIGA (Sec. K.0.5) | [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md), diferencias de código en [`docs/technical-reports/diffs/`](docs/technical-reports/diffs/) |
 
 ## Relación con MEIGA
 

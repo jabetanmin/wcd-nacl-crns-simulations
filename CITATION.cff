@@ -6,7 +6,7 @@ authors:
   - family-names: "Betancourt"
     given-names: "Jaime A."
     affiliation: "Universidad Industrial de Santander"
-version: 0.9.0
+version: 0.9.1
 date-released: 2026-10-26
 repository-code: "https://github.com/jabetanmin/wcd-nacl-crns-simulations"
 abstract: >-
